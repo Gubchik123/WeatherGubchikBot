@@ -89,6 +89,14 @@ def menu(message):
     BOT.register_next_step_handler(message, checking_answer_from_menu)
 
 
+def user_want_to_know_about_weather(user_text):
+    return user_text == "/weather" or user_text == "посмотреть прогноз погоды"
+
+
+def user_want_to_know_about_moon(user_text):
+    return user_text == "/moon" or user_text == "посмотреть фазу луны"
+
+
 def checking_answer_from_menu(message):
     user_text = message.text.lower()
 
@@ -96,13 +104,9 @@ def checking_answer_from_menu(message):
         command_start(message)
     elif user_text == "/help":
         command_help(message)
-    elif user_text == "/weather":
+    elif user_want_to_know_about_weather(user_text):
         command_weather(message)
-    elif user_text == "/moon":
-        get_info_about_moon(message)
-    elif user_text == "посмотреть прогноз погоды":
-        choosing_city(message)
-    elif user_text == "посмотреть фазу луны":
+    elif user_want_to_know_about_moon(user_text):
         get_info_about_moon(message)
     elif user_text == "закончить общение":
         the_end(message)
