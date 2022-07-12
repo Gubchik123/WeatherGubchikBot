@@ -1,194 +1,194 @@
 {
-    "Вінницька область": {
-        "Вінниця": "Vinnitsa",
-        "Чернівці": "Chernivtsivinnicka",
-        "Жмеринка": "Zhmerynka",
-        "Могилів-Подільський": "Mohylivpodilsky",
-        "Хмільник": "Khmilnyk",
-        "Козятин": "Kozyatyn"
+    "вінницька область": {
+        "вінниця": "Vinnitsa",
+        "чернівці": "Chernivtsivinnicka",
+        "жмеринка": "Zhmerynka",
+        "могилів-подільський": "Mohylivpodilsky",
+        "хмільник": "Khmilnyk",
+        "козятин": "Kozyatyn"
     },
-    "Волинська область": {
-        "Луцьк": "Lutsk",
-        "Ковель": "Kovel",
-        "Нововолинськ": "Novovolynsk",
-        "Володимир-Волинський": "Vladimirvolynskij",
-        "Ківерці": "Kivercy"
+    "волинська область": {
+        "луцьк": "Lutsk",
+        "ковель": "Kovel",
+        "нововолинськ": "Novovolynsk",
+        "володимир-волинський": "Vladimirvolynskij",
+        "ківерці": "Kivercy"
     },
-    "Дніпропетровська область": {
-        "Дніпро (Дніпропетровськ)": "Dnipropetrovsk",
-        "Кривий Ріг": "Krivyirih",
-        "Кам'янське (Дніпродзержинськ)": "Dniprodzerzhinsk",
-        "Нікополь": "Nikopol",
-        "Павлоград": "Pavlograd",
-        "Новомосковськ": "Novomoskovsk",
-        "Жовті Води": "Zhovtivody",
-        "Марганець": "Marganets"
+    "дніпропетровська область": {
+        "дніпро": "Dnipropetrovsk",
+        "кривий ріг": "Krivyirih",
+        "кам'янське": "Dniprodzerzhinsk",
+        "нікополь": "Nikopol",
+        "павлоград": "Pavlograd",
+        "новомосковськ": "Novomoskovsk",
+        "жовті води": "Zhovtivody",
+        "марганець": "Marganets"
     },
-    "Донецька область": {
-        "Донецьк": "Donetsk",
-        "Маріуполь": "Mariupol",
-        "Горлівка": "Gorlovka",
-        "Краматорськ": "Kramatorsk",
-        "Єнакіеве": "Yenakievo",
-        "Слов'янськ": "Slovyansk",
-        "Костянтинівка": "Konstantinovka",
-        "Бахмут (Артемівськ)": "Artemivsk",
-        "Чистякове (Торез)": "Torez",
-        "Покровськ (Красноармійськ)": "Krasnoarmijsk"
+    "донецька область": {
+        "донецьк": "Donetsk",
+        "маріуполь": "Mariupol",
+        "горлівка": "Gorlovka",
+        "краматорськ": "Kramatorsk",
+        "єнакіеве": "Yenakievo",
+        "слов'янськ": "Slovyansk",
+        "костянтинівка": "Konstantinovka",
+        "бахмут": "Artemivsk",
+        "чистякове": "Torez",
+        "покровськ": "Krasnoarmijsk"
     },
-    "Житомирська область": {
-        "Житомир": "Zhytomyr",
-        "Бердичів": "Berdychev",
-        "Коростень": "Korosten",
-        "Новоград-Волинський": "Novogradvolynski",
-        "Малин": "Malin"
+    "житомирська область": {
+        "житомир": "Zhytomyr",
+        "бердичів": "Berdychev",
+        "коростень": "Korosten",
+        "новоград-волинський": "Novogradvolynski",
+        "малин": "Malin"
     },
-    "Закарпатська область": {
-        "Ужгород": "Uzhgorod",
-        "Мукачево": "Mukacheve",
-        "Хуст": "Hust",
-        "Виноградів": "Vinogradov",
-        "Берегове": "Beregovo"
+    "закарпатська область": {
+        "ужгород": "Uzhgorod",
+        "мукачево": "Mukacheve",
+        "хуст": "Hust",
+        "виноградів": "Vinogradov",
+        "берегове": "Beregovo"
     },
-    "Запорізька область": {
-        "Запоріжжя": "Zaporizhzhia",
-        "Мелітополь": "Melitopol",
-        "Бердянськ": "Berdyansk",
-        "Енергодар": "Energodar",
-        "Токмак": "Tokmakzp"
+    "запорізька область": {
+        "запоріжжя": "Zaporizhzhia",
+        "мелітополь": "Melitopol",
+        "бердянськ": "Berdyansk",
+        "енергодар": "Energodar",
+        "токмак": "Tokmakzp"
     },
-    "Івано-Франківська область": {
-        "Івано-Франківськ": "Ivanofrankivsk",
-        "Калуш": "Kalush",
-        "Коломия": "Kolomyja",
-        "Надвірна": "Nadvornaya",
-        "Долина": "Dolina"
+    "івано-франківська область": {
+        "івано-франківськ": "Ivanofrankivsk",
+        "калуш": "Kalush",
+        "коломия": "Kolomyja",
+        "надвірна": "Nadvornaya",
+        "долина": "Dolina"
     },
-    "Київська область": {
-        "Київ": "Kyiv",
-        "Біла Церква": "Bilatserkva",
-        "Бровари": "Brovary",
-        "Бориспіль": "Boryspil",
-        "Фастів": "Fastiv",
-        "Славутич": "Slavutych"
+    "київська область": {
+        "київ": "Kyiv",
+        "біла церква": "Bilatserkva",
+        "бровари": "Brovary",
+        "бориспіль": "Boryspil",
+        "фастів": "Fastiv",
+        "славутич": "Slavutych"
     },
-    "Кіровоградська область": {
-        "Кропивницький (Кіровоград)": "Kirovohrad",
-        "Олександрія": "Alexandriakr",
-        "Світловодськ": "Svitlovodsk",
-        "Знам'янка": "Znamenka",
-        "Долинська": "Dolinskaya"
+    "кіровоградська область": {
+        "кропивницький": "Kirovohrad",
+        "олександрія": "Alexandriakr",
+        "світловодськ": "Svitlovodsk",
+        "знам'янка": "Znamenka",
+        "долинська": "Dolinskaya"
     },
-    "Крим": {
-        "Керч": "Kerch",
-        "Ялта": "Yalta",
-        "Євпаторія": "Yevpatoria",
-        "Феодосія": "Feodosia",
-        "Судак": "Sudak",
-        "Алушта": "Alushta"
+    "крим": {
+        "керч": "Kerch",
+        "ялта": "Yalta",
+        "євпаторія": "Yevpatoria",
+        "феодосія": "Feodosia",
+        "судак": "Sudak",
+        "алушта": "Alushta"
     },
-    "Луганська область": {
-        "Луганськ": "Luhansk",
-        "Алчевськ": "Alchevsk",
-        "Кадіївка (Стаханов)": "Stahanov",
-        "Сєвєродонецьк": "Severodonetsk",
-        "Хрустальний (Красний Луч)": "Krasnyjluch",
-        "Лисичанськ": "Lisichansk",
-        "Довжанськ (Свердловськ)": "Sverdlovsk",
-        "Рубіжне": "Rubizhne",
-        "Антрацит": "Antratsyt",
-        "Брянка": "Bryanka"
+    "луганська область": {
+        "луганськ": "Luhansk",
+        "алчевськ": "Alchevsk",
+        "кадіївка": "Stahanov",
+        "сєвєродонецьк": "Severodonetsk",
+        "хрустальний": "Krasnyjluch",
+        "лисичанськ": "Lisichansk",
+        "довжанськ": "Sverdlovsk",
+        "рубіжне": "Rubizhne",
+        "антрацит": "Antratsyt",
+        "брянка": "Bryanka"
     },
-    "Львівська область": {
-        "Львів": "Lviv",
-        "Червоноград": "Chervonograd",
-        "Дрогобич": "Drogobych",
-        "Стрий": "Stryj",
-        "Борислав": "Borislav"
+    "львівська область": {
+        "львів": "Lviv",
+        "червоноград": "Chervonograd",
+        "дрогобич": "Drogobych",
+        "стрий": "Stryj",
+        "борислав": "Borislav"
     },
-    "Миколаївській області": {
-        "Миколаїв": "Mikolaiv",
-        "Первомайськ": "Pervomaiskmk",
-        "Вознесенськ": "Voznesensk",
-        "Южноукраїнськ": "Yuzhnoukrainsk",
-        "Новий Буг": "Novyjbug"
+    "миколаївській області": {
+        "миколаїв": "Mikolaiv",
+        "первомайськ": "Pervomaiskmk",
+        "вознесенськ": "Voznesensk",
+        "южноукраїнськ": "Yuzhnoukrainsk",
+        "новий Буг": "Novyjbug"
     },
-    "Одеська область": {
-        "Одеса": "Odesa",
-        "Ізмаїл": "Izmail",
-        "Чорноморськ (Іллічівськ)": "Illichevsk",
-        "Білгород-Дністровський": "Belgoroddnistrovsky",
-        "Подільськ (Котовськ)": "Kotovsk"
+    "одеська область": {
+        "одеса": "Odesa",
+        "ізмаїл": "Izmail",
+        "чорноморськ": "Illichevsk",
+        "білгород-Дністровський": "Belgoroddnistrovsky",
+        "подільськ": "Kotovsk"
     },
-    "Полтавська область": {
-        "Полтава": "Poltava",
-        "Кременчук": "Kremenchug",
-        "Горішні Плавні (Комсомольськ)": "Komsomolsk",
-        "Лубни": "Lubny",
-        "Миргород": "Mirgorod"
+    "полтавська область": {
+        "полтава": "Poltava",
+        "кременчук": "Kremenchug",
+        "горішні плавні": "Komsomolsk",
+        "лубни": "Lubny",
+        "миргород": "Mirgorod"
     },
-    "Рівненська область": {
-        "Рівне": "Rivne",
-        "Вараш (Кузнєцовськ)": "Kuznetsovsk",
-        "Дубно": "Dubno",
-        "Костопіль": "Kostopol",
-        "Сарни": "Sarny"
+    "рівненська область": {
+        "рівне": "Rivne",
+        "вараш": "Kuznetsovsk",
+        "дубно": "Dubno",
+        "костопіль": "Kostopol",
+        "сарни": "Sarny"
     },
-    "Сумська область": {
-        "Суми": "Sumy",
-        "Конотоп": "Konotop",
-        "Шостка": "Shostka",
-        "Охтирка": "Ohtyrka",
-        "Ромни": "Romny"
+    "сумська область": {
+        "суми": "Sumy",
+        "конотоп": "Konotop",
+        "шостка": "Shostka",
+        "охтирка": "Ohtyrka",
+        "ромни": "Romny"
     },
-    "Тернопільська область": {
-        "Тернопіль": "Ternopil",
-        "Чортків": "Chortkiv",
-        "Кременець": "Kremenec",
-        "Бережани": "Berezhany",
-        "Збараж": "Zbarazh"
+    "тернопільська область": {
+        "тернопіль": "Ternopil",
+        "чортків": "Chortkiv",
+        "кременець": "Kremenec",
+        "бережани": "Berezhany",
+        "збараж": "Zbarazh"
     },
-    "Харківська область": {
-        "Харків": "Kharkiv",
-        "Лозова": "Lozova",
-        "Куп'янськ": "Kupyansk",
-        "Ізюме": "Izium",
-        "Чугуїв": "Chuguev",
-        "Красноград": "Krasnograd"
+    "харківська область": {
+        "харків": "Kharkiv",
+        "лозова": "Lozova",
+        "куп'янськ": "Kupyansk",
+        "ізюме": "Izium",
+        "чугуїв": "Chuguev",
+        "красноград": "Krasnograd"
     },
-    "Херсонська область": {
-        "Херсон": "Kherson",
-        "Нова Каховка": "Novakakhovka",
-        "Олешки (Цюрупинськ)": "Cyuryupinsk",
-        "Каховка": "Kahovka",
-        "Генічеськ": "Genichesk"
+    "херсонська область": {
+        "херсон": "Kherson",
+        "нова каховка": "Novakakhovka",
+        "олешки": "Cyuryupinsk",
+        "каховка": "Kahovka",
+        "генічеськ": "Genichesk"
     },
-    "Хмельницька область": {
-        "Хмельницький": "Khmelnytskyi",
-        "Кам'янець-Подільський": "Kamenetspodolsky",
-        "Шепетівка": "Shepetovka",
-        "Нетішин": "Neteshin",
-        "Славута": "Slavuta"
+    "хмельницька область": {
+        "хмельницький": "Khmelnytskyi",
+        "кам'янець-подільський": "Kamenetspodolsky",
+        "шепетівка": "Shepetovka",
+        "нетішин": "Neteshin",
+        "славута": "Slavuta"
     },
-    "Черкаська область": {
-        "Черкаси": "Chercasy",
-        "Умань": "Uman",
-        "Сміла": "Smila",
-        "Золотоноша": "Zolotonosha",
-        "Канів": "Kanev"
+    "черкаська область": {
+        "черкаси": "Chercasy",
+        "умань": "Uman",
+        "сміла": "Smila",
+        "золотоноша": "Zolotonosha",
+        "канів": "Kanev"
     },
-    "Чернігівська область": {
-        "Чернігів": "Chernigiv",
-        "Ніжин": "Nizhin",
-        "Прилуки": "Priluki",
-        "Бахмач": "Bahmach",
-        "Корюківка": "Koryukovka"
+    "чернігівська область": {
+        "чернігів": "Chernigiv",
+        "ніжин": "Nizhin",
+        "прилуки": "Priluki",
+        "бахмач": "Bahmach",
+        "корюківка": "Koryukovka"
     },
-    "Чернівецька область": {
-        "Чернівці": "Chernivtsi",
-        "Сторожинець": "Storozhinets",
-        "Хотин": "Hotin",
-        "Новодністровськ": "Novodnestrovsk",
-        "Сокиряни": "Sokiryany"
+    "чернівецька область": {
+        "чернівці": "Chernivtsi",
+        "сторожинець": "Storozhinets",
+        "хотин": "Hotin",
+        "новодністровськ": "Novodnestrovsk",
+        "сокиряни": "Sokiryany"
     }
 }
