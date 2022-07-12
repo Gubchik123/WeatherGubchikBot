@@ -19,18 +19,18 @@ BOT = TeleBot(TOKEN)
 def command_start(message):
     sticker = "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
     BOT.send_sticker(message.chat.id, sticker)
-    BOT.send_message(message.chat.id, f"Привет, {message.from_user.first_name}")
-    BOT.send_message(message.chat.id, "Я тот, кто поможет тебе узнать погоду в городах Украины")
+    BOT.send_message(message.chat.id, f"Привіт, {message.from_user.first_name}")
+    BOT.send_message(message.chat.id, "Я той, хто допоможе тобі дізнатись погоду в містах України")
 
     menu(message)
 
 
 @BOT.message_handler(commands=["help"])
 def command_help(message):
-    BOT.send_message(message.chat.id, "/weather - для просмотра прогноза погоды")
-    BOT.send_message(message.chat.id, "/moon - для просмотра фазы луны")
-    BOT.send_message(message.chat.id, "Советую использовать кнопки для задуманого результата")
-    BOT.send_message(message.chat.id, "Приятного использования!!!")
+    BOT.send_message(message.chat.id, "/weather - для перегляду прогнозу погоди")
+    BOT.send_message(message.chat.id, "/moon - для перегляду фази місяця")
+    BOT.send_message(message.chat.id, "Раджу використати кнопки для задуманого результату")
+    BOT.send_message(message.chat.id, "Приємного використання!!!")
     sleep(random())
     menu(message)
 
@@ -47,7 +47,7 @@ def command_weather(message):
 
 @BOT.message_handler(commands=["moon"])
 def get_info_about_moon(message):
-    url = "https://www.meteoprog.ua/ru/weather/Kharkiv/"
+    url = "https://www.meteoprog.ua/ua/weather/Kharkiv/"
 
     try:
         response = requests.get(url, headers={"user-agent": UserAgent().random})
@@ -65,7 +65,7 @@ def get_info_about_moon(message):
 
 
 def print_error(message, error):
-    BOT.send_message(message.chat.id, "Возникла ошибка! (Error)")
+    BOT.send_message(message.chat.id, "Виникла помилка! (Error)")
     BOT.send_message(message.chat.id, str(error))
 
 
@@ -80,21 +80,21 @@ def make_button(title: str):
 def menu(message):
     markup = make_reply_keyboard_markup(row_width=2, resize=True)
     markup.add(
-        make_button("Посмотреть прогноз погоды"),
-        make_button("Посмотреть фазу луны"),
-        make_button("Закончить общение")
+        make_button("Переглянути прогноз погоди"),
+        make_button("Переглянути фазу місяця"),
+        make_button("Закінчити спілкування")
     )
 
-    BOT.send_message(message.chat.id, "Выберите дальнейшие действия", reply_markup=markup)
+    BOT.send_message(message.chat.id, "Виберіть подальші дії", reply_markup=markup)
     BOT.register_next_step_handler(message, checking_answer_from_menu)
 
 
 def user_want_to_know_about_weather(user_text):
-    return user_text == "/weather" or user_text == "посмотреть прогноз погоды"
+    return user_text == "/weather" or user_text == "переглянути прогноз погоди"
 
 
 def user_want_to_know_about_moon(user_text):
-    return user_text == "/moon" or user_text == "посмотреть фазу луны"
+    return user_text == "/moon" or user_text == "переглянути фазу місяця"
 
 
 def checking_answer_from_menu(message):
@@ -108,10 +108,10 @@ def checking_answer_from_menu(message):
         command_weather(message)
     elif user_want_to_know_about_moon(user_text):
         get_info_about_moon(message)
-    elif user_text == "закончить общение":
+    elif user_text == "закінчити спілкування":
         the_end(message)
     else:
-        BOT.send_message(message.chat.id, "Извините, я не знаю такой команды")
+        BOT.send_message(message.chat.id, "Вибачте, я не знаю такої команди")
         menu(message)
 
 
@@ -128,11 +128,11 @@ def get_city_name_by_name(name: str):
 
 def get_time_by_name(name: str):
     return {
-        "сегодня": lambda: "",
+        "сьогодні": lambda: "",
         "завтра": lambda: "tomorrow",
-        "неделя": lambda: "6_10",
-        "две недели": lambda: "review"
-    }.get(name, lambda: "Unknown")()
+        "тиждень": lambda: "6_10",
+        "два тижня": lambda: "review"
+    }.get(name)()
 
 
 def choosing_city(message):
@@ -159,20 +159,20 @@ def checking_city(message):
         CITY = get_city_name_by_name(user_text)
         choosing_period(message)
     else:
-        BOT.send_message(message.chat.id, "Неизвестный город")
+        BOT.send_message(message.chat.id, "Невідоме місто")
         choosing_city(message)
 
 
 def choosing_period(message):
     markup = make_reply_keyboard_markup(row_width=2, resize=True)
     markup.add(
-        make_button("Сегодня"),
+        make_button("Сьогодні"),
         make_button("Завтра"),
-        make_button("Неделя"),
-        make_button("Две недели")
+        make_button("Тиждень"),
+        make_button("Два тижня")
     )
 
-    BOT.send_message(message.chat.id, "Выберите период прогноза", reply_markup=markup)
+    BOT.send_message(message.chat.id, "Виберіть період прогнозу", reply_markup=markup)
     BOT.register_next_step_handler(message, checking_period)
 
 
@@ -181,7 +181,7 @@ def checking_period(message):
 
     user_text = message.text.lower()
 
-    if user_text in ["сегодня", "завтра", "неделя", "две недели"]:
+    if user_text in ["сьогодні", "завтра", "тиждень", "два тижня"]:
         if get_time_by_name(user_text) == "review":
             TYPE = get_time_by_name(user_text)
         else:
@@ -189,7 +189,7 @@ def checking_period(message):
 
         get_data(message)
     else:
-        BOT.send_message(message.chat.id, "Неизвестный период")
+        BOT.send_message(message.chat.id, "Невідомий період прогнозу")
         choosing_period(message)
 
 
@@ -202,7 +202,7 @@ def it_is_information_about_many_days():
 
 
 def get_data(message):
-    url = f"https://www.meteoprog.ua/ru/{TYPE}/{CITY}/{TIME}"
+    url = f"https://www.meteoprog.ua/uk/{TYPE}/{CITY}/{TIME}"
 
     try:
         response = requests.get(url, headers={"user-agent": UserAgent().random})
@@ -280,8 +280,8 @@ def the_end(message):
     sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
 
     BOT.send_sticker(message.chat.id, sticker)
-    BOT.send_message(message.chat.id, f"Пока, {message.from_user.first_name}, возращайся ещё")
-    BOT.send_message(message.chat.id, "В следующий раз просто введи или нажми /start :)", reply_markup=markup)
+    BOT.send_message(message.chat.id, f"Бувай, {message.from_user.first_name}, повертайся ще")
+    BOT.send_message(message.chat.id, "Наступного разу просто введи або натисни /start :)", reply_markup=markup)
 
 
 BOT.polling()
