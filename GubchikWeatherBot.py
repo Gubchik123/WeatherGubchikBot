@@ -1,3 +1,4 @@
+import json
 import requests
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
@@ -8,6 +9,10 @@ from config import TOKEN
 
 from time import sleep
 from random import random
+
+COUNT = 0
+REGIONS = {}
+CITIES = {}
 
 CITY = ""
 TIME = ""
@@ -38,11 +43,13 @@ def command_help(message):
 @BOT.message_handler(commands=["weather"])
 def command_weather(message):
     global CITY, TIME, TYPE
+
     CITY = ""
     TIME = ""
     TYPE = "weather"
 
-    choosing_city(message)
+    fill_regions_and_cities_dictionary_from_json()
+    choosing_region(message)
 
 
 @BOT.message_handler(commands=["moon"])
@@ -64,13 +71,23 @@ def get_info_about_moon(message):
         print_error(message, error)
 
 
+def fill_regions_and_cities_dictionary_from_json():
+    global COUNT, REGIONS
+
+    if COUNT == 0:
+        with open("regions_and_cities.json", encoding="utf-8") as file:
+            REGIONS = json.load(file)
+
+        COUNT += 1
+
+
 def print_error(message, error):
     BOT.send_message(message.chat.id, "Виникла помилка! (Error)")
     BOT.send_message(message.chat.id, str(error))
 
 
-def make_reply_keyboard_markup(row_width: int, resize: bool):
-    return types.ReplyKeyboardMarkup(row_width=row_width, resize_keyboard=resize)
+def make_reply_keyboard_markup(width: int, resize: bool):
+    return types.ReplyKeyboardMarkup(row_width=width, resize_keyboard=resize)
 
 
 def make_button(title: str):
@@ -78,7 +95,7 @@ def make_button(title: str):
 
 
 def menu(message):
-    markup = make_reply_keyboard_markup(row_width=2, resize=True)
+    markup = make_reply_keyboard_markup(width=2, resize=True)
     markup.add(
         make_button("Переглянути прогноз погоди"),
         make_button("Переглянути фазу місяця"),
@@ -115,36 +132,45 @@ def checking_answer_from_menu(message):
         menu(message)
 
 
-def get_city_name_by_name(name: str):
-    return {
-        "харьков": lambda: "Kharkiv",
-        "полтава": lambda: "Poltava",
-        "красноград": lambda: "Krasnograd",
-        "днепр": lambda: "Dnipropetrovsk",
-        "киев": lambda: "Kyiv",
-        "львов": lambda: "Lviv",
-    }.get(name, lambda: "Unknown")()
+def correct_title_from(title: str):
+    if "О" in title:
+        return title.replace("О", "о")
+    elif "'Я" in title:
+        return title.replace("'Я", "'я")
+    else:
+        return title
 
 
-def get_time_by_name(name: str):
-    return {
-        "сьогодні": lambda: "",
-        "завтра": lambda: "tomorrow",
-        "тиждень": lambda: "6_10",
-        "два тижня": lambda: "review"
-    }.get(name)()
+def choosing_region(message):
+    markup = make_reply_keyboard_markup(width=2, resize=True)
+    for region in REGIONS.keys():
+        markup.add(
+            make_button(correct_title_from(region.title()))
+        )
+
+    BOT.send_message(message.chat.id, "Виберіть область", reply_markup=markup)
+    BOT.register_next_step_handler(message, checking_region)
+
+
+def checking_region(message):
+    global CITIES
+
+    user_text = message.text.lower()
+
+    if user_text in REGIONS.keys():
+        CITIES = REGIONS[user_text]
+        choosing_city(message)
+    else:
+        BOT.send_message(message.chat.id, "Невідома область")
+        choosing_region(message)
 
 
 def choosing_city(message):
-    markup = make_reply_keyboard_markup(row_width=3, resize=True)
-    markup.add(
-        make_button("Харьков"),
-        make_button("Полтава"),
-        make_button("Красноград"),
-        make_button("Днепр"),
-        make_button("Киев"),
-        make_button("Львов")
-    )
+    markup = make_reply_keyboard_markup(width=2, resize=True)
+    for city in CITIES.keys():
+        markup.add(
+            make_button(correct_title_from(city.title()))
+        )
 
     BOT.send_message(message.chat.id, "Выберите город", reply_markup=markup)
     BOT.register_next_step_handler(message, checking_city)
@@ -155,8 +181,8 @@ def checking_city(message):
 
     user_text = message.text.lower()
 
-    if user_text in ["харьков", "полтава", "красноград", "киев", "львов", "днепр"]:
-        CITY = get_city_name_by_name(user_text)
+    if user_text in CITIES.keys():
+        CITY = CITIES[user_text]
         choosing_period(message)
     else:
         BOT.send_message(message.chat.id, "Невідоме місто")
@@ -164,7 +190,7 @@ def checking_city(message):
 
 
 def choosing_period(message):
-    markup = make_reply_keyboard_markup(row_width=2, resize=True)
+    markup = make_reply_keyboard_markup(width=2, resize=True)
     markup.add(
         make_button("Сьогодні"),
         make_button("Завтра"),
@@ -174,6 +200,15 @@ def choosing_period(message):
 
     BOT.send_message(message.chat.id, "Виберіть період прогнозу", reply_markup=markup)
     BOT.register_next_step_handler(message, checking_period)
+
+
+def get_time_by_name(name: str):
+    return {
+        "сьогодні": lambda: "",
+        "завтра": lambda: "tomorrow",
+        "тиждень": lambda: "6_10",
+        "два тижня": lambda: "review"
+    }.get(name)()
 
 
 def checking_period(message):
@@ -202,7 +237,7 @@ def it_is_information_about_many_days():
 
 
 def get_data(message):
-    url = f"https://www.meteoprog.ua/uk/{TYPE}/{CITY}/{TIME}"
+    url = f"https://www.meteoprog.ua/ua/{TYPE}/{CITY}/{TIME}"
 
     try:
         response = requests.get(url, headers={"user-agent": UserAgent().random})
@@ -274,7 +309,7 @@ def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
 
 
 def the_end(message):
-    markup = make_reply_keyboard_markup(row_width=1, resize=True)
+    markup = make_reply_keyboard_markup(width=1, resize=True)
     markup.add(make_button("/start"))
 
     sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
