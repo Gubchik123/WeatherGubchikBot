@@ -276,7 +276,7 @@ def get_and_send_information_about_one_day(soup: BeautifulSoup, message):
         wind = column3.find("span", class_="wind-direction").text.strip()
 
     BOT.send_message(message.chat.id, f"{title}:")
-    BOT.send_message(message.chat.id, f"{description} (Ветер: {wind})")
+    BOT.send_message(message.chat.id, f"{description} (Вітер: {wind})")
 
     columns = block.find("ul", class_="today-hourly-weather").find_all("li")
     for column in columns:
