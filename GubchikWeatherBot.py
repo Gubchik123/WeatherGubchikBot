@@ -10,7 +10,6 @@ from config import TOKEN
 from time import sleep
 from random import random
 
-COUNT = 0
 REGIONS = {}
 CITIES = {}
 
@@ -72,13 +71,11 @@ def get_info_about_moon(message):
 
 
 def fill_regions_and_cities_dictionary_from_json():
-    global COUNT, REGIONS
+    global REGIONS
 
-    if COUNT == 0:
+    if len(REGIONS) == 0:
         with open("regions_and_cities.json", encoding="utf-8") as file:
             REGIONS = json.load(file)
-
-        COUNT += 1
 
 
 def print_error(message, error):
@@ -133,8 +130,8 @@ def checking_answer_from_menu(message):
 
 
 def correct_title_from(title: str):
-    if "О" in title:
-        return title.replace("О", "о")
+    if "О" in title.split()[-1]:
+        return title.split()[0] + ' ' + title.split()[-1].replace("О", "о")
     elif "'Я" in title:
         return title.replace("'Я", "'я")
     else:
