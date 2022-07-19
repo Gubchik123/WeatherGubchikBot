@@ -1,12 +1,15 @@
 import json
-import requests
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 
-from telebot import TeleBot
-from telebot import types
-from config import TOKEN
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Text
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiohttp import ClientSession
 
+from config import TOKEN
 from time import sleep
 from random import random
 
@@ -16,31 +19,40 @@ CITIES = {}
 CITY = ""
 TIME = ""
 TYPE = "weather"
-BOT = TeleBot(TOKEN)
+
+BOT = Bot(TOKEN)
+DP = Dispatcher(BOT, storage=MemoryStorage())
 
 
-@BOT.message_handler(commands=["start"])
-def command_start(message):
+class UserStep(StatesGroup):
+    choosing_region = State()
+    choosing_city = State()
+    choosing_period = State()
+
+
+@DP.message_handler(commands="start")
+async def command_start(message: types.Message):
     sticker = "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
-    BOT.send_sticker(message.chat.id, sticker)
-    BOT.send_message(message.chat.id, f"Привіт, {message.from_user.first_name}")
-    BOT.send_message(message.chat.id, "Я той, хто допоможе тобі дізнатись погоду в містах України")
+    await message.answer_sticker(sticker)
+    await message.answer(f"Привіт, {message.from_user.first_name}")
+    await message.answer("Я той, хто допоможе тобі дізнатись погоду в містах України")
 
-    menu(message)
+    await menu(message)
 
 
-@BOT.message_handler(commands=["help"])
-def command_help(message):
-    BOT.send_message(message.chat.id, "/weather - для перегляду прогнозу погоди")
-    BOT.send_message(message.chat.id, "/moon - для перегляду фази місяця")
-    BOT.send_message(message.chat.id, "Раджу використати кнопки для задуманого результату")
-    BOT.send_message(message.chat.id, "Приємного використання!!!")
+@DP.message_handler(commands="help")
+async def command_help(message: types.Message):
+    await message.answer("/weather - для перегляду прогнозу погоди\n"
+                         "/moon - для перегляду фази місяця\n"
+                         "Раджу використати кнопки для задуманого результату\n"
+                         "Приємного використання!!!")
     sleep(random())
-    menu(message)
+    await menu(message)
 
 
-@BOT.message_handler(commands=["weather"])
-def command_weather(message):
+@DP.message_handler(commands="weather")
+@DP.message_handler(Text(equals="переглянути прогноз погоди", ignore_case=True))
+async def command_weather(message: types.Message):
     global CITY, TIME, TYPE
 
     CITY = ""
@@ -48,26 +60,32 @@ def command_weather(message):
     TYPE = "weather"
 
     fill_regions_and_cities_dictionary_from_json()
-    choosing_region(message)
+    await choosing_region(message)
 
 
-@BOT.message_handler(commands=["moon"])
-def get_info_about_moon(message):
+async def get_soup_by(url: str):
+    async with ClientSession() as session:
+        response = await session.get(url, headers={"user-agent": UserAgent().random})
+        return BeautifulSoup(await response.text(), "lxml")
+
+
+@DP.message_handler(commands="moon")
+@DP.message_handler(Text(equals="переглянути фазу місяця", ignore_case=True))
+async def get_info_about_moon(message: types.Message):
     url = "https://www.meteoprog.ua/ua/weather/Kharkiv/"
 
     try:
-        response = requests.get(url, headers={"user-agent": UserAgent().random})
-        soup = BeautifulSoup(response.text, "lxml")
+        soup = await get_soup_by(url)
 
         block = soup.find("div", class_="swiper-gallery")
         moon = block.find_all("li", class_="overall-day-info__item")[-1].find_all("div")[1].text.strip()
         moon = moon.replace("\n", ": ")
 
-        BOT.send_message(message.chat.id, moon)
+        await message.answer(moon)
         sleep(random())
-        menu(message)
+        await menu(message)
     except Exception as error:
-        print_error(message, error)
+        await print_error(message, error)
 
 
 def fill_regions_and_cities_dictionary_from_json():
@@ -78,9 +96,9 @@ def fill_regions_and_cities_dictionary_from_json():
             REGIONS = json.load(file)
 
 
-def print_error(message, error):
-    BOT.send_message(message.chat.id, "Виникла помилка! (Error)")
-    BOT.send_message(message.chat.id, str(error))
+async def print_error(message: types.Message, error):
+    await message.answer("Виникла помилка! (Error)")
+    await message.answer(str(error))
 
 
 def make_reply_keyboard_markup(width: int, resize: bool):
@@ -91,7 +109,7 @@ def make_button(title: str):
     return types.KeyboardButton(title)
 
 
-def menu(message):
+async def menu(message: types.Message):
     markup = make_reply_keyboard_markup(width=2, resize=True)
     markup.add(
         make_button("Переглянути прогноз погоди"),
@@ -99,94 +117,68 @@ def menu(message):
         make_button("Закінчити спілкування")
     )
 
-    BOT.send_message(message.chat.id, "Виберіть подальші дії", reply_markup=markup)
-    BOT.register_next_step_handler(message, checking_answer_from_menu)
-
-
-def user_want_to_know_about_weather(user_text):
-    return user_text == "/weather" or user_text == "переглянути прогноз погоди"
-
-
-def user_want_to_know_about_moon(user_text):
-    return user_text == "/moon" or user_text == "переглянути фазу місяця"
-
-
-def checking_answer_from_menu(message):
-    user_text = message.text.lower()
-
-    if user_text == "/start":
-        command_start(message)
-    elif user_text == "/help":
-        command_help(message)
-    elif user_want_to_know_about_weather(user_text):
-        command_weather(message)
-    elif user_want_to_know_about_moon(user_text):
-        get_info_about_moon(message)
-    elif user_text == "закінчити спілкування":
-        the_end(message)
-    else:
-        BOT.send_message(message.chat.id, "Вибачте, я не знаю такої команди")
-        menu(message)
+    await message.answer("Виберіть подальші дії", reply_markup=markup)
 
 
 def correct_title_from(title: str):
-    if "О" in title.split()[-1]:
-        return title.split()[0] + ' ' + title.split()[-1].replace("О", "о")
+    if "Об" in title:
+        return title.replace("Об", "об")
     elif "'Я" in title:
         return title.replace("'Я", "'я")
     else:
         return title
 
 
-def choosing_region(message):
+async def choosing_region(message: types.Message):
     markup = make_reply_keyboard_markup(width=2, resize=True)
     for region in REGIONS.keys():
         markup.add(
             make_button(correct_title_from(region.title()))
         )
+    await message.answer("Виберіть область", reply_markup=markup)
+    await UserStep.choosing_region.set()
 
-    BOT.send_message(message.chat.id, "Виберіть область", reply_markup=markup)
-    BOT.register_next_step_handler(message, checking_region)
 
-
-def checking_region(message):
+@DP.message_handler(state=UserStep.choosing_region)
+async def checking_region(message: types.Message):
     global CITIES
 
     user_text = message.text.lower()
 
     if user_text in REGIONS.keys():
         CITIES = REGIONS[user_text]
-        choosing_city(message)
+        await choosing_city(message)
     else:
-        BOT.send_message(message.chat.id, "Невідома область")
-        choosing_region(message)
+        await message.answer("Невідома область")
+        await choosing_region(message)
 
 
-def choosing_city(message):
+async def choosing_city(message: types.Message):
     markup = make_reply_keyboard_markup(width=2, resize=True)
     for city in CITIES.keys():
         markup.add(
             make_button(correct_title_from(city.title()))
         )
 
-    BOT.send_message(message.chat.id, "Выберите город", reply_markup=markup)
-    BOT.register_next_step_handler(message, checking_city)
+    await message.answer("Виберіть місто", reply_markup=markup)
+    await UserStep.choosing_city.set()
 
 
-def checking_city(message):
+@DP.message_handler(state=UserStep.choosing_city)
+async def checking_city(message: types.Message):
     global CITY
 
     user_text = message.text.lower()
 
     if user_text in CITIES.keys():
         CITY = CITIES[user_text]
-        choosing_period(message)
+        await choosing_period(message)
     else:
-        BOT.send_message(message.chat.id, "Невідоме місто")
-        choosing_city(message)
+        await message.answer("Невідоме місто")
+        await choosing_city(message)
 
 
-def choosing_period(message):
+async def choosing_period(message: types.Message):
     markup = make_reply_keyboard_markup(width=2, resize=True)
     markup.add(
         make_button("Сьогодні"),
@@ -195,8 +187,8 @@ def choosing_period(message):
         make_button("Два тижня")
     )
 
-    BOT.send_message(message.chat.id, "Виберіть період прогнозу", reply_markup=markup)
-    BOT.register_next_step_handler(message, checking_period)
+    await message.answer("Виберіть період прогнозу", reply_markup=markup)
+    await UserStep.choosing_period.set()
 
 
 def get_time_by_name(name: str):
@@ -208,7 +200,8 @@ def get_time_by_name(name: str):
     }.get(name)()
 
 
-def checking_period(message):
+@DP.message_handler(state=UserStep.choosing_period)
+async def checking_period(message: types.Message, state: FSMContext):
     global TIME, TYPE
 
     user_text = message.text.lower()
@@ -219,10 +212,10 @@ def checking_period(message):
         else:
             TIME = get_time_by_name(user_text)
 
-        get_data(message)
+        await get_data(message, state)
     else:
-        BOT.send_message(message.chat.id, "Невідомий період прогнозу")
-        choosing_period(message)
+        await message.answer("Невідомий період прогнозу")
+        await choosing_period(message)
 
 
 def it_is_information_about_one_day():
@@ -233,21 +226,21 @@ def it_is_information_about_many_days():
     return TYPE == "review" or TIME == "6_10"
 
 
-def get_data(message):
+async def get_data(message: types.Message, state: FSMContext):
     url = f"https://www.meteoprog.ua/ua/{TYPE}/{CITY}/{TIME}"
 
     try:
-        response = requests.get(url, headers={"user-agent": UserAgent().random})
-        soup = BeautifulSoup(response.text, "lxml")
+        soup = await get_soup_by(url)
 
         if it_is_information_about_one_day():
-            get_and_send_information_about_one_day(soup, message)
+            await get_and_send_information_about_one_day(soup, message)
         elif it_is_information_about_many_days():
-            get_and_send_information_about_many_days(soup, message)
+            await get_and_send_information_about_many_days(soup, message)
 
-        menu(message)
+        await state.finish()
+        await menu(message)
     except Exception as error:
-        print_error(message, error)
+        await print_error(message, error)
 
 
 def get_block_and_title_from(soup: BeautifulSoup):
@@ -261,7 +254,7 @@ def time_today():
     return TIME == ""
 
 
-def get_and_send_information_about_one_day(soup: BeautifulSoup, message):
+async def get_and_send_information_about_one_day(soup: BeautifulSoup, message: types.Message):
     block, title = get_block_and_title_from(soup)
 
     description = block.find("h3").text.strip()
@@ -272,22 +265,22 @@ def get_and_send_information_about_one_day(soup: BeautifulSoup, message):
         column3 = block.find("ul", class_="today-hourly-weather").find_all("li")[2]
         wind = column3.find("span", class_="wind-direction").text.strip()
 
-    BOT.send_message(message.chat.id, f"{title}:")
-    BOT.send_message(message.chat.id, f"{description} (Вітер: {wind})")
+    await message.answer(f"{title}:\n"
+                         f"{description} (Вітер: {wind})")
 
     columns = block.find("ul", class_="today-hourly-weather").find_all("li")
     for column in columns:
         name = column.find("span", class_="today-hourly-weather__name").text.strip()
         temp = column.find("span", class_="today-hourly-weather__temp").text.strip()
 
-        BOT.send_message(message.chat.id, f"{name}: {temp}")
+        await message.answer(f"{name}: {temp}")
         sleep(random())
 
 
-def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
+async def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
     block, title = get_block_and_title_from(soup)
 
-    BOT.send_message(message.chat.id, f"{title}:")
+    await message.answer(f"{title}:")
 
     block = block.find("div", class_="swiper-wrapper")
     all_days = block.find_all("div", class_="swiper-slide")
@@ -301,19 +294,21 @@ def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
         description = block_with_details.find_all("div", class_="description")[count].text.strip()
         description = description.split(": ")[1]
 
-        BOT.send_message(message.chat.id, f"{name} ({date}): {temp}; {description}")
+        await message.answer(f"{name} ({date}): {temp}; {description}")
         sleep(random())
 
 
-def the_end(message):
+@DP.message_handler(Text(equals="закінчити спілкування", ignore_case=True))
+async def the_end(message: types.Message):
+    sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
+
     markup = make_reply_keyboard_markup(width=1, resize=True)
     markup.add(make_button("/start"))
 
-    sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
-
-    BOT.send_sticker(message.chat.id, sticker)
-    BOT.send_message(message.chat.id, f"Бувай, {message.from_user.first_name}, повертайся ще")
-    BOT.send_message(message.chat.id, "Наступного разу просто введи або натисни /start :)", reply_markup=markup)
+    await message.answer_sticker(sticker)
+    await message.answer(f"Бувай, {message.from_user.first_name}, повертайся ще\n"
+                         "Наступного разу просто введи або натисни /start :)", reply_markup=markup)
 
 
-BOT.polling()
+if __name__ == '__main__':
+    executor.start_polling(DP)
