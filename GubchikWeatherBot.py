@@ -131,10 +131,8 @@ def correct_title_from(title: str):
 
 async def choosing_region(message: types.Message):
     markup = make_reply_keyboard_markup(width=2, resize=True)
-    for region in REGIONS.keys():
-        markup.add(
-            make_button(correct_title_from(region.title()))
-        )
+    regions_list = [correct_title_from(region.title()) for region in REGIONS.keys()]
+    markup.add(*regions_list)
     await message.answer("Виберіть область", reply_markup=markup)
     await UserStep.choosing_region.set()
 
@@ -154,12 +152,9 @@ async def checking_region(message: types.Message):
 
 
 async def choosing_city(message: types.Message):
-    markup = make_reply_keyboard_markup(width=2, resize=True)
-    for city in CITIES.keys():
-        markup.add(
-            make_button(correct_title_from(city.title()))
-        )
-
+    markup = make_reply_keyboard_markup(width=3, resize=True)
+    cities_list = [correct_title_from(city.title()) for city in CITIES.keys()]
+    markup.add(*cities_list)
     await message.answer("Виберіть місто", reply_markup=markup)
     await UserStep.choosing_city.set()
 
