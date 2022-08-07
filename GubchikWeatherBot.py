@@ -93,8 +93,7 @@ def fill_regions_and_cities_dictionary_from_json():
     global REGIONS
 
     if len(REGIONS) == 0:
-        # with open("regions_and_cities.json", encoding="utf-8") as file:
-        with open(r"D:\Программирование\Python\1 - Big projects\Bots\Gubchik Weather Bot\regions_and_cities.json", encoding="utf-8") as file:
+        with open("regions_and_cities.json", encoding="utf-8") as file:
             REGIONS = json.load(file)
 
 
