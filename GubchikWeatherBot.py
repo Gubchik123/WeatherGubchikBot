@@ -1,4 +1,5 @@
 import json
+from emoji import emojize
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
 
@@ -92,7 +93,8 @@ def fill_regions_and_cities_dictionary_from_json():
     global REGIONS
 
     if len(REGIONS) == 0:
-        with open("regions_and_cities.json", encoding="utf-8") as file:
+        # with open("regions_and_cities.json", encoding="utf-8") as file:
+        with open(r"D:\Программирование\Python\1 - Big projects\Bots\Gubchik Weather Bot\regions_and_cities.json", encoding="utf-8") as file:
             REGIONS = json.load(file)
 
 
@@ -249,6 +251,39 @@ def time_today():
     return TIME == ""
 
 
+def get_emoji_by_(desc: str):
+    """Function for returning emoji by description"""
+    sun_behind_cloud_description = [
+        "мінлива хмарність, без опадів", "невелика хмарність, без опадів", 
+        "хмарно з проясненнями, без опадів", "хмарно з проясненнями, без істот. опадів"
+    ]
+
+    cloud_description = [
+        "похмуро, без опадів", "хмарно, без опадів", 
+        "похмуро, без істот. опадів", "хмарно, без істот. опадів"
+    ]
+
+    sun_behind_rain_cloud_description = [
+        "похмуро, невеликий дощ", "мінлива хмарність, невеликий дощ", 
+        "хмарно з проясненнями, невеликий дощ"
+    ]
+
+    cloud_with_rain_description = ["хмарно, дощ", "похмуро, дощ"]
+
+    if "ясно" in desc:
+        return emojize(":sun:")
+    elif desc in sun_behind_cloud_description:
+        return emojize(":sun_behind_cloud:")
+    elif desc in cloud_description:
+        return emojize(":cloud:")
+    elif desc in sun_behind_rain_cloud_description:
+        return emojize(":sun_behind_rain_cloud:")
+    elif desc in cloud_with_rain_description:
+        return emojize(":cloud_with_rain:")
+    else:
+        return ''
+
+
 async def get_and_send_information_about_one_day(soup: BeautifulSoup, message: types.Message):
     block, title = get_block_and_title_from(soup)
 
@@ -263,10 +298,10 @@ async def get_and_send_information_about_one_day(soup: BeautifulSoup, message: t
         wind = column3.find("span", class_="wind-direction").text.strip()
         humidity = column3.find("span", class_="humidity").text.strip()
 
-    await message.answer(f"{title}:\n\n"
-                         f"Вітер: {wind}\n"
-                         f"Вологість: {humidity}\n"
-                         f"Імовірність опадів: {rain}")
+    await message.answer(f"{title}: \n\n"
+                         f"Вітер: {wind}  {emojize(':wind_face:')}\n"
+                         f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
+                         f"Імовірність опадів: {rain}  {emojize(':droplet:')}")
 
     column = block.find("ul", class_="today-hourly-weather").find_all("li")
 
@@ -286,10 +321,10 @@ async def get_and_send_information_about_one_day(soup: BeautifulSoup, message: t
     temp4 = column[3].find("span", class_="today-hourly-weather__temp").text.strip()
     desc4 = column[3].find("i", class_="today-hourly-weather__icon").get("title").strip()
 
-    await message.answer(f"{name1}: {temp1}\n({desc1})\n\n"
-                         f"{name2}: {temp2}\n({desc2})\n\n"
-                         f"{name3}: {temp3}\n({desc3})\n\n"
-                         f"{name4}: {temp4}\n({desc4})\n\n")
+    await message.answer(f"{name1}: {temp1}  {get_emoji_by_(desc1)}\n({desc1})\n\n"
+                         f"{name2}: {temp2}  {get_emoji_by_(desc2)}\n({desc2})\n\n"
+                         f"{name3}: {temp3}  {get_emoji_by_(desc3)}\n({desc3})\n\n"
+                         f"{name4}: {temp4}  {get_emoji_by_(desc4)}\n({desc4})\n\n")
 
 
 async def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
@@ -315,11 +350,11 @@ async def get_and_send_information_about_many_days(soup: BeautifulSoup, message)
         description = block_with_details.find_all("div", class_="description")[count].text.strip()
         description = description.split(": ")[1]
 
-        await message.answer(f"{name} ({date}): {temp}\n"
+        await message.answer(f"{name} ({date}): {temp}  {get_emoji_by_(description)}\n"
                              f"{description}\n\n"
-                             f"Вітер: {wind}\n"
-                             f"Вологість: {rain}\n"
-                             f"Імовірність опадів: {humidity}\n")
+                             f"Вітер: {wind}  {emojize(':wind_face:')}\n"
+                             f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
+                             f"Імовірність опадів: {rain}  {emojize(':droplet:')}")
         sleep(0.5)
 
 
