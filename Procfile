@@ -1,1 +1,1 @@
-worker: python GubchikWeatherBot.py
+worker: python bot.py

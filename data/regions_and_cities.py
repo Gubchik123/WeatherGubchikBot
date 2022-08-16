@@ -1,4 +1,4 @@
-{
+REGIONS_AND_CITIES_DICT = {
     "вінницька область": {
         "вінниця": "Vinnitsa",
         "чернівці": "Chernivtsivinnicka",
