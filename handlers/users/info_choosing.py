@@ -103,7 +103,8 @@ async def checking_period(message: types.Message, state: FSMContext):
         else:
             INFO.time = INFO.get_time_by_(user_text)
 
-        await get_info_about_weather_by_(INFO, message, state)
+        await state.finish()
+        await get_info_about_weather_by_(INFO, message)
     else:
         await message.answer("Невідомий період прогнозу")
         await choosing_period(message)
