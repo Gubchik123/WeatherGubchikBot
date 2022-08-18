@@ -45,7 +45,7 @@ async def confirm_mailing_for_user(message: types.Message, mute: bool, state):
                          "Деталі розсилки:\n\n"
                          "Час: 09:00\n"
                          "Кожен день\n"
-                         f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n"
+                         f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
                          f"Місто: {INFO.city}\n"
                          "Період прогнозу: сьогодні")
     await state.finish()
