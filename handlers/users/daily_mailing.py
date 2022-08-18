@@ -12,20 +12,18 @@ BOT = TeleBot(BOT_TOKEN)
 
 
 def mailing_to_users():
-    for info in MY_DB.get_information_for_mailing():
+    for data in MY_DB.get_information_for_mailing():
         try:
-            chat_id = info[0]
-            mute = True if info[1] else False
-            city = info[2]
+            chat_id = data[0]
+            mute = True if data[1] else False
 
             info = SelectedInfo()
+            info.city = data[2]
 
-            url = f"https://www.meteoprog.ua/ua/weather/{city}/"
-            soup = get_soup_by(url)
+            soup = get_soup_by(info.generated_url)
             text = get_information_about_one_day(soup, info)
 
-            BOT.send_message(chat_id, "Щоденна розсилка :)",
-                             disable_notification=mute)
+            BOT.send_message(chat_id, "Щоденна розсилка", disable_notification=mute)
             BOT.send_message(chat_id, text, disable_notification=mute)
             sleep(1)
         except Exception as error:
