@@ -41,12 +41,7 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message, state:
 async def confirm_mailing_for_user(message: types.Message, mute: bool, state):
     MY_DB.add(TelegramUser(message, mute_mode=mute, city=INFO.city))
 
-    await message.answer("Ви успішно оформили розсилку\n"
-                         "Деталі розсилки:\n\n"
-                         "Час: 09:00\n"
-                         "Кожен день\n"
-                         f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
-                         f"Місто: {INFO.city}\n"
-                         "Період прогнозу: сьогодні")
+    await message.answer("Ви успішно оформили розсилку")
+
     await state.finish()
     await menu(message)
