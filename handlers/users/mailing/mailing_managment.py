@@ -9,7 +9,10 @@ from keyboard import make_reply_keyboard_markup, make_button
 @DP.message_handler(Text("управління розсилкою", ignore_case=True))
 async def managment(message: types.Message):
     id = message.from_user.id
-    mute, city = MY_DB.get_information_about_user_with_(id)
+    data = MY_DB.get_information_about_user_with_(id)    
+    
+    mute = data["mute"]
+    city = data["city"]
 
     mute_btn_text = "режим оповіщення" if mute else "беззвучний режим"
 
@@ -19,8 +22,8 @@ async def managment(message: types.Message):
     markup.add(make_button("Вимкнути розсилку"))
     markup.add(make_button("← Повернутися у головне меню"))
 
-    await message.answer("Ви в меню управління розсилкою\n\n"
-                         "Деталі вашої розсилки:\n"
+    await message.answer("Ви в меню управління розсилкою\n"
+                         "Деталі вашої розсилки:\n\n"
                          "Час: 09:00\n"
                          "Кожен день\n"
                          f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
