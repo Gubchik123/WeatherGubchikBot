@@ -5,8 +5,8 @@ from keyboard import make_reply_keyboard_markup, make_button
 
 
 async def menu(message: types.Message):
-    CHAT_IDs = MY_DB.get_chat_IDs()
-    mailing_action = "Вимкнути" if message.from_user.id in CHAT_IDs else "Увімкнути"
+    chat_IDs = MY_DB.chat_IDs
+    mailing_action = "Вимкнути" if message.from_user.id in chat_IDs else "Увімкнути"
 
     markup = make_reply_keyboard_markup(width=2)
     markup.add(make_button("Переглянути прогноз погоди"),
