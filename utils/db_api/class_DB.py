@@ -9,6 +9,11 @@ class DB:
         self._connection = psycopg2.connect(DB_URI)
         self._connection.autocommit = True
 
+        self.__chat_IDs = self._get_chat_IDs()
+
+    @property  # Getter for list of users' chat IDs
+    def chat_IDs(self): return self.__chat_IDs
+
     def get_information_for_mailing(self) -> tuple:
         """Method for returning information for mailing from database"""
         with self._connection.cursor() as cursor:
@@ -16,36 +21,28 @@ class DB:
             data = cursor.fetchall()
         return data
 
-    def get_chat_IDs(self) -> list:
-        chat_IDs_tuple = self.get_information_for_mailing()
-        chat_IDs_list = [value[0] for value in chat_IDs_tuple]
-        return chat_IDs_list
-
     def add(self, user: TelegramUser):
-        """Method for adding user for mailing in database"""
+        """Method for adding user for mailing in database  and updating list of chat IDs"""
         with self._connection.cursor() as cursor:
             sql_adding_query = f"""
             INSERT INTO mailing
             (chat_id, mute, nik, name, city)
             VALUES
-            ({user.chat_id}, {user.mute}, '{user.nik}', '{user.name}', '{user.city}');
+            ({user.chat_id}, {user.selected_mute_mode}, '{user.nik}', '{user.name}', 
+            '{user.selected_city}');
             """
             cursor.execute(sql_adding_query)
+        self.__chat_IDs = self._get_chat_IDs()
 
     def delete_user_with(self, chat_id: int):
-        """Method for deleting user from database"""
+        """Method for deleting user from database and updating list of chat IDs"""
         with self._connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM mailing WHERE chat_id = {chat_id};")
+        self.__chat_IDs = self._get_chat_IDs()
 
-    def some(self):
+    def _get_chat_IDs(self) -> list:
+        """Method for returning list of users' chat ID from database"""
         with self._connection.cursor() as cursor:
-            sql_query = """
-            CREATE TABLE mailing(
-                chat_id BIGINT NOT NULL PRIMARY KEY,
-                mute BOOLEAN NOT NULL,
-                nik VARCHAR NOT NULL,
-                name VARCHAR NOT NULL,
-                city VARCHAR NOT NULL
-            );
-            """
-            cursor.execute(sql_query)
+            cursor.execute("SELECT chat_id FROM mailing;")
+            chat_IDs = cursor.fetchall()
+        return [data[0] for data in chat_IDs]
