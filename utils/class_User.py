@@ -19,8 +19,8 @@ class TelegramUser:
     @property  # Getter for user's chat_id
     def chat_id(self): return self.__chat_id
 
-    @property  # Getter for user's mute mode
-    def mute(self): return self.__mute
+    @property  # Getter for user's selected mute mode
+    def selected_mute_mode(self): return self.__mute
 
-    @property  # Getter for choosed user's city
-    def city(self): return self.__city
+    @property  # Getter for selected city for weather
+    def selected_city(self): return self.__city
