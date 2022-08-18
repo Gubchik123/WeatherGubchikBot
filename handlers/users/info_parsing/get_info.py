@@ -1,9 +1,7 @@
 from time import sleep
 from emoji import emojize
 from bs4 import BeautifulSoup
-
 from aiogram import types
-from aiogram.dispatcher import FSMContext
 
 from .general import get_soup_by, print_error
 from .get_emoji import get_weather_emoji_by_
@@ -12,8 +10,7 @@ from ..menu import menu
 from utils.class_SelectedInfo import SelectedInfo
 
 
-async def get_info_about_weather_by_(info: SelectedInfo, message: types.Message, 
-                                     state: FSMContext):
+async def get_info_about_weather_by_(info: SelectedInfo, message: types.Message):
     try:
         soup = get_soup_by(info.generated_url)
 
@@ -22,7 +19,6 @@ async def get_info_about_weather_by_(info: SelectedInfo, message: types.Message,
         elif info.about_many_days:
             await get_and_send_information_about_many_days(soup, message)
 
-        await state.finish()
         await menu(message)
     except Exception as error:
         await print_error(message, error)
