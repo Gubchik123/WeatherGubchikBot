@@ -1,14 +1,23 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
-from states import Choosing, Mailing
+from states import Mailing
+from states import Choosing
+from constants import MY_DB
 from utils.class_SelectedInfo import SelectedInfo
-from keyboard import make_reply_keyboard_markup, make_button, make_yes_or_no_reply_keyboard_markup
+from keyboard import make_yes_or_no_reply_keyboard_markup
+from keyboard import make_reply_keyboard_markup, make_button
 
+from .mailing.mailing_managment import managment
 from .info_parsing.get_info import get_info_about_weather_by_
 
 INFO = SelectedInfo()
+
+@DP.message_handler(Text("змінити місто", ignore_case=True))
+async def change_city_for_mailing(message: types.Message):
+    await choosing_region(message, goal="changing mailing")
 
 
 def correct_title_from(title: str):
@@ -65,6 +74,9 @@ async def checking_city(message: types.Message, state: FSMContext):
         elif INFO.goal == "mailing":
             await state.finish()
             await ask_about_mailing_mute_mode(message)
+        elif INFO.goal == "changing mailing":
+            await state.finish()
+            await change_(INFO.city, message)
     else:
         await message.answer("Невідоме місто")
         await choosing_city(message)
@@ -78,6 +90,13 @@ async def ask_about_mailing_mute_mode(message: types.Message):
         reply_markup=markup
     )
     await Mailing.mute_mode.set()
+
+
+async def change_(city: str, message: types.Message):
+    id = message.from_user.id
+    MY_DB.update_user_with(id, what_update="city", new_item=city)
+
+    await managment(message)
 
 
 async def choosing_period(message: types.Message):
