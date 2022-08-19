@@ -3,21 +3,42 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
-from states import Mailing
-from states import Choosing
 from constants import MY_DB
+from states import Mailing, Choosing
 from utils.class_SelectedInfo import SelectedInfo
 from keyboard import make_yes_or_no_reply_keyboard_markup
 from keyboard import make_reply_keyboard_markup, make_button
 
 from .mailing.mailing_managment import managment
 from .info_parsing.get_info import get_info_about_weather_by_
+from .mailing.general import cancel_action, there_is_no_such_type_of_answer_try_again
+
 
 INFO = SelectedInfo()
 
+
 @DP.message_handler(Text("змінити місто", ignore_case=True))
 async def change_city_for_mailing(message: types.Message):
-    await choosing_region(message, goal="changing mailing")
+    markup = make_yes_or_no_reply_keyboard_markup()
+
+    await message.answer(
+        "Ви дійсно хочете змінити місто?",
+        reply_markup=markup
+    )
+    await Mailing.change_city.set()
+
+
+@DP.message_handler(state=Mailing.change_city)
+async def checking_changing_city(message: types.Message, state: FSMContext):
+    user_answer = message.text.lower()
+    await state.finish()
+
+    if user_answer == "так":
+        await choosing_region(message, goal="changing mailing")
+    elif user_answer == "ні":
+        await cancel_action(message)
+    else:
+        await there_is_no_such_type_of_answer_try_again(change_city_for_mailing, message)
 
 
 def correct_title_from(title: str):

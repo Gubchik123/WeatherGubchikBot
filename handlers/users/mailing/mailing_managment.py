@@ -1,16 +1,19 @@
 from aiogram import types
+from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
+from states import Mailing
 from constants import MY_DB
+from keyboard import make_yes_or_no_reply_keyboard_markup
 from keyboard import make_reply_keyboard_markup, make_button
 
 
 @DP.message_handler(Text("управління розсилкою", ignore_case=True))
 async def managment(message: types.Message):
     id = message.from_user.id
-    data = MY_DB.get_information_about_user_with_(id)    
-    
+    data = MY_DB.get_information_about_user_with_(id)
+
     mute = data["mute"]
     city = data["city"]
 
@@ -30,19 +33,3 @@ async def managment(message: types.Message):
                          f"Місто: {city}\n"
                          "Період прогнозу: сьогодні")
     await message.answer("Що ви хочете зробити?", reply_markup=markup)
-
-
-@DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
-async def turn_off_mute_mode_for_mailing(message: types.Message):
-    id = message.from_user.id
-    MY_DB.update_user_with(id, what_update="mute", new_item=False)
-
-    await managment(message)
-
-
-@DP.message_handler(Text("увімкнути беззвучний режим", ignore_case=True))
-async def turn_on_mute_mode_for_mailing(message: types.Message):
-    id = message.from_user.id
-    MY_DB.update_user_with(id, what_update="mute", new_item=True)
-
-    await managment(message)
