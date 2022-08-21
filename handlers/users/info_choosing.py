@@ -41,6 +41,33 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
         await there_is_no_such_type_of_answer_try_again(change_city_for_mailing, message)
 
 
+@DP.message_handler(Text("змінити період прогнозу", ignore_case=True))
+async def change_period_for_mailing(message: types.Message):
+    markup = make_yes_or_no_reply_keyboard_markup()
+
+    await message.answer(
+        "Ви дійсно хочете змінити період прогнозу?",
+        reply_markup=markup
+    )
+    await Mailing.change_period.set()
+
+
+@DP.message_handler(state=Mailing.change_period)
+async def checking_changing_periody(message: types.Message, state: FSMContext):
+    global INFO
+
+    user_answer = message.text.lower()
+    await state.finish()
+
+    if user_answer == "так":
+        INFO.goal = "changing mailing"
+        await choosing_period(message)
+    elif user_answer == "ні":
+        await cancel_action(message)
+    else:
+        await there_is_no_such_type_of_answer_try_again(change_period_for_mailing, message)
+
+
 def correct_title_from(title: str):
     if "Об" in title:
         return title.replace("Об", "об")
@@ -90,14 +117,11 @@ async def checking_city(message: types.Message, state: FSMContext):
     if user_text in INFO.city_titles:
         INFO.city = INFO.cities[user_text]
 
-        if INFO.goal == "normal":
+        if INFO.goal == "changing mailing":
+            await state.finish()
+            await change_mailing_city_by_(INFO.city, message)
+        else:
             await choosing_period(message)
-        elif INFO.goal == "mailing":
-            await state.finish()
-            await ask_about_mailing_mute_mode(message)
-        elif INFO.goal == "changing mailing":
-            await state.finish()
-            await change_(INFO.city, message)
     else:
         await message.answer("Невідоме місто")
         await choosing_city(message)
@@ -113,7 +137,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     await Mailing.mute_mode.set()
 
 
-async def change_(city: str, message: types.Message):
+async def change_mailing_city_by_(city: str, message: types.Message):
     id = message.from_user.id
     MY_DB.update_user_with(id, what_update="city", new_item=city)
 
@@ -138,13 +162,28 @@ async def checking_period(message: types.Message, state: FSMContext):
     user_text = message.text.lower()
 
     if user_text in ["сьогодні", "завтра", "тиждень", "два тижня"]:
-        if INFO.get_time_by_(user_text) == "review":
-            INFO.type = INFO.get_time_by_(user_text)
+        INFO.time_title = user_text
+
+        if INFO.get_time() == "review":
+            INFO.type = INFO.get_time()
         else:
-            INFO.time = INFO.get_time_by_(user_text)
+            INFO.time = INFO.get_time()
 
         await state.finish()
-        await get_info_about_weather_by_(INFO, message)
+
+        if INFO.goal == "normal":
+            await get_info_about_weather_by_(INFO, message)
+        elif INFO.goal == "mailing":
+            await ask_about_mailing_mute_mode(message)
+        elif INFO.goal == "changing mailing":
+            await change_mailing_period_by_(message)
     else:
         await message.answer("Невідомий період прогнозу")
         await choosing_period(message)
+
+
+async def change_mailing_period_by_(message: types.Message):
+    id = message.from_user.id
+    MY_DB.update_user_with(id, what_update="time", new_item=INFO)
+
+    await managment(message)

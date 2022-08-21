@@ -1,11 +1,8 @@
 from aiogram import types
-from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
-from states import Mailing
 from constants import MY_DB
-from keyboard import make_yes_or_no_reply_keyboard_markup
 from keyboard import make_reply_keyboard_markup, make_button
 
 
@@ -16,12 +13,14 @@ async def managment(message: types.Message):
 
     mute = data["mute"]
     city = data["city"]
+    time = data["time"]
 
     mute_btn_text = "режим оповіщення" if mute else "беззвучний режим"
 
     markup = make_reply_keyboard_markup(width=2)
     markup.add(make_button(f"Увімкнути {mute_btn_text}"),
                make_button("Змінити місто"))
+    markup.add(make_button("Змінити період прогнозу"))
     markup.add(make_button("Вимкнути розсилку"))
     markup.add(make_button("← Повернутися у головне меню"))
 
@@ -31,5 +30,5 @@ async def managment(message: types.Message):
                          "Кожен день\n"
                          f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
                          f"Місто: {city}\n"
-                         "Період прогнозу: сьогодні")
+                         f"Період прогнозу: {time}")
     await message.answer("Що ви хочете зробити?", reply_markup=markup)

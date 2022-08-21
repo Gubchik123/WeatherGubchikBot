@@ -9,5 +9,6 @@ class Mailing(StatesGroup):
     turn_on_mute_mode = State()
     turn_off_mute_mode = State()
     change_city = State()
+    change_period = State()
     # States for turning off mailing
     turn_off = State()
