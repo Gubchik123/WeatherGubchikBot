@@ -2,6 +2,7 @@ import psycopg2
 
 from data import DB_URI
 from utils.class_User import TelegramUser
+from utils.class_SelectedInfo import SelectedInfo
 
 
 class DB:
@@ -18,7 +19,8 @@ class DB:
     def get_information_for_mailing(self) -> tuple:
         """Method for returning information for mailing from database"""
         with self._connection.cursor() as cursor:
-            cursor.execute("SELECT chat_id, mute, city FROM mailing;")
+            cursor.execute(
+                "SELECT chat_id, mute, city, time_title, time, type FROM mailing;")
             data = cursor.fetchall()
         return data
 
@@ -26,22 +28,23 @@ class DB:
         """Method for returning user's selected mute mode and city"""
         return self.__users_info[chat_id]
 
-    def add(self, user: TelegramUser):
+    def add(self, user: TelegramUser, info: SelectedInfo):
         """Method for adding user for mailing in database  and updating list of chat IDs"""
         with self._connection.cursor() as cursor:
             sql_adding_query = f"""
             INSERT INTO mailing
-            (chat_id, mute, nik, name, city)
+            (chat_id, mute, name, city, time, time_title, type)
             VALUES
-            ({user.chat_id}, {user.selected_mute_mode}, '{user.nik}', '{user.name}', 
-            '{user.selected_city}');
+            ({user.chat_id}, {user.selected_mute_mode}, '{user.name}', 
+            '{info.city}', '{info.time}', '{info.time_title}', '{info.type}');
             """
             cursor.execute(sql_adding_query)
 
         self.__chat_IDs = self._fill_chat_IDs()
         self.__users_info[user.chat_id] = {
             "mute": user.selected_mute_mode,
-            "city": user.selected_city
+            "city": info.city,
+            "time": info.time_title
         }
 
     def update_user_with(self, chat_id: int, what_update: str, new_item: str | bool):
@@ -55,6 +58,16 @@ class DB:
                 sql_update_query = f"""
                 UPDATE mailing SET mute = {new_item} WHERE chat_id = {chat_id}
                 """
+            elif what_update == "time":
+                sql_update_query = f"""
+                UPDATE mailing SET
+                time = '{new_item.time}',
+                time_title = '{new_item.time_title}',
+                type = '{new_item.type}'
+                WHERE chat_id = {chat_id}
+                """
+
+                new_item = new_item.time_title
             cursor.execute(sql_update_query)
 
         self.__users_info[chat_id][what_update] = new_item
@@ -78,4 +91,4 @@ class DB:
         """Method for returning dict of some users' information from database"""
         users_info = self.get_information_for_mailing()
 
-        return {data[0]: {"mute": data[1], "city": data[2]} for data in users_info}
+        return {data[0]: {"mute": data[1], "city": data[2], "time": data[3]} for data in users_info}
