@@ -1,6 +1,9 @@
 from time import sleep
 from telebot import TeleBot
 
+import requests
+from bs4 import BeautifulSoup
+
 from constants import MY_DB
 from data import BOT_TOKEN
 from utils.class_SelectedInfo import SelectedInfo
@@ -21,9 +24,18 @@ def mailing_to_users():
             info.city = data[2]
 
             soup = get_soup_by(info.generated_url)
-            text = get_information_about_one_day(soup, info)
 
-            BOT.send_message(chat_id, "Щоденна розсилка", disable_notification=mute)
+            try:
+                text = get_information_about_one_day(soup, info)
+            except AttributeError:
+                response = requests.get(info.generated_url, headers={
+                                        'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"})
+                other_soup = BeautifulSoup(response.text, 'lxml')
+
+                text = get_information_about_one_day(other_soup, info)
+
+            BOT.send_message(chat_id, "Щоденна розсилка",
+                             disable_notification=mute)
             BOT.send_message(chat_id, text, disable_notification=mute)
             sleep(1)
         except Exception as error:
