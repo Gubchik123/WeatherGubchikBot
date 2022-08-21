@@ -24,15 +24,7 @@ def mailing_to_users():
             info.city = data[2]
 
             soup = get_soup_by(info.generated_url)
-
-            try:
-                text = get_information_about_one_day(soup, info)
-            except AttributeError:
-                response = requests.get(info.generated_url, headers={
-                                        'user-agent': "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"})
-                other_soup = BeautifulSoup(response.text, 'lxml')
-
-                text = get_information_about_one_day(other_soup, info)
+            text = get_information_about_one_day(soup, info)
 
             BOT.send_message(chat_id, "Щоденна розсилка",
                              disable_notification=mute)

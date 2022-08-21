@@ -1,16 +1,16 @@
-import os
-import json
-
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from aiogram import types
 
-from constants import BASE_DIR
-
 
 def get_soup_by(url: str):
-    response = requests.get(url, headers={'user-agent': UserAgent().random})
+    try:
+        agent = UserAgent().random
+    except IndexError:
+        agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"
+
+    response = requests.get(url, headers={'user-agent': agent})
     return BeautifulSoup(response.text, 'lxml')
 
 
