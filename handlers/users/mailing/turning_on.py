@@ -40,7 +40,10 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message, state:
 
 
 async def confirm_mailing_for_user(message: types.Message, mute: bool, state):
-    MY_DB.add(TelegramUser(message, mute_mode=mute, city=INFO.city))
+    MY_DB.add(
+        user=TelegramUser(message, mute_mode=mute),
+        info=INFO
+    )
 
     await message.answer("Ви успішно оформили розсилку")
 
