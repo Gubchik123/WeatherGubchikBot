@@ -11,6 +11,7 @@ class SelectedInfo:
         self.__goal = ""
         self.__city = ""
         self.__time = ""
+        self.__time_title = ""
         self.__type = "weather"
 
     @property  # Getter for region titles
@@ -49,6 +50,12 @@ class SelectedInfo:
     @time.setter  # Setter for selected time
     def time(self, item: str): self.__time = item
 
+    @property  # Getter for selected time title
+    def time_title(self): return self.__time_title
+
+    @time_title.setter  # Setter for selected time title
+    def time_title(self, item: str): self.__time_title = item
+
     @property  # Getter for selected type
     def type(self): return self.__type
 
@@ -71,10 +78,10 @@ class SelectedInfo:
     def about_today(self):
         return self.__time == ""
 
-    def get_time_by_(self, name: str):
+    def get_time(self):
         return {
             "сьогодні": lambda: "",
             "завтра": lambda: "tomorrow",
             "тиждень": lambda: "6_10",
             "два тижня": lambda: "review"
-        }.get(name)()
+        }.get(self.time_title)()
