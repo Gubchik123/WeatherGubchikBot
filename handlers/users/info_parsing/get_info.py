@@ -17,7 +17,7 @@ async def get_info_about_weather_by_(info: SelectedInfo, message: types.Message)
         if info.about_one_day:
             await message.answer(get_information_about_one_day(soup, info))
         elif info.about_many_days:
-            await get_and_send_information_about_many_days(soup, message)
+            await message.answer(get_and_send_information_about_many_days(soup))
 
         await menu(message)
     except Exception as error:
@@ -73,10 +73,11 @@ def get_information_about_one_day(soup: BeautifulSoup, info: SelectedInfo):
     return text
 
 
-async def get_and_send_information_about_many_days(soup: BeautifulSoup, message):
+def get_and_send_information_about_many_days(soup: BeautifulSoup):
+    text = ""
     block, title = get_block_and_title_from(soup)
 
-    await message.answer(f"{title}:")
+    text += f"{title}:\n"
 
     all_details = block.find("div", class_="item-table").find_all("ul")
 
@@ -97,9 +98,11 @@ async def get_and_send_information_about_many_days(soup: BeautifulSoup, message)
             "div", class_="description")[count].text.strip()
         description = description.split(": ")[1]
 
-        await message.answer(f"{name} ({date}): {temp}  {get_weather_emoji_by_(description)}\n"
-                             f"{description}\n\n"
-                             f"Вітер: {wind}  {emojize(':wind_face:')}\n"
-                             f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
-                             f"Імовірність опадів: {rain}  {emojize(':droplet:')}")
-        sleep(0.5)
+        text += f"\n{name} ({date}): {temp}  {get_weather_emoji_by_(description)}\n"
+        text += f"{description}\n\n"
+        text += f"Вітер: {wind}  {emojize(':wind_face:')}\n"
+        text += f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
+        text += f"Імовірність опадів: {rain}  {emojize(':droplet:')}\n"
+        text += "\n" + "-"*70 + "\n"
+
+    return text
