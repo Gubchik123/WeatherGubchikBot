@@ -1,8 +1,7 @@
 from time import sleep
-from telebot import TeleBot
+from datetime import datetime
 
-import requests
-from bs4 import BeautifulSoup
+from telebot import TeleBot
 
 from constants import MY_DB
 from data import BOT_TOKEN
@@ -16,7 +15,14 @@ BOT = TeleBot(BOT_TOKEN)
 
 
 def mailing_to_users():
+    hour_now = datetime.now().hour + 3
+
     for data in MY_DB.get_information_for_mailing():
+        user_mailing_time = data[6]
+        
+        if user_mailing_time != hour_now:
+            continue
+
         try:
             chat_id = data[0]
             mute = True if data[1] else False

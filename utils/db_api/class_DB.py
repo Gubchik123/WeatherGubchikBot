@@ -20,7 +20,7 @@ class DB:
         """Method for returning information for mailing from database"""
         with self._connection.cursor() as cursor:
             cursor.execute(
-                "SELECT chat_id, mute, city, time_title, time, type FROM mailing;")
+                "SELECT chat_id, mute, city, time_title, time, type, time_int FROM mailing;")
             data = cursor.fetchall()
         return data
 
@@ -33,10 +33,11 @@ class DB:
         with self._connection.cursor() as cursor:
             sql_adding_query = f"""
             INSERT INTO mailing
-            (chat_id, mute, name, city, time, time_title, type)
+            (chat_id, mute, name, city, time, time_title, type, time_int)
             VALUES
             ({user.chat_id}, {user.selected_mute_mode}, '{user.name}', 
-            '{info.city}', '{info.time}', '{info.time_title}', '{info.type}');
+            '{info.city}', '{info.time}', '{info.time_title}', '{info.type}',
+            {user.selected_time});
             """
             cursor.execute(sql_adding_query)
 
@@ -44,10 +45,11 @@ class DB:
         self.__users_info[user.chat_id] = {
             "mute": user.selected_mute_mode,
             "city": info.city,
-            "time": info.time_title
+            "time": info.time_title,
+            "time_int": user.selected_time
         }
 
-    def update_user_with(self, chat_id: int, what_update: str, new_item: str | bool):
+    def update_user_with(self, chat_id: int, what_update: str, new_item):
         """Method for updating some user's information in from database"""
         with self._connection.cursor() as cursor:
             if what_update == "city":
@@ -68,6 +70,10 @@ class DB:
                 """
 
                 new_item = new_item.time_title
+            elif what_update == "time_int":
+                sql_update_query = f"""
+                UPDATE mailing SET time_int = {new_item} WHERE chat_id = {chat_id}
+                """
             cursor.execute(sql_update_query)
 
         self.__users_info[chat_id][what_update] = new_item
@@ -77,11 +83,11 @@ class DB:
         with self._connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM mailing WHERE chat_id = {chat_id};")
 
-        self.__chat_IDs.remove(chat_id)
+        self.__chat_IDs.pop(chat_id)
         self.__users_info.pop(chat_id)
 
-    def _fill_chat_IDs(self) -> list:
-        """Method for returning list of users' chat ID from database"""
+    def _fill_chat_IDs(self) -> dict:
+        """Method for returning list of users' chat IDs from database"""
         with self._connection.cursor() as cursor:
             cursor.execute("SELECT chat_id FROM mailing;")
             chat_IDs = cursor.fetchall()
@@ -91,4 +97,9 @@ class DB:
         """Method for returning dict of some users' information from database"""
         users_info = self.get_information_for_mailing()
 
-        return {data[0]: {"mute": data[1], "city": data[2], "time": data[3]} for data in users_info}
+        return {data[0]: {
+            "mute": data[1],
+            "city": data[2],
+            "time": data[3],
+            "time_int": data[6]
+        } for data in users_info}

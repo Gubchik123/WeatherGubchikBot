@@ -8,9 +8,13 @@ from ..info_choosing import INFO
 from utils.class_User import TelegramUser
 
 from ..menu import menu
-from ..info_choosing import choosing_region, ask_about_mailing_mute_mode
+from ..info_choosing import choosing_region, ask_about_mailing_mute_mode, select_mailing_time
+from .mailing_managment import managment
 from .mailing_action import turn_on_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
+
+MUTE = None
+REASON = ""
 
 
 @DP.message_handler(state=Mailing.turn_on)
@@ -28,24 +32,46 @@ async def checking_answer_about_turning_on_mailing(message: types.Message, state
 
 
 @DP.message_handler(state=Mailing.mute_mode)
-async def checking_answer_about_mailing_mute_mode(message: types.Message, state: FSMContext):
+async def checking_answer_about_mailing_mute_mode(message: types.Message):
+    global MUTE
+
     user_answer = message.text.lower()
 
-    if user_answer == "так":
-        await confirm_mailing_for_user(message, mute=True, state=state)
-    elif user_answer == "ні":
-        await confirm_mailing_for_user(message, mute=False, state=state)
-    else:
+    if user_answer not in ("так", "ні"):
         await there_is_no_such_type_of_answer_try_again(ask_about_mailing_mute_mode, message)
 
+    MUTE = True if user_answer == "так" else False
+    await select_mailing_time(message)
 
-async def confirm_mailing_for_user(message: types.Message, mute: bool, state):
+
+@DP.message_handler(state=Mailing.time)
+async def check_selected_mailing_time(message: types.Message, state: FSMContext):
+    user_text = message.text.lower()
+    await state.finish()
+
+    if user_text in ["06:00", "09:00", "12:00", "15:00", "18:00", "21:00"]:
+        time_int = int(user_text.split(':')[0])
+
+        if INFO.goal == "adding":
+            await confirm_mailing_for_user(
+                message,
+                time=time_int
+            )
+        else:
+            id = message.from_user.id
+
+            MY_DB.update_user_with(
+                id, what_update="time_int", new_item=time_int)
+            await managment(message)
+    else:
+        await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
+
+
+async def confirm_mailing_for_user(message: types.Message, time: int):
     MY_DB.add(
-        user=TelegramUser(message, mute_mode=mute),
+        user=TelegramUser(message, mute_mode=MUTE, time=time),
         info=INFO
     )
 
     await message.answer("Ви успішно оформили розсилку")
-
-    await state.finish()
     await menu(message)

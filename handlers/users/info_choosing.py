@@ -68,6 +68,28 @@ async def checking_changing_periody(message: types.Message, state: FSMContext):
         await there_is_no_such_type_of_answer_try_again(change_period_for_mailing, message)
 
 
+async def select_mailing_time(message: types.Message, goal: str = "adding"):
+    global INFO
+    INFO.goal = goal
+
+    markup = make_reply_keyboard_markup(width=3)
+
+    markup.add(
+        make_button("06:00"),
+        make_button("09:00"),
+        make_button("12:00"),
+        make_button("15:00"),
+        make_button("18:00"),
+        make_button("21:00"),
+    )
+
+    await message.answer(
+        "О котрій годині ви бажаєте отримувати розсилку?",
+        reply_markup=markup
+    )
+    await Mailing.time.set()
+
+
 def correct_title_from(title: str):
     if "Об" in title:
         return title.replace("Об", "об")

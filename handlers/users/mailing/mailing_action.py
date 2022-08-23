@@ -11,7 +11,7 @@ async def turn_on_mailing(message: types.Message):
     markup = make_yes_or_no_reply_keyboard_markup()
 
     await message.answer(
-        "Ви дійсно хочете отримувати прогноз погоди (на сьогодні) щодня о 09:00?",
+        "Ви дійсно хочете оформити щоденну розсилку прогноза погоди?",
         reply_markup=markup
     )
     await Mailing.turn_on.set()

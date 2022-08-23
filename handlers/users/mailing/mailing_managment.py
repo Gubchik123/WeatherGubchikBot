@@ -14,21 +14,23 @@ async def managment(message: types.Message):
     mute = data["mute"]
     city = data["city"]
     time = data["time"]
+    time_int = data["time_int"]
 
     mute_btn_text = "режим оповіщення" if mute else "беззвучний режим"
 
     markup = make_reply_keyboard_markup(width=2)
     markup.add(make_button(f"Увімкнути {mute_btn_text}"),
-               make_button("Змінити місто"))
-    markup.add(make_button("Змінити період прогнозу"))
+               make_button("Змінити час розсилки"))
+    markup.add(make_button("Змінити місто"),
+               make_button("Змінити період прогнозу"))
     markup.add(make_button("Вимкнути розсилку"))
     markup.add(make_button("← Повернутися у головне меню"))
 
     await message.answer("Ви в меню управління розсилкою\n"
                          "Деталі вашої розсилки:\n\n"
-                         "Час: 09:00\n"
+                        f"Час: {time_int}:00\n"
                          "Кожен день\n"
-                         f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
-                         f"Місто: {city}\n"
-                         f"Період прогнозу: {time}")
+                        f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
+                        f"Місто: {city}\n"
+                        f"Період прогнозу: {time}")
     await message.answer("Що ви хочете зробити?", reply_markup=markup)

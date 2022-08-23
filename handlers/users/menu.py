@@ -18,5 +18,5 @@ async def menu(message: types.Message):
     markup.add(make_button(mailing_btn_text))
     markup.add(make_button("Закінчити спілкування"))
 
-    await message.answer("Ви в головному меню\n\n"
+    await message.answer("Ви в головному меню\n"
                          "Виберіть подальші дії", reply_markup=markup)
