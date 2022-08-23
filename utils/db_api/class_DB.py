@@ -83,7 +83,7 @@ class DB:
         with self._connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM mailing WHERE chat_id = {chat_id};")
 
-        self.__chat_IDs.pop(chat_id)
+        self.__chat_IDs.remove(chat_id)
         self.__users_info.pop(chat_id)
 
     def _fill_chat_IDs(self) -> dict:
