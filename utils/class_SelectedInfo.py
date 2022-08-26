@@ -7,6 +7,8 @@ class SelectedInfo:
         self.clean_information()
 
     def clean_information(self):
+        self.__districts = {}
+        self.__district_letters = {}
         self.__cities = {}
         self.__goal = ""
         self.__city = ""
@@ -22,6 +24,24 @@ class SelectedInfo:
 
     @regions.setter  # Setter for regions dict
     def regions(self, item: dict): self.__regions = item
+
+    @property  # Getter for district titles
+    def district_titles(self): return self.__districts.keys()
+
+    @property  # Getter for districts dict
+    def districts(self): return self.__districts
+
+    @districts.setter  # Setter for districts dict
+    def districts(self, item: dict): self.__districts = item
+
+    @property  # Getter for districts letters
+    def district_letters_list(self): return self.__districts.keys()
+
+    @property  # Getter for district letters dict
+    def district_letters(self): return self.__district_letters
+
+    @district_letters.setter  # Setter for district letters dict
+    def district_letters(self, item: dict): self.__district_letters = item
 
     @property  # Getter for city titles
     def city_titles(self): return self.__cities.keys()

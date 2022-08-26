@@ -106,18 +106,58 @@ async def checking_region(message: types.Message):
     user_text = message.text.lower()
 
     if user_text in INFO.region_titles:
-        INFO.cities = INFO.regions[user_text]
-        await choosing_city(message)
+        INFO.districts = INFO.regions[user_text]
+        await choosing_district(message)
     else:
         await message.answer("Невідома область")
         await choosing_region(message, INFO.goal)
+
+
+async def choosing_district(message: types.Message):
+    markup = make_reply_keyboard_markup(width=2)
+    districts_list = [district.capitalize()
+                      for district in INFO.district_titles]
+    markup.add(*districts_list)
+    await message.answer("Виберіть район / міську (селищну) раду", reply_markup=markup)
+    await Choosing.district.set()
+
+
+@DP.message_handler(state=Choosing.district)
+async def checking_district(message: types.Message):
+    user_text = message.text.lower()
+
+    if user_text in INFO.district_titles:
+        INFO.district_letters = INFO.districts[user_text]
+        await choosing_city_letter(message)
+    else:
+        await message.answer("Невідомий район / міська (селищна) рада")
+        await choosing_district(message)
+
+
+async def choosing_city_letter(message: types.Message):
+    markup = make_reply_keyboard_markup(width=5)
+    markup.add(*INFO.district_letters)
+    await message.answer("Виберіть першу літеру міста / населеного пункту", reply_markup=markup)
+    await Choosing.district_letter.set()
+
+
+@DP.message_handler(state=Choosing.district_letter)
+async def checking_city_letter(message: types.Message):
+    user_text = message.text.upper()
+
+    if user_text in INFO.district_letters:
+        INFO.cities = INFO.district_letters[user_text]
+        await choosing_city(message)
+    else:
+        await message.answer("Невідома перша літера")
+        await choosing_city_letter(message)
 
 
 async def choosing_city(message: types.Message):
     markup = make_reply_keyboard_markup(width=3)
     cities_list = [city.capitalize() for city in INFO.city_titles]
     markup.add(*cities_list)
-    await message.answer("Виберіть місто", reply_markup=markup)
+    await message.answer("Виберіть місто / населений пункт", reply_markup=markup)
     await Choosing.city.set()
 
 
@@ -134,7 +174,7 @@ async def checking_city(message: types.Message, state: FSMContext):
         else:
             await choosing_period(message)
     else:
-        await message.answer("Невідоме місто")
+        await message.answer("Невідомий населений пункт")
         await choosing_city(message)
 
 
