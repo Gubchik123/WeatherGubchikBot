@@ -90,22 +90,12 @@ async def select_mailing_time(message: types.Message, goal: str = "adding"):
     await Mailing.time.set()
 
 
-def correct_title_from(title: str):
-    if "Об" in title:
-        return title.replace("Об", "об")
-    elif "'Я" in title:
-        return title.replace("'Я", "'я")
-    else:
-        return title
-
-
 async def choosing_region(message: types.Message, goal: str):
     INFO.clean_information()
     INFO.goal = goal
 
     markup = make_reply_keyboard_markup(width=2)
-    regions_list = [correct_title_from(region.title())
-                    for region in INFO.region_titles]
+    regions_list = [region.capitalize() for region in INFO.region_titles]
     markup.add(*regions_list)
     await message.answer("Виберіть область", reply_markup=markup)
     await Choosing.region.set()
@@ -125,8 +115,7 @@ async def checking_region(message: types.Message):
 
 async def choosing_city(message: types.Message):
     markup = make_reply_keyboard_markup(width=3)
-    cities_list = [correct_title_from(city.title())
-                   for city in INFO.city_titles]
+    cities_list = [city.capitalize() for city in INFO.city_titles]
     markup.add(*cities_list)
     await message.answer("Виберіть місто", reply_markup=markup)
     await Choosing.city.set()
