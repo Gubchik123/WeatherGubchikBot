@@ -1,6 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
+from fuzzywuzzy.process import extractBests
 
 from bot_info import DP
 from constants import MY_DB
@@ -94,88 +95,52 @@ async def choosing_region(message: types.Message, goal: str):
     INFO.clean_information()
     INFO.goal = goal
 
-    markup = make_reply_keyboard_markup(width=2)
-    regions_list = [region.capitalize() for region in INFO.region_titles]
-    markup.add(*regions_list)
-    await message.answer("Виберіть область", reply_markup=markup)
+    await message.answer(
+        "Введіть назву міста / населеного пункту\n(Раджу використовувати українську мову)",
+        reply_markup=types.ReplyKeyboardRemove()
+    )
     await Choosing.region.set()
 
 
 @DP.message_handler(state=Choosing.region)
-async def checking_region(message: types.Message):
-    user_text = message.text.lower()
+async def checking_region(message: types.Message, state: FSMContext):
+    await message.answer("Процес пошуку...")
 
-    if user_text in INFO.region_titles:
-        INFO.districts = INFO.regions[user_text]
-        await choosing_district(message)
-    else:
-        await message.answer("Невідома область")
-        await choosing_region(message, INFO.goal)
+    result: list = extractBests(
+        message.text.lower(), INFO.region_titles, limit=4)
+    await state.set_data({"result_list": [data[0] for data in result]})
+
+    await choosing_region_title(
+        message,
+        result_list=[data[0].capitalize() for data in result]
+    )
 
 
-async def choosing_district(message: types.Message):
+async def choosing_region_title(message: types.Message, result_list: list):
     markup = make_reply_keyboard_markup(width=2)
-    districts_list = [district.capitalize()
-                      for district in INFO.district_titles]
-    markup.add(*districts_list)
-    await message.answer("Виберіть район / міську (селищну) раду", reply_markup=markup)
-    await Choosing.district.set()
+    markup.add(*result_list)
+
+    await message.answer(
+        "Оберіть варіант, який ви мали на увазі",
+        reply_markup=markup
+    )
+    await Choosing.region_title.set()
 
 
-@DP.message_handler(state=Choosing.district)
-async def checking_district(message: types.Message):
+@DP.message_handler(state=Choosing.region_title)
+async def checking_region_title(message: types.Message, state: FSMContext):
     user_text = message.text.lower()
+    result = await state.get_data("result_list")
 
-    if user_text in INFO.district_titles:
-        INFO.district_letters = INFO.districts[user_text]
-        await choosing_city_letter(message)
+    if user_text in result["result_list"]:
+        INFO.city = INFO.regions[user_text]
+        await choosing_period(message)
     else:
-        await message.answer("Невідомий район / міська (селищна) рада")
-        await choosing_district(message)
-
-
-async def choosing_city_letter(message: types.Message):
-    markup = make_reply_keyboard_markup(width=5)
-    markup.add(*INFO.district_letters)
-    await message.answer("Виберіть першу літеру міста / населеного пункту", reply_markup=markup)
-    await Choosing.district_letter.set()
-
-
-@DP.message_handler(state=Choosing.district_letter)
-async def checking_city_letter(message: types.Message):
-    user_text = message.text.upper()
-
-    if user_text in INFO.district_letters:
-        INFO.cities = INFO.district_letters[user_text]
-        await choosing_city(message)
-    else:
-        await message.answer("Невідома перша літера")
-        await choosing_city_letter(message)
-
-
-async def choosing_city(message: types.Message):
-    markup = make_reply_keyboard_markup(width=3)
-    cities_list = [city.capitalize() for city in INFO.city_titles]
-    markup.add(*cities_list)
-    await message.answer("Виберіть місто / населений пункт", reply_markup=markup)
-    await Choosing.city.set()
-
-
-@DP.message_handler(state=Choosing.city)
-async def checking_city(message: types.Message, state: FSMContext):
-    user_text = message.text.lower()
-
-    if user_text in INFO.city_titles:
-        INFO.city = INFO.cities[user_text]
-
-        if INFO.goal == "changing mailing":
-            await state.finish()
-            await change_mailing_city_by_(INFO.city, message)
-        else:
-            await choosing_period(message)
-    else:
-        await message.answer("Невідомий населений пункт")
-        await choosing_city(message)
+        await message.answer("Ви обрали не той варіант")
+        await choosing_region_title(
+            message, 
+            result_list=[data.capitalize() for data in result["result_list"]]
+        )
 
 
 async def ask_about_mailing_mute_mode(message: types.Message):

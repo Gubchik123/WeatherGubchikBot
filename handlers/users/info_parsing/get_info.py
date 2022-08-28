@@ -103,6 +103,6 @@ def get_and_send_information_about_many_days(soup: BeautifulSoup):
         text += f"Вітер: {wind}  {emojize(':wind_face:')}\n"
         text += f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
         text += f"Імовірність опадів: {rain}  {emojize(':droplet:')}\n"
-        text += "\n" + "-"*60 + "\n"
+        text += "\n" + "-"*70 + "\n"
 
     return text
