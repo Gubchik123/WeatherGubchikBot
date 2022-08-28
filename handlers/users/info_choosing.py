@@ -140,6 +140,7 @@ async def checking_region_title(message: types.Message, state: FSMContext):
         elif INFO.goal == "mailing":
             await ask_about_mailing_mute_mode(message)
         elif INFO.goal == "changing mailing":
+            await state.finish() 
             await change_mailing_period_by_(message)
             
     else:
