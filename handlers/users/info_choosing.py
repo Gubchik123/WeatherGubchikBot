@@ -133,8 +133,15 @@ async def checking_region_title(message: types.Message, state: FSMContext):
     result = await state.get_data("result_list")
 
     if user_text in result["result_list"]:
-        INFO.city = INFO.regions[user_text]
-        await choosing_period(message)
+
+        if INFO.goal == "normal":
+            INFO.city = INFO.regions[user_text]
+            await choosing_period(message)
+        elif INFO.goal == "mailing":
+            await ask_about_mailing_mute_mode(message)
+        elif INFO.goal == "changing mailing":
+            await change_mailing_period_by_(message)
+            
     else:
         await message.answer("Ви обрали не той варіант")
         await choosing_region_title(
