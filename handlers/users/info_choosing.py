@@ -104,8 +104,6 @@ async def choosing_region(message: types.Message, goal: str):
 
 @DP.message_handler(state=Choosing.region)
 async def checking_region(message: types.Message, state: FSMContext):
-    await message.answer("Процес пошуку...")
-
     result: list = extractBests(
         message.text.lower(), INFO.region_titles, limit=4)
     await state.set_data({"result_list": [data[0] for data in result]})
