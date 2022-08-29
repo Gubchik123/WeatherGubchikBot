@@ -1,10 +1,12 @@
 import json
 
+from ..data import UKR_LOCALITIES, ABROAD_LOCALITIES
+
 
 class SelectedInfo:
     def __init__(self):
-        self.__ukr_regions = self._get_ukr_regions_dict()
-        self.__abroad_regions = self._get_abroad_regions_dict()
+        self.__ukr_regions = UKR_LOCALITIES
+        self.__abroad_regions = ABROAD_LOCALITIES
 
         self.clean_information()
 
@@ -85,13 +87,3 @@ class SelectedInfo:
             "тиждень": lambda: "6_10",
             "два тижня": lambda: "review"
         }.get(self.time_title)()
-
-    @staticmethod
-    def _get_ukr_regions_dict():
-        with open("./localities/ukr_localities.json", 'r', encoding='utf-8') as file:
-            return json.load(file)
-
-    @staticmethod
-    def _get_abroad_regions_dict():
-        with open("./localities/abroad_localities.json", 'r', encoding='utf-8') as file:
-            return json.load(file)

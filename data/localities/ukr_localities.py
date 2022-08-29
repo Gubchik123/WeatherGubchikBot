@@ -1,4 +1,4 @@
-{
+UKR_LOCALITIES = {
     "бар": "Barvinnicka",
     "балки": "Balky-harkivska",
     "барок": "Barok-vinnicka",
