@@ -91,7 +91,7 @@ async def select_mailing_time(message: types.Message, goal: str = "adding"):
     await Mailing.time.set()
 
 
-async def choosing_region(message: types.Message, goal: str):
+async def choosing_region(message: types.Message, goal: str = INFO.goal):
     INFO.clean_information()
     INFO.goal = goal
 
@@ -108,20 +108,21 @@ async def checking_region(message: types.Message, state: FSMContext):
         message.text.lower(), INFO.region_titles, limit=4)
     await state.set_data({"result_list": [data[0] for data in result]})
 
-    await choosing_region_title(
-        message,
-        result_list=[data[0].capitalize() for data in result]
-    )
+    await choosing_region_title(message, state)
 
 
-async def choosing_region_title(message: types.Message, result_list: list):
+async def choosing_region_title(message: types.Message, state: FSMContext):
+    result_list = await state.get_data("result_list")
+
     markup = make_reply_keyboard_markup(width=2)
-    markup.add(*result_list)
+    markup.add(*[title.capitalize() for title in result_list["result_list"]])
+    markup.add(make_button("Повторити спробу введення"))
 
     await message.answer(
         "Оберіть варіант, який ви мали на увазі",
         reply_markup=markup
     )
+
     await Choosing.region_title.set()
 
 
@@ -138,14 +139,14 @@ async def checking_region_title(message: types.Message, state: FSMContext):
         elif INFO.goal == "mailing":
             await ask_about_mailing_mute_mode(message)
         elif INFO.goal == "changing mailing":
+            await state.finish()
             await change_mailing_city_on_(INFO.city, message)
 
+    elif user_text == "повторити спробу введення":
+        await choosing_region(message, INFO.goal)
     else:
         await message.answer("Ви обрали не той варіант")
-        await choosing_region_title(
-            message,
-            result_list=[data.capitalize() for data in result["result_list"]]
-        )
+        await choosing_region_title(message, state)
 
 
 async def ask_about_mailing_mute_mode(message: types.Message):
