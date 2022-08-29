@@ -104,8 +104,6 @@ async def choosing_region(message: types.Message, goal: str):
 
 @DP.message_handler(state=Choosing.region)
 async def checking_region(message: types.Message, state: FSMContext):
-    await message.answer("Процес пошуку...")
-
     result: list = extractBests(
         message.text.lower(), INFO.region_titles, limit=4)
     await state.set_data({"result_list": [data[0] for data in result]})
@@ -133,19 +131,19 @@ async def checking_region_title(message: types.Message, state: FSMContext):
     result = await state.get_data("result_list")
 
     if user_text in result["result_list"]:
+        INFO.city = INFO.regions[user_text]
 
         if INFO.goal == "normal":
-            INFO.city = INFO.regions[user_text]
             await choosing_period(message)
         elif INFO.goal == "mailing":
             await ask_about_mailing_mute_mode(message)
         elif INFO.goal == "changing mailing":
-            await change_mailing_period_by_(message)
-            
+            await change_mailing_city_on_(INFO.city, message)
+
     else:
         await message.answer("Ви обрали не той варіант")
         await choosing_region_title(
-            message, 
+            message,
             result_list=[data.capitalize() for data in result["result_list"]]
         )
 
@@ -160,7 +158,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     await Mailing.mute_mode.set()
 
 
-async def change_mailing_city_by_(city: str, message: types.Message):
+async def change_mailing_city_on_(city: str, message: types.Message):
     id = message.from_user.id
     MY_DB.update_user_with(id, what_update="city", new_item=city)
 
