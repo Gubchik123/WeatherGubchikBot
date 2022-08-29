@@ -1,10 +1,10 @@
-from ..data import ukr_localities, abroad_localities
+from ..data import UKR_LOCALITIES, ABROAD_LOCALITIES
 
 
 class SelectedInfo:
     def __init__(self):
-        self.__ukr_regions = ukr_localities.UKR_LOCALITIES
-        self.__abroad_regions = abroad_localities.ABROAD_LOCALITIES
+        self.__ukr_regions = UKR_LOCALITIES
+        self.__abroad_regions = ABROAD_LOCALITIES
 
         self.clean_information()
 
