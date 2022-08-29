@@ -1,17 +1,26 @@
-from data.regions_and_cities import REGIONS_AND_CITIES_DICT
+import json
 
 
 class SelectedInfo:
     def __init__(self):
-        self.__regions = REGIONS_AND_CITIES_DICT
+        self.__ukr_regions = self._get_ukr_regions_dict()
+        self.__abroad_regions = self._get_abroad_regions_dict()
+
         self.clean_information()
 
     def clean_information(self):
+        self.__regions = {}
         self.__goal = ""
         self.__city = ""
         self.__time = ""
         self.__time_title = ""
         self.__type = "weather"
+
+    @property  # Getter for regions in Ukraine dict
+    def ukr_regions(self): return self.__ukr_regions
+
+    @property  # Getter for regions in Europe dict
+    def abroad_regions(self): return self.__abroad_regions
 
     @property  # Getter for region titles
     def region_titles(self): return self.__regions.keys()
@@ -69,9 +78,20 @@ class SelectedInfo:
         return self.__time == ""
 
     def get_time(self):
+        """Method for returning special string for time for site link"""
         return {
             "сьогодні": lambda: "",
             "завтра": lambda: "tomorrow",
             "тиждень": lambda: "6_10",
             "два тижня": lambda: "review"
         }.get(self.time_title)()
+
+    @staticmethod
+    def _get_ukr_regions_dict():
+        with open("./localities/ukr_localities.json", 'r', encoding='utf-8') as file:
+            return json.load(file)
+
+    @staticmethod
+    def _get_abroad_regions_dict():
+        with open("./localities/abroad_localities.json", 'r', encoding='utf-8') as file:
+            return json.load(file)

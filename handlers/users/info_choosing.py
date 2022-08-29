@@ -35,6 +35,7 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
     await state.finish()
 
     if user_answer == "так":
+        INFO.clean_information()
         await choosing_region(message, goal="changing mailing")
     elif user_answer == "ні":
         await cancel_action(message)
@@ -91,8 +92,28 @@ async def select_mailing_time(message: types.Message, goal: str = "adding"):
     await Mailing.time.set()
 
 
-async def choosing_region(message: types.Message, goal: str = INFO.goal):
+async def change_regions_dict_on_(some_regions: dict, message: types.Message):
     INFO.clean_information()
+
+    INFO.regions = some_regions
+
+    await choosing_region(message, "normal")
+
+
+@DP.message_handler(Text("погода в україні", ignore_case=True))
+async def weather_in_Ukraine(message: types.Message):
+    await change_regions_dict_on_(INFO.ukr_regions, message)
+
+
+@DP.message_handler(Text("погода в європі", ignore_case=True))
+async def weather_in_Ukraine(message: types.Message):
+    await change_regions_dict_on_(INFO.abroad_regions, message)
+
+
+async def choosing_region(message: types.Message, goal: str = INFO.goal):
+    if not INFO.regions:
+        INFO.regions = INFO.ukr_regions
+
     INFO.goal = goal
 
     await message.answer(
@@ -106,7 +127,7 @@ async def check_user_goal_when_city_changing(message, state):
     if INFO.goal == "normal":
         await choosing_period(message)
     elif INFO.goal == "mailing":
-        await ask_about_mailing_mute_mode(message)
+        await choosing_period(message)
     elif INFO.goal == "changing mailing":
         await state.finish()
         await change_mailing_city_on_(INFO.city, message)

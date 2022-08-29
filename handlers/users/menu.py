@@ -13,8 +13,8 @@ async def menu(message: types.Message):
         "Управління розсилкою" if message.from_user.id in chat_IDs else "Увімкнути розсилку"
 
     markup = make_reply_keyboard_markup(width=2)
-    markup.add(make_button("Переглянути прогноз погоди"),
-            make_button("Переглянути фазу місяця"))
+    markup.add(make_button("Погода в Україні"),
+               make_button("Погода в Європі"))
     markup.add(make_button(mailing_btn_text))
     markup.add(make_button("Закінчити спілкування"))
 

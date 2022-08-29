@@ -6,6 +6,5 @@ from ..info_choosing import choosing_region
 
 
 @DP.message_handler(commands="weather")
-@DP.message_handler(Text(equals="переглянути прогноз погоди", ignore_case=True))
 async def command_weather(message: types.Message):
     await choosing_region(message, "normal")
