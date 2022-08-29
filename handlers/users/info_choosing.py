@@ -102,13 +102,30 @@ async def choosing_region(message: types.Message, goal: str = INFO.goal):
     await Choosing.region.set()
 
 
+async def check_user_goal_when_city_changing(message, state):
+    if INFO.goal == "normal":
+        await choosing_period(message)
+    elif INFO.goal == "mailing":
+        await ask_about_mailing_mute_mode(message)
+    elif INFO.goal == "changing mailing":
+        await state.finish()
+        await change_mailing_city_on_(INFO.city, message)
+
+
 @DP.message_handler(state=Choosing.region)
 async def checking_region(message: types.Message, state: FSMContext):
-    result: list = extractBests(
-        message.text.lower(), INFO.region_titles, limit=4)
-    await state.set_data({"result_list": [data[0] for data in result]})
+    user_text = message.text.lower()
 
-    await choosing_region_title(message, state)
+    result: list = extractBests(user_text, INFO.region_titles, limit=4)
+
+    if result[0][1] == 100:
+        INFO.city = INFO.regions[user_text]
+
+        await check_user_goal_when_city_changing(message, state)
+    else:
+        await state.set_data({"result_list": [data[0] for data in result]})
+
+        await choosing_region_title(message, state)
 
 
 async def choosing_region_title(message: types.Message, state: FSMContext):
@@ -134,14 +151,7 @@ async def checking_region_title(message: types.Message, state: FSMContext):
     if user_text in result["result_list"]:
         INFO.city = INFO.regions[user_text]
 
-        if INFO.goal == "normal":
-            await choosing_period(message)
-        elif INFO.goal == "mailing":
-            await ask_about_mailing_mute_mode(message)
-        elif INFO.goal == "changing mailing":
-            await state.finish()
-            await change_mailing_city_on_(INFO.city, message)
-
+        await check_user_goal_when_city_changing(message, state)
     elif user_text == "повторити спробу введення":
         await choosing_region(message, INFO.goal)
     else:
