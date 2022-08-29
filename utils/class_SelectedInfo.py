@@ -1,4 +1,5 @@
-from ..data import UKR_LOCALITIES, ABROAD_LOCALITIES
+from .localities.ukr_localities import UKR_LOCALITIES
+from .localities.abroad_localities import ABROAD_LOCALITIES
 
 
 class SelectedInfo:
