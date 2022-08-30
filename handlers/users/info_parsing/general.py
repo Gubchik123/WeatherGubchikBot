@@ -21,4 +21,4 @@ async def print_error(message: types.Message, error):
     await message.answer("Виникла помилка! (Error)\n"
                          "Спробуйте повторити спробу або "
                          "перезапустіть бота командою /start")
-    logger.error(error)
+    print(f"Error message: {error}")
