@@ -4,12 +4,15 @@ from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
 from states import Mailing
-from constants import MY_DB
+from constants import MY_DB, INFO
 from keyboard import make_yes_or_no_reply_keyboard_markup
 
 from .mailing_managment import managment
 from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
+
+from ..info_choosing import choosing_period, choosing_region
+from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_mailing_period
 
 
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
@@ -88,3 +91,35 @@ async def checking_changed_mailing_time(message: types.Message, state: FSMContex
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(change_mailing_time, message)
+
+
+@DP.message_handler(state=Mailing.change_city)
+async def checking_changing_city(message: types.Message, state: FSMContext):
+    global INFO
+
+    user_answer = message.text.lower()
+    await state.finish()
+
+    if user_answer == "так":
+        INFO.clean_information()
+        await choosing_region(message, goal="changing mailing")
+    elif user_answer == "ні":
+        await cancel_action(message)
+    else:
+        await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_city, message)
+
+
+@DP.message_handler(state=Mailing.change_period)
+async def checking_changing_period(message: types.Message, state: FSMContext):
+    global INFO
+
+    user_answer = message.text.lower()
+    await state.finish()
+
+    if user_answer == "так":
+        INFO.goal = "changing mailing"
+        await choosing_period(message)
+    elif user_answer == "ні":
+        await cancel_action(message)
+    else:
+        await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_period, message)

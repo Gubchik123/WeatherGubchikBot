@@ -3,12 +3,13 @@ from aiogram.dispatcher import FSMContext
 
 from bot_info import DP
 from states import Mailing
-from constants import MY_DB
-from ..info_choosing import INFO
+from constants import MY_DB, INFO
 from utils.class_User import TelegramUser
 
 from ..menu import menu
-from ..info_choosing import choosing_region, ask_about_mailing_mute_mode, select_mailing_time
+from ..info_choosing import choosing_region
+from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
+
 from .mailing_managment import managment
 from .mailing_action import turn_on_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
@@ -41,7 +42,7 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message):
         await there_is_no_such_type_of_answer_try_again(ask_about_mailing_mute_mode, message)
 
     MUTE = True if user_answer == "так" else False
-    await select_mailing_time(message)
+    await select_mailing_time(message, "mailing")
 
 
 @DP.message_handler(state=Mailing.time)
@@ -52,7 +53,7 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
     if user_text in ["06:00", "09:00", "12:00", "15:00", "18:00", "21:00"]:
         time_int = int(user_text.split(':')[0])
 
-        if INFO.goal == "adding":
+        if INFO.goal == "mailing":
             await confirm_mailing_for_user(
                 message,
                 time=time_int

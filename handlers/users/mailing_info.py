@@ -1,0 +1,79 @@
+from aiogram import types
+from aiogram.dispatcher.filters import Text
+
+from bot_info import DP
+from states import Mailing
+from constants import MY_DB
+from keyboard import make_yes_or_no_reply_keyboard_markup
+from keyboard import make_reply_keyboard_markup, make_button
+
+from .info_choosing import INFO
+from .mailing.mailing_managment import managment
+
+
+@DP.message_handler(Text("змінити місто", ignore_case=True))
+async def ask_about_changing_mailing_city(message: types.Message):
+    markup = make_yes_or_no_reply_keyboard_markup()
+
+    await message.answer(
+        "Ви дійсно хочете змінити місто?",
+        reply_markup=markup
+    )
+    await Mailing.change_city.set()
+
+
+@DP.message_handler(Text("змінити період прогнозу", ignore_case=True))
+async def ask_about_changing_mailing_period(message: types.Message):
+    markup = make_yes_or_no_reply_keyboard_markup()
+
+    await message.answer(
+        "Ви дійсно хочете змінити період прогнозу?",
+        reply_markup=markup
+    )
+    await Mailing.change_period.set()
+
+
+async def select_mailing_time(message: types.Message, goal: str = "mailing"):
+    global INFO
+    INFO.goal = goal
+
+    markup = make_reply_keyboard_markup(width=3)
+
+    markup.add(
+        make_button("06:00"),
+        make_button("09:00"),
+        make_button("12:00"),
+        make_button("15:00"),
+        make_button("18:00"),
+        make_button("21:00"),
+    )
+
+    await message.answer(
+        "О котрій годині ви бажаєте отримувати розсилку?",
+        reply_markup=markup
+    )
+    await Mailing.time.set()
+
+
+async def ask_about_mailing_mute_mode(message: types.Message):
+    markup = make_yes_or_no_reply_keyboard_markup()
+
+    await message.answer(
+        "Ви бажаєте отримувати беззвучне повідомлення?",
+        reply_markup=markup
+    )
+    await Mailing.mute_mode.set()
+
+
+async def change_mailing_period_by_(message: types.Message):
+    id = message.from_user.id
+    MY_DB.update_user_with(id, what_update="time", new_item=INFO)
+
+    await managment(message)
+
+
+async def change_mailing_city_on_(city: str, message: types.Message):
+    id = message.from_user.id
+    MY_DB.update_user_with(id, what_update="city", new_item=city)
+
+    await managment(message)
