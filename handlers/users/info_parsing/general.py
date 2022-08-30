@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from loguru import logger
 from aiogram import types
 
 
@@ -21,4 +20,4 @@ async def print_error(message: types.Message, error):
     await message.answer("Виникла помилка! (Error)\n"
                          "Спробуйте повторити спробу або "
                          "перезапустіть бота командою /start")
-    logger.error(error)
+    print(error)
