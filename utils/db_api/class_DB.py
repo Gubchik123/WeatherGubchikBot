@@ -41,7 +41,7 @@ class DB:
             """
             cursor.execute(sql_adding_query)
 
-        self.__chat_IDs = self._fill_chat_IDs()
+        self.__chat_IDs.append(user.chat_id)
         self.__users_info[user.chat_id] = {
             "mute": user.selected_mute_mode,
             "city": info.city,
@@ -79,7 +79,7 @@ class DB:
         self.__users_info[chat_id][what_update] = new_item
 
     def delete_user_with(self, chat_id: int):
-        """Method for deleting user from database and updating list of chat IDs"""
+        """Method for deleting user from database"""
         with self._connection.cursor() as cursor:
             cursor.execute(f"DELETE FROM mailing WHERE chat_id = {chat_id};")
 

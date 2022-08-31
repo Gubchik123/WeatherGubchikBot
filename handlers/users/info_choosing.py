@@ -102,12 +102,7 @@ async def check_selected_region_title(message: types.Message,
 
 async def choose_period(message: types.Message):
     markup = make_reply_keyboard_markup(width=2)
-    markup.add(
-        make_button("Сьогодні"),
-        make_button("Завтра"),
-        make_button("Тиждень"),
-        make_button("Два тижня")
-    )
+    markup.add(*["Сьогодні", "Завтра", "Тиждень", "Два тижня"])
 
     await message.answer("Виберіть період прогнозу", reply_markup=markup)
     await Choosing.period.set()
@@ -122,7 +117,7 @@ def check_selected_period_it_is_week_or_other():
 
 async def check_user_goal_on_period_phase(message: types.Message):
     if INFO.goal == "normal":
-        await get_info_about_weather_by_(INFO, message)
+        await get_info_about_weather_by_(message)
     elif INFO.goal == "mailing":
         await ask_about_mailing_mute_mode(message)
     elif INFO.goal == "changing mailing":
