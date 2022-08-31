@@ -137,7 +137,6 @@ def get_information_about_many_days(soup: BeautifulSoup):
         Вітер: {wind}  {emojize(':wind_face:')}
         Вологість: {humidity}  {emojize(':sweat_droplets:')}
         Імовірність опадів: {rain}  {emojize(':droplet:')}
-
-        {"-"*50}""".replace("        ", "")
+        {"_"*35}""".replace("        ", "")
 
     return text

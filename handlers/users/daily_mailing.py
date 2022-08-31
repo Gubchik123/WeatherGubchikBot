@@ -41,7 +41,7 @@ def send_to_users():
             soup = get_soup_by(INFO.generated_url)
 
             if INFO.about_one_day:
-                text = get_information_about_one_day(soup, INFO)
+                text = get_information_about_one_day(soup)
             elif INFO.about_many_days:
                 text = get_information_about_many_days(soup)
 

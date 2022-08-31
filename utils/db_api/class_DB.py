@@ -16,7 +16,7 @@ class DB:
     @property  # Getter for list of users' chat IDs
     def chat_IDs(self): return self.__chat_IDs
 
-    def get_mailing_information(self) -> tuple:
+    def get_mailing_information(self) -> list:
         """Method for returning information for mailing from database"""
         with self._connection.cursor() as cursor:
             cursor.execute(

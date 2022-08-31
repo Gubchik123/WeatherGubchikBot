@@ -20,4 +20,4 @@ async def send_message_to_user_about_error(message: types.Message, error):
     await message.answer("Виникла помилка! (Error)\n"
                          "Спробуйте повторити спробу або "
                          "перезапустіть бота командою /start")
-    print(error)
+    print(f"Exception: {error}")
