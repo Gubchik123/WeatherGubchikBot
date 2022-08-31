@@ -38,7 +38,6 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     INFO.goal = goal
 
     markup = make_reply_keyboard_markup(width=3)
-
     markup.add(
         make_button("06:00"),
         make_button("09:00"),
@@ -65,7 +64,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     await Mailing.mute_mode.set()
 
 
-async def change_mailing_period_by_(message: types.Message):
+async def change_mailing_period(message: types.Message):
     id = message.from_user.id
     MY_DB.update_user_with(id, what_update="time", new_item=INFO)
 

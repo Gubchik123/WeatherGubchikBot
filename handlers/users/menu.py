@@ -8,9 +8,10 @@ from keyboard import make_reply_keyboard_markup, make_button
 
 @DP.message_handler(Text("← повернутися у головне меню", ignore_case=True))
 async def menu(message: types.Message):
-    chat_IDs = MY_DB.chat_IDs
-    mailing_btn_text = \
-        "Управління розсилкою" if message.from_user.id in chat_IDs else "Увімкнути розсилку"
+    chat_IDs: list = MY_DB.chat_IDs
+    mailing_btn_text = "Управління розсилкою" \
+                        if message.from_user.id in chat_IDs \
+                        else "Увімкнути розсилку"
 
     markup = make_reply_keyboard_markup(width=2)
     markup.add(make_button("Погода в Україні"),

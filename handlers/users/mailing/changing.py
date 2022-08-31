@@ -11,7 +11,7 @@ from .mailing_managment import managment
 from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
-from ..info_choosing import choosing_period, choosing_region
+from ..info_choosing import choose_period, choose_region
 from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_mailing_period
 
 
@@ -102,7 +102,7 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
 
     if user_answer == "так":
         INFO.clean_information()
-        await choosing_region(message, goal="changing mailing")
+        await choose_region(message, goal="changing mailing")
     elif user_answer == "ні":
         await cancel_action(message)
     else:
@@ -118,7 +118,7 @@ async def checking_changing_period(message: types.Message, state: FSMContext):
 
     if user_answer == "так":
         INFO.goal = "changing mailing"
-        await choosing_period(message)
+        await choose_period(message)
     elif user_answer == "ні":
         await cancel_action(message)
     else:

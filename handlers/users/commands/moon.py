@@ -5,7 +5,7 @@ from aiogram import types
 from bot_info import DP
 from ..menu import menu
 from ..info_parsing.get_emoji import get_moon_emoji_by_
-from ..info_parsing.general import get_soup_by, print_error
+from ..info_parsing.general import get_soup_by, send_message_to_user_about_error
 
 
 @DP.message_handler(commands="moon")
@@ -25,4 +25,4 @@ async def command_moon(message: types.Message):
         await message.answer(f"{moon} {get_moon_emoji_by_(moon)}")
         await menu(message)
     except Exception as error:
-        await print_error(message, error)
+        await send_message_to_user_about_error(message, error)

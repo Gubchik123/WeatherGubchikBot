@@ -7,7 +7,7 @@ from constants import MY_DB, INFO
 from utils.class_User import TelegramUser
 
 from ..menu import menu
-from ..info_choosing import choosing_region
+from ..info_choosing import choose_region
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
 from .mailing_managment import managment
@@ -25,7 +25,7 @@ async def checking_answer_about_turning_on_mailing(message: types.Message, state
 
     if user_answer == "так":
         await state.finish()
-        await choosing_region(message, goal="mailing")
+        await choose_region(message, goal="mailing")
     elif user_answer == "ні":
         await cancel_action(message)
     else:

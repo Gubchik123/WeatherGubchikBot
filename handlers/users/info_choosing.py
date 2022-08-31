@@ -9,7 +9,7 @@ from states import Choosing
 from keyboard import make_reply_keyboard_markup, make_button
 
 from .info_parsing.get_info import get_info_about_weather_by_
-from .mailing_info import ask_about_mailing_mute_mode, change_mailing_period_by_, change_mailing_city_on_
+from .mailing_info import ask_about_mailing_mute_mode, change_mailing_period, change_mailing_city_on_
 
 
 async def change_regions_dict_on_(some_regions: dict, message: types.Message):
@@ -17,7 +17,7 @@ async def change_regions_dict_on_(some_regions: dict, message: types.Message):
 
     INFO.regions = some_regions
 
-    await choosing_region(message, "normal")
+    await choose_region(message, "normal")
 
 
 @DP.message_handler(Text("погода в україні", ignore_case=True))
@@ -30,7 +30,7 @@ async def weather_in_Ukraine(message: types.Message):
     await change_regions_dict_on_(INFO.abroad_regions, message)
 
 
-async def choosing_region(message: types.Message, goal: str = INFO.goal):
+async def choose_region(message: types.Message, goal: str = INFO.goal):
     if not INFO.regions:
         INFO.regions = INFO.ukr_regions
 
@@ -44,16 +44,16 @@ async def choosing_region(message: types.Message, goal: str = INFO.goal):
     await Choosing.region.set()
 
 
-async def check_user_goal_when_city_changing(message, state):
+async def check_user_goal_on_region_phase(message, state):
     if INFO.goal in ("normal", "mailing"):
-        await choosing_period(message)
+        await choose_period(message)
     elif INFO.goal == "changing mailing":
         await state.finish()
         await change_mailing_city_on_(INFO.city, message)
 
 
 @DP.message_handler(state=Choosing.region)
-async def checking_region(message: types.Message, state: FSMContext):
+async def check_selected_region(message: types.Message, state: FSMContext):
     user_text = message.text.lower()
 
     result: list = extractBests(user_text, INFO.region_titles, limit=4)
@@ -61,14 +61,14 @@ async def checking_region(message: types.Message, state: FSMContext):
     if result[0][1] == 100:
         INFO.city = INFO.regions[user_text]
 
-        await check_user_goal_when_city_changing(message, state)
+        await check_user_goal_on_region_phase(message, state)
     else:
         await state.set_data({"result_list": [data[0] for data in result]})
 
-        await choosing_region_title(message, state)
+        await choose_region_title(message, state)
 
 
-async def choosing_region_title(message: types.Message, state: FSMContext):
+async def choose_region_title(message: types.Message, state: FSMContext):
     result_list = await state.get_data("result_list")
 
     markup = make_reply_keyboard_markup(width=2)
@@ -84,22 +84,23 @@ async def choosing_region_title(message: types.Message, state: FSMContext):
 
 
 @DP.message_handler(state=Choosing.region_title)
-async def checking_region_title(message: types.Message, state: FSMContext):
+async def check_selected_region_title(message: types.Message,
+                                      state: FSMContext):
     user_text = message.text.lower()
     result = await state.get_data("result_list")
 
     if user_text in result["result_list"]:
         INFO.city = INFO.regions[user_text]
 
-        await check_user_goal_when_city_changing(message, state)
+        await check_user_goal_on_region_phase(message, state)
     elif user_text == "повторити спробу введення":
-        await choosing_region(message, INFO.goal)
+        await choose_region(message, INFO.goal)
     else:
         await message.answer("Ви обрали не той варіант")
-        await choosing_region_title(message, state)
+        await choose_region_title(message, state)
 
 
-async def choosing_period(message: types.Message):
+async def choose_period(message: types.Message):
     markup = make_reply_keyboard_markup(width=2)
     markup.add(
         make_button("Сьогодні"),
@@ -112,26 +113,33 @@ async def choosing_period(message: types.Message):
     await Choosing.period.set()
 
 
+def check_selected_period_it_is_week_or_other():
+    if INFO.get_time() == "review":
+        INFO.type = INFO.get_time()
+    else:
+        INFO.time = INFO.get_time()
+
+
+async def check_user_goal_on_period_phase(message: types.Message):
+    if INFO.goal == "normal":
+        await get_info_about_weather_by_(INFO, message)
+    elif INFO.goal == "mailing":
+        await ask_about_mailing_mute_mode(message)
+    elif INFO.goal == "changing mailing":
+        await change_mailing_period(message)
+
+
 @DP.message_handler(state=Choosing.period)
-async def checking_period(message: types.Message, state: FSMContext):
+async def check_selected_period(message: types.Message, state: FSMContext):
     user_text = message.text.lower()
 
     if user_text in ["сьогодні", "завтра", "тиждень", "два тижня"]:
         INFO.time_title = user_text
 
-        if INFO.get_time() == "review":
-            INFO.type = INFO.get_time()
-        else:
-            INFO.time = INFO.get_time()
+        check_selected_period_it_is_week_or_other()
 
         await state.finish()
-
-        if INFO.goal == "normal":
-            await get_info_about_weather_by_(INFO, message)
-        elif INFO.goal == "mailing":
-            await ask_about_mailing_mute_mode(message)
-        elif INFO.goal == "changing mailing":
-            await change_mailing_period_by_(message)
+        await check_user_goal_on_period_phase(message)
     else:
         await message.answer("Невідомий період прогнозу")
-        await choosing_period(message)
+        await choose_period(message)

@@ -3,7 +3,7 @@ from emoji import emojize
 from bs4 import BeautifulSoup
 from aiogram import types
 
-from .general import get_soup_by, print_error
+from .general import get_soup_by, send_message_to_user_about_error
 from .get_emoji import get_weather_emoji_by_
 from ..menu import menu
 
@@ -17,11 +17,11 @@ async def get_info_about_weather_by_(info: SelectedInfo, message: types.Message)
         if info.about_one_day:
             await message.answer(get_information_about_one_day(soup, info))
         elif info.about_many_days:
-            await message.answer(get_and_send_information_about_many_days(soup))
+            await message.answer(get_information_about_many_days(soup))
 
         await menu(message)
     except Exception as error:
-        await print_error(message, error)
+        await send_message_to_user_about_error(message, error)
 
 
 def get_block_and_title_from(soup: BeautifulSoup):
@@ -73,7 +73,7 @@ def get_information_about_one_day(soup: BeautifulSoup, info: SelectedInfo):
     return text
 
 
-def get_and_send_information_about_many_days(soup: BeautifulSoup):
+def get_information_about_many_days(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -103,6 +103,6 @@ def get_and_send_information_about_many_days(soup: BeautifulSoup):
         text += f"Вітер: {wind}  {emojize(':wind_face:')}\n"
         text += f"Вологість: {humidity}  {emojize(':sweat_droplets:')}\n"
         text += f"Імовірність опадів: {rain}  {emojize(':droplet:')}\n"
-        text += "\n" + "-"*70 + "\n"
+        text += "\n" + "-"*50 + "\n"
 
     return text
