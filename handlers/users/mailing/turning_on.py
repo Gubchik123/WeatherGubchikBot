@@ -5,9 +5,9 @@ from bot_info import DP
 from states import Mailing
 from constants import MY_DB, INFO
 from utils.class_User import TelegramUser
-from keyboard import make_keyboard_for_country_choosing
 
 from ..menu import menu
+from ..info_choosing import choose_region
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
 from .mailing_managment import managment
@@ -20,19 +20,12 @@ REASON = ""
 
 @DP.message_handler(state=Mailing.turn_on)
 async def checking_answer_about_turning_on_mailing(message: types.Message, state: FSMContext):
-    global INFO
-    
     user_answer = message.text.lower()
     await state.finish()
 
     if user_answer == "так":
         await state.finish()
-
-        INFO.goal = "mailing"
-        
-        markup = make_keyboard_for_country_choosing()
-        await message.answer("Де ви бажаєте отримувати погоду?",
-                             reply_markup=markup)
+        await choose_region(message, goal="mailing")
     elif user_answer == "ні":
         await cancel_action(message)
     else:

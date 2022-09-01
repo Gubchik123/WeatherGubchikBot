@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
-from keyboard import make_keyboard, make_button
+from keyboard import make_reply_keyboard_markup, make_button
 
 
 @DP.message_handler(commands="goodbye")
@@ -10,7 +10,7 @@ from keyboard import make_keyboard, make_button
 async def command_goodbye(message: types.Message):
     sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
 
-    markup = make_keyboard(width=1)
+    markup = make_reply_keyboard_markup(width=1)
     markup.add(make_button("/start"))
 
     await message.answer_sticker(sticker)
