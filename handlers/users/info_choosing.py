@@ -6,16 +6,18 @@ from fuzzywuzzy.process import extractBests
 from bot_info import DP
 from constants import INFO
 from states import Choosing
-from keyboard import make_keyboard, make_button
+from keyboard import make_reply_keyboard_markup, make_button
 
 from .info_parsing.get_info import get_info_about_weather_by_
 from .mailing_info import ask_about_mailing_mute_mode, change_mailing_period, change_mailing_city_on_
 
 
 async def change_regions_dict_on_(some_regions: dict, message: types.Message):
+    INFO.clean_information()
+
     INFO.regions = some_regions
 
-    await choose_region(message)
+    await choose_region(message, "normal")
 
 
 @DP.message_handler(Text("погода в україні", ignore_case=True))
@@ -28,7 +30,12 @@ async def weather_in_Ukraine(message: types.Message):
     await change_regions_dict_on_(INFO.abroad_regions, message)
 
 
-async def choose_region(message: types.Message):
+async def choose_region(message: types.Message, goal: str = INFO.goal):
+    if not INFO.regions:
+        INFO.regions = INFO.ukr_regions
+
+    INFO.goal = goal
+
     await message.answer(
         "Введіть назву міста / населеного пункту\n"
         "(Раджу використовувати українську мову)",
@@ -64,7 +71,7 @@ async def check_selected_region(message: types.Message, state: FSMContext):
 async def choose_region_title(message: types.Message, state: FSMContext):
     result_list = await state.get_data("result_list")
 
-    markup = make_keyboard(width=2)
+    markup = make_reply_keyboard_markup(width=2)
     markup.add(*[title.capitalize() for title in result_list["result_list"]])
     markup.add(make_button("Повторити спробу введення"))
 
@@ -87,14 +94,14 @@ async def check_selected_region_title(message: types.Message,
 
         await check_user_goal_on_region_phase(message, state)
     elif user_text == "повторити спробу введення":
-        await choose_region(message)
+        await choose_region(message, INFO.goal)
     else:
         await message.answer("Ви обрали не той варіант")
         await choose_region_title(message, state)
 
 
 async def choose_period(message: types.Message):
-    markup = make_keyboard(width=2)
+    markup = make_reply_keyboard_markup(width=2)
     markup.add(*["Сьогодні", "Завтра", "Тиждень", "Два тижня"])
 
     await message.answer("Виберіть період прогнозу", reply_markup=markup)

@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
 from constants import MY_DB
-from keyboard import make_keyboard, make_button
+from keyboard import make_reply_keyboard_markup, make_button
 
 
 @DP.message_handler(Text("управління розсилкою", ignore_case=True))
@@ -18,7 +18,7 @@ async def managment(message: types.Message):
 
     mute_btn_text = "режим оповіщення" if mute else "беззвучний режим"
 
-    markup = make_keyboard(width=2)
+    markup = make_reply_keyboard_markup(width=2)
     markup.add(make_button(f"Увімкнути {mute_btn_text}"),
                make_button("Змінити час розсилки"))
     markup.add(make_button("Змінити місто"),
