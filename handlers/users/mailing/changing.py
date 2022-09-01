@@ -5,7 +5,8 @@ from aiogram.dispatcher.filters import Text
 from bot_info import DP
 from states import Mailing
 from constants import MY_DB, INFO
-from keyboard import make_yes_or_no_reply_keyboard_markup
+from keyboard import make_keyboard_for_yes_or_no_answer
+from keyboard import make_keyboard_for_country_choosing
 
 from .mailing_managment import managment
 from .turning_on import select_mailing_time
@@ -17,7 +18,7 @@ from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_m
 
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви дійсно хочете увімкнути режим оповіщення?",
@@ -44,7 +45,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 
 @DP.message_handler(Text("увімкнути беззвучний режим", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви дійсно хочете увімкнути беззвучний режим?",
@@ -71,7 +72,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 
 @DP.message_handler(Text("змінити час розсилки", ignore_case=True))
 async def change_mailing_time(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви дійсно хочете змінити час розсилки?",
@@ -102,7 +103,11 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
 
     if user_answer == "так":
         INFO.clean_information()
-        await choose_region(message, goal="changing mailing")
+        INFO.goal = "changing mailing"
+
+        markup = make_keyboard_for_country_choosing()
+        await message.answer("Де ви бажаєте отримувати погоду?",
+                             reply_markup=markup)
     elif user_answer == "ні":
         await cancel_action(message)
     else:

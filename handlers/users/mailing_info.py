@@ -3,17 +3,16 @@ from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
 from states import Mailing
-from constants import MY_DB
-from keyboard import make_yes_or_no_reply_keyboard_markup
-from keyboard import make_reply_keyboard_markup, make_button
+from constants import MY_DB, INFO
+from keyboard import make_keyboard_for_yes_or_no_answer
+from keyboard import make_keyboard, make_button
 
-from .info_choosing import INFO
 from .mailing.mailing_managment import managment
 
 
 @DP.message_handler(Text("змінити місто", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви дійсно хочете змінити місто?",
@@ -24,7 +23,7 @@ async def ask_about_changing_mailing_city(message: types.Message):
 
 @DP.message_handler(Text("змінити період прогнозу", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви дійсно хочете змінити період прогнозу?",
@@ -37,7 +36,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     global INFO
     INFO.goal = goal
 
-    markup = make_reply_keyboard_markup(width=3)
+    markup = make_keyboard(width=3)
     markup.add(
         make_button("06:00"),
         make_button("09:00"),
@@ -55,7 +54,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
 
 
 async def ask_about_mailing_mute_mode(message: types.Message):
-    markup = make_yes_or_no_reply_keyboard_markup()
+    markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
         "Ви бажаєте отримувати беззвучне повідомлення?",
