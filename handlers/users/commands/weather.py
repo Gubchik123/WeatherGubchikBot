@@ -1,10 +1,11 @@
 from aiogram import types
-from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
-from ..info_choosing import choose_region
+from keyboard import make_keyboard_for_country_choosing
 
 
 @DP.message_handler(commands="weather")
 async def command_weather(message: types.Message):
-    await choose_region(message, "normal")
+    markup = make_keyboard_for_country_choosing()
+    await message.answer("Де ви бажаєте подивитися погоду?",
+                         reply_markup=markup)
