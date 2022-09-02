@@ -31,5 +31,5 @@ async def managment(message: types.Message):
                          f"Щодня о {time_int}:00\n"
                          f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
                          f"Період прогнозу: {time}\n"
-                         f"Місто / населений пунк: {city}")
+                         f"Місто / населений пункт: {city}")
     await message.answer("Що ви бажаєте зробити?", reply_markup=markup)
