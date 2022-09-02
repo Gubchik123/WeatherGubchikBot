@@ -43,12 +43,12 @@ async def choose_region(message: types.Message):
     await Choosing.region.set()
 
 
-async def check_user_goal_on_region_phase(message, state):
+async def check_user_goal_on_region_phase(message: types.Message, state: FSMContext):
     if INFO.goal in ("normal", "mailing"):
         await choose_period(message)
     elif INFO.goal == "changing mailing":
         await state.finish()
-        await change_mailing_city_on_(INFO.city, message)
+        await change_mailing_city_on_(message)
 
 
 @DP.message_handler(state=Choosing.region)
@@ -59,6 +59,7 @@ async def check_selected_region(message: types.Message, state: FSMContext):
 
     if result[0][1] == 100:
         INFO.city = INFO.regions[user_text]
+        INFO.city_title = user_text.capitalize()
 
         await check_user_goal_on_region_phase(message, state)
     else:
@@ -90,6 +91,7 @@ async def check_selected_region_title(message: types.Message,
 
     if user_text in result["result_list"]:
         INFO.city = INFO.regions[user_text]
+        INFO.city_title = user_text.capitalize()
 
         await check_user_goal_on_region_phase(message, state)
     elif user_text == "повторити спробу введення":

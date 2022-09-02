@@ -20,7 +20,7 @@ class DB:
         """Method for returning information for mailing from database"""
         with self._connection.cursor() as cursor:
             cursor.execute(
-                "SELECT chat_id, mute, city, time_title, time, type, time_int FROM mailing;")
+                "SELECT chat_id, mute, city, time_title, time, type, time_int, city_title FROM mailing;")
             data = cursor.fetchall()
         return data
 
@@ -33,18 +33,18 @@ class DB:
         with self._connection.cursor() as cursor:
             sql_adding_query = f"""
             INSERT INTO mailing
-            (chat_id, mute, name, city, time, time_title, type, time_int)
+            (chat_id, mute, name, city, time, time_title, type, time_int, city_title)
             VALUES
             ({user.chat_id}, {user.selected_mute_mode}, '{user.name}', 
             '{info.city}', '{info.time}', '{info.time_title}', '{info.type}',
-            {user.selected_time});
+            {user.selected_time}, '{info.city_title}');
             """
             cursor.execute(sql_adding_query)
 
         self.__chat_IDs.append(user.chat_id)
         self.__users_info[user.chat_id] = {
             "mute": user.selected_mute_mode,
-            "city": info.city,
+            "city": info.city_title,
             "time": info.time_title,
             "time_int": user.selected_time
         }
@@ -54,8 +54,13 @@ class DB:
         with self._connection.cursor() as cursor:
             if what_update == "city":
                 sql_update_query = f"""
-                UPDATE mailing SET city = '{new_item}' WHERE chat_id = {chat_id}
+                UPDATE mailing SET 
+                city = '{new_item[0]}',
+                city_title = '{new_item[1]}'
+                WHERE chat_id = {chat_id}
                 """
+
+                new_item = new_item[1]
             elif what_update == "mute":
                 sql_update_query = f"""
                 UPDATE mailing SET mute = {new_item} WHERE chat_id = {chat_id}
@@ -99,7 +104,7 @@ class DB:
 
         return {data[0]: {
             "mute": data[1],
-            "city": data[2],
+            "city": data[7],
             "time": data[3],
             "time_int": data[6]
         } for data in users_info}

@@ -13,6 +13,7 @@ class SelectedInfo:
         self.__regions = {}
         self.__goal = ""
         self.__city = ""
+        self.__city_title = ""
         self.__time = ""
         self.__time_title = ""
         self.__type = "weather"
@@ -43,6 +44,12 @@ class SelectedInfo:
 
     @city.setter  # Setter for selected city
     def city(self, item: str): self.__city = item
+
+    @property  # Getter for selected city title
+    def city_title(self): return self.__city_title
+
+    @city_title.setter  # Setter for selected city title
+    def city_title(self, item: str): self.__city_title = item
 
     @property  # Getter for selected time
     def time(self): return self.__time

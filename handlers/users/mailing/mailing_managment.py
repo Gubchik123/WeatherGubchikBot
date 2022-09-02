@@ -28,9 +28,8 @@ async def managment(message: types.Message):
 
     await message.answer("Ви в меню управління розсилкою\n"
                          "Деталі вашої розсилки:\n\n"
-                         f"Час: {time_int}:00\n"
-                         "Кожен день\n"
+                         f"Щодня о {time_int}:00\n"
                          f"Режим: {'Беззвучний' if mute else 'Оповіщення'}\n\n"
-                         f"Місто: {city}\n"
-                         f"Період прогнозу: {time}")
-    await message.answer("Що ви хочете зробити?", reply_markup=markup)
+                         f"Період прогнозу: {time}\n"
+                         f"Місто / населений пунк: {city}")
+    await message.answer("Що ви бажаєте зробити?", reply_markup=markup)

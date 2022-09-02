@@ -70,8 +70,9 @@ async def change_mailing_period(message: types.Message):
     await managment(message)
 
 
-async def change_mailing_city_on_(city: str, message: types.Message):
+async def change_mailing_city_on_(message: types.Message):
     id = message.from_user.id
-    MY_DB.update_user_with(id, what_update="city", new_item=city)
+    MY_DB.update_user_with(id, what_update="city",
+                           new_item=(INFO.city, INFO.city_title))
 
     await managment(message)
