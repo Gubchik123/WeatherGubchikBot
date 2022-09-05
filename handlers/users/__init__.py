@@ -1,3 +1,3 @@
 from . import menu
-from .mailing import turning_on, turning_off, mailing_action
+from . import mailing
 from .commands import start, help, weather, moon, goodbye
