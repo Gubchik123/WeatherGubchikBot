@@ -4,7 +4,7 @@ from datetime import datetime
 from telebot import TeleBot
 
 from data import BOT_TOKEN
-from constants import MY_DB, INFO
+from constants import MY_DB, INFO, TEXT
 
 from .info_parsing.general import get_soup_by
 from .info_parsing.get_info import get_information_about_one_day
@@ -32,6 +32,7 @@ def fill_weather_information_by_(data: tuple):
 
 def send_to_users():
     for data in get_users_with_mailing_on_current_time():
+        global TEXT
         try:
             chat_id = data[0]
             mute = True if data[1] else False
@@ -45,7 +46,7 @@ def send_to_users():
             elif INFO.about_many_days:
                 text = get_information_about_many_days(soup)
 
-            BOT.send_message(chat_id, "Щоденна розсилка",
+            BOT.send_message(chat_id, TEXT.daily_mailing_message(),
                              disable_notification=mute)
             BOT.send_message(chat_id, text, disable_notification=mute)
             sleep(1)

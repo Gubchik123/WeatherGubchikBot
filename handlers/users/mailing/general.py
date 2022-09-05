@@ -1,14 +1,16 @@
 from aiogram import types
-from aiogram.dispatcher import FSMContext
 
+from constants import TEXT
 from .mailing_managment import managment
 
 
 async def cancel_action(message: types.Message):
-    await message.answer("Добре, дії скасовано")
+    global TEXT
+    await message.answer(TEXT.ok_action_canceled_message())
     await managment(message)
 
 
 async def there_is_no_such_type_of_answer_try_again(func, message: types.Message):
-    await message.answer("Такої відповіді немає, перевірте та спробуйте ще раз")
+    global TEXT
+    await message.answer(TEXT.there_are_not_such_type_of_answer_message())
     await func(message)

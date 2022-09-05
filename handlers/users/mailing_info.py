@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
 from states import Mailing
-from constants import MY_DB, INFO
+from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_yes_or_no_answer
 from keyboard import make_keyboard, make_button
 
@@ -11,22 +11,28 @@ from .mailing.mailing_managment import managment
 
 
 @DP.message_handler(Text("змінити місто", ignore_case=True))
+@DP.message_handler(Text("сменить город", ignore_case=True))
+@DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message):
+    global TEXT
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        "Ви дійсно хочете змінити місто?",
+        TEXT.change_mailing_city_question_message(),
         reply_markup=markup
     )
     await Mailing.change_city.set()
 
 
 @DP.message_handler(Text("змінити період прогнозу", ignore_case=True))
+@DP.message_handler(Text("изменить период прогноза", ignore_case=True))
+@DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message):
+    global TEXT
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        "Ви дійсно хочете змінити період прогнозу?",
+        TEXT.change_mailing_period_question_message(),
         reply_markup=markup
     )
     await Mailing.change_period.set()
@@ -47,7 +53,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     )
 
     await message.answer(
-        "О котрій годині ви бажаєте отримувати розсилку?",
+        TEXT.what_mailing_time_question_message(),
         reply_markup=markup
     )
     await Mailing.time.set()
@@ -57,7 +63,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        "Ви бажаєте отримувати беззвучне повідомлення?",
+        TEXT.mailing_mute_mode_question_message(),
         reply_markup=markup
     )
     await Mailing.mute_mode.set()

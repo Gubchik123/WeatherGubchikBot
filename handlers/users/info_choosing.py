@@ -4,8 +4,9 @@ from aiogram.dispatcher.filters import Text
 from fuzzywuzzy.process import extractBests
 
 from bot_info import DP
-from constants import INFO
 from states import Choosing
+from data.localities import *
+from constants import INFO, TEXT
 from keyboard import make_keyboard, make_button
 
 from .info_parsing.get_info import get_info_about_weather_by_
@@ -25,19 +26,35 @@ async def change_regions_dict_on_(some_regions: dict, message: types.Message):
 
 
 @DP.message_handler(Text("погода в україні", ignore_case=True))
+@DP.message_handler(Text("погода в украине", ignore_case=True))
+@DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message):
-    await change_regions_dict_on_(INFO.ukr_regions, message)
+    ukr_regions = {
+        "uk": UK_UKR_LOCALITIES,
+        "en": EN_UKR_LOCALITIES,
+        "ru": RU_UKR_LOCALITIES
+    }.get(TEXT.lang_code)
+
+    await change_regions_dict_on_(ukr_regions, message)
 
 
 @DP.message_handler(Text("погода в європі", ignore_case=True))
+@DP.message_handler(Text("погода в европе", ignore_case=True))
+@DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message):
-    await change_regions_dict_on_(INFO.abroad_regions, message)
+    abroad_regions = {
+        "uk": UK_ABROAD_LOCALITIES,
+        "en": EN_ABROAD_LOCALITIES,
+        "ru": RU_ABROAD_LOCALITIES
+    }.get(TEXT.lang_code)
+
+    await change_regions_dict_on_(abroad_regions, message)
 
 
 async def choose_region(message: types.Message):
+    global TEXT
     await message.answer(
-        "Введіть назву міста / населеного пункту\n"
-        "(Раджу використовувати українську мову)",
+        TEXT.choose_region_message(),
         reply_markup=types.ReplyKeyboardRemove()
     )
     await Choosing.region.set()
@@ -69,14 +86,15 @@ async def check_selected_region(message: types.Message, state: FSMContext):
 
 
 async def choose_region_title(message: types.Message, state: FSMContext):
+    global TEXT
     result_list = await state.get_data("result_list")
 
     markup = make_keyboard(width=2)
     markup.add(*[title.capitalize() for title in result_list["result_list"]])
-    markup.add(make_button("Повторити спробу введення"))
+    markup.add(make_button(TEXT.repeat_choosing_btn()))
 
     await message.answer(
-        "Оберіть варіант, який ви мали на увазі",
+        TEXT.choose_minded_option(),
         reply_markup=markup
     )
 
@@ -86,6 +104,7 @@ async def choose_region_title(message: types.Message, state: FSMContext):
 @DP.message_handler(state=Choosing.region_title)
 async def check_selected_region_title(message: types.Message,
                                       state: FSMContext):
+    global TEXT
     user_text = message.text.lower()
     result = await state.get_data("result_list")
 
@@ -94,18 +113,22 @@ async def check_selected_region_title(message: types.Message,
         INFO.city_title = user_text.capitalize()
 
         await check_user_goal_on_region_phase(message, state)
-    elif user_text == "повторити спробу введення":
+    elif user_text == TEXT.repeat_choosing_btn().lower():
         await choose_region(message)
     else:
-        await message.answer("Ви обрали не той варіант")
+        await message.answer(TEXT.there_are_not_such_type_of_region_message())
         await choose_region_title(message, state)
 
 
 async def choose_period(message: types.Message):
-    markup = make_keyboard(width=2)
-    markup.add(*["Сьогодні", "Завтра", "Тиждень", "Два тижня"])
+    global TEXT
+    periods: tuple = (TEXT.today_btn(), TEXT.tomorrow_btn(),
+                      TEXT.week_btn(), TEXT.two_week_btn())
 
-    await message.answer("Виберіть період прогнозу", reply_markup=markup)
+    markup = make_keyboard(width=2)
+    markup.add(*periods)
+
+    await message.answer(TEXT.choose_period_message(), reply_markup=markup)
     await Choosing.period.set()
 
 
@@ -127,9 +150,13 @@ async def check_user_goal_on_period_phase(message: types.Message):
 
 @DP.message_handler(state=Choosing.period)
 async def check_selected_period(message: types.Message, state: FSMContext):
+    global TEXT
+    periods: tuple = (TEXT.today_btn(), TEXT.tomorrow_btn(),
+                      TEXT.week_btn(), TEXT.two_week_btn())
+
     user_text = message.text.lower()
 
-    if user_text in ["сьогодні", "завтра", "тиждень", "два тижня"]:
+    if user_text in [period.lower() for period in periods]:
         INFO.time_title = user_text
 
         check_selected_period_it_is_week_or_other()
@@ -137,5 +164,5 @@ async def check_selected_period(message: types.Message, state: FSMContext):
         await state.finish()
         await check_user_goal_on_period_phase(message)
     else:
-        await message.answer("Невідомий період прогнозу")
+        await message.answer(TEXT.there_are_not_such_type_of_period_message())
         await choose_period(message)

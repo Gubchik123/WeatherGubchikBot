@@ -1,8 +1,8 @@
-from emoji import emojize
 from bs4 import BeautifulSoup
 from aiogram import types
+from googletrans import Translator
 
-from constants import INFO
+from constants import INFO, TEXT
 
 from ..menu import menu
 from .get_emoji import get_weather_emoji_by_
@@ -83,6 +83,18 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     return text
 
 
+def translated_(text: str):
+    global TEXT
+
+    try:
+        if TEXT.lang_code != "uk":
+            text = Translator().translate(text, dest=TEXT.lang_code).text
+    except:
+        pass
+    finally:
+        return text
+
+
 def get_information_about_one_day(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
@@ -91,13 +103,13 @@ def get_information_about_one_day(soup: BeautifulSoup):
     text += f"""
     {title}:
 
-    Вітер: {wind}  {emojize(':wind_face:')}
-    Вологість: {humidity}  {emojize(':sweat_droplets:')}
-    Імовірність опадів: {rain}  {emojize(':droplet:')}
+    Вітер: {wind}  🌬
+    Вологість: {humidity}  💦
+    Імовірність опадів: {rain}  💧
     """.replace("    ", "")
 
     text += get_weather_info_about_day_from_(block)
-    return text
+    return translated_(text)
 
 
 def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
@@ -105,6 +117,8 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
 
 
 def get_information_about_many_days(soup: BeautifulSoup):
+    global TEXT
+
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -134,9 +148,9 @@ def get_information_about_many_days(soup: BeautifulSoup):
         {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
         {description}
 
-        Вітер: {wind}  {emojize(':wind_face:')}
-        Вологість: {humidity}  {emojize(':sweat_droplets:')}
-        Імовірність опадів: {rain}  {emojize(':droplet:')}
+        Вітер: {wind}  🌬
+        Вологість: {humidity}  💦
+        Імовірність опадів: {rain}  💧
         {"_"*35}""".replace("        ", "")
 
-    return text
+    return translated_(text)

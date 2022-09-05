@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 
 from bot_info import DP
 from states import Mailing
-from constants import MY_DB, INFO
+from constants import MY_DB, INFO, TEXT
 from utils.class_User import TelegramUser
 from keyboard import make_keyboard_for_country_choosing
 
@@ -20,20 +20,20 @@ REASON = ""
 
 @DP.message_handler(state=Mailing.turn_on)
 async def checking_answer_about_turning_on_mailing(message: types.Message, state: FSMContext):
-    global INFO
+    global INFO, TEXT
     
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == "так":
+    if user_answer == TEXT.yes_btn().lower():
         await state.finish()
 
         INFO.goal = "mailing"
         
         markup = make_keyboard_for_country_choosing()
-        await message.answer("Де ви бажаєте отримувати погоду?",
+        await message.answer(TEXT.choose_mailing_country_question_message(),
                              reply_markup=markup)
-    elif user_answer == "ні":
+    elif user_answer == TEXT.no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(turn_on_mailing, message)
@@ -41,14 +41,14 @@ async def checking_answer_about_turning_on_mailing(message: types.Message, state
 
 @DP.message_handler(state=Mailing.mute_mode)
 async def checking_answer_about_mailing_mute_mode(message: types.Message):
-    global MUTE
+    global MUTE, TEXT
 
     user_answer = message.text.lower()
 
-    if user_answer not in ("так", "ні"):
+    if user_answer not in (TEXT.yes_btn().lower(), TEXT.no_btn().lower()):
         await there_is_no_such_type_of_answer_try_again(ask_about_mailing_mute_mode, message)
 
-    MUTE = True if user_answer == "так" else False
+    MUTE = True if user_answer == TEXT.yes_btn().lower() else False
     await select_mailing_time(message, "mailing")
 
 
@@ -76,10 +76,12 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
 
 
 async def confirm_mailing_for_user(message: types.Message, time: int):
+    global TEXT
+
     MY_DB.add(
         user=TelegramUser(message, mute_mode=MUTE, time=time),
         info=INFO
     )
 
-    await message.answer("Ви успішно оформили розсилку")
+    await message.answer(TEXT.successfully_turn_on_mailing_message())
     await menu(message)
