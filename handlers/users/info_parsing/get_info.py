@@ -8,8 +8,6 @@ from ..menu import menu
 from .get_emoji import get_weather_emoji_by_
 from .general import get_soup_by, send_message_to_user_about_error
 
-from utils.class_SelectedInfo import SelectedInfo
-
 
 async def get_info_about_weather_by_(message: types.Message):
     global INFO
@@ -18,9 +16,13 @@ async def get_info_about_weather_by_(message: types.Message):
         soup = get_soup_by(INFO.generated_url)
 
         if INFO.about_one_day:
-            await message.answer(get_information_about_one_day(soup))
+            await message.answer(
+                get_information_about_one_day(soup, TEXT.lang_code)
+            )
         elif INFO.about_many_days:
-            await message.answer(get_information_about_many_days(soup))
+            await message.answer(
+                get_information_about_many_days(soup, TEXT.lang_code)
+            )
 
         await menu(message)
     except Exception as error:
@@ -83,19 +85,19 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     return text
 
 
-def translated_(text: str):
+def translated_(text: str, lang_code: str):
     global TEXT
 
     try:
-        if TEXT.lang_code != "uk":
-            text = Translator().translate(text, dest=TEXT.lang_code).text
+        if lang_code != "uk":
+            text = Translator().translate(text, dest=lang_code).text
     except:
         pass
     finally:
         return text
 
 
-def get_information_about_one_day(soup: BeautifulSoup):
+def get_information_about_one_day(soup: BeautifulSoup, lang_code: str):
     text = ""
     block, title = get_block_and_title_from(soup)
     rain, wind, humidity = get_rain_wind_and_humidity_on_one_day_from_(block)
@@ -109,14 +111,14 @@ def get_information_about_one_day(soup: BeautifulSoup):
     """.replace("    ", "")
 
     text += get_weather_info_about_day_from_(block)
-    return translated_(text)
+    return translated_(text, lang_code)
 
 
 def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days(soup: BeautifulSoup):
+def get_information_about_many_days(soup: BeautifulSoup, lang_code: str):
     global TEXT
 
     text = ""
@@ -153,4 +155,4 @@ def get_information_about_many_days(soup: BeautifulSoup):
         Імовірність опадів: {rain}  💧
         {"_"*35}""".replace("        ", "")
 
-    return translated_(text)
+    return translated_(text, lang_code)
