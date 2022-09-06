@@ -1,14 +1,22 @@
 from datetime import datetime
 
+import requests
 from aiogram import types
+from bs4 import BeautifulSoup
 from googletrans import Translator
+from fake_useragent import UserAgent
 
 from bot_info import DP
 from constants import TEXT
 
 from ..menu import menu
 from ..info_parsing.get_emoji import get_moon_emoji_by_
-from ..info_parsing.general import get_soup_by, send_message_to_user_about_error
+from ..info_parsing.general import send_message_to_user_about_error
+
+
+def get_soup_by_(url: str):
+    response = requests.get(url, headers={'user-agent': UserAgent().random})
+    return BeautifulSoup(response.text, 'lxml')
 
 
 @DP.message_handler(commands="moon")
@@ -18,7 +26,7 @@ async def command_moon(message: types.Message):
     try:
         day = datetime.now().day
 
-        soup = get_soup_by(url)
+        soup = get_soup_by_(url)
         needed_punct_in_table = soup.find(
             "table",
             class_="table"
