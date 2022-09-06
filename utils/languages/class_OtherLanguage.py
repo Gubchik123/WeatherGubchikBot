@@ -10,17 +10,17 @@ class OtherLanguage(UA):
         super().__init__(lang_code)
 
     def _translated_(self, func) -> str:
-        translation = translator.translate(func(), dest=self.lang_code)
+        translation = translator.translate(func(), dest=self.lang)
         return translation.text
 
     def hello_message(self, name: str):
         translation = translator.translate(super().hello_message(name),
-                                           dest=self.lang_code)
+                                           dest=self.lang)
         return translation.text
 
     def goodbye_message(self, name: str):
         translation = translator.translate(super().goodbye_message(name),
-                                           dest=self.lang_code)
+                                           dest=self.lang)
         return translation.text
 
     def general_rules(self):

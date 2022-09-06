@@ -1,3 +1,5 @@
+from googletrans import Translator
+
 from .class_UA import UA
 from .class_OtherLanguage import OtherLanguage
 
@@ -7,11 +9,17 @@ class Language(UA):
         self.__lang: UA | OtherLanguage = None
 
     @property
-    def lang_code(self): return self.__lang.lang_code
+    def lang_code(self): return self.__lang.lang
 
     def change_on(self, lang_code: str) -> UA | OtherLanguage:
         self.__lang = UA(lang_code) if lang_code == "uk" \
             else OtherLanguage(lang_code)
+
+    def change_on_detected_language_from(self, text: str):
+        detected = Translator().detect(text)
+
+        if detected.lang != self.lang_code:
+            self.change_on(detected.lang)
 
     def hello_message(self, name: str): return self.__lang.hello_message(name)
 
