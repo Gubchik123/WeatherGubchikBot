@@ -1,27 +1,26 @@
-from bs4 import BeautifulSoup
 from aiogram import types
-from googletrans import Translator
+from bs4 import BeautifulSoup
 
 from constants import INFO, TEXT
 
 from ..menu import menu
 from .get_emoji import get_weather_emoji_by_
-from .general import get_soup_by, send_message_to_user_about_error
+from .general import get_soup_by_, send_message_to_user_about_error
 
 
 async def get_info_about_weather_by_(message: types.Message):
-    global INFO
+    global INFO, TEXT
 
     try:
-        soup = get_soup_by(INFO.generated_url)
+        soup = get_soup_by_(INFO.generated_url, TEXT.lang_code)
 
         if INFO.about_one_day:
             await message.answer(
-                get_information_about_one_day(soup, TEXT.lang_code)
+                get_information_about_one_day(soup)
             )
         elif INFO.about_many_days:
             await message.answer(
-                get_information_about_many_days(soup, TEXT.lang_code)
+                get_information_about_many_days(soup)
             )
 
         await menu(message)
@@ -65,6 +64,16 @@ def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
     return (rain, wind, humidity)
 
 
+def get_rain_wind_and_humidity_title_by_():
+    global TEXT
+
+    return {
+        "uk": ("Імовірність опадів", "Вітер", "Вологість"),
+        "ru": ("Возможность осадков", "Ветер", "Влажность"),
+        "en": ("Chance of precipitation", "Wind", "Humidity"),
+    }.get(TEXT.lang_code)
+
+
 def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     text = ""
 
@@ -85,46 +94,40 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     return text
 
 
-def translated_(text: str, lang_code: str):
-    global TEXT
-
-    try:
-        if lang_code != "uk":
-            text = Translator().translate(text, dest=lang_code).text
-    except:
-        pass
-    finally:
-        return text
-
-
-def get_information_about_one_day(soup: BeautifulSoup, lang_code: str):
+def get_information_about_one_day(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
-    rain, wind, humidity = get_rain_wind_and_humidity_on_one_day_from_(block)
+
+    rain_title, wind_title, humidity_title = \
+        get_rain_wind_and_humidity_title_by_()
+
+    rain_info, wind_info, humidity_info = \
+        get_rain_wind_and_humidity_on_one_day_from_(block)
 
     text += f"""
     {title}:
 
-    Вітер: {wind}  🌬
-    Вологість: {humidity}  💦
-    Імовірність опадів: {rain}  💧
+    {wind_title}: {wind_info}  🌬
+    {humidity_title}: {humidity_info}  💦
+    {rain_title}: {rain_info}  💧
     """.replace("    ", "")
 
     text += get_weather_info_about_day_from_(block)
-    return translated_(text, lang_code)
+    return text
 
 
 def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days(soup: BeautifulSoup, lang_code: str):
-    global TEXT
-
+def get_information_about_many_days(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
 
     text += f"{title}:"
+
+    rain_title, wind_title, humidity_title = \
+        get_rain_wind_and_humidity_title_by_()
 
     all_details = block.find("div", class_="item-table").find_all("ul")
 
@@ -136,9 +139,9 @@ def get_information_about_many_days(soup: BeautifulSoup, lang_code: str):
         date = get_div_text_from_(day, class_="thumbnail-item__subtitle")
         temp = get_div_text_from_(day, class_="temperature-min")
 
-        wind = all_details[0].find_all("li")[count].text.strip()
-        humidity = all_details[1].find_all("li")[count].text.strip()
-        rain = all_details[3].find_all("li")[count].text.strip()
+        wind_info = all_details[0].find_all("li")[count].text.strip()
+        humidity_info = all_details[1].find_all("li")[count].text.strip()
+        rain_info = all_details[3].find_all("li")[count].text.strip()
 
         block_with_details = soup.find("div", class_="swiper-gallery")
         description = block_with_details.find_all(
@@ -150,9 +153,9 @@ def get_information_about_many_days(soup: BeautifulSoup, lang_code: str):
         {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
         {description}
 
-        Вітер: {wind}  🌬
-        Вологість: {humidity}  💦
-        Імовірність опадів: {rain}  💧
+        {wind_title}: {wind_info}  🌬
+        {humidity_title}: {humidity_info}  💦
+        {rain_title}: {rain_info}  💧
         {"_"*35}""".replace("        ", "")
 
-    return translated_(text, lang_code)
+    return text
