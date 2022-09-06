@@ -54,6 +54,8 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message):
 
 @DP.message_handler(state=Mailing.time)
 async def check_selected_mailing_time(message: types.Message, state: FSMContext):
+    global INFO, TEXT
+
     user_text = message.text.lower()
     await state.finish()
 
@@ -61,6 +63,7 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
         time_int = int(user_text.split(':')[0])
 
         if INFO.goal == "mailing":
+            INFO.lang = TEXT.lang_code
             await confirm_mailing_for_user(
                 message,
                 time=time_int

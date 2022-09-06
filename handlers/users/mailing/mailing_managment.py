@@ -12,6 +12,7 @@ from keyboard import make_keyboard, make_button
 @DP.message_handler(Text("mailing management", ignore_case=True))
 async def managment(message: types.Message):
     global TEXT
+    TEXT.change_on_detected_language_from(message.text)
 
     id = message.from_user.id
     data = MY_DB.get_information_about_user_with_(id)

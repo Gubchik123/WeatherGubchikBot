@@ -12,6 +12,8 @@ from keyboard import make_keyboard_for_yes_or_no_answer
 @DP.message_handler(Text(equals="enable mailing", ignore_case=True))
 async def turn_on_mailing(message: types.Message):
     global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
@@ -25,6 +27,9 @@ async def turn_on_mailing(message: types.Message):
 @DP.message_handler(Text(equals="отключить рассылку", ignore_case=True))
 @DP.message_handler(Text(equals="turn off mailing", ignore_case=True))
 async def turn_off_mailing(message: types.Message):
+    global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(

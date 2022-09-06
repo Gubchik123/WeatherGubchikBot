@@ -29,6 +29,9 @@ async def change_regions_dict_on_(some_regions: dict, message: types.Message):
 @DP.message_handler(Text("погода в украине", ignore_case=True))
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message):
+    global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     ukr_regions = {
         "uk": UK_UKR_LOCALITIES,
         "en": EN_UKR_LOCALITIES,
@@ -42,6 +45,9 @@ async def weather_in_Ukraine(message: types.Message):
 @DP.message_handler(Text("погода в европе", ignore_case=True))
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message):
+    global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     abroad_regions = {
         "uk": UK_ABROAD_LOCALITIES,
         "en": EN_ABROAD_LOCALITIES,

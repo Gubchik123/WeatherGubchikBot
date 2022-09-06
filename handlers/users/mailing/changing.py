@@ -21,6 +21,8 @@ from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_m
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message):
     global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
@@ -52,6 +54,8 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message):
     global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
@@ -83,6 +87,8 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
     global TEXT
+    TEXT.change_on_detected_language_from(message.text)
+    
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
