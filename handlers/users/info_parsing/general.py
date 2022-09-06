@@ -6,8 +6,15 @@ from aiogram import types
 from constants import TEXT
 
 
-def get_soup_by(url: str):
-    response = requests.get(url, headers={'user-agent': UserAgent().random})
+def get_soup_by_(url: str, lang_code: str):
+    headers = {'user-agent': UserAgent().random}
+
+    cookie = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
+
+    if lang_code != "uk":
+        url = url.replace("/ua/", f"/{lang_code}/")
+
+    response = requests.get(url, headers=headers, cookies=cookie)
     return BeautifulSoup(response.text, 'lxml')
 
 

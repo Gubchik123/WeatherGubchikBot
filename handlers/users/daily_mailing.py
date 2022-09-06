@@ -6,7 +6,7 @@ from telebot import TeleBot
 from data import BOT_TOKEN
 from constants import MY_DB, INFO, TEXT
 
-from .info_parsing.general import get_soup_by
+from .info_parsing.general import get_soup_by_
 from .info_parsing.get_info import get_information_about_one_day
 from .info_parsing.get_info import get_information_about_many_days
 
@@ -16,7 +16,7 @@ BOT = TeleBot(BOT_TOKEN)
 def get_users_with_mailing_on_current_time() -> list:
     hour_now = datetime.now().hour + 3
 
-    return [data for data in MY_DB.get_mailing_information() \
+    return [data for data in MY_DB.get_mailing_information()
             if data[6] == hour_now]
 
 
@@ -45,7 +45,7 @@ def send_to_users():
             fill_weather_information_by_(data)
             lang_code = get_user_lang_code_from_(data)
 
-            soup = get_soup_by(INFO.generated_url)
+            soup = get_soup_by_(INFO.generated_url, lang_code)
 
             if INFO.about_one_day:
                 text = get_information_about_one_day(soup, lang_code)
