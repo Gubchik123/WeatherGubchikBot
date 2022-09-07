@@ -41,11 +41,11 @@ def get_message_text_by_(data: tuple) -> str:
     lang_code = get_user_lang_code_from_(data)
 
     soup = get_soup_by_(INFO.generated_url, lang_code)
-    
+
     if INFO.about_one_day:
-        return get_information_about_one_day(soup)
+        return get_information_about_one_day(soup, lang_code)
     elif INFO.about_many_days:
-        return get_information_about_many_days(soup)
+        return get_information_about_many_days(soup, lang_code)
 
 
 def send_to_users():
