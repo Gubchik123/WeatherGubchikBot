@@ -35,22 +35,28 @@ def get_user_lang_code_from_(data: tuple):
     return lang_code
 
 
+def get_message_text_by_(data: tuple) -> str:
+    global INFO
+    fill_weather_information_by_(data)
+    lang_code = get_user_lang_code_from_(data)
+
+    soup = get_soup_by_(INFO.generated_url, lang_code)
+    
+    if INFO.about_one_day:
+        return get_information_about_one_day(soup)
+    elif INFO.about_many_days:
+        return get_information_about_many_days(soup)
+
+
 def send_to_users():
+    global TEXT
+
     for data in get_users_with_mailing_on_current_time():
-        global TEXT
         try:
             chat_id = data[0]
             mute = True if data[1] else False
 
-            fill_weather_information_by_(data)
-            lang_code = get_user_lang_code_from_(data)
-
-            soup = get_soup_by_(INFO.generated_url, lang_code)
-
-            if INFO.about_one_day:
-                text = get_information_about_one_day(soup, lang_code)
-            elif INFO.about_many_days:
-                text = get_information_about_many_days(soup, lang_code)
+            text = get_message_text_by_(data)
 
             BOT.send_message(chat_id, TEXT.daily_mailing_message(),
                              disable_notification=mute)
