@@ -1,7 +1,9 @@
 import re
 from emoji import emojize
+from googletrans import Translator
 
 DESC = ""
+LANG = ""
 
 
 def get_string_by_(regex: str):
@@ -11,36 +13,74 @@ def get_string_by_(regex: str):
         return ''
 
 
-def get_weather_emoji_by_(desc: str):
+def get_sun_description():
+    return get_string_by_(
+        regex= {
+            "uk": r'ясно,.+',
+            "ru": r'ясно,.+',
+            "en": r'clear,.+'
+        }.get(LANG)
+    )
+
+
+def get_sun_behind_cloud_description():
+    return get_string_by_(
+        regex= {
+            "uk": r'.+(?:проясненнями|хмарність), без.+опадів',
+            "ru": r'.+(?:прояснениями|облачность), без.+осадков',
+            "en": r'.+(?:times|cloud), no.+precipitation'
+        }.get(LANG)
+    )
+
+
+def get_cloud_description():
+    return get_string_by_(
+        regex= {
+            "uk": r'(?:похмуро|хмарно), без.+опадів',
+            "ru": r'(?:пасмурно|облачно), без.+осадков',
+            "en": r'(?:overcast|cloudy), no.+precipitation'
+        }.get(LANG)
+    )
+
+
+def get_sun_behind_rain_cloud_description():
+    return get_string_by_(
+        regex= {
+            "uk": r'.+, невеликий дощ',
+            "ru": r'.+, небольшой дождь',
+            "en": r'.+, light rain'
+        }.get(LANG)
+    )
+
+
+def get_cloud_with_rain_description():
+    return get_string_by_(
+        regex= {
+            "uk": r'.+, дощ',
+            "ru": r'.+, дождь',
+            "en": r'.+, rain'
+        }.get(LANG)
+    )
+
+
+def get_weather_emoji_by_(desc: str, lang: str):
     """Function for returning weather emoji by description"""
-    global DESC
+    global DESC, LANG
 
     desc = desc.lower()
     DESC = desc
-
-    sun_behind_cloud_description = get_string_by_(
-        regex=r'.+(?:проясненнями|хмарність), без.+опадів'
-    )
-    cloud_description = get_string_by_(
-        regex=r'(?:похмуро|хмарно), без.+опадів'
-    )
-    sun_behind_rain_cloud_description = get_string_by_(
-        regex=r'.+, невеликий дощ'
-    )
-    cloud_with_rain_description = get_string_by_(
-        regex=r'.+, дощ'
-    )
+    LANG = lang
 
     return {
-        "ясно, без опадів": 
+        get_sun_description(): 
             emojize(":sun:"),  # ☀️
-        sun_behind_cloud_description: 
+        get_sun_behind_cloud_description(): 
             emojize(":sun_behind_cloud:"),  # ⛅️
-        cloud_description: 
+        get_cloud_description(): 
             emojize(":cloud:"),  # ☁️
-        sun_behind_rain_cloud_description: 
+        get_sun_behind_rain_cloud_description(): 
             emojize(":sun_behind_rain_cloud:"), # 🌦
-        cloud_with_rain_description: 
+        get_cloud_with_rain_description(): 
             emojize(":cloud_with_rain:")  # 🌧
     }.get(desc, '')
 
