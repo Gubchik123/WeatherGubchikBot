@@ -83,12 +83,12 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 
 
 @DP.message_handler(Text("змінити час розсилки", ignore_case=True))
-@DP.message_handler(Text("изменить время рассылки", ignore_case=True))
+@DP.message_handler(Text("сменить время рассылки", ignore_case=True))
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
     global TEXT
     TEXT.change_on_detected_language_from(message.text)
-    
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
