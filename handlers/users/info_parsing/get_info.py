@@ -16,11 +16,11 @@ async def get_info_about_weather_by_(message: types.Message):
 
         if INFO.about_one_day:
             await message.answer(
-                get_information_about_one_day(soup)
+                get_information_about_one_day(soup, TEXT.lang_code)
             )
         elif INFO.about_many_days:
             await message.answer(
-                get_information_about_many_days(soup)
+                get_information_about_many_days(soup, TEXT.lang_code)
             )
 
         await menu(message)
@@ -74,7 +74,7 @@ def get_rain_wind_and_humidity_title_by_():
     }.get(TEXT.lang_code)
 
 
-def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
+def get_weather_info_about_day_from_(block: BeautifulSoup, lang: str) -> str:
     text = ""
 
     column = block.find("ul", class_="today-hourly-weather").find_all("li")
@@ -89,12 +89,12 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
             class_="today-hourly-weather__icon"
         ).get("title").strip()
 
-        text += f"\n{name}: {temp}  {get_weather_emoji_by_(desc)}\n({desc})\n"
+        text += f"\n{name}: {temp}  {get_weather_emoji_by_(desc, lang)}\n({desc})\n"
 
     return text
 
 
-def get_information_about_one_day(soup: BeautifulSoup):
+def get_information_about_one_day(soup: BeautifulSoup, lang: str):
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -112,7 +112,7 @@ def get_information_about_one_day(soup: BeautifulSoup):
     {rain_title}: {rain_info}  💧
     """.replace("    ", "")
 
-    text += get_weather_info_about_day_from_(block)
+    text += get_weather_info_about_day_from_(block, lang)
     return text
 
 
@@ -120,7 +120,7 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days(soup: BeautifulSoup):
+def get_information_about_many_days(soup: BeautifulSoup, lang: str):
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -150,7 +150,7 @@ def get_information_about_many_days(soup: BeautifulSoup):
 
         text += f"""
         
-        {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
+        {name} ({date}): {temp}  {get_weather_emoji_by_(description, lang)}
         {description}
 
         {wind_title}: {wind_info}  🌬
