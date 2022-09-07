@@ -16,10 +16,13 @@ class Language(UA):
             else OtherLanguage(lang_code)
 
     def change_on_detected_language_from(self, text: str):
-        detected = Translator().detect(text)
+        try:
+            detected_lang = Translator().detect(text).lang
+        except AttributeError:
+            detected_lang = self.lang_code
 
-        if detected.lang != self.lang_code:
-            self.change_on(detected.lang)
+        if detected_lang != self.lang_code:
+            self.change_on(detected_lang)
 
     def hello_message(self, name: str): return self.__lang.hello_message(name)
 
@@ -110,7 +113,7 @@ class Language(UA):
     def mailing_mute_mode_question_message(self):
         return self.__lang.mailing_mute_mode_question_message()
 
-    def ok_action_canceled_message(self): 
+    def ok_action_canceled_message(self):
         return self.__lang.ok_action_canceled_message()
 
     def there_are_not_such_type_of_answer_message(self):
