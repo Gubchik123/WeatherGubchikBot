@@ -19,7 +19,7 @@ class Language(UA):
         try:
             detected_lang = Translator().detect(text).lang
         except AttributeError:
-            pass
+            detected_lang = self.lang_code
 
         if detected_lang != self.lang_code:
             self.change_on(detected_lang)
