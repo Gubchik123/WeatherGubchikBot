@@ -19,9 +19,9 @@ class Language(UA):
         try:
             detected_lang = Translator().detect(text).lang
         except AttributeError:
-            detected_lang = self.lang_code
+            detected_lang = "uk"
 
-        if detected_lang != self.lang_code:
+        if not self.__lang or detected_lang != self.lang_code:
             self.change_on(detected_lang)
 
     def hello_message(self, name: str): return self.__lang.hello_message(name)
