@@ -13,10 +13,10 @@ from .info_parsing.get_info import get_info_about_weather_by_
 from .mailing_info import ask_about_mailing_mute_mode, change_mailing_period, change_mailing_city_on_
 
 
-async def change_regions_dict_on_(some_regions: dict, message: types.Message):
+async def clean_info_and_change_regions_on_(some_regions: dict, message: types.Message):
     global INFO
 
-    goal = INFO.goal
+    goal = INFO.goal if INFO.goal else "normal"
 
     INFO.clean_information()
     INFO.regions = some_regions
@@ -38,7 +38,7 @@ async def weather_in_Ukraine(message: types.Message):
         "ru": RU_UKR_LOCALITIES
     }.get(TEXT.lang_code)
 
-    await change_regions_dict_on_(ukr_regions, message)
+    await clean_info_and_change_regions_on_(ukr_regions, message)
 
 
 @DP.message_handler(Text("погода в європі", ignore_case=True))
@@ -54,7 +54,7 @@ async def weather_in_Europe(message: types.Message):
         "ru": RU_ABROAD_LOCALITIES
     }.get(TEXT.lang_code)
 
-    await change_regions_dict_on_(abroad_regions, message)
+    await clean_info_and_change_regions_on_(abroad_regions, message)
 
 
 async def choose_region(message: types.Message):
