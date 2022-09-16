@@ -56,8 +56,8 @@ def send_to_users():
             mute = True if data[1] else False
 
             lang_code = get_user_lang_code_from_(data)
-            if not count:
-                TEXT.change_on(lang_code)
+            if not count:  # If it's first iteration
+                TEXT.change_on(lang_code)  # Update language object
 
             text = get_message_text_by_(data, lang_code)
 
