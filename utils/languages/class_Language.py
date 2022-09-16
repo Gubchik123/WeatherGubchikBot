@@ -19,7 +19,7 @@ class Language(UA):
         try:
             detected_lang = Translator().detect(text).lang
         except AttributeError:
-	    print(f"Excepted AttributeError in change_on_detected_language_from() with text: {text}")
+            print(f"Excepted AttributeError in change_on_detected_language_from() with text: {text}")
             detected_lang = "uk"
 
         if not self.__lang or detected_lang != self.lang_code:
