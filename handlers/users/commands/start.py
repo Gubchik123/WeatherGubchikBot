@@ -9,16 +9,21 @@ from constants import TEXT, MY_DB
 from ..menu import menu
 from keyboard import make_keyboard
 
+GOAL = ""
+
 
 @DP.message_handler(CommandStart())
 @DP.message_handler(commands="language")
 async def choose_language(message: types.Message):
+    global GOAL
+    GOAL = "menu" if "language" in message.text else "start"
+
     markup = make_keyboard(width=3)
     markup.add(*("UK", "EN", "RU"))
 
-    await message.answer("UK - Оберіть мову\n\n"
-                         "EN - Choose language\n\n"
-                         "RU - Выберите язык\n\n",
+    await message.answer("UK - Оберіть мову\n"
+                         "EN - Choose language\n"
+                         "RU - Выберите язык\n",
                          reply_markup=markup)
 
     await Choosing.language.set()
@@ -34,11 +39,11 @@ async def check_language(message: types.Message, state: FSMContext):
 
     if user_text in ("uk", "en", "ru"):
         TEXT.change_on(user_text)
-        
-        if user_chat_id in MY_DB.chat_IDs:
-            MY_DB.update_user_lang_with_(user_chat_id, lang=TEXT.lang_code)
 
-        await start(message)
+        if user_chat_id in MY_DB.chat_IDs:
+            MY_DB.update_user_lang_with_(user_chat_id, lang=user_text)
+
+        await start(message) if GOAL == "start" else await menu(message)
     else:
         await choose_language(message)
 
