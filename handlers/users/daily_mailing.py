@@ -30,36 +30,26 @@ def fill_weather_information_by_(data: tuple):
     INFO.type = data[5]
 
 
-def get_user_lang_code_from_(data: tuple):
-    lang_code = data[8]
-    return lang_code
-
-
-def get_message_text_by_(data: tuple, lang_code: str) -> str:
-    global INFO
+def get_message_text_by_(data: tuple) -> str:
+    global INFO, TEXT
     fill_weather_information_by_(data)
+    TEXT.change_on(data[8])  # data[8] - language code
 
-    soup = get_soup_by_(INFO.generated_url, lang_code)
+    soup = get_soup_by_(INFO.generated_url)
 
     if INFO.about_one_day:
-        return get_information_about_one_day(soup, lang_code)
+        return get_information_about_one_day(soup)
     elif INFO.about_many_days:
-        return get_information_about_many_days(soup, lang_code)
+        return get_information_about_many_days(soup)
 
 
 def send_to_users():
-    global TEXT
-
-    for count, data in enumerate(get_users_with_mailing_on_current_time()):
+    for data in get_users_with_mailing_on_current_time():
         try:
             chat_id = data[0]
             mute = True if data[1] else False
 
-            lang_code = get_user_lang_code_from_(data)
-            if not count:  # If it's first iteration
-                TEXT.change_on(lang_code)  # Update language object
-
-            text = get_message_text_by_(data, lang_code)
+            text = get_message_text_by_(data)
 
             BOT.send_message(chat_id, TEXT.daily_mailing_message(),
                              disable_notification=mute)
