@@ -1,6 +1,6 @@
 import re
 from emoji import emojize
-from googletrans import Translator
+from constants import TEXT
 
 DESC = ""
 LANG = ""
@@ -15,7 +15,7 @@ def get_string_by_(regex: str):
 
 def get_sun_description():
     return get_string_by_(
-        regex= {
+        regex={
             "uk": r'ясно,.+',
             "ru": r'ясно,.+',
             "en": r'clear,.+'
@@ -25,7 +25,7 @@ def get_sun_description():
 
 def get_sun_behind_cloud_description():
     return get_string_by_(
-        regex= {
+        regex={
             "uk": r'.+(?:проясненнями|хмарність), без.+опадів',
             "ru": r'.+(?:прояснениями|облачность), без.+осадков',
             "en": r'.+(?:times|cloud), no.+precipitation'
@@ -35,7 +35,7 @@ def get_sun_behind_cloud_description():
 
 def get_cloud_description():
     return get_string_by_(
-        regex= {
+        regex={
             "uk": r'(?:похмуро|хмарно), без.+опадів',
             "ru": r'(?:пасмурно|облачно), без.+осадков',
             "en": r'(?:overcast|cloudy), no.+precipitation'
@@ -45,62 +45,62 @@ def get_cloud_description():
 
 def get_sun_behind_rain_cloud_description():
     return get_string_by_(
-        regex= {
-            "uk": r'.+, невеликий дощ',
-            "ru": r'.+, небольшой дождь',
-            "en": r'.+, light rain'
+        regex={
+            "uk": r'.+(проясненнями|хмарність),.+дощ',
+            "ru": r'.+(прояснениями|облачность),.+дождь',
+            "en": r'.+(times|cloud),.+rain'
         }.get(LANG)
     )
 
 
 def get_cloud_with_rain_description():
     return get_string_by_(
-        regex= {
-            "uk": r'.+, дощ',
-            "ru": r'.+, дождь',
-            "en": r'.+, rain'
+        regex={
+            "uk": r'(?:похмуро|хмарно),.+дощ',
+            "ru": r'(?:пасмурно|облачно),.+дождь',
+            "en": r'(?:overcast|cloudy),.+rain'
         }.get(LANG)
     )
 
 
-def get_weather_emoji_by_(desc: str, lang: str):
+def get_weather_emoji_by_(desc: str):
     """Function for returning weather emoji by description"""
     global DESC, LANG
 
     desc = desc.lower()
     DESC = desc
-    LANG = lang
+    LANG = TEXT.lang_code
 
     return {
-        get_sun_description(): 
+        get_sun_description():
             emojize(":sun:"),  # ☀️
-        get_sun_behind_cloud_description(): 
+        get_sun_behind_cloud_description():
             emojize(":sun_behind_cloud:"),  # ⛅️
-        get_cloud_description(): 
+        get_cloud_description():
             emojize(":cloud:"),  # ☁️
-        get_sun_behind_rain_cloud_description(): 
-            emojize(":sun_behind_rain_cloud:"), # 🌦
-        get_cloud_with_rain_description(): 
+        get_sun_behind_rain_cloud_description():
+            emojize(":sun_behind_rain_cloud:"),  # 🌦
+        get_cloud_with_rain_description():
             emojize(":cloud_with_rain:")  # 🌧
     }.get(desc, '')
 
 
 def get_moon_emoji_by_(desc: str):
     return {
-        "повня": 
+        "повня":
             emojize(":full_moon:"),  # 🌕
-        "спадаючий опуклий місяць": 
+        "спадаючий опуклий місяць":
             emojize(":waning_gibbous_moon:"),  # 🌖
-        "остання чверть": 
+        "остання чверть":
             emojize(":last_quarter_moon:"),  # 🌗
-        "спадаючий півмісяць": 
+        "спадаючий півмісяць":
             emojize(":waning_crescent_moon:"),  # 🌘
-        "новий місяць": 
+        "новий місяць":
             emojize(":new_moon:"),  # 🌑
-        "зростаючий півмісяць": 
+        "зростаючий півмісяць":
             emojize(":waxing_crescent_moon:"),  # 🌒
-        "перша чверть": 
+        "перша чверть":
             emojize(":first_quarter_moon:"),  # 🌓
-        "зростаючий опуклий місяць": 
+        "зростаючий опуклий місяць":
             emojize(":waxing_gibbous_moon:")  # 🌔
     }.get(desc.lower(), '')
