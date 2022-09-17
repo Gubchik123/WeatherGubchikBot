@@ -9,19 +9,13 @@ from .general import get_soup_by_, send_message_to_user_about_error
 
 
 async def get_info_about_weather_by_(message: types.Message):
-    global INFO, TEXT
-
     try:
-        soup = get_soup_by_(INFO.generated_url, TEXT.lang_code)
+        soup = get_soup_by_(INFO.generated_url)
 
         if INFO.about_one_day:
-            await message.answer(
-                get_information_about_one_day(soup, TEXT.lang_code)
-            )
+            await message.answer(get_information_about_one_day(soup))
         elif INFO.about_many_days:
-            await message.answer(
-                get_information_about_many_days(soup, TEXT.lang_code)
-            )
+            await message.answer(get_information_about_many_days(soup))
 
         await menu(message)
     except Exception as error:
@@ -65,8 +59,6 @@ def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
 
 
 def get_rain_wind_and_humidity_title_by_():
-    global TEXT
-
     return {
         "uk": ("Імовірність опадів", "Вітер", "Вологість"),
         "ru": ("Возможность осадков", "Ветер", "Влажность"),
@@ -74,7 +66,7 @@ def get_rain_wind_and_humidity_title_by_():
     }.get(TEXT.lang_code)
 
 
-def get_weather_info_about_day_from_(block: BeautifulSoup, lang: str) -> str:
+def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     text = ""
 
     column = block.find("ul", class_="today-hourly-weather").find_all("li")
@@ -89,12 +81,12 @@ def get_weather_info_about_day_from_(block: BeautifulSoup, lang: str) -> str:
             class_="today-hourly-weather__icon"
         ).get("title").strip()
 
-        text += f"\n{name}: {temp}  {get_weather_emoji_by_(desc, lang)}\n({desc})\n"
+        text += f"\n{name}: {temp}  {get_weather_emoji_by_(desc)}\n({desc})\n"
 
     return text
 
 
-def get_information_about_one_day(soup: BeautifulSoup, lang: str):
+def get_information_about_one_day(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -112,7 +104,7 @@ def get_information_about_one_day(soup: BeautifulSoup, lang: str):
     {rain_title}: {rain_info}  💧
     """.replace("    ", "")
 
-    text += get_weather_info_about_day_from_(block, lang)
+    text += get_weather_info_about_day_from_(block)
     return text
 
 
@@ -120,7 +112,7 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days(soup: BeautifulSoup, lang: str):
+def get_information_about_many_days(soup: BeautifulSoup):
     text = ""
     block, title = get_block_and_title_from(soup)
 
@@ -150,7 +142,7 @@ def get_information_about_many_days(soup: BeautifulSoup, lang: str):
 
         text += f"""
         
-        {name} ({date}): {temp}  {get_weather_emoji_by_(description, lang)}
+        {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
         {description}
 
         {wind_title}: {wind_info}  🌬

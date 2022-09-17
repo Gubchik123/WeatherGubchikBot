@@ -6,7 +6,9 @@ from aiogram import types
 from constants import TEXT
 
 
-def get_soup_by_(url: str, lang_code: str):
+def get_soup_by_(url: str):
+    global TEXT
+    lang_code = TEXT.lang_code
     headers = {'user-agent': UserAgent().random}
 
     cookie = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
