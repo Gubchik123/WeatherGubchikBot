@@ -34,9 +34,8 @@ async def weather_in_Ukraine(message: types.Message):
 
     ukr_regions = {
         "uk": UK_UKR_LOCALITIES,
-        "en": EN_UKR_LOCALITIES,
         "ru": RU_UKR_LOCALITIES
-    }.get(TEXT().lang_code)
+    }.get(TEXT().lang_code, EN_UKR_LOCALITIES)
 
     await clean_info_and_change_regions_on_(ukr_regions, message)
 
@@ -50,9 +49,8 @@ async def weather_in_Europe(message: types.Message):
 
     abroad_regions = {
         "uk": UK_ABROAD_LOCALITIES,
-        "en": EN_ABROAD_LOCALITIES,
         "ru": RU_ABROAD_LOCALITIES
-    }.get(TEXT().lang_code)
+    }.get(TEXT().lang_code, EN_ABROAD_LOCALITIES)
 
     await clean_info_and_change_regions_on_(abroad_regions, message)
 
