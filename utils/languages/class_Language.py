@@ -21,5 +21,4 @@ class Language:
         detected_lang = detect(text)
 
         if not self.__lang or detected_lang != self().lang_code:
-            print("yes")
             self.change_on(detected_lang)
