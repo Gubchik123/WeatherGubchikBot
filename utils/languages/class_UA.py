@@ -1,10 +1,10 @@
 class UA:
     def __init__(self, lang_code: str):
-        self.lang = lang_code
+        self.lang_code = lang_code
 
     @staticmethod
-    def _get_correct_text_from_(
-        string: str): return string.replace("        ", '')
+    def _get_correct_text_from_(string: str):
+        return string.replace("        ", '')
 
     def hello_message(self, name: str):
         return self._get_correct_text_from_(f"""
@@ -25,7 +25,6 @@ class UA:
         /language - Змінення мови бота
         /help - Відображення основних правил використання
         /weather - Відображення інформації про погоду
-        /moon - Відображення інформації про фазу місяця
         /goodbye - Завершення роботи з ботом
 
         Оформіть розсилку, щоб кожного дня дізнаватися інформацію про погоду в місті, яке ви обирете (в будь-який час її можно відключити)
@@ -33,22 +32,20 @@ class UA:
         Раджу використати кнопки для задуманого результату
 
         Приємного використання!!!
+
+        Контакти автора бота:
+        Telegram: https://t.me/Gubchik123
+        GitHub: https://github.com/Gubchik123
+        Instagram: https://www.instagram.com/nikitos.1746/
         """)
 
     def yes_btn(self): return "Так"
-
     def no_btn(self): return "Ні"
-
     def weather_in_Ukraine_btn(self): return "Погода в Україні"
-
     def weather_in_Europe_btn(self): return "Погода в Європі"
-
     def back_to_menu_btn(self): return "← Повернутися у головне меню"
-
     def menu_btn_mailing_managment(self): return "Управління розсилкою"
-
     def menu_btn_turn_on_mailing(self): return "Увімкнути розсилку"
-
     def menu_btn_goodbye(self): return "Закінчити спілкування"
 
     def menu_message(self):
@@ -72,7 +69,6 @@ class UA:
     def tomorrow_btn(self): return "Завтра"
     def week_btn(self): return "Тиждень"
     def two_week_btn(self): return "Два тижні"
-
     def choose_period_message(self): return "Виберіть період прогнозу"
 
     def there_are_not_such_type_of_period_message(self):
@@ -84,14 +80,24 @@ class UA:
         Спробуйте повторити спробу або перезапустіть бота командою /start
         """)
 
+    def mailing_info_message(self, time_int, mute, time, city):
+        return self._get_correct_text_from_(f"""
+        Ви в меню управління розсилкою
+        Деталі вашої розсилки:
+
+        Щодня о {time_int}:00
+        Режим: {'Беззвучний' if mute else 'Оповіщення'}
+
+        Період прогнозу: {time}
+        Місто / населений пункт: {city}
+        """)
+
     def mute_mode_btn(self): return "Увімкнути беззвучний режим"
     def unmute_mode_btn(self): return "Увімкнути режим оповіщення"
-
     def change_mailing_time_btn(self): return "Змінити час розсилки"
     def change_mailing_city_btn(self): return "Змінити місто"
     def change_mailing_period_btn(self): return "Змінити період прогнозу"
     def turn_off_mailing_btn(self): return "Вимкнути розсилку"
-
     def daily_mailing_message(self): return "Щоденна розсилка"
 
     def what_do_you_want_to_do_with_mailing_message(self):
