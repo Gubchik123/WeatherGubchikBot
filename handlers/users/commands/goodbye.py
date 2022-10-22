@@ -28,5 +28,5 @@ async def command_goodbye(message: types.Message):
     markup.add(make_button("/start"))
 
     await message.answer_sticker(sticker)
-    await message.answer(TEXT.goodbye_message(message.from_user.first_name),
+    await message.answer(TEXT().goodbye_message(message.from_user.first_name),
                          reply_markup=markup)

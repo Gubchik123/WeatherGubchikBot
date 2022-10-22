@@ -25,15 +25,15 @@ async def checking_answer_about_turning_on_mailing(message: types.Message, state
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         await state.finish()
 
         INFO.goal = "mailing"
         
         markup = make_keyboard_for_country_choosing()
-        await message.answer(TEXT.choose_mailing_country_question_message(),
+        await message.answer(TEXT().choose_mailing_country_question_message(),
                              reply_markup=markup)
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(turn_on_mailing, message)
@@ -45,10 +45,10 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message):
 
     user_answer = message.text.lower()
 
-    if user_answer not in (TEXT.yes_btn().lower(), TEXT.no_btn().lower()):
+    if user_answer not in (TEXT().yes_btn().lower(), TEXT().no_btn().lower()):
         await there_is_no_such_type_of_answer_try_again(ask_about_mailing_mute_mode, message)
 
-    MUTE = True if user_answer == TEXT.yes_btn().lower() else False
+    MUTE = True if user_answer == TEXT().yes_btn().lower() else False
     await select_mailing_time(message, "mailing")
 
 
@@ -63,7 +63,7 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
         time_int = int(user_text.split(':')[0])
 
         if INFO.goal == "mailing":
-            INFO.lang = TEXT.lang_code
+            INFO.lang = TEXT().lang_code
             await confirm_mailing_for_user(
                 message,
                 time=time_int
@@ -86,5 +86,5 @@ async def confirm_mailing_for_user(message: types.Message, time: int):
         info=INFO
     )
 
-    await message.answer(TEXT.successfully_turn_on_mailing_message())
+    await message.answer(TEXT().successfully_turn_on_mailing_message())
     await menu(message)

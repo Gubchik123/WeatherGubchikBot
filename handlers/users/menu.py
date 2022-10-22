@@ -6,7 +6,7 @@ from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_country_choosing, make_button
 
 variants: tuple = (
-    "← повернутися у головне меню", 
+    "← повернутися у головне меню",
     "← вернуться в главное меню",
     "← return to the main menu"
 )
@@ -22,14 +22,14 @@ async def menu(message: types.Message):
         TEXT.change_on_detected_language_from(message.text.lower())
 
     chat_IDs: list = MY_DB.chat_IDs
-    mailing_btn_text = TEXT.menu_btn_mailing_managment() \
+    mailing_btn_text = TEXT().menu_btn_mailing_managment() \
         if message.from_user.id in chat_IDs \
-        else TEXT.menu_btn_turn_on_mailing()
+        else TEXT().menu_btn_turn_on_mailing()
 
     INFO.goal = "normal"
 
     markup = make_keyboard_for_country_choosing()
     markup.add(make_button(mailing_btn_text))
-    markup.add(make_button(TEXT.menu_btn_goodbye()))
+    markup.add(make_button(TEXT().menu_btn_goodbye()))
 
-    await message.answer(TEXT.menu_message(), reply_markup=markup)
+    await message.answer(TEXT().menu_message(), reply_markup=markup)

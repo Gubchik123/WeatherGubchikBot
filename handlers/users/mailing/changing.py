@@ -26,7 +26,7 @@ async def turn_off_mute_mode_for_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.unmute_mailing_mode_question_message(),
+        TEXT().unmute_mailing_mode_question_message(),
         reply_markup=markup
     )
     await Mailing.turn_off_mute_mode.set()
@@ -38,12 +38,12 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         id = message.from_user.id
         MY_DB.update_user_with(id, what_update="mute", new_item=False)
 
         await managment(message)
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(turn_off_mute_mode_for_mailing, message)
@@ -59,7 +59,7 @@ async def turn_on_mute_mode_for_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.mute_mailing_mode_question_message(),
+        TEXT().mute_mailing_mode_question_message(),
         reply_markup=markup
     )
     await Mailing.turn_on_mute_mode.set()
@@ -71,12 +71,12 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         id = message.from_user.id
         MY_DB.update_user_with(id, what_update="mute", new_item=True)
 
         await managment(message)
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(turn_on_mute_mode_for_mailing, message)
@@ -92,7 +92,7 @@ async def change_mailing_time(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.change_mailing_time_question_message(),
+        TEXT().change_mailing_time_question_message(),
         reply_markup=markup
     )
     await Mailing.change_time.set()
@@ -104,9 +104,9 @@ async def checking_changed_mailing_time(message: types.Message, state: FSMContex
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         await select_mailing_time(message, goal="changing")
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(change_mailing_time, message)
@@ -119,14 +119,14 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         INFO.clean_information()
         INFO.goal = "changing mailing"
 
         markup = make_keyboard_for_country_choosing()
-        await message.answer(TEXT.choose_mailing_country_question_message(),
+        await message.answer(TEXT().choose_mailing_country_question_message(),
                              reply_markup=markup)
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_city, message)
@@ -139,10 +139,10 @@ async def checking_changing_period(message: types.Message, state: FSMContext):
     user_answer = message.text.lower()
     await state.finish()
 
-    if user_answer == TEXT.yes_btn().lower():
+    if user_answer == TEXT().yes_btn().lower():
         INFO.goal = "changing mailing"
         await choose_period(message)
-    elif user_answer == TEXT.no_btn().lower():
+    elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
         await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_period, message)

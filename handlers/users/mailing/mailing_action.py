@@ -17,7 +17,7 @@ async def turn_on_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.turn_on_mailing_question_message(),
+        TEXT().turn_on_mailing_question_message(),
         reply_markup=markup
     )
     await Mailing.turn_on.set()
@@ -33,7 +33,7 @@ async def turn_off_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.turn_off_mailing_question_message(),
+        TEXT().turn_off_mailing_question_message(),
         reply_markup=markup
     )
     await Mailing.turn_off.set()

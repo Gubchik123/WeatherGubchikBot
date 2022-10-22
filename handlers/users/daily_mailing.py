@@ -51,7 +51,7 @@ def send_to_users():
 
             text = get_message_text_by_(data)
 
-            BOT.send_message(chat_id, TEXT.daily_mailing_message(),
+            BOT.send_message(chat_id, TEXT().daily_mailing_message(),
                              disable_notification=mute)
             BOT.send_message(chat_id, text, disable_notification=mute)
             sleep(1)

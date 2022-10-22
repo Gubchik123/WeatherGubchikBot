@@ -20,7 +20,7 @@ async def ask_about_changing_mailing_city(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.change_mailing_city_question_message(),
+        TEXT().change_mailing_city_question_message(),
         reply_markup=markup
     )
     await Mailing.change_city.set()
@@ -36,7 +36,7 @@ async def ask_about_changing_mailing_period(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.change_mailing_period_question_message(),
+        TEXT().change_mailing_period_question_message(),
         reply_markup=markup
     )
     await Mailing.change_period.set()
@@ -57,7 +57,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     )
 
     await message.answer(
-        TEXT.what_mailing_time_question_message(),
+        TEXT().what_mailing_time_question_message(),
         reply_markup=markup
     )
     await Mailing.time.set()
@@ -67,7 +67,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT.mailing_mute_mode_question_message(),
+        TEXT().mailing_mute_mode_question_message(),
         reply_markup=markup
     )
     await Mailing.mute_mode.set()

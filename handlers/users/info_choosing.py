@@ -36,7 +36,7 @@ async def weather_in_Ukraine(message: types.Message):
         "uk": UK_UKR_LOCALITIES,
         "en": EN_UKR_LOCALITIES,
         "ru": RU_UKR_LOCALITIES
-    }.get(TEXT.lang_code)
+    }.get(TEXT().lang_code)
 
     await clean_info_and_change_regions_on_(ukr_regions, message)
 
@@ -52,7 +52,7 @@ async def weather_in_Europe(message: types.Message):
         "uk": UK_ABROAD_LOCALITIES,
         "en": EN_ABROAD_LOCALITIES,
         "ru": RU_ABROAD_LOCALITIES
-    }.get(TEXT.lang_code)
+    }.get(TEXT().lang_code)
 
     await clean_info_and_change_regions_on_(abroad_regions, message)
 
@@ -60,7 +60,7 @@ async def weather_in_Europe(message: types.Message):
 async def choose_region(message: types.Message):
     global TEXT
     await message.answer(
-        TEXT.choose_region_message(),
+        TEXT().choose_region_message(),
         reply_markup=types.ReplyKeyboardRemove()
     )
     await Choosing.region.set()
@@ -97,10 +97,10 @@ async def choose_region_title(message: types.Message, state: FSMContext):
 
     markup = make_keyboard(width=2)
     markup.add(*[title.capitalize() for title in result_list["result_list"]])
-    markup.add(make_button(TEXT.repeat_choosing_btn()))
+    markup.add(make_button(TEXT().repeat_choosing_btn()))
 
     await message.answer(
-        TEXT.choose_minded_option(),
+        TEXT().choose_minded_option(),
         reply_markup=markup
     )
 
@@ -119,22 +119,22 @@ async def check_selected_region_title(message: types.Message,
         INFO.city_title = user_text.capitalize()
 
         await check_user_goal_on_region_phase(message, state)
-    elif user_text == TEXT.repeat_choosing_btn().lower():
+    elif user_text == TEXT().repeat_choosing_btn().lower():
         await choose_region(message)
     else:
-        await message.answer(TEXT.there_are_not_such_type_of_region_message())
+        await message.answer(TEXT().there_are_not_such_type_of_region_message())
         await choose_region_title(message, state)
 
 
 async def choose_period(message: types.Message):
     global TEXT
-    periods: tuple = (TEXT.today_btn(), TEXT.tomorrow_btn(),
-                      TEXT.week_btn(), TEXT.two_week_btn())
+    periods: tuple = (TEXT().today_btn(), TEXT().tomorrow_btn(),
+                      TEXT().week_btn(), TEXT().two_week_btn())
 
     markup = make_keyboard(width=2)
     markup.add(*periods)
 
-    await message.answer(TEXT.choose_period_message(), reply_markup=markup)
+    await message.answer(TEXT().choose_period_message(), reply_markup=markup)
     await Choosing.period.set()
 
 
@@ -157,8 +157,8 @@ async def check_user_goal_on_period_phase(message: types.Message):
 @DP.message_handler(state=Choosing.period)
 async def check_selected_period(message: types.Message, state: FSMContext):
     global TEXT
-    periods: tuple = (TEXT.today_btn(), TEXT.tomorrow_btn(),
-                      TEXT.week_btn(), TEXT.two_week_btn())
+    periods: tuple = (TEXT().today_btn(), TEXT().tomorrow_btn(),
+                      TEXT().week_btn(), TEXT().two_week_btn())
 
     user_text = message.text.lower()
 
@@ -170,5 +170,5 @@ async def check_selected_period(message: types.Message, state: FSMContext):
         await state.finish()
         await check_user_goal_on_period_phase(message)
     else:
-        await message.answer(TEXT.there_are_not_such_type_of_period_message())
+        await message.answer(TEXT().there_are_not_such_type_of_period_message())
         await choose_period(message)

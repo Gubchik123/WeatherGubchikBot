@@ -63,7 +63,7 @@ def get_rain_wind_and_humidity_title_by_():
         "uk": ("Імовірність опадів", "Вітер", "Вологість"),
         "ru": ("Возможность осадков", "Ветер", "Влажность"),
         "en": ("Chance of precipitation", "Wind", "Humidity"),
-    }.get(TEXT.lang_code)
+    }.get(TEXT().lang_code)
 
 
 def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:

@@ -69,7 +69,7 @@ def get_weather_emoji_by_(desc: str):
 
     desc = desc.lower()
     DESC = desc
-    LANG = TEXT.lang_code
+    LANG = TEXT().lang_code
 
     return {
         get_sun_description():
