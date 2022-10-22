@@ -1,6 +1,5 @@
 from aiogram import types
 from aiogram.dispatcher.filters import Text
-from googletrans import Translator
 
 from bot_info import DP
 from constants import MY_DB, TEXT
