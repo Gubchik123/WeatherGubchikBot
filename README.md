@@ -15,11 +15,11 @@ Click **<a href="https://t.me/WeatherGubchikBot" target="blank">here</a>** to op
 
 ### Multilanguage (screenshots)
 **UA** <br>
-<img title="WeatherGubchikBot" alt="Header image" src="./images/uk.jpg">
+<img title="WeatherGubchikBot" alt="Header image" src="./images/uk.jpg"> <br>
 **EN** <br>
-<img title="WeatherGubchikBot" alt="Header image" src="./images/en.jpg">
+<img title="WeatherGubchikBot" alt="Header image" src="./images/en.jpg"> <br>
 **RU** <br>
-<img title="WeatherGubchikBot" alt="Header image" src="./images/ru.jpg">
+<img title="WeatherGubchikBot" alt="Header image" src="./images/ru.jpg"> <br>
 
 ### Environment Variables
 
@@ -52,7 +52,7 @@ Start the server
 
 > **Note:** Don't forget about environment variables
 
-### Connect with me
+### My contacts
 <p align="left">
 <a href="https://stackoverflow.com/users/20199410" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" height="30" width="40" /></a>
 <a href="https://instagram.com/nikitos.1746" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" height="30" width="40" /></a>
