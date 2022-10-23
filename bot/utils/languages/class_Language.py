@@ -13,7 +13,7 @@ class Language:
         return self.__lang
 
     def change_on(self, lang_code: str):
-        self.__lang = UA(lang_code) if lang_code in ["ua", "uk"] else (
+        self.__lang = UA(lang_code) if lang_code == "uk" else (
             RU(lang_code) if lang_code == "ru" else EN(lang_code)
         )
 
