@@ -13,7 +13,7 @@ Click **<a href="https://t.me/WeatherGubchikBot" target="blank">here</a>** to op
 3. <details><summary>Storing in database</summary>If you sign up for the newsletter, information will store in PostgreSQL database</details>
 4. <details><summary>Using fuzzy comparison</summary>You can type the title of the city and bot try to find it with using python fuzzywuzyy module for fuzzy comparison</details>
 
-### Multilanguage (screenshots)
+### Three languages (screenshots)
 **UA** <br>
 <img title="WeatherGubchikBot" alt="Header image" src="./images/uk.jpg"> <br>
 **EN** <br>
