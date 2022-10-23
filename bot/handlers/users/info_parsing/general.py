@@ -10,7 +10,6 @@ def get_soup_by_(url: str):
     global TEXT
 
     lang_code = TEXT().lang_code
-    lang_code = lang_code.replace("uk", "ua")
 
     headers = {'user-agent': UserAgent().random}
     cookie = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
