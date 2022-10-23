@@ -1,8 +1,8 @@
-<a href="https://t.me/WeatherGubchikBot" target="blank"><img title="WeatherGubchikBot" alt="Header image" src="./images/WeatherGubchikBot_header.png"></a>
+<a href="https://t.me/WeatherGubchikBot" target="_blank"><img title="WeatherGubchikBot" alt="Header image" src="./images/WeatherGubchikBot_header.png"></a>
 *Bot for showing information about the weather in cities of Ukraine and Europe*
 
 ### Demo
-Click **<a href="https://t.me/WeatherGubchikBot" target="blank">here</a>** to open telegram WeatherGubchikBot
+Click **<a href="https://t.me/WeatherGubchikBot" target="_blank">here</a>** to open telegram WeatherGubchikBot
 
 ---
 
@@ -54,7 +54,7 @@ Start the server
 
 ### My contacts
 <p align="left">
-<a href="https://stackoverflow.com/users/20199410" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" height="30" width="40" /></a>
-<a href="https://instagram.com/nikitos.1746" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" height="30" width="40" /></a>
-<a href="https://t.me/Gubchik123" target="blank"><img align="center" src="./images/icons8-telegram-app-48.png" width="40" /></a>
+<a href="https://stackoverflow.com/users/20199410" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/stack-overflow.svg" height="30" width="40" /></a>
+<a href="https://instagram.com/nikitos.1746" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" height="30" width="40" /></a>
+<a href="https://t.me/Gubchik123" target="_blank"><img align="center" src="./images/icons8-telegram-app-48.png" width="40" /></a>
 </p>
