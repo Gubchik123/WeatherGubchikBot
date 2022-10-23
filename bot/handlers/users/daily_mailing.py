@@ -57,7 +57,7 @@ def send_to_users():
             BOT.send_message(chat_id, text, disable_notification=mute)
             sleep(1)
         except Exception as error:
-            print(f"Exception in daily_mailing_to_users() with user: {chat_id}")
+            print(f"Exception in daily mailing with user: {chat_id}")
             print(f"In data was: {data}")
             print(f"Error message: {str(error)}")
             print(f"Traceback list: {traceback.format_exception(error)}")
