@@ -1,3 +1,4 @@
+import traceback
 from time import sleep
 from datetime import datetime
 
@@ -46,6 +47,8 @@ def get_message_text_by_(data: tuple) -> str:
 def send_to_users():
     for data in get_users_with_mailing_on_current_time():
         try:
+            print(f"In data: {data}; Data len: {len(data)}")
+        
             chat_id = data[0]
             mute = True if data[1] else False
 
@@ -57,5 +60,5 @@ def send_to_users():
             sleep(1)
         except Exception as error:
             print("Exception in daily_mailing_to_users() with user:", chat_id)
-            print(str(error))
+            print(traceback.format_exc())
             continue
