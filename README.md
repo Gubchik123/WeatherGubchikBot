@@ -2,7 +2,7 @@
 *Bot for showing information about the weather in cities of Ukraine and Europe*
 
 ### Demo
-Click **[here]("https://t.me/WeatherGubchikBot")** to open telegram WeatherGubchikBot
+Click **<a href="https://t.me/WeatherGubchikBot" target="blank">here</a>** to open telegram WeatherGubchikBot
 
 ---
 
@@ -14,11 +14,11 @@ Click **[here]("https://t.me/WeatherGubchikBot")** to open telegram WeatherGubch
 4. <details><summary>Using fuzzy comparison</summary>You can type the title of the city and bot try to find it with using python fuzzywuzyy module for fuzzy comparison</details>
 
 ### Multilanguage (screenshots)
-**UA**
+**UA** <br>
 <img title="WeatherGubchikBot" alt="Header image" src="./images/uk.jpg">
-**EN**
+**EN** <br>
 <img title="WeatherGubchikBot" alt="Header image" src="./images/en.jpg">
-**RU**
+**RU** <br>
 <img title="WeatherGubchikBot" alt="Header image" src="./images/ru.jpg">
 
 ### Environment Variables
@@ -31,22 +31,22 @@ To run this project, you will need to add the following environment variables to
 ### Run Locally
 
 Clone the project
-```bash
+```
   git clone https://github.com/Gubchik123/WeatherGubchikBot.git
 ```
 
 Go to the project directory
-```bash
+```
   cd WeatherGubchikBot
 ```
 
 Install dependencies
-```bash
+```
   pip install -r requirements.txt
 ```
 
 Start the server
-```bash
+```
   python bot/bot.py
 ```
 
