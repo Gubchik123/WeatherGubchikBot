@@ -5,16 +5,25 @@ from bot_info import DP
 from constants import MY_DB, TEXT
 from keyboard import make_keyboard, make_button
 
+variants = (
+    "управління розсилкою",
+    "управление рассылкой",
+    "mailing management"
+)
 
-@DP.message_handler(Text("управління розсилкою", ignore_case=True))
-@DP.message_handler(Text("управление рассылкой", ignore_case=True))
-@DP.message_handler(Text("mailing management", ignore_case=True))
+
+@DP.message_handler(Text(variants[0], ignore_case=True))
+@DP.message_handler(Text(variants[1], ignore_case=True))
+@DP.message_handler(Text(variants[2], ignore_case=True))
 async def managment(message: types.Message):
     global TEXT
-    lang_code = "uk" if "управління" in message.text.lower() else (
-        "ru" if "управление" in message.text.lower() else "en"
-    )
-    TEXT.check_language_by_(lang_code)
+    user_text = message.text.lower()
+
+    if user_text in variants:
+        lang_code = "uk" if "управління" in user_text else (
+            "ru" if "управление" in user_text else "en"
+        )
+        TEXT.check_language_by_(lang_code)
 
     id = message.from_user.id
     data = MY_DB.get_information_about_user_with_(id)
