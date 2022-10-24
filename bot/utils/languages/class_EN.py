@@ -1,6 +1,6 @@
 class EN:
-    def __init__(self, lang_code: str):
-        self.lang_code = lang_code
+    def __init__(self):
+        self.lang_code = "en"
 
     @staticmethod
     def _get_correct_text_from_(string: str):
