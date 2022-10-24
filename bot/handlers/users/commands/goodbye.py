@@ -18,10 +18,11 @@ variants: tuple = (
 @DP.message_handler(Text(equals=variants[2], ignore_case=True))
 async def command_goodbye(message: types.Message):
     global TEXT
+    user_text = message.text.lower()
 
-    if message.text.lower() in variants:
-        lang_code = "uk" if "спілкування" in message.text.lower() else (
-            "ru" if "общение" in message.text.lower() else "en"
+    if user_text in variants:
+        lang_code = "uk" if "спілкування" in user_text else (
+            "ru" if "общение" in user_text else "en"
         )
         TEXT.check_language_by_(lang_code)
 
