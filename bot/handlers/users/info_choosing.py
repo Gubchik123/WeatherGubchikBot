@@ -30,7 +30,10 @@ async def clean_info_and_change_regions_on_(some_regions: dict, message: types.M
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "україні" in message.text.lower() else (
+        "ru" if "украине" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
 
     ukr_regions = {
         "uk": UK_UKR_LOCALITIES,
@@ -45,7 +48,10 @@ async def weather_in_Ukraine(message: types.Message):
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "європі" in message.text.lower() else (
+        "ru" if "европе" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
 
     abroad_regions = {
         "uk": UK_ABROAD_LOCALITIES,

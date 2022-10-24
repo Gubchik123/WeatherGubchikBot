@@ -1,24 +1,20 @@
-from langdetect import detect
-
-from .class_UA import UA
+from .class_UK import UK
 from .class_EN import EN
 from .class_RU import RU
 
 
 class Language:
     def __init__(self):
-        self.__lang = None
+        self.__lang_obj = None
 
     def __call__(self):
-        return self.__lang
+        return self.__lang_obj
 
     def change_on(self, lang_code: str):
-        self.__lang = UA(lang_code) if lang_code == "uk" else (
-            RU(lang_code) if lang_code == "ru" else EN(lang_code)
+        self.__lang_obj = UK() if lang_code == "uk" else (
+            RU() if lang_code == "ru" else EN()
         )
 
-    def change_on_detected_language_from(self, text: str):
-        detected_lang = detect(text)
-
-        if not self.__lang or detected_lang != self().lang_code:
-            self.change_on(detected_lang)
+    def check_language_by_(self, lang_code: str):
+        if not self.__lang_obj or lang_code != self().lang_code:
+            self.change_on(lang_code)

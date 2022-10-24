@@ -19,7 +19,10 @@ async def menu(message: types.Message):
     global INFO, TEXT
 
     if message.text.lower() in variants:
-        TEXT.change_on_detected_language_from(message.text.lower())
+        lang_code = "uk" if "головне" in message.text.lower() else (
+            "ru" if "главное" in message.text.lower() else "en"
+        )
+        TEXT.check_language_by_(lang_code)
 
     chat_IDs: list = MY_DB.chat_IDs
     mailing_btn_text = TEXT().menu_btn_mailing_managment() \

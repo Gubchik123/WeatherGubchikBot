@@ -20,7 +20,10 @@ async def command_goodbye(message: types.Message):
     global TEXT
 
     if message.text.lower() in variants:
-        TEXT.change_on_detected_language_from(message.text.lower())
+        lang_code = "uk" if "спілкування" in message.text.lower() else (
+            "ru" if "общение" in message.text.lower() else "en"
+        )
+        TEXT.check_language_by_(lang_code)
 
     sticker = "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
 

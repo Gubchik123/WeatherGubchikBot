@@ -15,7 +15,10 @@ from .mailing.mailing_managment import managment
 @DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "місто" in message.text.lower() else (
+        "ru" if "город" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 
@@ -31,7 +34,10 @@ async def ask_about_changing_mailing_city(message: types.Message):
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "період" in message.text.lower() else (
+        "ru" if "период" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
     
     markup = make_keyboard_for_yes_or_no_answer()
 

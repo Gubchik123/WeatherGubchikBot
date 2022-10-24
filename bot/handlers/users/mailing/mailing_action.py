@@ -4,6 +4,7 @@ from aiogram.dispatcher.filters import Text
 from bot_info import DP
 from constants import TEXT
 from states import Mailing
+from .general import check_language_from_
 from keyboard import make_keyboard_for_yes_or_no_answer
 
 
@@ -12,7 +13,7 @@ from keyboard import make_keyboard_for_yes_or_no_answer
 @DP.message_handler(Text(equals="enable mailing", ignore_case=True))
 async def turn_on_mailing(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    check_language_from_(message.text.lower())
 
     markup = make_keyboard_for_yes_or_no_answer()
 
@@ -28,7 +29,10 @@ async def turn_on_mailing(message: types.Message):
 @DP.message_handler(Text(equals="turn off mailing", ignore_case=True))
 async def turn_off_mailing(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "вимкнути" in message.text.lower() else (
+        "ru" if "отключить" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 

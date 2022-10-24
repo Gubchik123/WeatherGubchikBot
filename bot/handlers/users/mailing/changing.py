@@ -9,6 +9,7 @@ from keyboard import make_keyboard_for_yes_or_no_answer
 from keyboard import make_keyboard_for_country_choosing
 
 from .mailing_managment import managment
+from .general import check_language_from_
 from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
@@ -21,7 +22,7 @@ from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_m
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    check_language_from_(message.text.lower())
 
     markup = make_keyboard_for_yes_or_no_answer()
 
@@ -54,7 +55,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    check_language_from_(message.text.lower())
 
     markup = make_keyboard_for_yes_or_no_answer()
 
@@ -87,7 +88,10 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
     global TEXT
-    TEXT.change_on_detected_language_from(message.text)
+    lang_code = "uk" if "змінити" in message.text.lower() else (
+        "ru" if "сменить" in message.text.lower() else "en"
+    )
+    TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 
