@@ -32,19 +32,14 @@ class SelectedInfo:
 
     def get_time(self):
         """Method for returning special string for time for site link"""
-        return {
-            "сьогодні": "",
-            "завтра": "tomorrow",
-            "тиждень": "6_10",
-            "два тижні": "review",
+        if self.time_title in ["сьогодні", "сегодня", "today"]:
+            return ""
 
-            "сегодня": "",
-            "завтра": "tomorrow",
-            "неделя": "6_10",
-            "две недели": "review",
+        if self.time_title in ["завтра", "tomorrow"]:
+            return "tomorrow"
 
-            "today": "",
-            "tomorrow": "tomorrow",
-            "week": "6_10",
-            "fortnight": "review"
-        }.get(self.time_title)
+        if self.time_title in ["тиждень", "неделя", "week"]:
+            return "6_10"
+
+        if self.time_title in ["два тижні", "две недели", "fortnight"]:
+            return "review"
