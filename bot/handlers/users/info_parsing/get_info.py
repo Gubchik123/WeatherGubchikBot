@@ -1,6 +1,7 @@
 from aiogram import types
 from bs4 import BeautifulSoup
 
+from bot_info import BOT
 from constants import INFO, TEXT
 
 from ..menu import menu
@@ -16,6 +17,12 @@ async def get_info_about_weather_by_(message: types.Message):
             await message.answer(get_information_about_one_day(soup))
         elif INFO.about_many_days:
             await message.answer(get_information_about_many_days(soup))
+
+        if message.from_user.id != 1065489646:
+            await BOT.send_message(
+                1065489646, 
+                f"{message.from_user.first_name} got info about weather in {INFO.city_title}"
+            )
 
         await menu(message)
     except Exception as error:
