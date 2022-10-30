@@ -1,6 +1,5 @@
 class UK:
-    def __init__(self):
-        self.lang_code = "uk"
+    lang_code = "uk"
 
     @staticmethod
     def _get_correct_text_from_(string: str):
@@ -34,7 +33,6 @@ class UK:
         Приємного використання!!!
 
         Контакти автора бота:
-        Telegram: https://t.me/Gubchik123
         GitHub: https://github.com/Gubchik123
         Instagram: https://www.instagram.com/nikitos.1746/
         """)
