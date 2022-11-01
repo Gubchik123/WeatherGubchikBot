@@ -21,7 +21,7 @@ async def get_info_about_weather_by_(message: types.Message):
         if message.from_user.id != 1065489646:
             await BOT.send_message(
                 1065489646, 
-                f"{message.from_user.first_name} got info about weather in {INFO.city_title}"
+                f"{message.from_user.first_name} got info about weather in {INFO.city_title} ({INFO.time_title})"
             )
 
         await menu(message)
