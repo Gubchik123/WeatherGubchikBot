@@ -15,10 +15,14 @@ BOT = TeleBot(BOT_TOKEN)
 
 
 def get_users_with_mailing_on_current_time() -> list:
-    hour_now = datetime.now().hour + 3
+    datetime_now = datetime.now()
+    added_hour = 2 if datetime_now.month in [1, 2, 3, 11, 12] else 3
+    ukrainian_hour = datetime_now.hour + added_hour
+
+    print(ukrainian_hour)  # For checking if an error wiil occure
 
     return [data for data in MY_DB.get_mailing_information()
-            if data[6] == hour_now]
+            if data[6] == ukrainian_hour]
 
 
 def fill_weather_information_by_(data: tuple):
