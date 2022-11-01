@@ -30,10 +30,13 @@ async def get_info_about_weather_by_(message: types.Message):
 
 
 def get_block_and_title_from(soup: BeautifulSoup):
-    block = soup.find("div", class_="page-columns-wrapper")
-    title = block.find("h1").text.strip()
+    try:
+        block = soup.find("div", class_="page-columns-wrapper")
+        title = block.find("h1").text.strip()
 
-    return (block, title)
+        return (block, title)
+    except AttributeError:
+        return get_block_and_title_from(get_soup_by_(INFO.generated_url))
 
 
 def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
