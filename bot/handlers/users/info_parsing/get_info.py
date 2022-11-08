@@ -20,7 +20,7 @@ async def get_info_about_weather_by_(message: types.Message):
 
         if message.from_user.id != 1065489646:
             await BOT.send_message(
-                1065489646, 
+                1065489646,
                 f"{message.from_user.first_name} got info about weather in {INFO.city_title} ({INFO.time_title})"
             )
 
@@ -46,8 +46,17 @@ def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
     ).find_all("tr")[index].find("td").text.strip()
 
 
+def get_all_columns_from_(block: BeautifulSoup) -> list[BeautifulSoup]:
+    return block.find("ul", class_="today-hourly-weather").find_all("li")
+
+
 def get_span_text_from_(column: BeautifulSoup, class_: str) -> str:
-    return column.find("span", class_=class_).text.strip()
+    span_text = column.find("span", class_=class_).text.strip()
+    return span_text.split(' ')[0] if ' ' in span_text else span_text[:-1]
+
+
+def get_wind_symbol():
+    return {"uk": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
 
 
 def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
@@ -58,12 +67,16 @@ def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
         wind = get_atmosphere_row(1, block)
         humidity = get_atmosphere_row(4, block)
     else:  # if selected time is tomorrow
-        column3 = block.find(
-            "ul", class_="today-hourly-weather").find_all("li")[2]
+        rain, wind, humidity = 0, 0, 0
+        for column in get_all_columns_from_(block):
+            rain += int(get_span_text_from_(column,
+                        class_="precipitation-chance"))
+            wind += int(get_span_text_from_(column,  class_="wind-direction"))
+            humidity += int(get_span_text_from_(column,  class_="humidity"))
 
-        rain = get_span_text_from_(column3, class_="precipitation-chance")
-        wind = get_span_text_from_(column3,  class_="wind-direction")
-        humidity = get_span_text_from_(column3,  class_="humidity")
+        rain = f"{int(rain/4)} %"
+        wind = f"{int(wind/4)} {get_wind_symbol()}"
+        humidity = f"{int(humidity/4)} %"
 
     return (rain, wind, humidity)
 
