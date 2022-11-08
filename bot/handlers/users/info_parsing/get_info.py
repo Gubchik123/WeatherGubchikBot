@@ -51,7 +51,11 @@ def get_all_columns_from_(block: BeautifulSoup) -> list[BeautifulSoup]:
 
 
 def get_span_text_from_(column: BeautifulSoup, class_: str) -> str:
-    span_text = column.find("span", class_=class_).text.strip()
+    return column.find("span", class_=class_).text.strip()
+
+
+def get_span_number_from_(column: BeautifulSoup, class_: str) -> str:
+    span_text = get_span_text_from_(column, class_)
     return span_text.split(' ')[0] if ' ' in span_text else span_text[:-1]
 
 
@@ -69,10 +73,10 @@ def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
     else:  # if selected time is tomorrow
         rain, wind, humidity = 0, 0, 0
         for column in get_all_columns_from_(block):
-            rain += int(get_span_text_from_(column,
+            rain += int(get_span_number_from_(column,
                         class_="precipitation-chance"))
-            wind += int(get_span_text_from_(column,  class_="wind-direction"))
-            humidity += int(get_span_text_from_(column,  class_="humidity"))
+            wind += int(get_span_number_from_(column,  class_="wind-direction"))
+            humidity += int(get_span_number_from_(column,  class_="humidity"))
 
         rain = f"{int(rain/4)} %"
         wind = f"{int(wind/4)} {get_wind_symbol()}"
