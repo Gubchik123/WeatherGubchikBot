@@ -33,9 +33,11 @@ class EN:
         Enjoy using!!!
 
         Bot author contacts:
-        GitHub: https://github.com/Gubchik123
         Instagram: https://www.instagram.com/nikitos.1746/
+        GitHub: https://github.com/Gubchik123
         """)
+
+    def wait_message(self): return "Processing..."
 
     def yes_btn(self): return "Yes"
     def no_btn(self): return "No"

@@ -10,7 +10,11 @@ from constants import INFO, TEXT
 from keyboard import make_keyboard, make_button
 
 from .info_parsing.get_info import get_info_about_weather_by_
-from .mailing_info import ask_about_mailing_mute_mode, change_mailing_period, change_mailing_city_on_
+from .mailing_info import (
+    ask_about_mailing_mute_mode,
+    change_mailing_period,
+    change_mailing_city_on_,
+)
 
 
 async def clean_info_and_change_regions_on_(some_regions: dict, message: types.Message):
@@ -30,15 +34,16 @@ async def clean_info_and_change_regions_on_(some_regions: dict, message: types.M
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message):
     global TEXT
-    lang_code = "uk" if "україні" in message.text.lower() else (
-        "ru" if "украине" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "україні" in message.text.lower()
+        else ("ru" if "украине" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
 
-    ukr_regions = {
-        "uk": UK_UKR_LOCALITIES,
-        "ru": RU_UKR_LOCALITIES
-    }.get(TEXT().lang_code, EN_UKR_LOCALITIES)
+    ukr_regions = {"uk": UK_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
+        TEXT().lang_code, EN_UKR_LOCALITIES
+    )
 
     await clean_info_and_change_regions_on_(ukr_regions, message)
 
@@ -48,15 +53,16 @@ async def weather_in_Ukraine(message: types.Message):
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message):
     global TEXT
-    lang_code = "uk" if "європі" in message.text.lower() else (
-        "ru" if "европе" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "європі" in message.text.lower()
+        else ("ru" if "европе" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
 
-    abroad_regions = {
-        "uk": UK_ABROAD_LOCALITIES,
-        "ru": RU_ABROAD_LOCALITIES
-    }.get(TEXT().lang_code, EN_ABROAD_LOCALITIES)
+    abroad_regions = {"uk": UK_ABROAD_LOCALITIES, "ru": RU_ABROAD_LOCALITIES}.get(
+        TEXT().lang_code, EN_ABROAD_LOCALITIES
+    )
 
     await clean_info_and_change_regions_on_(abroad_regions, message)
 
@@ -64,8 +70,7 @@ async def weather_in_Europe(message: types.Message):
 async def choose_region(message: types.Message):
     global TEXT
     await message.answer(
-        TEXT().choose_region_message(),
-        reply_markup=types.ReplyKeyboardRemove()
+        TEXT().choose_region_message(), reply_markup=types.ReplyKeyboardRemove()
     )
     await Choosing.region.set()
 
@@ -103,17 +108,13 @@ async def choose_region_title(message: types.Message, state: FSMContext):
     markup.add(*[title.capitalize() for title in result_list["result_list"]])
     markup.add(make_button(TEXT().repeat_choosing_btn()))
 
-    await message.answer(
-        TEXT().choose_minded_option(),
-        reply_markup=markup
-    )
+    await message.answer(TEXT().choose_minded_option(), reply_markup=markup)
 
     await Choosing.region_title.set()
 
 
 @DP.message_handler(state=Choosing.region_title)
-async def check_selected_region_title(message: types.Message,
-                                      state: FSMContext):
+async def check_selected_region_title(message: types.Message, state: FSMContext):
     global TEXT
     user_text = message.text.lower()
     result = await state.get_data("result_list")
@@ -132,8 +133,12 @@ async def check_selected_region_title(message: types.Message,
 
 async def choose_period(message: types.Message):
     global TEXT
-    periods: tuple = (TEXT().today_btn(), TEXT().tomorrow_btn(),
-                      TEXT().week_btn(), TEXT().two_week_btn())
+    periods: tuple = (
+        TEXT().today_btn(),
+        TEXT().tomorrow_btn(),
+        TEXT().week_btn(),
+        TEXT().two_week_btn(),
+    )
 
     markup = make_keyboard(width=2)
     markup.add(*periods)
@@ -150,6 +155,8 @@ def check_selected_period_it_is_week_or_other():
 
 
 async def check_user_goal_on_period_phase(message: types.Message):
+    await message.answer(TEXT().wait_message())
+
     if INFO.goal == "normal":
         await get_info_about_weather_by_(message)
     elif INFO.goal == "mailing":
@@ -161,8 +168,12 @@ async def check_user_goal_on_period_phase(message: types.Message):
 @DP.message_handler(state=Choosing.period)
 async def check_selected_period(message: types.Message, state: FSMContext):
     global TEXT
-    periods: tuple = (TEXT().today_btn(), TEXT().tomorrow_btn(),
-                      TEXT().week_btn(), TEXT().two_week_btn())
+    periods: tuple = (
+        TEXT().today_btn(),
+        TEXT().tomorrow_btn(),
+        TEXT().week_btn(),
+        TEXT().two_week_btn(),
+    )
 
     user_text = message.text.lower()
 

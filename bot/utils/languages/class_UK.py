@@ -33,9 +33,11 @@ class UK:
         Приємного використання!!!
 
         Контакти автора бота:
-        GitHub: https://github.com/Gubchik123
         Instagram: https://www.instagram.com/nikitos.1746/
+        GitHub: https://github.com/Gubchik123
         """)
+
+    def wait_message(self): return "Опрацювання..."
 
     def yes_btn(self): return "Так"
     def no_btn(self): return "Ні"
