@@ -5,11 +5,7 @@ from bot_info import DP
 from constants import TEXT
 from keyboard import make_keyboard, make_button
 
-variants: tuple = (
-    "закінчити спілкування",
-    "закончить общение",
-    "end communication"
-)
+variants: tuple = ("закінчити спілкування", "закончить общение", "end communication")
 
 
 @DP.message_handler(commands="goodbye")
@@ -21,8 +17,10 @@ async def command_goodbye(message: types.Message):
     user_text = message.text.lower()
 
     if user_text in variants:
-        lang_code = "uk" if "спілкування" in user_text else (
-            "ru" if "общение" in user_text else "en"
+        lang_code = (
+            "uk"
+            if "спілкування" in user_text
+            else ("ru" if "общение" in user_text else "en")
         )
         TEXT.check_language_by_(lang_code)
 
@@ -32,5 +30,6 @@ async def command_goodbye(message: types.Message):
     markup.add(make_button("/start"))
 
     await message.answer_sticker(sticker)
-    await message.answer(TEXT().goodbye_message(message.from_user.first_name),
-                         reply_markup=markup)
+    await message.answer(
+        TEXT().goodbye_message(message.from_user.first_name), reply_markup=markup
+    )

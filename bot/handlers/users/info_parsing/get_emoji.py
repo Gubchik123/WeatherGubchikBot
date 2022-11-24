@@ -10,25 +10,21 @@ def get_string_by_(regex: str):
     try:
         return re.search(regex, DESC)[0]
     except TypeError:
-        return ''
+        return ""
 
 
 def get_sun_description():
     return get_string_by_(
-        regex={
-            "uk": r'ясно,.+',
-            "ru": r'ясно,.+',
-            "en": r'clear,.+'
-        }.get(LANG)
+        regex={"uk": r"ясно,.+", "ru": r"ясно,.+", "en": r"clear,.+"}.get(LANG)
     )
 
 
 def get_sun_behind_cloud_description():
     return get_string_by_(
         regex={
-            "uk": r'.+(?:проясненнями|хмарність), без.+опадів',
-            "ru": r'.+(?:прояснениями|облачность), без.+осадков',
-            "en": r'.+(?:times|cloud), no.+precipitation'
+            "uk": r".+(?:проясненнями|хмарність), без.+опадів",
+            "ru": r".+(?:прояснениями|облачность), без.+осадков",
+            "en": r".+(?:times|cloud), no.+precipitation",
         }.get(LANG)
     )
 
@@ -36,9 +32,9 @@ def get_sun_behind_cloud_description():
 def get_cloud_description():
     return get_string_by_(
         regex={
-            "uk": r'(?:похмуро|хмарно), без.+опадів',
-            "ru": r'(?:пасмурно|облачно), без.+осадков',
-            "en": r'(?:overcast|cloudy), no.+precipitation'
+            "uk": r"(?:похмуро|хмарно), без.+опадів",
+            "ru": r"(?:пасмурно|облачно), без.+осадков",
+            "en": r"(?:overcast|cloudy), no.+precipitation",
         }.get(LANG)
     )
 
@@ -46,9 +42,9 @@ def get_cloud_description():
 def get_sun_behind_rain_cloud_description():
     return get_string_by_(
         regex={
-            "uk": r'.+(проясненнями|хмарність),.+дощ',
-            "ru": r'.+(прояснениями|облачность),.+дождь',
-            "en": r'.+(times|cloud),.+rain'
+            "uk": r".+(проясненнями|хмарність),.+дощ",
+            "ru": r".+(прояснениями|облачность),.+дождь",
+            "en": r".+(times|cloud),.+rain",
         }.get(LANG)
     )
 
@@ -56,20 +52,16 @@ def get_sun_behind_rain_cloud_description():
 def get_cloud_with_rain_description():
     return get_string_by_(
         regex={
-            "uk": r'(?:похмуро|хмарно),.+(?:дощ|опади)',
-            "ru": r'(?:пасмурно|облачно),.+(?:дождь|осадки)',
-            "en": r'(?:overcast|cloudy),.+(?:rain|precipitation)'
+            "uk": r"(?:похмуро|хмарно),.+(?:дощ|опади)",
+            "ru": r"(?:пасмурно|облачно),.+(?:дождь|осадки)",
+            "en": r"(?:overcast|cloudy),.+(?:rain|precipitation)",
         }.get(LANG)
     )
-    
-    
+
+
 def get_cloud_with_snow_description():
     return get_string_by_(
-        regex={
-            "uk": r'.*сніг.*',
-            "ru": r'.*снег.*',
-            "en": r'.*snow.*'
-        }.get(LANG)
+        regex={"uk": r".*сніг.*", "ru": r".*снег.*", "en": r".*snow.*"}.get(LANG)
     )
 
 
@@ -82,16 +74,12 @@ def get_weather_emoji_by_(desc: str):
     LANG = TEXT().lang_code
 
     return {
-        get_sun_description():
-            emojize(":sun:"),  # ☀️
-        get_sun_behind_cloud_description():
-            emojize(":sun_behind_cloud:"),  # ⛅️
-        get_cloud_description():
-            emojize(":cloud:"),  # ☁️
-        get_sun_behind_rain_cloud_description():
-            emojize(":sun_behind_rain_cloud:"),  # 🌦
-        get_cloud_with_rain_description():
-            emojize(":cloud_with_rain:"),  # 🌧
-        get_cloud_with_snow_description():
-            emojize(":cloud_with_snow:")  # 🌨️
-    }.get(desc, '')
+        get_sun_description(): emojize(":sun:"),  # ☀️
+        get_sun_behind_cloud_description(): emojize(":sun_behind_cloud:"),  # ⛅️
+        get_cloud_description(): emojize(":cloud:"),  # ☁️
+        get_sun_behind_rain_cloud_description(): emojize(
+            ":sun_behind_rain_cloud:"
+        ),  # 🌦
+        get_cloud_with_rain_description(): emojize(":cloud_with_rain:"),  # 🌧
+        get_cloud_with_snow_description(): emojize(":cloud_with_snow:"),  # 🌨️
+    }.get(desc, "")

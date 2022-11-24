@@ -11,8 +11,8 @@ class Language:
         return self.__lang_obj
 
     def change_on(self, lang_code: str):
-        self.__lang_obj = UK() if lang_code == "uk" else (
-            RU() if lang_code == "ru" else EN()
+        self.__lang_obj = (
+            UK() if lang_code == "uk" else (RU() if lang_code == "ru" else EN())
         )
 
     def check_language_by_(self, lang_code: str):

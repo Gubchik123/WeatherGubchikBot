@@ -14,7 +14,10 @@ from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 from ..info_choosing import choose_period
-from ..mailing_info import ask_about_changing_mailing_city, ask_about_changing_mailing_period
+from ..mailing_info import (
+    ask_about_changing_mailing_city,
+    ask_about_changing_mailing_period,
+)
 
 
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
@@ -27,8 +30,7 @@ async def turn_off_mute_mode_for_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().unmute_mailing_mode_question_message(),
-        reply_markup=markup
+        TEXT().unmute_mailing_mode_question_message(), reply_markup=markup
     )
     await Mailing.turn_off_mute_mode.set()
 
@@ -47,7 +49,9 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(turn_off_mute_mode_for_mailing, message)
+        await there_is_no_such_type_of_answer_try_again(
+            turn_off_mute_mode_for_mailing, message
+        )
 
 
 @DP.message_handler(Text("увімкнути беззвучний режим", ignore_case=True))
@@ -60,8 +64,7 @@ async def turn_on_mute_mode_for_mailing(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().mute_mailing_mode_question_message(),
-        reply_markup=markup
+        TEXT().mute_mailing_mode_question_message(), reply_markup=markup
     )
     await Mailing.turn_on_mute_mode.set()
 
@@ -80,7 +83,9 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(turn_on_mute_mode_for_mailing, message)
+        await there_is_no_such_type_of_answer_try_again(
+            turn_on_mute_mode_for_mailing, message
+        )
 
 
 @DP.message_handler(Text("змінити час розсилки", ignore_case=True))
@@ -88,16 +93,17 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
     global TEXT
-    lang_code = "uk" if "змінити" in message.text.lower() else (
-        "ru" if "сменить" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "змінити" in message.text.lower()
+        else ("ru" if "сменить" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().change_mailing_time_question_message(),
-        reply_markup=markup
+        TEXT().change_mailing_time_question_message(), reply_markup=markup
     )
     await Mailing.change_time.set()
 
@@ -128,12 +134,15 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
         INFO.goal = "changing mailing"
 
         markup = make_keyboard_for_country_choosing()
-        await message.answer(TEXT().choose_mailing_country_question_message(),
-                             reply_markup=markup)
+        await message.answer(
+            TEXT().choose_mailing_country_question_message(), reply_markup=markup
+        )
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_city, message)
+        await there_is_no_such_type_of_answer_try_again(
+            ask_about_changing_mailing_city, message
+        )
 
 
 @DP.message_handler(state=Mailing.change_period)
@@ -149,4 +158,6 @@ async def checking_changing_period(message: types.Message, state: FSMContext):
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(ask_about_changing_mailing_period, message)
+        await there_is_no_such_type_of_answer_try_again(
+            ask_about_changing_mailing_period, message
+        )

@@ -8,7 +8,7 @@ from keyboard import make_keyboard_for_country_choosing, make_button
 variants: tuple = (
     "← повернутися у головне меню",
     "← вернуться в главное меню",
-    "← return to the main menu"
+    "← return to the main menu",
 )
 
 
@@ -19,15 +19,19 @@ async def menu(message: types.Message):
     global INFO, TEXT
 
     if message.text.lower() in variants:
-        lang_code = "uk" if "головне" in message.text.lower() else (
-            "ru" if "главное" in message.text.lower() else "en"
+        lang_code = (
+            "uk"
+            if "головне" in message.text.lower()
+            else ("ru" if "главное" in message.text.lower() else "en")
         )
         TEXT.check_language_by_(lang_code)
 
     chat_IDs: list = MY_DB.chat_IDs
-    mailing_btn_text = TEXT().menu_btn_mailing_managment() \
-        if message.from_user.id in chat_IDs \
+    mailing_btn_text = (
+        TEXT().menu_btn_mailing_managment()
+        if message.from_user.id in chat_IDs
         else TEXT().menu_btn_turn_on_mailing()
+    )
 
     INFO.goal = "normal"
 

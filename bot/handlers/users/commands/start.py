@@ -21,10 +21,10 @@ async def choose_language(message: types.Message):
     markup = make_keyboard(width=3)
     markup.add(*("UK", "EN", "RU"))
 
-    await message.answer("UK - Оберіть мову\n"
-                         "EN - Choose language\n"
-                         "RU - Выберите язык\n",
-                         reply_markup=markup)
+    await message.answer(
+        "UK - Оберіть мову\n" "EN - Choose language\n" "RU - Выберите язык\n",
+        reply_markup=markup,
+    )
 
     await Choosing.language.set()
 

@@ -12,7 +12,8 @@ class SelectedInfo:
         self.type = "weather"
 
     @property  # Getter for region titles
-    def region_titles(self): return self.regions.keys()
+    def region_titles(self):
+        return self.regions.keys()
 
     @property  # Getter for generated url
     def generated_url(self):

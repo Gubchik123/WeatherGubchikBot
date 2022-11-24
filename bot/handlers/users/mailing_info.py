@@ -15,16 +15,17 @@ from .mailing.mailing_managment import managment
 @DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message):
     global TEXT
-    lang_code = "uk" if "місто" in message.text.lower() else (
-        "ru" if "город" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "місто" in message.text.lower()
+        else ("ru" if "город" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().change_mailing_city_question_message(),
-        reply_markup=markup
+        TEXT().change_mailing_city_question_message(), reply_markup=markup
     )
     await Mailing.change_city.set()
 
@@ -34,16 +35,17 @@ async def ask_about_changing_mailing_city(message: types.Message):
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message):
     global TEXT
-    lang_code = "uk" if "період" in message.text.lower() else (
-        "ru" if "период" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "період" in message.text.lower()
+        else ("ru" if "период" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
-    
+
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().change_mailing_period_question_message(),
-        reply_markup=markup
+        TEXT().change_mailing_period_question_message(), reply_markup=markup
     )
     await Mailing.change_period.set()
 
@@ -63,8 +65,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     )
 
     await message.answer(
-        TEXT().what_mailing_time_question_message(),
-        reply_markup=markup
+        TEXT().what_mailing_time_question_message(), reply_markup=markup
     )
     await Mailing.time.set()
 
@@ -73,8 +74,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().mailing_mute_mode_question_message(),
-        reply_markup=markup
+        TEXT().mailing_mute_mode_question_message(), reply_markup=markup
     )
     await Mailing.mute_mode.set()
 
@@ -88,7 +88,8 @@ async def change_mailing_period(message: types.Message):
 
 async def change_mailing_city_on_(message: types.Message):
     id = message.from_user.id
-    MY_DB.update_user_with(id, what_update="city",
-                           new_item=(INFO.city, INFO.city_title))
+    MY_DB.update_user_with(
+        id, what_update="city", new_item=(INFO.city, INFO.city_title)
+    )
 
     await managment(message)

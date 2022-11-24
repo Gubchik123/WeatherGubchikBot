@@ -11,8 +11,9 @@ from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 
 @DP.message_handler(state=Mailing.turn_off)
-async def checking_answer_about_turning_off_mailing(message: types.Message, 
-                                                    state: FSMContext):
+async def checking_answer_about_turning_off_mailing(
+    message: types.Message, state: FSMContext
+):
     global TEXT
     user_answer = message.text.lower()
     await state.finish()

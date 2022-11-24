@@ -18,7 +18,5 @@ async def there_is_no_such_type_of_answer_try_again(func, message: types.Message
 
 def check_language_from_(text: str):
     global TEXT
-    lang_code = "uk" if "увімкнути" in text else (
-        "ru" if "включить" in text else "en"
-    )
+    lang_code = "uk" if "увімкнути" in text else ("ru" if "включить" in text else "en")
     TEXT.check_language_by_(lang_code)

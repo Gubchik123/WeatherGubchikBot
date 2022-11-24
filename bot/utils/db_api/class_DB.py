@@ -14,7 +14,8 @@ class DB:
         self.__users_info: dict = self._fill_users_info()
 
     @property  # Getter for list of users' chat IDs
-    def chat_IDs(self): return self.__chat_IDs
+    def chat_IDs(self):
+        return self.__chat_IDs
 
     def get_mailing_information(self) -> list:
         """Method for returning information for mailing from database"""
@@ -50,7 +51,7 @@ class DB:
             "city": info.city_title,
             "time": info.time_title,
             "time_int": user.selected_time,
-            "lang": info.lang
+            "lang": info.lang,
         }
 
     def update_user_with(self, chat_id: int, what_update: str, new_item):
@@ -93,7 +94,7 @@ class DB:
 
     def update_user_lang_with_(self, chat_id: int, lang: str):
         data: dict = self.get_information_about_user_with_(chat_id)
-        
+
         if data["lang"] != lang:
             self.update_user_with(chat_id, what_update="lang", new_item=lang)
 
@@ -116,10 +117,13 @@ class DB:
         """Method for returning dict of some users' information from database"""
         users_info = self.get_mailing_information()
 
-        return {data[0]: {
-            "mute": data[1],
-            "city": data[7],
-            "time": data[3],
-            "time_int": data[6],
-            "lang": data[8]
-        } for data in users_info}
+        return {
+            data[0]: {
+                "mute": data[1],
+                "city": data[7],
+                "time": data[3],
+                "time_int": data[6],
+                "lang": data[8],
+            }
+            for data in users_info
+        }

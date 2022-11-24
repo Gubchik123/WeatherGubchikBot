@@ -10,13 +10,17 @@ class TelegramUser:
         self.__time = time
 
     @property  # Getter for user's name
-    def name(self): return self.__name
+    def name(self):
+        return self.__name
 
     @property  # Getter for user's chat_id
-    def chat_id(self): return self.__chat_id
+    def chat_id(self):
+        return self.__chat_id
 
     @property  # Getter for user's selected mute mode
-    def selected_mute_mode(self): return self.__mute
+    def selected_mute_mode(self):
+        return self.__mute
 
     @property  # Getter for user's selected time
-    def selected_time(self): return self.__time
+    def selected_time(self):
+        return self.__time

@@ -17,10 +17,7 @@ async def turn_on_mailing(message: types.Message):
 
     markup = make_keyboard_for_yes_or_no_answer()
 
-    await message.answer(
-        TEXT().turn_on_mailing_question_message(),
-        reply_markup=markup
-    )
+    await message.answer(TEXT().turn_on_mailing_question_message(), reply_markup=markup)
     await Mailing.turn_on.set()
 
 
@@ -29,15 +26,16 @@ async def turn_on_mailing(message: types.Message):
 @DP.message_handler(Text(equals="turn off mailing", ignore_case=True))
 async def turn_off_mailing(message: types.Message):
     global TEXT
-    lang_code = "uk" if "вимкнути" in message.text.lower() else (
-        "ru" if "отключить" in message.text.lower() else "en"
+    lang_code = (
+        "uk"
+        if "вимкнути" in message.text.lower()
+        else ("ru" if "отключить" in message.text.lower() else "en")
     )
     TEXT.check_language_by_(lang_code)
 
     markup = make_keyboard_for_yes_or_no_answer()
 
     await message.answer(
-        TEXT().turn_off_mailing_question_message(),
-        reply_markup=markup
+        TEXT().turn_off_mailing_question_message(), reply_markup=markup
     )
     await Mailing.turn_off.set()
