@@ -3,6 +3,7 @@ from time import sleep
 from threading import Thread
 
 from aiogram import executor
+from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
 
 import handlers
 from bot_info import DP
@@ -17,12 +18,15 @@ def check_schedule_time():
 
 
 if __name__ == "__main__":
-    # Loop for creating tasks at specials hours for daily mailing
-    for hour in ("06", "09", "12", "15", "18", "21"):
-        schedule.every().day.at(f"{hour}:00").do(send_to_users)
+    try:
+        # Loop for creating tasks at specials hours for daily mailing
+        for hour in ("06", "09", "12", "15", "18", "21"):
+            schedule.every().day.at(f"{hour}:00").do(send_to_users)
 
-    # Other thread for checking loop
-    Thread(target=check_schedule_time, daemon=True).start()
+        # Other thread for checking loop
+        Thread(target=check_schedule_time, daemon=True).start()
 
-    # Start bot polling and on start set default bot commands for 3 language
-    executor.start_polling(DP, skip_updates=True, on_startup=set_default_commands)
+        # Start bot polling and on start set default bot commands for 3 language
+        executor.start_polling(DP, skip_updates=True, on_startup=set_default_commands)
+    except TerminatedByOtherGetUpdates:
+        print("There was exception TerminatedByOtherGetUpdates")
