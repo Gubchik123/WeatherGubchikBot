@@ -25,4 +25,4 @@ if __name__ == "__main__":
     Thread(target=check_schedule_time, daemon=True).start()
 
     # Start bot polling and on start set default bot commands for 3 language
-    executor.start_polling(DP, on_startup=set_default_commands)
+    executor.start_polling(DP, skip_updates=True, on_startup=set_default_commands)
