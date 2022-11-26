@@ -13,9 +13,9 @@ from handlers.users.daily_mailing import send_to_users
 
 def get_needed_hours():
     return (
-        ("04", "07", "10", "13", "16", "19")
+        ("06", "09", "12", "15", "18", "21")
         if datetime.now().month in [1, 2, 3, 11, 12]
-        else ("03", "06", "09", "12", "15", "18")
+        else ("05", "08", "11", "14", "17", "20")
     )
 
 
