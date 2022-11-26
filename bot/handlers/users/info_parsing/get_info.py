@@ -47,7 +47,7 @@ def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
     )
 
 
-def get_all_columns_from_(block: BeautifulSoup) -> list[BeautifulSoup]:
+def get_all_columns_from_(block: BeautifulSoup):
     return block.find("ul", class_="today-hourly-weather").find_all("li")
 
 
