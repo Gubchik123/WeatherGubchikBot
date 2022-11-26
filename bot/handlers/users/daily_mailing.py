@@ -17,10 +17,11 @@ BOT = TeleBot(BOT_TOKEN)
 
 def get_users_with_mailing_on_current_time() -> list:
     datetime_now = datetime.now()
-    print(f"Time in the server: {datetime_now.hour}")
+    added_hour = 2 if datetime_now.month in [1, 2, 3, 11, 12] else 3
+    ukrainian_hour = datetime_now.hour + added_hour
 
     return [
-        data for data in MY_DB.get_mailing_information() if data[6] == datetime_now.hour
+        data for data in MY_DB.get_mailing_information() if data[6] == ukrainian_hour
     ]
 
 
