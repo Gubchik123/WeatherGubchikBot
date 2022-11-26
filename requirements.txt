@@ -8,5 +8,6 @@ fuzzywuzzy==0.18.0
 fake-useragent==0.1.11
 psycopg2==2.9.3
 pyTelegramBotAPI==4.7.0
-python-Levenshtein
+python-dotenv==0.21.0
+python-Levenshtein==0.20.8
 requests==2.28.1

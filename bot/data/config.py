@@ -1,3 +1,8 @@
-BOT_TOKEN = "5628317296:AAG7s6L7r_eI6f_HvYh41IBjbcGs8b5i8v0"
+import os
+from dotenv import load_dotenv
 
-DB_URI = "postgres://xpaablic:cfYfOpHmypp4KFku_vU0PCkwGw8IPuUR@arjuna.db.elephantsql.com/xpaablic"
+
+load_dotenv()
+
+DB_URI = str(os.getenv("DB_URI"))
+BOT_TOKEN = str(os.getenv("BOT_TOKEN"))
