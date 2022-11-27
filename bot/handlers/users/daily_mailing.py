@@ -1,5 +1,4 @@
 import logging
-import traceback
 from datetime import datetime
 
 from aiogram import Bot
@@ -50,14 +49,15 @@ async def send_to_users(bot: Bot):
             chat_id = data[0]
             mute = True if data[1] else False
 
+            message_text = get_message_text_by_(data)
+
             await bot.send_message(
                 chat_id, TEXT().daily_mailing_message(), disable_notification=mute
             )
             await bot.send_message(
-                chat_id, get_message_text_by_(data), disable_notification=mute
+                chat_id, message_text, disable_notification=mute
             )
-        except Exception as error:
+        except:
             logger = logging.getLogger()
             logger.error(f"Exception in daily mailing with user: {chat_id}")
-            logger.warning(f"Traceback list: {traceback.format_exception(error)}")
             continue
