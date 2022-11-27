@@ -1,18 +1,15 @@
+import logging
 import traceback
-from time import sleep
 from datetime import datetime
 
-from telebot import TeleBot
+from aiogram import Bot
 
-from data import BOT_TOKEN
 from constants import MY_DB, INFO, TEXT
 
 from .info_parsing.get_info import (
     get_information_about_one_day,
     get_information_about_many_days,
 )
-
-BOT = TeleBot(BOT_TOKEN)
 
 
 def get_users_with_mailing_on_current_time() -> list:
@@ -47,20 +44,20 @@ def get_message_text_by_(data: tuple) -> str:
     )
 
 
-def send_to_users():
+async def send_to_users(bot: Bot):
     for data in get_users_with_mailing_on_current_time():
         try:
             chat_id = data[0]
             mute = True if data[1] else False
 
-            BOT.send_message(
+            await bot.send_message(
                 chat_id, TEXT().daily_mailing_message(), disable_notification=mute
             )
-            BOT.send_message(
+            await bot.send_message(
                 chat_id, get_message_text_by_(data), disable_notification=mute
             )
-            sleep(1)
         except Exception as error:
-            print(f"Exception in daily mailing with user: {chat_id}")
-            print(f"Traceback list: {traceback.format_exception(error)}")
+            logger = logging.getLogger()
+            logger.error(f"Exception in daily mailing with user: {chat_id}")
+            logger.warning(f"Traceback list: {traceback.format_exception(error)}")
             continue
