@@ -43,6 +43,9 @@ class RU:
         """
         )
 
+    def searching_message(self):
+        return "Поиск..."
+
     def wait_message(self):
         return "Обработка..."
 

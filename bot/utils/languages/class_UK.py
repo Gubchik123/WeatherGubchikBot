@@ -43,6 +43,9 @@ class UK:
         """
         )
 
+    def searching_message(self):
+        return "Пошук..."
+
     def wait_message(self):
         return "Опрацювання..."
 

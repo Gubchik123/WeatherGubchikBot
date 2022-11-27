@@ -43,6 +43,9 @@ class EN:
         """
         )
 
+    def searching_message(self):
+        return "Searching..."
+
     def wait_message(self):
         return "Processing..."
 

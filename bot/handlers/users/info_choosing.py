@@ -87,7 +87,7 @@ async def check_user_goal_on_region_phase(message: types.Message, state: FSMCont
 async def check_selected_region(message: types.Message, state: FSMContext):
     user_text = message.text.lower()
 
-    await message.answer(TEXT().wait_message())
+    await message.answer(TEXT().searching_message())
 
     result: list = extractBests(user_text, INFO.region_titles, limit=4)
 
