@@ -26,4 +26,6 @@ def get_soup_by_(url: str):
 async def send_message_to_user_about_error(message: types.Message, error):
     global TEXT
     await message.answer(TEXT().error_message())
-    print(f"Traceback list: {traceback.format_exception(error)}")
+
+    error_position = traceback.format_exception(error)[-2].split(r"\\")[-1]
+    print("Exception place: ", error_position.replace("\n", " "))
