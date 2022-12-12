@@ -1,12 +1,11 @@
-import logging
 from datetime import datetime
 
 from aiogram import executor
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 import handlers
-from bot_info import DP, BOT
-from utils.set_bot_commands import set_default_commands
+from bot_info import DP
+from utils.bot_commands import set_default_commands
 from handlers.users.daily_mailing import send_to_users
 
 
@@ -19,15 +18,11 @@ def set_hours_for_daily_mailing():
             hour=hour,
             minute=0,
             start_date=datetime.now(),
-            kwargs={"bot": BOT},
         )
     scheduler.start()
 
 
 if __name__ == "__main__":
-    logger = logging.getLogger()
-    logger.info(f"Hour in the server: {datetime.now().hour}")
-
     set_hours_for_daily_mailing()
 
     # Start bot polling and on start set default bot commands for 3 language

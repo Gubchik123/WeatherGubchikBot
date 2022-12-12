@@ -1,1 +1,1 @@
-from .class_Language import Language
+from .language import Language

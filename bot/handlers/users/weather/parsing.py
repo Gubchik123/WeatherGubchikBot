@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 from aiogram import types
 from bs4 import BeautifulSoup
 
@@ -5,8 +7,18 @@ from bot_info import BOT
 from constants import INFO, TEXT
 
 from ..menu import menu
-from .get_emoji import get_weather_emoji_by_
+from .getting_emoji import get_weather_emoji_by_
 from .general import get_soup_by_, send_message_to_user_about_error
+
+
+class WeatherDetail(NamedTuple):
+    wind: str
+    rain: str
+    humidity: str
+
+
+class WeatherDetailTitle(WeatherDetail):
+    pass
 
 
 async def get_info_about_weather_by_(message: types.Message):
@@ -31,9 +43,7 @@ async def get_info_about_weather_by_(message: types.Message):
 def get_block_and_title_from(soup: BeautifulSoup):
     try:
         block = soup.find("div", class_="page-columns-wrapper")
-        title = block.find("h1").text.strip()
-
-        return (block, title)
+        return (block, block.find("h1").text.strip())
     except AttributeError:
         return get_block_and_title_from(get_soup_by_(INFO.generated_url))
 
@@ -64,32 +74,41 @@ def get_wind_symbol():
     return {"uk": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
 
 
-def get_rain_wind_and_humidity_on_one_day_from_(block: BeautifulSoup):
+def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
     global INFO
 
     if INFO.about_today:
-        rain = get_atmosphere_row(0, block)
-        wind = get_atmosphere_row(1, block)
-        humidity = get_atmosphere_row(4, block)
-    else:  # if selected time is tomorrow
-        rain, wind, humidity = 0, 0, 0
-        for column in get_all_columns_from_(block):
-            rain += int(get_span_number_from_(column, class_="precipitation-chance"))
-            wind += int(get_span_number_from_(column, class_="wind-direction"))
-            humidity += int(get_span_number_from_(column, class_="humidity"))
+        return WeatherDetail(
+            rain=get_atmosphere_row(0, block),
+            wind=get_atmosphere_row(1, block),
+            humidity=get_atmosphere_row(4, block),
+        )
 
-        rain = f"{int(rain/4)} %"
-        wind = f"{int(wind/4)} {get_wind_symbol()}"
-        humidity = f"{int(humidity/4)} %"
+    # if selected time is tomorrow
+    rain, wind, humidity = 0, 0, 0
+    for column in get_all_columns_from_(block):
+        rain += int(get_span_number_from_(column, class_="precipitation-chance"))
+        wind += int(get_span_number_from_(column, class_="wind-direction"))
+        humidity += int(get_span_number_from_(column, class_="humidity"))
 
-    return (rain, wind, humidity)
+    return WeatherDetail(
+        rain=f"{int(rain/4)} %",
+        wind=f"{int(wind/4)} {get_wind_symbol()}",
+        humidity=f"{int(humidity/4)} %",
+    )
 
 
-def get_rain_wind_and_humidity_title_by_():
+def get_weather_detail_titles() -> WeatherDetailTitle:
     return {
-        "uk": ("Імовірність опадів", "Вітер", "Вологість"),
-        "ru": ("Возможность осадков", "Ветер", "Влажность"),
-        "en": ("Chance of precipitation", "Wind", "Humidity"),
+        "uk": WeatherDetailTitle(
+            rain="Імовірність опадів", wind="Вітер", humidity="Вологість"
+        ),
+        "ru": WeatherDetailTitle(
+            rain="Возможность осадков", wind="Ветер", humidity="Влажность"
+        ),
+        "en": WeatherDetailTitle(
+            rain="Chance of precipitation", wind="Wind", humidity="Humidity"
+        ),
     }.get(TEXT().lang_code)
 
 
@@ -114,27 +133,21 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
 
 
 def get_information_about_one_day():
-    text = ""
     block, title = get_block_and_title_from(get_soup_by_(INFO.generated_url))
 
-    rain_title, wind_title, humidity_title = get_rain_wind_and_humidity_title_by_()
+    weather_detail_titles = get_weather_detail_titles()
+    weather_details = get_weather_details_on_one_day_from_(block)
 
-    rain_info, wind_info, humidity_info = get_rain_wind_and_humidity_on_one_day_from_(
-        block
-    )
-
-    text += f"""
+    return f"""
     {title}:
 
-    {wind_title}: {wind_info}  🌬
-    {humidity_title}: {humidity_info}  💦
-    {rain_title}: {rain_info}  💧
+    {weather_detail_titles.wind}: {weather_details.wind}  🌬
+    {weather_detail_titles.humidity}: {weather_details.humidity}  💦
+    {weather_detail_titles.rain}: {weather_details.rain}  💧
+    {get_weather_info_about_day_from_(block)}
     """.replace(
         "    ", ""
     )
-
-    text += get_weather_info_about_day_from_(block)
-    return text
 
 
 def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
@@ -148,8 +161,7 @@ def get_information_about_many_days():
 
     text += f"{title}:"
 
-    rain_title, wind_title, humidity_title = get_rain_wind_and_humidity_title_by_()
-
+    weather_detail_titles = get_weather_detail_titles()
     all_details = block.find("div", class_="item-table").find_all("ul")
 
     block = block.find("div", class_="swiper-wrapper")
@@ -175,9 +187,9 @@ def get_information_about_many_days():
         {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
         {description}
 
-        {wind_title}: {wind_info}  🌬
-        {humidity_title}: {humidity_info}  💦
-        {rain_title}: {rain_info}  💧
+        {weather_detail_titles.wind}: {wind_info}  🌬
+        {weather_detail_titles.humidity}: {humidity_info}  💦
+        {weather_detail_titles.rain}: {rain_info}  💧
         {"_"*35}""".replace(
             "        ", ""
         )

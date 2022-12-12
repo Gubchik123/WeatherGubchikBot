@@ -64,7 +64,7 @@ class UK:
     def back_to_menu_btn(self):
         return "← Повернутися у головне меню"
 
-    def menu_btn_mailing_managment(self):
+    def menu_btn_mailing_management(self):
         return "Управління розсилкою"
 
     def menu_btn_turn_on_mailing(self):

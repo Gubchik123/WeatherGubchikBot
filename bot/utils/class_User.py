@@ -3,7 +3,7 @@ from aiogram.types import Message
 
 class TelegramUser:
     def __init__(self, message: Message, mute_mode: bool, time: int):
-        """Constructor for inicializing user by information from telegram"""
+        """Constructor for initializing user by information from telegram"""
         self.__name = message.from_user.first_name
         self.__chat_id = message.from_user.id
         self.__mute = mute_mode

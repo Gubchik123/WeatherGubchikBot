@@ -9,15 +9,18 @@ from data.localities import *
 from constants import INFO, TEXT
 from keyboard import make_keyboard, make_button
 
-from .info_parsing.get_info import get_info_about_weather_by_
 from .mailing_info import (
     ask_about_mailing_mute_mode,
     change_mailing_period,
     change_mailing_city_on_,
 )
+from .menu import _check_language_from_
+from .weather.parsing import get_info_about_weather_by_
 
 
-async def clean_info_and_change_regions_on_(some_regions: dict, message: types.Message):
+async def _clean_info_and_change_regions_on_(
+    some_regions: dict, message: types.Message
+):
     global INFO
 
     goal = INFO.goal if INFO.goal else "normal"
@@ -34,18 +37,13 @@ async def clean_info_and_change_regions_on_(some_regions: dict, message: types.M
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message):
     global TEXT
-    lang_code = (
-        "uk"
-        if "україні" in message.text.lower()
-        else ("ru" if "украине" in message.text.lower() else "en")
-    )
-    TEXT.check_language_by_(lang_code)
+    _check_language_from_(message.text.lower(), uk_word="україні", ru_word="украине")
 
     ukr_regions = {"uk": UK_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
         TEXT().lang_code, EN_UKR_LOCALITIES
     )
 
-    await clean_info_and_change_regions_on_(ukr_regions, message)
+    await _clean_info_and_change_regions_on_(ukr_regions, message)
 
 
 @DP.message_handler(Text("погода в європі", ignore_case=True))
@@ -53,18 +51,13 @@ async def weather_in_Ukraine(message: types.Message):
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message):
     global TEXT
-    lang_code = (
-        "uk"
-        if "європі" in message.text.lower()
-        else ("ru" if "европе" in message.text.lower() else "en")
-    )
-    TEXT.check_language_by_(lang_code)
+    _check_language_from_(message.text.lower(), uk_word="європі", ru_word="европе")
 
     abroad_regions = {"uk": UK_ABROAD_LOCALITIES, "ru": RU_ABROAD_LOCALITIES}.get(
         TEXT().lang_code, EN_ABROAD_LOCALITIES
     )
 
-    await clean_info_and_change_regions_on_(abroad_regions, message)
+    await _clean_info_and_change_regions_on_(abroad_regions, message)
 
 
 async def choose_region(message: types.Message):
@@ -98,7 +91,6 @@ async def check_selected_region(message: types.Message, state: FSMContext):
         await check_user_goal_on_region_phase(message, state)
     else:
         await state.set_data({"result_list": [data[0] for data in result]})
-
         await choose_region_title(message, state)
 
 
@@ -111,7 +103,6 @@ async def choose_region_title(message: types.Message, state: FSMContext):
     markup.add(make_button(TEXT().repeat_choosing_btn()))
 
     await message.answer(TEXT().choose_minded_option(), reply_markup=markup)
-
     await Choosing.region_title.set()
 
 
@@ -135,15 +126,14 @@ async def check_selected_region_title(message: types.Message, state: FSMContext)
 
 async def choose_period(message: types.Message):
     global TEXT
-    periods: tuple = (
+
+    markup = make_keyboard(width=2)
+    markup.add(
         TEXT().today_btn(),
         TEXT().tomorrow_btn(),
         TEXT().week_btn(),
         TEXT().two_week_btn(),
     )
-
-    markup = make_keyboard(width=2)
-    markup.add(*periods)
 
     await message.answer(TEXT().choose_period_message(), reply_markup=markup)
     await Choosing.period.set()

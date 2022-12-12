@@ -8,16 +8,16 @@ from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_yes_or_no_answer
 from keyboard import make_keyboard_for_country_choosing
 
-from .mailing_managment import managment
-from .general import check_language_from_
+from .management import management
 from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
-from ..info_choosing import choose_period
 from ..mailing_info import (
     ask_about_changing_mailing_city,
     ask_about_changing_mailing_period,
 )
+from ..menu import _check_language_from_
+from ..info_choosing import choose_period
 
 
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
@@ -25,12 +25,11 @@ from ..mailing_info import (
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message):
     global TEXT
-    check_language_from_(message.text.lower())
-
-    markup = make_keyboard_for_yes_or_no_answer()
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
-        TEXT().unmute_mailing_mode_question_message(), reply_markup=markup
+        TEXT().unmute_mailing_mode_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.turn_off_mute_mode.set()
 
@@ -42,10 +41,8 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        id = message.from_user.id
-        MY_DB.update_user_with(id, what_update="mute", new_item=False)
-
-        await managment(message)
+        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=False)
+        await management(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -59,12 +56,11 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message):
     global TEXT
-    check_language_from_(message.text.lower())
-
-    markup = make_keyboard_for_yes_or_no_answer()
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
-        TEXT().mute_mailing_mode_question_message(), reply_markup=markup
+        TEXT().mute_mailing_mode_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.turn_on_mute_mode.set()
 
@@ -76,10 +72,8 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        id = message.from_user.id
-        MY_DB.update_user_with(id, what_update="mute", new_item=True)
-
-        await managment(message)
+        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=True)
+        await management(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -93,17 +87,11 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
     global TEXT
-    lang_code = (
-        "uk"
-        if "змінити" in message.text.lower()
-        else ("ru" if "сменить" in message.text.lower() else "en")
-    )
-    TEXT.check_language_by_(lang_code)
-
-    markup = make_keyboard_for_yes_or_no_answer()
+    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
 
     await message.answer(
-        TEXT().change_mailing_time_question_message(), reply_markup=markup
+        TEXT().change_mailing_time_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.change_time.set()
 
@@ -133,9 +121,9 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
         INFO.clean_information()
         INFO.goal = "changing mailing"
 
-        markup = make_keyboard_for_country_choosing()
         await message.answer(
-            TEXT().choose_mailing_country_question_message(), reply_markup=markup
+            TEXT().choose_mailing_country_question_message(),
+            reply_markup=make_keyboard_for_country_choosing(),
         )
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)

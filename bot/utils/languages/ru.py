@@ -64,7 +64,7 @@ class RU:
     def back_to_menu_btn(self):
         return "← Вернуться в главное меню"
 
-    def menu_btn_mailing_managment(self):
+    def menu_btn_mailing_management(self):
         return "Управление рассылкой"
 
     def menu_btn_turn_on_mailing(self):

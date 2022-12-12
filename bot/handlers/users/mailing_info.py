@@ -4,10 +4,11 @@ from aiogram.dispatcher.filters import Text
 from bot_info import DP
 from states import Mailing
 from constants import MY_DB, INFO, TEXT
-from keyboard import make_keyboard_for_yes_or_no_answer
 from keyboard import make_keyboard, make_button
+from keyboard import make_keyboard_for_yes_or_no_answer
 
-from .mailing.mailing_managment import managment
+from .menu import _check_language_from_
+from .mailing.management import management
 
 
 @DP.message_handler(Text("змінити місто", ignore_case=True))
@@ -15,17 +16,11 @@ from .mailing.mailing_managment import managment
 @DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message):
     global TEXT
-    lang_code = (
-        "uk"
-        if "місто" in message.text.lower()
-        else ("ru" if "город" in message.text.lower() else "en")
-    )
-    TEXT.check_language_by_(lang_code)
-
-    markup = make_keyboard_for_yes_or_no_answer()
+    _check_language_from_(message.text.lower(), uk_word="місто", ru_word="город")
 
     await message.answer(
-        TEXT().change_mailing_city_question_message(), reply_markup=markup
+        TEXT().change_mailing_city_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.change_city.set()
 
@@ -35,17 +30,11 @@ async def ask_about_changing_mailing_city(message: types.Message):
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message):
     global TEXT
-    lang_code = (
-        "uk"
-        if "період" in message.text.lower()
-        else ("ru" if "период" in message.text.lower() else "en")
-    )
-    TEXT.check_language_by_(lang_code)
-
-    markup = make_keyboard_for_yes_or_no_answer()
+    _check_language_from_(message.text.lower(), uk_word="період", ru_word="период")
 
     await message.answer(
-        TEXT().change_mailing_period_question_message(), reply_markup=markup
+        TEXT().change_mailing_period_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.change_period.set()
 
@@ -56,12 +45,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
 
     markup = make_keyboard(width=3)
     markup.add(
-        make_button("06:00"),
-        make_button("09:00"),
-        make_button("12:00"),
-        make_button("15:00"),
-        make_button("18:00"),
-        make_button("21:00"),
+        *[make_button(f"{hour}:00") for hour in ("06", "09", "12", "15", "18", "21")]
     )
 
     await message.answer(
@@ -71,25 +55,20 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
 
 
 async def ask_about_mailing_mute_mode(message: types.Message):
-    markup = make_keyboard_for_yes_or_no_answer()
-
     await message.answer(
-        TEXT().mailing_mute_mode_question_message(), reply_markup=markup
+        TEXT().mailing_mute_mode_question_message(),
+        reply_markup=make_keyboard_for_yes_or_no_answer(),
     )
     await Mailing.mute_mode.set()
 
 
 async def change_mailing_period(message: types.Message):
-    id = message.from_user.id
-    MY_DB.update_user_with(id, what_update="time", new_item=INFO)
-
-    await managment(message)
+    MY_DB.update_user_with(message.from_user.id, what_update="time", new_item=INFO)
+    await management(message)
 
 
 async def change_mailing_city_on_(message: types.Message):
-    id = message.from_user.id
     MY_DB.update_user_with(
-        id, what_update="city", new_item=(INFO.city, INFO.city_title)
+        message.from_user.id, what_update="city", new_item=(INFO.city, INFO.city_title)
     )
-
-    await managment(message)
+    await management(message)

@@ -6,7 +6,7 @@ from states import Mailing
 from constants import MY_DB, TEXT
 
 from ..menu import menu
-from .mailing_action import turn_off_mailing
+from .action import turn_off_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 
@@ -28,7 +28,7 @@ async def checking_answer_about_turning_off_mailing(
 
 async def withdraw_mailing_for_user(message: types.Message, state: FSMContext):
     global TEXT
-    MY_DB.delete_user_with(chat_id=message.from_user.id)
+    MY_DB.delete_user_with(message.from_user.id)
 
     await message.answer(TEXT().successfully_turn_off_mailing_message())
     await state.finish()

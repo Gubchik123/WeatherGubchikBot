@@ -9,6 +9,7 @@ from constants import TEXT, MY_DB
 from ..menu import menu
 from keyboard import make_keyboard
 
+
 GOAL = ""
 
 
@@ -19,13 +20,12 @@ async def choose_language(message: types.Message):
     GOAL = "menu" if "language" in message.text else "start"
 
     markup = make_keyboard(width=3)
-    markup.add(*("UK", "EN", "RU"))
+    markup.add("UK", "EN", "RU")
 
     await message.answer(
-        "UK - Оберіть мову\n" "EN - Choose language\n" "RU - Выберите язык\n",
+        "UK - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
         reply_markup=markup,
     )
-
     await Choosing.language.set()
 
 
@@ -49,8 +49,8 @@ async def check_language(message: types.Message, state: FSMContext):
 
 
 async def start(message: types.Message):
-    sticker = "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
-    await message.answer_sticker(sticker)
+    await message.answer_sticker(
+        "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
+    )
     await message.answer(TEXT().hello_message(message.from_user.first_name))
-
     await menu(message)

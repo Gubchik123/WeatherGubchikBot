@@ -10,12 +10,11 @@ from keyboard import make_keyboard_for_country_choosing
 from ..menu import menu
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
-from .mailing_managment import managment
-from .mailing_action import turn_on_mailing
+from .management import management
+from .action import turn_on_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 MUTE = None
-REASON = ""
 
 
 @DP.message_handler(state=Mailing.turn_on)
@@ -28,13 +27,12 @@ async def checking_answer_about_turning_on_mailing(
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        await state.finish()
-
         INFO.goal = "mailing"
 
-        markup = make_keyboard_for_country_choosing()
+        await state.finish()
         await message.answer(
-            TEXT().choose_mailing_country_question_message(), reply_markup=markup
+            TEXT().choose_mailing_country_question_message(),
+            reply_markup=make_keyboard_for_country_choosing(),
         )
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
@@ -71,10 +69,10 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
             INFO.lang = TEXT().lang_code
             await confirm_mailing_for_user(message, time=time_int)
         else:
-            id = message.from_user.id
-
-            MY_DB.update_user_with(id, what_update="time_int", new_item=time_int)
-            await managment(message)
+            MY_DB.update_user_with(
+                message.from_user.id, what_update="time_int", new_item=time_int
+            )
+            await management(message)
     else:
         await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
 

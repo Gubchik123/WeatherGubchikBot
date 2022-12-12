@@ -1,6 +1,6 @@
-from .class_UK import UK
-from .class_EN import EN
-from .class_RU import RU
+from .uk import UK
+from .en import EN
+from .ru import RU
 
 
 class Language:

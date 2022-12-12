@@ -1,8 +1,9 @@
 import os
 
-from utils.db_api import DB
+from utils.db import DB
+from utils.languages import Language
 from utils.class_SelectedInfo import SelectedInfo
-from utils.languages.class_Language import Language
+
 
 MY_DB = DB()
 
