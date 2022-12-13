@@ -4,6 +4,7 @@ from bot_info import BOT
 
 
 async def set_default_commands(message):
+    """For setting default bot commands for 3 language"""
     bot_commands = {
         "uk": [
             BotCommand("start", "Початок роботи з ботом"),

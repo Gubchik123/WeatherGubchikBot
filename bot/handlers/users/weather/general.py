@@ -10,6 +10,7 @@ from constants import TEXT
 
 
 def get_soup_by_(url: str):
+    """For getting BeautifulSoup object by url"""
     global TEXT
     lang_code = TEXT().lang_code
 
@@ -25,6 +26,7 @@ def get_soup_by_(url: str):
 
 
 async def send_message_to_user_about_error(message: types.Message, error):
+    """For sending error message to user and logging"""
     global TEXT
     await message.answer(TEXT().error_message())
 

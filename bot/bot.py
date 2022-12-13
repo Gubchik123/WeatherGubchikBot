@@ -10,6 +10,7 @@ from handlers.users.daily_mailing import send_to_users
 
 
 def set_hours_for_daily_mailing():
+    """For setting daily mailing time by Kiev timezone"""
     scheduler = AsyncIOScheduler(timezone="Europe/Kiev")
     for hour in (6, 9, 12, 15, 18, 21):
         scheduler.add_job(
@@ -25,5 +26,5 @@ def set_hours_for_daily_mailing():
 if __name__ == "__main__":
     set_hours_for_daily_mailing()
 
-    # Start bot polling and on start set default bot commands for 3 language
+    # Start polling and on start set default bot commands for 3 language
     executor.start_polling(DP, on_startup=set_default_commands)

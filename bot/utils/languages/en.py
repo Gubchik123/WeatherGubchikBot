@@ -1,9 +1,10 @@
-class EN:
-    lang_code = "en"
+from .basic import _Basic
 
-    @staticmethod
-    def _get_correct_text_from_(string: str):
-        return string.replace("        ", "")
+
+class EN(_Basic):
+    """English language class"""
+
+    lang_code = "en"
 
     def hello_message(self, name: str):
         return self._get_correct_text_from_(

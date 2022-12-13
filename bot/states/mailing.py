@@ -2,6 +2,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 
 
 class Mailing(StatesGroup):
+    """For storing temp info for different mailing actions"""
+
     # States for turning on mailing
     turn_on = State()
     mute_mode = State()

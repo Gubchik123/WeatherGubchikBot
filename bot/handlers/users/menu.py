@@ -14,6 +14,7 @@ variants: tuple = (
 
 
 def _check_language_from_(text: types.Message, *, uk_word: str, ru_word: str) -> None:
+    """For comparing current language with user message and changing if needed"""
     global TEXT
 
     lang_code = "uk" if uk_word in text else ("ru" if ru_word in text else "en")
@@ -24,6 +25,7 @@ def _check_language_from_(text: types.Message, *, uk_word: str, ru_word: str) ->
 @DP.message_handler(Text(variants[1], ignore_case=True))
 @DP.message_handler(Text(variants[2], ignore_case=True))
 async def menu(message: types.Message):
+    """For getting the bot menu"""
     global INFO, TEXT
 
     user_message = message.text.lower()

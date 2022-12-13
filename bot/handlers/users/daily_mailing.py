@@ -11,6 +11,7 @@ from .weather.parsing import (
 
 
 def get_users_with_mailing_on_current_time() -> list[tuple]:
+    """For getting users with current time for mailing"""
     datetime_now = datetime.now()
     added_hour = 2 if datetime_now.month in [1, 2, 3, 11, 12] else 3
     ukrainian_hour = datetime_now.hour + added_hour
@@ -21,6 +22,7 @@ def get_users_with_mailing_on_current_time() -> list[tuple]:
 
 
 def fill_weather_information_by_(data: tuple):
+    """For filling info object with user data for weather searching"""
     global INFO
 
     INFO.clean_information()
@@ -31,6 +33,7 @@ def fill_weather_information_by_(data: tuple):
 
 
 def get_message_text_by_(data: tuple) -> str:
+    """For getting message text with weather information"""
     global INFO, TEXT
     TEXT.change_on(data[8])  # data[8] - language code
 
@@ -42,6 +45,7 @@ def get_message_text_by_(data: tuple) -> str:
 
 
 async def send_to_users():
+    """For sending weather message to users with current time for mailing"""
     for data in get_users_with_mailing_on_current_time():
         try:
             chat_id = data[0]

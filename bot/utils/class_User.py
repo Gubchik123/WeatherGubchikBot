@@ -2,25 +2,31 @@ from aiogram.types import Message
 
 
 class TelegramUser:
+    """For storing info about user"""
+
     def __init__(self, message: Message, mute_mode: bool, time: int):
-        """Constructor for initializing user by information from telegram"""
+        """For initializing user by information from telegram"""
         self.__name = message.from_user.first_name
         self.__chat_id = message.from_user.id
         self.__mute = mute_mode
         self.__time = time
 
-    @property  # Getter for user's name
+    @property
     def name(self):
+        """Getter for user's name"""
         return self.__name
 
-    @property  # Getter for user's chat_id
+    @property
     def chat_id(self):
+        """Getter for user's chat_id"""
         return self.__chat_id
 
-    @property  # Getter for user's selected mute mode
+    @property
     def selected_mute_mode(self):
+        """Getter for user's selected mute mode"""
         return self.__mute
 
-    @property  # Getter for user's selected time
+    @property
     def selected_time(self):
+        """Getter for user's selected time"""
         return self.__time

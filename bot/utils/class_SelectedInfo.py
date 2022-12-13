@@ -1,8 +1,12 @@
 class SelectedInfo:
+    """For storing info for weather searching"""
+
     def __init__(self):
+        """For initializing and cleaning data"""
         self.clean_information()
 
     def clean_information(self):
+        """For cleaning all data for weather searching"""
         self.regions = {}
         self.goal = ""
         self.city = ""
@@ -11,28 +15,33 @@ class SelectedInfo:
         self.time_title = ""
         self.type = "weather"
 
-    @property  # Getter for region titles
+    @property
     def region_titles(self):
+        """Getter for region titles"""
         return self.regions.keys()
 
-    @property  # Getter for generated url
+    @property
     def generated_url(self):
+        """Getter for generated url"""
         return f"https://www.meteoprog.ua/ua/{self.type}/{self.city}/{self.time}"
 
-    @property  # Getter for condition about one day
+    @property
     def about_one_day(self):
+        """Getter for condition about one day"""
         return self.type == "weather" and self.time == "" or self.time == "tomorrow"
 
-    @property  # Getter for condition about many days
+    @property
     def about_many_days(self):
+        """Getter for condition about many days"""
         return self.type == "review" or self.time == "6_10"
 
-    @property  # Getter for condition about today
+    @property
     def about_today(self):
+        """Getter for condition about today"""
         return self.time == ""
 
     def get_time(self):
-        """Method for returning special string for time for site link"""
+        """For returning special string for time for site link"""
         if self.time_title in ["сьогодні", "сегодня", "today"]:
             return ""
 

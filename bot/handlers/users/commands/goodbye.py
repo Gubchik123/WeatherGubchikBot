@@ -16,6 +16,7 @@ variants: tuple = ("закінчити спілкування", "закончи�
 @DP.message_handler(Text(equals=variants[1], ignore_case=True))
 @DP.message_handler(Text(equals=variants[2], ignore_case=True))
 async def command_goodbye(message: types.Message):
+    """The handler for the 'goodbye' command"""
     global TEXT
     user_text = message.text.lower()
 

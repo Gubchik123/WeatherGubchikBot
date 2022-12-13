@@ -16,6 +16,7 @@ GOAL = ""
 @DP.message_handler(CommandStart())
 @DP.message_handler(commands="language")
 async def choose_language(message: types.Message):
+    """The handler for the 'start' and 'language' command"""
     global GOAL
     GOAL = "menu" if "language" in message.text else "start"
 
@@ -31,6 +32,7 @@ async def choose_language(message: types.Message):
 
 @DP.message_handler(state=Choosing.language)
 async def check_language(message: types.Message, state: FSMContext):
+    """For checking language and changing if user has mailing"""
     global TEXT, MY_DB
 
     user_text = message.text.lower()
@@ -49,6 +51,7 @@ async def check_language(message: types.Message, state: FSMContext):
 
 
 async def start(message: types.Message):
+    """For sending the greeting message after 'start' command"""
     await message.answer_sticker(
         "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
     )

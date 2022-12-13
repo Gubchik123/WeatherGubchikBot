@@ -8,7 +8,7 @@ from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_yes_or_no_answer
 from keyboard import make_keyboard_for_country_choosing
 
-from .management import management
+from .menu import mailing_menu
 from .turning_on import select_mailing_time
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
@@ -24,8 +24,10 @@ from ..info_choosing import choose_period
 @DP.message_handler(Text("включить режим оповещения", ignore_case=True))
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message):
+    """The handler for asking about mailing alert mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().unmute_mailing_mode_question_message(),
@@ -36,13 +38,15 @@ async def turn_off_mute_mode_for_mailing(message: types.Message):
 
 @DP.message_handler(state=Mailing.turn_off_mute_mode)
 async def checking_turning_on_mute_mode(message: types.Message, state: FSMContext):
+    """For checking answer about turning off mailing mute mode"""
     global TEXT
     user_answer = message.text.lower()
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=False)
-        await management(message)
+        MY_DB.update_user_with(message.from_user.id,
+                               what_update="mute", new_item=False)
+        await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -55,8 +59,10 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("включить беззвучный режим", ignore_case=True))
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message):
+    """The handler for asking about mailing mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().mute_mailing_mode_question_message(),
@@ -67,13 +73,15 @@ async def turn_on_mute_mode_for_mailing(message: types.Message):
 
 @DP.message_handler(state=Mailing.turn_on_mute_mode)
 async def checking_turning_on_mute_mode(message: types.Message, state: FSMContext):
+    """For checking answer about turning on mailing mute mode"""
     global TEXT
     user_answer = message.text.lower()
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=True)
-        await management(message)
+        MY_DB.update_user_with(message.from_user.id,
+                               what_update="mute", new_item=True)
+        await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -86,8 +94,10 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("сменить время рассылки", ignore_case=True))
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message):
+    """The handler for asking about changing mailing time"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="змінити", ru_word="сменить")
 
     await message.answer(
         TEXT().change_mailing_time_question_message(),
@@ -98,6 +108,7 @@ async def change_mailing_time(message: types.Message):
 
 @DP.message_handler(state=Mailing.change_time)
 async def checking_changed_mailing_time(message: types.Message, state: FSMContext):
+    """For checking answer about changing mailing time"""
     global TEXT
     user_answer = message.text.lower()
     await state.finish()
@@ -112,6 +123,7 @@ async def checking_changed_mailing_time(message: types.Message, state: FSMContex
 
 @DP.message_handler(state=Mailing.change_city)
 async def checking_changing_city(message: types.Message, state: FSMContext):
+    """For checking answer about changing mailing city"""
     global INFO, TEXT
 
     user_answer = message.text.lower()
@@ -135,6 +147,7 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
 
 @DP.message_handler(state=Mailing.change_period)
 async def checking_changing_period(message: types.Message, state: FSMContext):
+    """For checking answer about changing mailing period"""
     global INFO, TEXT
 
     user_answer = message.text.lower()

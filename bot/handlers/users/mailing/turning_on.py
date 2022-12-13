@@ -7,12 +7,13 @@ from constants import MY_DB, INFO, TEXT
 from utils.class_User import TelegramUser
 from keyboard import make_keyboard_for_country_choosing
 
+from .menu import mailing_menu
+from .action import turn_on_mailing
+from .general import cancel_action, there_is_no_such_type_of_answer_try_again
+
 from ..menu import menu
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
-from .management import management
-from .action import turn_on_mailing
-from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 MUTE = None
 
@@ -21,6 +22,7 @@ MUTE = None
 async def checking_answer_about_turning_on_mailing(
     message: types.Message, state: FSMContext
 ):
+    """For checking user answer about turning on mailing"""
     global INFO, TEXT
 
     user_answer = message.text.lower()
@@ -42,6 +44,7 @@ async def checking_answer_about_turning_on_mailing(
 
 @DP.message_handler(state=Mailing.mute_mode)
 async def checking_answer_about_mailing_mute_mode(message: types.Message):
+    """For checking answer about mailing mute mode"""
     global MUTE, TEXT
 
     user_answer = message.text.lower()
@@ -57,6 +60,7 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message):
 
 @DP.message_handler(state=Mailing.time)
 async def check_selected_mailing_time(message: types.Message, state: FSMContext):
+    """For checking selected mailing time"""
     global INFO, TEXT
 
     user_text = message.text.lower()
@@ -72,12 +76,13 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
             MY_DB.update_user_with(
                 message.from_user.id, what_update="time_int", new_item=time_int
             )
-            await management(message)
+            await mailing_menu(message)
     else:
         await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
 
 
 async def confirm_mailing_for_user(message: types.Message, time: int):
+    """For confirmation mailing and adding user in db"""
     global TEXT
 
     MY_DB.add(user=TelegramUser(message, mute_mode=MUTE, time=time), info=INFO)
