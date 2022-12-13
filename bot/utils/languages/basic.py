@@ -1,7 +1,7 @@
 class _Basic:
     """Basic class for extending by other language classes"""
 
-    lang_code: str
+    lang_code: str  # ISO language name (two-letter codes)
 
     @staticmethod
     def _get_correct_text_from_(string: str):
@@ -15,7 +15,7 @@ class _Basic:
         """For getting the goodbye message text for the 'goodbye' command"""
 
     def general_rules(self):
-        """For getting the message text with 
+        """For getting the message text with
         general rules of using  for the 'help' command"""
 
     def searching_message(self):

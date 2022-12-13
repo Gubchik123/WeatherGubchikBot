@@ -1,3 +1,4 @@
+import os
 from typing import NamedTuple
 
 from aiogram import types
@@ -13,6 +14,7 @@ from .general import get_soup_by_, send_message_to_user_about_error
 
 class WeatherDetail(NamedTuple):
     """For storing weather details after parsing"""
+
     wind: str
     rain: str
     humidity: str
@@ -20,7 +22,17 @@ class WeatherDetail(NamedTuple):
 
 class WeatherDetailTitle(WeatherDetail):
     """For storing weather detail titles by language"""
-    pass
+
+
+async def _send_weather_info_to_me(message: types.Message):
+    """For sending to me message about weather info user got"""
+    my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
+
+    if message.from_user.id != my_chat_id:
+        await BOT.send_message(
+            my_chat_id,
+            f"{message.from_user.first_name} weather in {INFO.city_title} ({INFO.time_title})",
+        )
 
 
 async def get_info_about_weather_by_(message: types.Message):
@@ -32,12 +44,7 @@ async def get_info_about_weather_by_(message: types.Message):
             else get_information_about_many_days()
         )
 
-        if message.from_user.id != 1065489646:
-            await BOT.send_message(
-                1065489646,
-                f"{message.from_user.first_name} weather in {INFO.city_title} ({INFO.time_title})",
-            )
-
+        await _send_weather_info_to_me(message)
         await menu(message)
     except Exception as error:
         await send_message_to_user_about_error(message, error)
@@ -97,8 +104,7 @@ def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
     # if selected time is tomorrow
     rain, wind, humidity = 0, 0, 0
     for column in get_all_columns_from_(block):
-        rain += int(get_span_number_from_(column,
-                    class_="precipitation-chance"))
+        rain += int(get_span_number_from_(column, class_="precipitation-chance"))
         wind += int(get_span_number_from_(column, class_="wind-direction"))
         humidity += int(get_span_number_from_(column, class_="humidity"))
 
@@ -127,14 +133,11 @@ def get_weather_detail_titles() -> WeatherDetailTitle:
 def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     """For getting text with weather information about one day"""
     text = ""
-
     column = block.find("ul", class_="today-hourly-weather").find_all("li")
 
     for count in range(4):
-        name = get_span_text_from_(
-            column[count], class_="today-hourly-weather__name")
-        temp = get_span_text_from_(
-            column[count], class_="today-hourly-weather__temp")
+        name = get_span_text_from_(column[count], class_="today-hourly-weather__name")
+        temp = get_span_text_from_(column[count], class_="today-hourly-weather__temp")
         desc = (
             column[count]
             .find("i", class_="today-hourly-weather__icon")
@@ -167,6 +170,7 @@ def get_information_about_one_day():
 
 
 def get_weather_details_on_many_days_from_(block: BeautifulSoup, count: int):
+    """For getting weather details from block (div) by column count"""
     return WeatherDetail(
         wind=block[0].find_all("li")[count].text.strip(),
         humidity=block[1].find_all("li")[count].text.strip(),
@@ -175,6 +179,7 @@ def get_weather_details_on_many_days_from_(block: BeautifulSoup, count: int):
 
 
 def get_description_from_(block: BeautifulSoup, count: int):
+    """For getting day weather description from block (div) by column count"""
     block_with_details = block.find("div", class_="swiper-gallery")
     description = block_with_details.find_all("div", class_="description")[
         count
@@ -206,9 +211,7 @@ def get_information_about_many_days():
         date = get_div_text_from_(day, class_="thumbnail-item__subtitle")
         temp = get_div_text_from_(day, class_="temperature-min")
 
-        weather_details = get_weather_details_on_many_days_from_(
-            all_details, count
-        )
+        weather_details = get_weather_details_on_many_days_from_(all_details, count)
         description = get_description_from_(soup, count)
 
         text += f"""

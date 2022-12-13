@@ -14989,5 +14989,5 @@ UK_UKR_LOCALITIES = {
     "хотuн": "Khotyn",
     "чепоноси": "Cheponosy-chernovicka",
     "шилівці": "Shylivtsi-chernovicka",
-    "ширівці": "Shyrivtsi-chernovicka"
+    "ширівці": "Shyrivtsi-chernovicka",
 }

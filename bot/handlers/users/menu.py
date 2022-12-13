@@ -6,7 +6,7 @@ from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_country_choosing, make_button
 
 
-variants: tuple = (
+answer_options: tuple = (
     "← повернутися у головне меню",
     "← вернуться в главное меню",
     "← return to the main menu",
@@ -21,28 +21,30 @@ def _check_language_from_(text: types.Message, *, uk_word: str, ru_word: str) ->
     TEXT.check_language_by_(lang_code)
 
 
-@DP.message_handler(Text(variants[0], ignore_case=True))
-@DP.message_handler(Text(variants[1], ignore_case=True))
-@DP.message_handler(Text(variants[2], ignore_case=True))
-async def menu(message: types.Message):
-    """For getting the bot menu"""
-    global INFO, TEXT
-
-    user_message = message.text.lower()
-
-    if user_message in variants:
-        _check_language_from_(user_message, uk_word="головне", ru_word="главное")
-
+def _get_menu_keyboard(message: types.Message):
     mailing_btn_text = (
         TEXT().menu_btn_mailing_management()
         if message.from_user.id in MY_DB.chat_IDs
         else TEXT().menu_btn_turn_on_mailing()
     )
 
-    INFO.goal = "normal"
-
     markup = make_keyboard_for_country_choosing()
     markup.add(make_button(mailing_btn_text))
     markup.add(make_button(TEXT().menu_btn_goodbye()))
 
-    await message.answer(TEXT().menu_message(), reply_markup=markup)
+
+@DP.message_handler(Text(answer_options[0], ignore_case=True))
+@DP.message_handler(Text(answer_options[1], ignore_case=True))
+@DP.message_handler(Text(answer_options[2], ignore_case=True))
+async def menu(message: types.Message):
+    """For getting the bot menu"""
+    global INFO, TEXT
+    user_message = message.text.lower()
+
+    if user_message in answer_options:
+        _check_language_from_(user_message, uk_word="головне", ru_word="главное")
+
+    INFO.goal = "normal"
+    await message.answer(
+        TEXT().menu_message(), reply_markup=_get_menu_keyboard(message)
+    )

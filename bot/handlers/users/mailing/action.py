@@ -15,8 +15,7 @@ from ..menu import _check_language_from_
 async def turn_on_mailing(message: types.Message):
     """The handler for asking about turning on mailing"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().turn_on_mailing_question_message(),
@@ -31,8 +30,7 @@ async def turn_on_mailing(message: types.Message):
 async def turn_off_mailing(message: types.Message):
     """The handler for asking about turning off mailing"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="вимкнути", ru_word="отключить")
+    _check_language_from_(message.text.lower(), uk_word="вимкнути", ru_word="отключить")
 
     await message.answer(
         TEXT().turn_off_mailing_question_message(),

@@ -8,19 +8,19 @@ from keyboard import make_keyboard, make_button
 from ..menu import _check_language_from_
 
 
-variants: tuple = ("закінчити спілкування", "закончить общение", "end communication")
+answer_options = ("закінчити спілкування", "закончить общение", "end communication")
 
 
 @DP.message_handler(commands="goodbye")
-@DP.message_handler(Text(equals=variants[0], ignore_case=True))
-@DP.message_handler(Text(equals=variants[1], ignore_case=True))
-@DP.message_handler(Text(equals=variants[2], ignore_case=True))
+@DP.message_handler(Text(equals=answer_options[0], ignore_case=True))
+@DP.message_handler(Text(equals=answer_options[1], ignore_case=True))
+@DP.message_handler(Text(equals=answer_options[2], ignore_case=True))
 async def command_goodbye(message: types.Message):
     """The handler for the 'goodbye' command"""
     global TEXT
     user_text = message.text.lower()
 
-    if user_text in variants:
+    if user_text in answer_options:
         _check_language_from_(user_text, uk_word="спілкування", ru_word="общение")
 
     markup = make_keyboard(width=1)

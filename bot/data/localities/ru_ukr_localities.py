@@ -15021,5 +15021,5 @@ RU_UKR_LOCALITIES = {
     "санковцы": "Sankivtsi-chernovicka",
     "чепоносы": "Cheponosy-chernovicka",
     "шиловцы": "Shylivtsi-chernovicka",
-    "шировцы": "Shyrivtsi-chernovicka"
+    "шировцы": "Shyrivtsi-chernovicka",
 }

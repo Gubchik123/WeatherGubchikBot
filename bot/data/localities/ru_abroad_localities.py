@@ -46990,5 +46990,5 @@ RU_ABROAD_LOCALITIES = {
     "кярдла": "Kyardla",
     "албу": "Albu%20parish-jarva",
     "амбла": "Ambla%20parish-jarva",
-    "ярвамаа": "Jarva%20county-jarva"
+    "ярвамаа": "Jarva%20county-jarva",
 }

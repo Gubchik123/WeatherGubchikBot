@@ -39,8 +39,7 @@ async def _clean_info_and_change_regions_on_(
 async def weather_in_Ukraine(message: types.Message):
     """The handler for getting weather information in Ukraine"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="україні", ru_word="украине")
+    _check_language_from_(message.text.lower(), uk_word="україні", ru_word="украине")
 
     ukr_regions = {"uk": UK_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
         TEXT().lang_code, EN_UKR_LOCALITIES
@@ -55,8 +54,7 @@ async def weather_in_Ukraine(message: types.Message):
 async def weather_in_Europe(message: types.Message):
     """The handler for getting weather information in Europe"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="європі", ru_word="европе")
+    _check_language_from_(message.text.lower(), uk_word="європі", ru_word="европе")
 
     abroad_regions = {"uk": UK_ABROAD_LOCALITIES, "ru": RU_ABROAD_LOCALITIES}.get(
         TEXT().lang_code, EN_ABROAD_LOCALITIES
@@ -72,6 +70,11 @@ async def choose_region(message: types.Message):
         TEXT().choose_region_message(), reply_markup=types.ReplyKeyboardRemove()
     )
     await Choosing.region.set()
+
+
+def _check_the_match_is_100_between_user_option_and_(result: str):
+    """For checking the match is 100% between user option and extracted option"""
+    return result[0][1] == 100
 
 
 async def check_user_goal_on_region_phase(message: types.Message, state: FSMContext):
@@ -92,7 +95,7 @@ async def check_selected_region(message: types.Message, state: FSMContext):
 
     result: list = extractBests(user_text, INFO.region_titles, limit=4)
 
-    if result[0][1] == 100:
+    if _check_the_match_is_100_between_user_option_and_(result):
         INFO.city = INFO.regions[user_text]
         INFO.city_title = user_text.capitalize()
 
@@ -134,17 +137,22 @@ async def check_selected_region_title(message: types.Message, state: FSMContext)
         await choose_region_title(message, state)
 
 
-async def choose_period(message: types.Message):
-    """For choosing weather period"""
-    global TEXT
-
-    markup = make_keyboard(width=2)
-    markup.add(
+def _get_weather_period_buttons() -> tuple[str]:
+    """For getting buttons with weather periods"""
+    return (
         TEXT().today_btn(),
         TEXT().tomorrow_btn(),
         TEXT().week_btn(),
         TEXT().two_week_btn(),
     )
+
+
+async def choose_period(message: types.Message):
+    """For choosing weather period"""
+    global TEXT
+
+    markup = make_keyboard(width=2)
+    markup.add(*_get_weather_period_buttons())
 
     await message.answer(TEXT().choose_period_message(), reply_markup=markup)
     await Choosing.period.set()
@@ -174,16 +182,9 @@ async def check_user_goal_on_period_phase(message: types.Message):
 async def check_selected_period(message: types.Message, state: FSMContext):
     """For checking selected weather period"""
     global TEXT
-    periods: tuple = (
-        TEXT().today_btn(),
-        TEXT().tomorrow_btn(),
-        TEXT().week_btn(),
-        TEXT().two_week_btn(),
-    )
-
     user_text = message.text.lower()
 
-    if user_text in [period.lower() for period in periods]:
+    if user_text in [period.lower() for period in _get_weather_period_buttons()]:
         INFO.time_title = user_text
 
         check_selected_period_it_is_week_or_other()

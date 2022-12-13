@@ -10,5 +10,3 @@ MY_DB = DB()
 INFO = SelectedInfo()
 
 TEXT = Language()
-
-BASE_DIR = os.path.dirname(__file__)

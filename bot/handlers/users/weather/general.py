@@ -31,7 +31,4 @@ async def send_message_to_user_about_error(message: types.Message, error):
     await message.answer(TEXT().error_message())
 
     logger = logging.getLogger()
-
-    error_position = traceback.format_exception(error)[-2].split(r"\\")[-1]
-    error_message = "Exception place: " + error_position.replace("\n", " ")
-    logger.error(error_message)
+    logger.error(error)

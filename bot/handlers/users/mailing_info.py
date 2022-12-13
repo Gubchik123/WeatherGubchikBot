@@ -17,8 +17,7 @@ from .mailing.menu import mailing_menu
 async def ask_about_changing_mailing_city(message: types.Message):
     """The handler for asking about changing mailing city"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="місто", ru_word="город")
+    _check_language_from_(message.text.lower(), uk_word="місто", ru_word="город")
 
     await message.answer(
         TEXT().change_mailing_city_question_message(),
@@ -33,8 +32,7 @@ async def ask_about_changing_mailing_city(message: types.Message):
 async def ask_about_changing_mailing_period(message: types.Message):
     """The handler for asking about changing mailing period"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="період", ru_word="период")
+    _check_language_from_(message.text.lower(), uk_word="період", ru_word="период")
 
     await message.answer(
         TEXT().change_mailing_period_question_message(),
@@ -70,8 +68,7 @@ async def ask_about_mailing_mute_mode(message: types.Message):
 
 async def change_mailing_period(message: types.Message):
     """For changing mailing period"""
-    MY_DB.update_user_with(message.from_user.id,
-                           what_update="time", new_item=INFO)
+    MY_DB.update_user_with(message.from_user.id, what_update="time", new_item=INFO)
     await mailing_menu(message)
 
 

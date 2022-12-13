@@ -26,8 +26,7 @@ from ..info_choosing import choose_period
 async def turn_off_mute_mode_for_mailing(message: types.Message):
     """The handler for asking about mailing alert mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().unmute_mailing_mode_question_message(),
@@ -44,8 +43,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id,
-                               what_update="mute", new_item=False)
+        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=False)
         await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
@@ -61,8 +59,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 async def turn_on_mute_mode_for_mailing(message: types.Message):
     """The handler for asking about mailing mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().mute_mailing_mode_question_message(),
@@ -79,8 +76,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id,
-                               what_update="mute", new_item=True)
+        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=True)
         await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
@@ -96,8 +92,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 async def change_mailing_time(message: types.Message):
     """The handler for asking about changing mailing time"""
     global TEXT
-    _check_language_from_(message.text.lower(),
-                          uk_word="змінити", ru_word="сменить")
+    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
 
     await message.answer(
         TEXT().change_mailing_time_question_message(),

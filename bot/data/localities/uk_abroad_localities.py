@@ -47658,5 +47658,5 @@ UK_ABROAD_LOCALITIES = {
     "галланд": "Halland%20county-halland",
     "кунгсбака": "Kungsbacka",
     "фалькенберг": "Falkenberg",
-    "хальмстад": "Halmstad"
+    "хальмстад": "Halmstad",
 }

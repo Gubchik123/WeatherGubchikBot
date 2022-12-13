@@ -47579,5 +47579,5 @@ EN_ABROAD_LOCALITIES = {
     "whitby": "Whitbygb",
     "wakefield": "Wakefield",
     "york": "York",
-    "vatican": "Vatican"
+    "vatican": "Vatican",
 }

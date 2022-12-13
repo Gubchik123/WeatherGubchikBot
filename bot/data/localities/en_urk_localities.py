@@ -14979,5 +14979,5 @@ EN_UKR_LOCALITIES = {
     "veselyanka": "Veselyanka-zaporozhska",
     "vysokohirne": "Vysokohirne-zaporozhska",
     "yul'ivka": "Yulivka-zaporozhska",
-    "yavornyts'ke": "Yavornytske-zaporozhska"
+    "yavornyts'ke": "Yavornytske-zaporozhska",
 }

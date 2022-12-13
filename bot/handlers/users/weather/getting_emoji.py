@@ -68,8 +68,7 @@ def get_cloud_with_rain_description():
 def get_cloud_with_snow_description():
     """For getting 🌨️ emoji description by RegExp and language"""
     return get_string_by_(
-        regex={"uk": r".*сніг.*", "ru": r".*снег.*",
-               "en": r".*snow.*"}.get(LANG)
+        regex={"uk": r".*сніг.*", "ru": r".*снег.*", "en": r".*snow.*"}.get(LANG)
     )
 
 
