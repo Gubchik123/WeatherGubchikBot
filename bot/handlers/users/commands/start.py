@@ -43,7 +43,9 @@ async def check_language(message: types.Message, state: FSMContext) -> None:
         TEXT.change_on(user_text)
 
         if user_chat_id in MY_DB.chat_IDs:
-            MY_DB.update_user_lang_with_(user_chat_id, lang=user_text)
+            MY_DB.update_mailing_lang_code_for_user_with_(
+                chat_id=user_chat_id, new_lang_code=user_text
+            )
 
         await start(message) if GOAL == "start" else await menu(message)
     else:

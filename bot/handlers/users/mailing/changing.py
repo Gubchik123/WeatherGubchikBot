@@ -26,7 +26,8 @@ from ..info_choosing import choose_period
 async def turn_off_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing alert mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().unmute_mailing_mode_question_message(),
@@ -45,7 +46,9 @@ async def checking_turning_on_mute_mode(
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=False)
+        MY_DB.update_mailing_mute_mode_for_user_with_(
+            chat_id=message.from_user.id, new_mute_mode=False
+        )
         await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
@@ -61,7 +64,8 @@ async def checking_turning_on_mute_mode(
 async def turn_on_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing mute mode"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().mute_mailing_mode_question_message(),
@@ -80,7 +84,9 @@ async def checking_turning_on_mute_mode(
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_user_with(message.from_user.id, what_update="mute", new_item=True)
+        MY_DB.update_mailing_mute_mode_for_user_with_(
+            chat_id=message.from_user.id, new_mute_mode=True
+        )
         await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
@@ -96,7 +102,8 @@ async def checking_turning_on_mute_mode(
 async def change_mailing_time(message: types.Message) -> None:
     """The handler for asking about changing mailing time"""
     global TEXT
-    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
+    _check_language_from_(message.text.lower(),
+                          uk_word="змінити", ru_word="сменить")
 
     await message.answer(
         TEXT().change_mailing_time_question_message(),

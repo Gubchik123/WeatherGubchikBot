@@ -75,8 +75,8 @@ async def check_selected_mailing_time(
             INFO.lang = TEXT().lang_code
             await confirm_mailing_for_user(message, time=time_int)
         else:
-            MY_DB.update_user_with(
-                message.from_user.id, what_update="time_int", new_item=time_int
+            MY_DB.update_mailing_time_int_for_user_with_(
+                chat_id=message.from_user.id, new_time_int=time_int
             )
             await mailing_menu(message)
     else:
@@ -87,7 +87,8 @@ async def confirm_mailing_for_user(message: types.Message, time: int) -> None:
     """For confirmation mailing and adding user in db"""
     global TEXT
 
-    MY_DB.add(user=TelegramUser(message, mute_mode=MUTE, time=time), info=INFO)
+    MY_DB.add_(user=TelegramUser(
+        message, mute_mode=MUTE, time=time), info=INFO)
 
     await message.answer(TEXT().successfully_turn_on_mailing_message())
     await menu(message)
