@@ -6,7 +6,7 @@ class EN(_Basic):
 
     lang_code = "en"
 
-    def hello_message(self, name: str):
+    def hello_message(self, name: str) -> str:
         return self._get_correct_text_from_(
             f"""
         Hello, {name}
@@ -14,7 +14,7 @@ class EN(_Basic):
         """
         )
 
-    def goodbye_message(self, name: str):
+    def goodbye_message(self, name: str) -> str:
         return self._get_correct_text_from_(
             f"""
         Bye, {name}, come back again
@@ -22,7 +22,7 @@ class EN(_Basic):
         """
         )
 
-    def general_rules(self):
+    def general_rules(self) -> str:
         return self._get_correct_text_from_(
             """
         Bot commands:
@@ -44,37 +44,37 @@ class EN(_Basic):
         """
         )
 
-    def searching_message(self):
+    def searching_message(self) -> str:
         return "Searching..."
 
-    def wait_message(self):
+    def wait_message(self) -> str:
         return "Processing..."
 
-    def yes_btn(self):
+    def yes_btn(self) -> str:
         return "Yes"
 
-    def no_btn(self):
+    def no_btn(self) -> str:
         return "No"
 
-    def weather_in_Ukraine_btn(self):
+    def weather_in_Ukraine_btn(self) -> str:
         return "Weather in Ukraine"
 
-    def weather_in_Europe_btn(self):
+    def weather_in_Europe_btn(self) -> str:
         return "Weather in Europe"
 
-    def back_to_menu_btn(self):
+    def back_to_menu_btn(self) -> str:
         return "← Return to the main menu"
 
-    def menu_btn_mailing_management(self):
+    def menu_btn_mailing_management(self) -> str:
         return "Mailing management"
 
-    def menu_btn_turn_on_mailing(self):
+    def menu_btn_turn_on_mailing(self) -> str:
         return "Enable mailing"
 
-    def menu_btn_goodbye(self):
+    def menu_btn_goodbye(self) -> str:
         return "End communication"
 
-    def menu_message(self):
+    def menu_message(self) -> str:
         return self._get_correct_text_from_(
             """
         You are in the main menu
@@ -82,37 +82,37 @@ class EN(_Basic):
         """
         )
 
-    def choose_region_message(self):
+    def choose_region_message(self) -> str:
         return "Enter the name of the city / locality"
 
-    def repeat_choosing_btn(self):
+    def repeat_choosing_btn(self) -> str:
         return "Retry the input"
 
-    def choose_minded_option(self):
+    def choose_minded_option(self) -> str:
         return "Choose the option you had in mind"
 
-    def there_are_not_such_type_of_region_message(self):
+    def there_are_not_such_type_of_region_message(self) -> str:
         return "You chose the wrong option"
 
-    def today_btn(self):
+    def today_btn(self) -> str:
         return "Today"
 
-    def tomorrow_btn(self):
+    def tomorrow_btn(self) -> str:
         return "Tomorrow"
 
-    def week_btn(self):
+    def week_btn(self) -> str:
         return "Week"
 
-    def two_week_btn(self):
+    def two_week_btn(self) -> str:
         return "Fortnight"
 
-    def choose_period_message(self):
+    def choose_period_message(self) -> str:
         return "Select the forecast period"
 
-    def there_are_not_such_type_of_period_message(self):
+    def there_are_not_such_type_of_period_message(self) -> str:
         return "Unknown forecast period"
 
-    def error_message(self):
+    def error_message(self) -> str:
         return self._get_correct_text_from_(
             """
         An error occurred!
@@ -120,7 +120,9 @@ class EN(_Basic):
         """
         )
 
-    def mailing_info_message(self, time_int, mute, time, city):
+    def mailing_info_message(
+        self, time_int: int, mute: bool, time: str, city: str
+    ) -> str:
         return self._get_correct_text_from_(
             f"""
         You are in the mailing list management menu
@@ -134,71 +136,71 @@ class EN(_Basic):
         """
         )
 
-    def mute_mode_btn(self):
+    def mute_mode_btn(self) -> str:
         return "Enable silent mode"
 
-    def unmute_mode_btn(self):
+    def unmute_mode_btn(self) -> str:
         return "Enable notification mode"
 
-    def change_mailing_time_btn(self):
+    def change_mailing_time_btn(self) -> str:
         return "Change the mailing time"
 
-    def change_mailing_city_btn(self):
+    def change_mailing_city_btn(self) -> str:
         return "Change city"
 
-    def change_mailing_period_btn(self):
+    def change_mailing_period_btn(self) -> str:
         return "Change the forecast period"
 
-    def turn_off_mailing_btn(self):
+    def turn_off_mailing_btn(self) -> str:
         return "Turn off mailing"
 
-    def daily_mailing_message(self):
+    def daily_mailing_message(self) -> str:
         return "Daily newsletter"
 
-    def what_do_you_want_to_do_with_mailing_message(self):
+    def what_do_you_want_to_do_with_mailing_message(self) -> str:
         return "What do you want to do?"
 
-    def turn_on_mailing_question_message(self):
+    def turn_on_mailing_question_message(self) -> str:
         return "Do you really want to sign up for a daily weather forecast newsletter?"
 
-    def turn_off_mailing_question_message(self):
+    def turn_off_mailing_question_message(self) -> str:
         return "Are you sure you want to cancel your daily weather newsletter?"
 
-    def change_mailing_city_question_message(self):
+    def change_mailing_city_question_message(self) -> str:
         return "Do you really want to change the city?"
 
-    def change_mailing_period_question_message(self):
+    def change_mailing_period_question_message(self) -> str:
         return "Are you sure you want to change the forecast period?"
 
-    def what_mailing_time_question_message(self):
+    def what_mailing_time_question_message(self) -> str:
         return "At what time would you like to receive the newsletter?"
 
-    def mailing_mute_mode_question_message(self):
+    def mailing_mute_mode_question_message(self) -> str:
         return "Would you like to receive a silent message?"
 
-    def ok_action_canceled_message(self):
+    def ok_action_canceled_message(self) -> str:
         return "OK, action cancelled"
 
-    def there_are_not_such_type_of_answer_message(self):
+    def there_are_not_such_type_of_answer_message(self) -> str:
         return "There is no such answer, please check and try again"
 
-    def choose_weather_country_question_message(self):
+    def choose_weather_country_question_message(self) -> str:
         return "Where would you like to see the weather?"
 
-    def choose_mailing_country_question_message(self):
+    def choose_mailing_country_question_message(self) -> str:
         return "Where do you want to get the weather?"
 
-    def successfully_turn_on_mailing_message(self):
+    def successfully_turn_on_mailing_message(self) -> str:
         return "You have successfully completed the mailing"
 
-    def successfully_turn_off_mailing_message(self):
+    def successfully_turn_off_mailing_message(self) -> str:
         return "You have successfully canceled your daily weather forecast newsletter"
 
-    def unmute_mailing_mode_question_message(self):
+    def unmute_mailing_mode_question_message(self) -> str:
         return "Are you sure you want to enable notification mode?"
 
-    def mute_mailing_mode_question_message(self):
+    def mute_mailing_mode_question_message(self) -> str:
         return "Are you sure you want to enable silent mode?"
 
-    def change_mailing_time_question_message(self):
+    def change_mailing_time_question_message(self) -> str:
         return "Are you sure you want to change the delivery time?"

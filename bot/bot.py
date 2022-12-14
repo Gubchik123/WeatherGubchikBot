@@ -9,7 +9,7 @@ from utils.bot_commands import set_default_commands
 from handlers.users.daily_mailing import send_to_users
 
 
-def set_hours_for_daily_mailing():
+def set_hours_for_daily_mailing() -> None:
     """For setting daily mailing time by Kiev timezone"""
     scheduler = AsyncIOScheduler(timezone="Europe/Kiev")
     for hour in (6, 9, 12, 15, 18, 21):

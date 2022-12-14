@@ -21,7 +21,7 @@ MUTE = None
 @DP.message_handler(state=Mailing.turn_on)
 async def checking_answer_about_turning_on_mailing(
     message: types.Message, state: FSMContext
-):
+) -> None:
     """For checking user answer about turning on mailing"""
     global INFO, TEXT
 
@@ -43,7 +43,7 @@ async def checking_answer_about_turning_on_mailing(
 
 
 @DP.message_handler(state=Mailing.mute_mode)
-async def checking_answer_about_mailing_mute_mode(message: types.Message):
+async def checking_answer_about_mailing_mute_mode(message: types.Message) -> None:
     """For checking answer about mailing mute mode"""
     global MUTE, TEXT
 
@@ -59,7 +59,9 @@ async def checking_answer_about_mailing_mute_mode(message: types.Message):
 
 
 @DP.message_handler(state=Mailing.time)
-async def check_selected_mailing_time(message: types.Message, state: FSMContext):
+async def check_selected_mailing_time(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking selected mailing time"""
     global INFO, TEXT
 
@@ -81,7 +83,7 @@ async def check_selected_mailing_time(message: types.Message, state: FSMContext)
         await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
 
 
-async def confirm_mailing_for_user(message: types.Message, time: int):
+async def confirm_mailing_for_user(message: types.Message, time: int) -> None:
     """For confirmation mailing and adding user in db"""
     global TEXT
 

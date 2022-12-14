@@ -22,7 +22,7 @@ def get_users_with_mailing_on_current_time() -> list[tuple]:
     ]
 
 
-def fill_weather_information_by_(data: tuple):
+def fill_weather_information_by_(data: tuple) -> None:
     """For filling info object with user data for weather searching"""
     global INFO
 
@@ -45,11 +45,11 @@ def get_message_text_by_(data: tuple) -> str:
     )
 
 
-async def send_to_users():
+async def send_to_users() -> None:
     """For sending weather message to users with current time for mailing"""
     for data in get_users_with_mailing_on_current_time():
         try:
-            chat_id = data[0]
+            chat_id: int = data[0]
             mute = True if data[1] else False
 
             fill_weather_information_by_(data)

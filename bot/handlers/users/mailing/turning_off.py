@@ -13,7 +13,7 @@ from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 @DP.message_handler(state=Mailing.turn_off)
 async def checking_answer_about_turning_off_mailing(
     message: types.Message, state: FSMContext
-):
+) -> None:
     """For checking user answer about turning off mailing"""
     global TEXT
     user_answer = message.text.lower()
@@ -27,7 +27,7 @@ async def checking_answer_about_turning_off_mailing(
         await there_is_no_such_type_of_answer_try_again(turn_off_mailing, message)
 
 
-async def withdraw_mailing_for_user(message: types.Message, state: FSMContext):
+async def withdraw_mailing_for_user(message: types.Message, state: FSMContext) -> None:
     """For withdrawing mailing and deleting user from db"""
     global TEXT
     MY_DB.delete_user_with(message.from_user.id)

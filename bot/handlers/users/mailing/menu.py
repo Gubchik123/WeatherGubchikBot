@@ -11,7 +11,7 @@ from ..menu import _check_language_from_
 variants = ("управління розсилкою", "управление рассылкой", "mailing management")
 
 
-def _get_mailing_menu_keyboard_with_(mute_btn_text: str):
+def _get_mailing_menu_keyboard_with_(mute_btn_text: str) -> types.ReplyKeyboardMarkup:
     """For getting mailing menu keyboard"""
     markup = make_keyboard(width=2)
     markup.add(
@@ -28,7 +28,7 @@ def _get_mailing_menu_keyboard_with_(mute_btn_text: str):
 @DP.message_handler(Text(variants[0], ignore_case=True))
 @DP.message_handler(Text(variants[1], ignore_case=True))
 @DP.message_handler(Text(variants[2], ignore_case=True))
-async def mailing_menu(message: types.Message):
+async def mailing_menu(message: types.Message) -> None:
     """The handler for getting the mailing menu"""
     global TEXT
     user_text = message.text.lower()
@@ -38,7 +38,7 @@ async def mailing_menu(message: types.Message):
 
     data = MY_DB.get_information_about_user_with_(message.from_user.id)
 
-    mute = data["mute"]
+    mute: bool = data["mute"]
     mute_btn_text = TEXT().unmute_mode_btn() if mute else TEXT().mute_mode_btn()
 
     await message.answer(

@@ -1,9 +1,8 @@
 from aiogram.types import BotCommand, BotCommandScopeDefault
-
 from bot_info import BOT
 
 
-async def set_default_commands(message):
+async def set_default_commands(message) -> None:
     """For setting default bot commands for 3 language"""
     bot_commands = {
         "uk": [

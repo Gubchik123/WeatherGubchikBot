@@ -1,9 +1,9 @@
+from aiogram import types
 from constants import TEXT
-
 from .default import make_keyboard, make_button
 
 
-def make_keyboard_for_yes_or_no_answer():
+def make_keyboard_for_yes_or_no_answer() -> types.ReplyKeyboardMarkup:
     """For getting keyboard with agree and decline buttons"""
     global TEXT
     markup = make_keyboard(width=2, one_time=True)
@@ -11,7 +11,7 @@ def make_keyboard_for_yes_or_no_answer():
     return markup
 
 
-def make_keyboard_for_country_choosing():
+def make_keyboard_for_country_choosing() -> types.ReplyKeyboardMarkup:
     """For getting keyboard with buttons for searching weather information"""
     global TEXT
     markup = make_keyboard(width=2, one_time=True)

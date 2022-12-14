@@ -6,7 +6,7 @@ DESC = ""
 LANG = ""
 
 
-def get_string_by_(regex: str):
+def get_string_by_(regex: str) -> str:
     """For getting string by RegExp if it is correct else empty string"""
     try:
         return re.search(regex, DESC)[0]
@@ -14,14 +14,14 @@ def get_string_by_(regex: str):
         return ""
 
 
-def get_sun_description():
+def get_sun_description() -> str:
     """For getting ☀️ emoji description by RegExp and language"""
     return get_string_by_(
         regex={"uk": r"ясно,.+", "ru": r"ясно,.+", "en": r"clear,.+"}.get(LANG)
     )
 
 
-def get_sun_behind_cloud_description():
+def get_sun_behind_cloud_description() -> str:
     """For getting ⛅️ emoji description by RegExp and language"""
     return get_string_by_(
         regex={
@@ -32,7 +32,7 @@ def get_sun_behind_cloud_description():
     )
 
 
-def get_cloud_description():
+def get_cloud_description() -> str:
     """For getting ☁️ emoji description by RegExp and language"""
     return get_string_by_(
         regex={
@@ -43,7 +43,7 @@ def get_cloud_description():
     )
 
 
-def get_sun_behind_rain_cloud_description():
+def get_sun_behind_rain_cloud_description() -> str:
     """For getting 🌦 emoji description by RegExp and language"""
     return get_string_by_(
         regex={
@@ -54,7 +54,7 @@ def get_sun_behind_rain_cloud_description():
     )
 
 
-def get_cloud_with_rain_description():
+def get_cloud_with_rain_description() -> str:
     """For getting 🌧 emoji description by RegExp and language"""
     return get_string_by_(
         regex={
@@ -65,14 +65,14 @@ def get_cloud_with_rain_description():
     )
 
 
-def get_cloud_with_snow_description():
+def get_cloud_with_snow_description() -> str:
     """For getting 🌨️ emoji description by RegExp and language"""
     return get_string_by_(
         regex={"uk": r".*сніг.*", "ru": r".*снег.*", "en": r".*snow.*"}.get(LANG)
     )
 
 
-def get_weather_emoji_by_(desc: str):
+def get_weather_emoji_by_(desc: str) -> str:
     """For getting weather emoji by description and language"""
     global DESC, LANG
 

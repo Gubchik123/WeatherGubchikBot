@@ -14,7 +14,7 @@ from .mailing.menu import mailing_menu
 @DP.message_handler(Text("змінити місто", ignore_case=True))
 @DP.message_handler(Text("сменить город", ignore_case=True))
 @DP.message_handler(Text("change city", ignore_case=True))
-async def ask_about_changing_mailing_city(message: types.Message):
+async def ask_about_changing_mailing_city(message: types.Message) -> None:
     """The handler for asking about changing mailing city"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="місто", ru_word="город")
@@ -29,7 +29,7 @@ async def ask_about_changing_mailing_city(message: types.Message):
 @DP.message_handler(Text("змінити період прогнозу", ignore_case=True))
 @DP.message_handler(Text("изменить период прогноза", ignore_case=True))
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
-async def ask_about_changing_mailing_period(message: types.Message):
+async def ask_about_changing_mailing_period(message: types.Message) -> None:
     """The handler for asking about changing mailing period"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="період", ru_word="период")
@@ -41,7 +41,7 @@ async def ask_about_changing_mailing_period(message: types.Message):
     await Mailing.change_period.set()
 
 
-async def select_mailing_time(message: types.Message, goal: str = "mailing"):
+async def select_mailing_time(message: types.Message, goal: str = "mailing") -> None:
     """For choosing mailing time"""
     global INFO
     INFO.goal = goal
@@ -57,7 +57,7 @@ async def select_mailing_time(message: types.Message, goal: str = "mailing"):
     await Mailing.time.set()
 
 
-async def ask_about_mailing_mute_mode(message: types.Message):
+async def ask_about_mailing_mute_mode(message: types.Message) -> None:
     """For asking about choosing mailing mute mode"""
     await message.answer(
         TEXT().mailing_mute_mode_question_message(),
@@ -66,13 +66,13 @@ async def ask_about_mailing_mute_mode(message: types.Message):
     await Mailing.mute_mode.set()
 
 
-async def change_mailing_period(message: types.Message):
+async def change_mailing_period(message: types.Message) -> None:
     """For changing mailing period"""
     MY_DB.update_user_with(message.from_user.id, what_update="time", new_item=INFO)
     await mailing_menu(message)
 
 
-async def change_mailing_city_on_(message: types.Message):
+async def change_mailing_city_on_(message: types.Message) -> None:
     """For changing mailing city"""
     MY_DB.update_user_with(
         message.from_user.id, what_update="city", new_item=(INFO.city, INFO.city_title)

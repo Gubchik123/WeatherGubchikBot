@@ -24,7 +24,7 @@ class WeatherDetailTitle(WeatherDetail):
     """For storing weather detail titles by language"""
 
 
-async def _send_weather_info_to_me(message: types.Message):
+async def _send_weather_info_to_me(message: types.Message) -> str:
     """For sending to me message about weather info user got"""
     my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
 
@@ -35,7 +35,7 @@ async def _send_weather_info_to_me(message: types.Message):
         )
 
 
-async def get_info_about_weather_by_(message: types.Message):
+async def get_info_about_weather_by_(message: types.Message) -> str:
     """For sending weather message to user"""
     try:
         await message.answer(
@@ -50,7 +50,7 @@ async def get_info_about_weather_by_(message: types.Message):
         await send_message_to_user_about_error(message, error)
 
 
-def get_block_and_title_from(soup: BeautifulSoup):
+def get_block_and_title_from(soup: BeautifulSoup) -> tuple[BeautifulSoup, str]:
     """For getting block for future parsing and page title (h1)"""
     try:
         block = soup.find("div", class_="page-columns-wrapper")
@@ -69,7 +69,7 @@ def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
     )
 
 
-def get_all_columns_from_(block: BeautifulSoup):
+def get_all_columns_from_(block: BeautifulSoup) -> tuple[BeautifulSoup]:
     """For getting all list items with weather data"""
     return block.find("ul", class_="today-hourly-weather").find_all("li")
 
@@ -85,7 +85,7 @@ def get_span_number_from_(column: BeautifulSoup, class_: str) -> str:
     return span_text.split(" ")[0] if " " in span_text else span_text[:-1]
 
 
-def get_wind_symbol():
+def get_wind_symbol() -> str:
     """For getting wind symbol by current language code"""
     return {"uk": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
 
@@ -150,7 +150,7 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     return text
 
 
-def get_information_about_one_day():
+def get_information_about_one_day() -> str:
     """For getting result weather message about one day"""
     block, title = get_block_and_title_from(get_soup_by_(INFO.generated_url))
 
@@ -169,7 +169,9 @@ def get_information_about_one_day():
     )
 
 
-def get_weather_details_on_many_days_from_(block: BeautifulSoup, count: int):
+def get_weather_details_on_many_days_from_(
+    block: BeautifulSoup, count: int
+) -> WeatherDetail:
     """For getting weather details from block (div) by column count"""
     return WeatherDetail(
         wind=block[0].find_all("li")[count].text.strip(),
@@ -178,7 +180,7 @@ def get_weather_details_on_many_days_from_(block: BeautifulSoup, count: int):
     )
 
 
-def get_description_from_(block: BeautifulSoup, count: int):
+def get_description_from_(block: BeautifulSoup, count: int) -> str:
     """For getting day weather description from block (div) by column count"""
     block_with_details = block.find("div", class_="swiper-gallery")
     description = block_with_details.find_all("div", class_="description")[
@@ -192,7 +194,7 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days():
+def get_information_about_many_days() -> str:
     """For getting result weather message about many days"""
     text = ""
     soup = get_soup_by_(INFO.generated_url)

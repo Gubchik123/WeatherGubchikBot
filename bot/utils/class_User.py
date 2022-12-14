@@ -12,21 +12,21 @@ class TelegramUser:
         self.__time = time
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Getter for user's name"""
         return self.__name
 
     @property
-    def chat_id(self):
+    def chat_id(self) -> int:
         """Getter for user's chat_id"""
         return self.__chat_id
 
     @property
-    def selected_mute_mode(self):
+    def selected_mute_mode(self) -> bool:
         """Getter for user's selected mute mode"""
         return self.__mute
 
     @property
-    def selected_time(self):
+    def selected_time(self) -> int:
         """Getter for user's selected time"""
         return self.__time

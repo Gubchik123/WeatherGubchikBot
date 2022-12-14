@@ -23,7 +23,7 @@ from ..info_choosing import choose_period
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
 @DP.message_handler(Text("включить режим оповещения", ignore_case=True))
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
-async def turn_off_mute_mode_for_mailing(message: types.Message):
+async def turn_off_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing alert mute mode"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
@@ -36,7 +36,9 @@ async def turn_off_mute_mode_for_mailing(message: types.Message):
 
 
 @DP.message_handler(state=Mailing.turn_off_mute_mode)
-async def checking_turning_on_mute_mode(message: types.Message, state: FSMContext):
+async def checking_turning_on_mute_mode(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking answer about turning off mailing mute mode"""
     global TEXT
     user_answer = message.text.lower()
@@ -56,7 +58,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("увімкнути беззвучний режим", ignore_case=True))
 @DP.message_handler(Text("включить беззвучный режим", ignore_case=True))
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
-async def turn_on_mute_mode_for_mailing(message: types.Message):
+async def turn_on_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing mute mode"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
@@ -69,7 +71,9 @@ async def turn_on_mute_mode_for_mailing(message: types.Message):
 
 
 @DP.message_handler(state=Mailing.turn_on_mute_mode)
-async def checking_turning_on_mute_mode(message: types.Message, state: FSMContext):
+async def checking_turning_on_mute_mode(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking answer about turning on mailing mute mode"""
     global TEXT
     user_answer = message.text.lower()
@@ -89,7 +93,7 @@ async def checking_turning_on_mute_mode(message: types.Message, state: FSMContex
 @DP.message_handler(Text("змінити час розсилки", ignore_case=True))
 @DP.message_handler(Text("сменить время рассылки", ignore_case=True))
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
-async def change_mailing_time(message: types.Message):
+async def change_mailing_time(message: types.Message) -> None:
     """The handler for asking about changing mailing time"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
@@ -102,7 +106,9 @@ async def change_mailing_time(message: types.Message):
 
 
 @DP.message_handler(state=Mailing.change_time)
-async def checking_changed_mailing_time(message: types.Message, state: FSMContext):
+async def checking_changed_mailing_time(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking answer about changing mailing time"""
     global TEXT
     user_answer = message.text.lower()
@@ -117,7 +123,7 @@ async def checking_changed_mailing_time(message: types.Message, state: FSMContex
 
 
 @DP.message_handler(state=Mailing.change_city)
-async def checking_changing_city(message: types.Message, state: FSMContext):
+async def checking_changing_city(message: types.Message, state: FSMContext) -> None:
     """For checking answer about changing mailing city"""
     global INFO, TEXT
 
@@ -141,7 +147,7 @@ async def checking_changing_city(message: types.Message, state: FSMContext):
 
 
 @DP.message_handler(state=Mailing.change_period)
-async def checking_changing_period(message: types.Message, state: FSMContext):
+async def checking_changing_period(message: types.Message, state: FSMContext) -> None:
     """For checking answer about changing mailing period"""
     global INFO, TEXT
 

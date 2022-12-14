@@ -12,7 +12,7 @@ from ..menu import _check_language_from_
 @DP.message_handler(Text(equals="увімкнути розсилку", ignore_case=True))
 @DP.message_handler(Text(equals="включить рассылку", ignore_case=True))
 @DP.message_handler(Text(equals="enable mailing", ignore_case=True))
-async def turn_on_mailing(message: types.Message):
+async def turn_on_mailing(message: types.Message) -> None:
     """The handler for asking about turning on mailing"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
@@ -27,7 +27,7 @@ async def turn_on_mailing(message: types.Message):
 @DP.message_handler(Text(equals="вимкнути розсилку", ignore_case=True))
 @DP.message_handler(Text(equals="отключить рассылку", ignore_case=True))
 @DP.message_handler(Text(equals="turn off mailing", ignore_case=True))
-async def turn_off_mailing(message: types.Message):
+async def turn_off_mailing(message: types.Message) -> None:
     """The handler for asking about turning off mailing"""
     global TEXT
     _check_language_from_(message.text.lower(), uk_word="вимкнути", ru_word="отключить")
