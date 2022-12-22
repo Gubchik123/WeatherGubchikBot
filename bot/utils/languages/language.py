@@ -10,7 +10,7 @@ class Language:
         """For initializing and creating language object"""
         self.__lang_obj = None
 
-    def __call__(self) -> UK | EN | RU:
+    def __call__(self):
         """For getting current language object"""
         return self.__lang_obj
 
