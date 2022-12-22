@@ -68,13 +68,13 @@ async def ask_about_mailing_mute_mode(message: types.Message) -> None:
 
 async def change_mailing_period(message: types.Message) -> None:
     """For changing mailing period"""
-    MY_DB.update_user_with(message.from_user.id, what_update="time", new_item=INFO)
+    MY_DB.update_mailing_time_for_user_with_(message.from_user.id, info=INFO)
     await mailing_menu(message)
 
 
 async def change_mailing_city_on_(message: types.Message) -> None:
     """For changing mailing city"""
-    MY_DB.update_user_with(
-        message.from_user.id, what_update="city", new_item=(INFO.city, INFO.city_title)
+    MY_DB.update_mailing_city_for_user_with_(
+        message.from_user.id, new_city={"string": INFO.city, "title": INFO.city_title}
     )
     await mailing_menu(message)
