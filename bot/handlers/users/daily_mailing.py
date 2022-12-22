@@ -11,7 +11,7 @@ from .weather.parsing import (
 )
 
 
-def get_users_with_mailing_on_current_time() -> tuple[UserDBInfo]:
+def get_users_with_mailing_on_current_time() -> tuple:
     """For getting users with current time for mailing"""
     datetime_now = datetime.now()
 
