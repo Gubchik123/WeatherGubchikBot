@@ -33,7 +33,7 @@ class DB:
         """
 
     @property
-    def chat_IDs(self) -> tuple[int]:
+    def chat_IDs(self) -> tuple:
         """Getter for users' chat IDs"""
         return self.__chat_IDs
 
@@ -53,7 +53,7 @@ class DB:
             cursor.execute(sql_adding_query)
         self.__chat_IDs = self._get_all_chat_IDs()
 
-    def get_all_users(self) -> tuple[UserDBInfo]:
+    def get_all_users(self) -> tuple:
         """For getting information about users for mailing from database"""
         with self._connection.cursor() as cursor:
             cursor.execute(f"SELECT {self.__rows_for_selecting} FROM mailing;")
