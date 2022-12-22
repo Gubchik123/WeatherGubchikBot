@@ -15,8 +15,7 @@ def _get_mailing_menu_keyboard_with_(mute: bool) -> types.ReplyKeyboardMarkup:
     """For getting mailing menu keyboard"""
     markup = make_keyboard(width=2)
     markup.add(
-        make_button(TEXT().unmute_mode_btn()
-                    if mute else TEXT().mute_mode_btn()),
+        make_button(TEXT().unmute_mode_btn() if mute else TEXT().mute_mode_btn()),
         make_button(TEXT().change_mailing_time_btn()),
         make_button(TEXT().change_mailing_city_btn()),
         make_button(TEXT().change_mailing_period_btn()),
@@ -40,7 +39,9 @@ async def mailing_menu(message: types.Message) -> None:
     user = MY_DB.get_user_with_(chat_id=message.from_user.id)
 
     await message.answer(
-        TEXT().mailing_info_message(user.time_int, user.mute, user.time_title, user.city)
+        TEXT().mailing_info_message(
+            user.time_int, user.mute, user.time_title, user.city_title
+        )
     )
     await message.answer(
         TEXT().what_do_you_want_to_do_with_mailing_message(),
