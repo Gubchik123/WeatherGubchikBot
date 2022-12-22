@@ -26,5 +26,5 @@ def set_hours_for_daily_mailing() -> None:
 if __name__ == "__main__":
     set_hours_for_daily_mailing()
 
-    # Start polling and on start set default bot commands for 3 language
-    executor.start_polling(DP, on_startup=set_default_commands)
+    # Start polling, skip updates and on start set default bot commands for 3 language
+    executor.start_polling(DP, skip_updates=True, on_startup=set_default_commands)
