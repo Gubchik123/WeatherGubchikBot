@@ -54,15 +54,23 @@ async def send_to_users() -> None:
             fill_weather_information_by_(user)
 
             await BOT.send_message(
-                user.chat_id, TEXT().daily_mailing_message(),
-                disable_notification=user.mute
+                user.chat_id,
+                TEXT().daily_mailing_message(),
+                disable_notification=user.mute,
             )
             await BOT.send_message(
-                user.chat_id, get_message_text_by_(user.lang),
-                disable_notification=user.mute
+                user.chat_id,
+                get_message_text_by_(user.lang),
+                disable_notification=user.mute,
             )
+
+            if datetime.now().day == 21:
+                await BOT.send_message(
+                    user.chat_id,
+                    TEXT().last_mailing_message_in_this_month(),
+                    disable_notification=user.mute,
+                )
         except:
             logger = logging.getLogger()
-            logger.error(
-                f"Exception in daily mailing with user: {user.chat_id}")
+            logger.error(f"Exception in daily mailing with user: {user.chat_id}")
             continue

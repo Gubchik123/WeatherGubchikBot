@@ -157,6 +157,9 @@ class UK(_Basic):
     def daily_mailing_message(self) -> str:
         return "Щоденна розсилка"
 
+    def last_mailing_message_in_this_month(self) -> str:
+        return "Зустрінемося у наступному місяці :)"
+
     def what_do_you_want_to_do_with_mailing_message(self) -> str:
         return "Що ви бажаєте зробити?"
 

@@ -110,6 +110,9 @@ class _Basic:
     def daily_mailing_message(self) -> str:
         """For getting the mailing message text"""
 
+    def last_mailing_message_in_this_month(self) -> str:
+        """For getting the last mailing message in this month"""
+
     def what_do_you_want_to_do_with_mailing_message(self) -> str:
         """For getting the message text for asking about mailing action"""
 
