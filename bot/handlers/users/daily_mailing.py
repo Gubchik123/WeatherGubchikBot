@@ -11,7 +11,7 @@ from .weather.parsing import (
 )
 
 
-def get_users_with_mailing_on_current_time() -> tuple:
+def get_users_with_mailing_on_current_time() -> tuple[UserDBInfo]:
     """For getting users with current time for mailing"""
     datetime_now = datetime.now()
 
@@ -63,13 +63,6 @@ async def send_to_users() -> None:
                 get_message_text_by_(user.lang),
                 disable_notification=user.mute,
             )
-
-            if datetime.now().day == 21:
-                await BOT.send_message(
-                    user.chat_id,
-                    TEXT().last_mailing_message_in_this_month(),
-                    disable_notification=user.mute,
-                )
         except:
             logger = logging.getLogger()
             logger.error(f"Exception in daily mailing with user: {user.chat_id}")

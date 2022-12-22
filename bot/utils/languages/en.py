@@ -157,9 +157,6 @@ class EN(_Basic):
     def daily_mailing_message(self) -> str:
         return "Daily newsletter"
 
-    def last_mailing_message_in_this_month(self) -> str:
-        return "See you next month :)"
-
     def what_do_you_want_to_do_with_mailing_message(self) -> str:
         return "What do you want to do?"
 

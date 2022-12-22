@@ -141,7 +141,7 @@ async def check_selected_region_title(
         await choose_region_title(message, state)
 
 
-def _get_weather_period_buttons() -> tuple:
+def _get_weather_period_buttons() -> tuple[str]:
     """For getting buttons with weather periods"""
     return (
         TEXT().today_btn(),

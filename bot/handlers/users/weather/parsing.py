@@ -50,7 +50,7 @@ async def get_info_about_weather_by_(message: types.Message) -> str:
         await send_message_to_user_about_error(message, error)
 
 
-def get_block_and_title_from(soup: BeautifulSoup) -> tuple:
+def get_block_and_title_from(soup: BeautifulSoup) -> tuple[BeautifulSoup, str]:
     """For getting block for future parsing and page title (h1)"""
     try:
         block = soup.find("div", class_="page-columns-wrapper")
@@ -69,7 +69,7 @@ def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
     )
 
 
-def get_all_columns_from_(block: BeautifulSoup) -> tuple:
+def get_all_columns_from_(block: BeautifulSoup) -> tuple[BeautifulSoup]:
     """For getting all list items with weather data"""
     return block.find("ul", class_="today-hourly-weather").find_all("li")
 
