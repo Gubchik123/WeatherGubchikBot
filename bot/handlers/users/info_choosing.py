@@ -18,7 +18,7 @@ from .menu import _check_language_from_
 from .weather.parsing import get_info_about_weather_by_
 
 
-where_weather = ""
+where_weather = mailing_city = last_city = ""
 
 
 async def _clean_info_and_change_regions_on_(
@@ -71,21 +71,20 @@ async def weather_in_Europe(message: types.Message) -> None:
 def _get_choosing_region_markup_by_(
     user_chat_id: int,
 ) -> types.ReplyKeyboardMarkup:
-    """For getting the ReplyKeyboard if the user has mailing else no keyboard"""
+    global mailing_city, last_city
+
     markup = types.ReplyKeyboardRemove()  # Default keyboard
 
     if user_chat_id in MY_DB.chat_IDs:
         mailing_city, last_city = MY_DB.get_columns_for_user_with_(
             user_chat_id, columns=f"city_title, last_{where_weather}_city"
         )
-
         markup = make_keyboard(width=2)
         markup.add(
             *(mailing_city, last_city)
             if last_city and mailing_city != last_city
             else (mailing_city,)
         )
-
     return markup
 
 
@@ -167,11 +166,11 @@ async def check_selected_region_title(
 
 def _update_user_last_searched_city_by_(message: types.Message) -> None:
     """For updating the user's last searched city if the user exists in db"""
-    chat_id = message.from_user.id
+    chat_id, user_text = message.from_user.id, message.text.capitalize()
 
-    if chat_id in MY_DB.chat_IDs:
+    if chat_id in MY_DB.chat_IDs and user_text not in (mailing_city, last_city):
         MY_DB.update_last_city_for_user_with_(
-            chat_id, city_type=where_weather, new_last_city=message.text.capitalize()
+            chat_id, city_type=where_weather, new_last_city=user_text
         )
 
 
