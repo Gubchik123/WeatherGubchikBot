@@ -25,8 +25,6 @@ async def _clean_info_and_change_regions_on_(
     some_regions: dict, message: types.Message
 ) -> None:
     """For cleaning weather info and changing region for weather searching"""
-    global INFO
-
     goal = INFO.goal if INFO.goal else "normal"
 
     INFO.clean_information()
@@ -41,7 +39,7 @@ async def _clean_info_and_change_regions_on_(
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message) -> None:
     """The handler for getting weather information in Ukraine"""
-    global TEXT, where_weather
+    global where_weather
 
     where_weather = "uk"
     _check_language_from_(message.text.lower(), uk_word="україні", ru_word="украине")
@@ -58,7 +56,7 @@ async def weather_in_Ukraine(message: types.Message) -> None:
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message) -> None:
     """The handler for getting weather information in Europe"""
-    global TEXT, where_weather
+    global where_weather
 
     where_weather = "foreign"
     _check_language_from_(message.text.lower(), uk_word="європі", ru_word="европе")
@@ -92,7 +90,6 @@ def _get_choosing_region_markup_by_(
 
 async def choose_region(message: types.Message) -> None:
     """For choosing weather region"""
-    global TEXT
     await message.answer(
         TEXT().choose_region_message(),
         reply_markup=_get_choosing_region_markup_by_(message.from_user.id),
@@ -137,7 +134,6 @@ async def check_selected_region(message: types.Message, state: FSMContext) -> No
 
 async def choose_region_title(message: types.Message, state: FSMContext) -> None:
     """For choosing weather region the user had in mind"""
-    global TEXT
     result: list[str] = await state.get_data("result_list")
 
     markup = make_keyboard(width=2)
@@ -153,7 +149,6 @@ async def check_selected_region_title(
     message: types.Message, state: FSMContext
 ) -> None:
     """For checking weather region the user had in mind"""
-    global TEXT
     user_text = message.text.lower()
     result: list[str] = await state.get_data("result_list")
 
@@ -191,8 +186,6 @@ def _get_weather_period_buttons() -> tuple:
 
 async def choose_period(message: types.Message) -> None:
     """For choosing weather period"""
-    global TEXT
-
     _update_user_last_searched_city_by_(message)
 
     markup = make_keyboard(width=2)
@@ -225,7 +218,6 @@ async def check_user_goal_on_period_phase(message: types.Message) -> None:
 @DP.message_handler(state=Choosing.period)
 async def check_selected_period(message: types.Message, state: FSMContext) -> None:
     """For checking selected weather period"""
-    global TEXT
     user_text = message.text.lower()
 
     if user_text in [period.lower() for period in _get_weather_period_buttons()]:

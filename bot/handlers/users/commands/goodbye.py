@@ -17,7 +17,6 @@ answer_options = ("закінчити спілкування", "закончит
 @DP.message_handler(Text(equals=answer_options[2], ignore_case=True))
 async def command_goodbye(message: types.Message) -> None:
     """The handler for the 'goodbye' command"""
-    global TEXT
     user_text = message.text.lower()
 
     if user_text in answer_options:

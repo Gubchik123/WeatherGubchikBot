@@ -9,6 +9,5 @@ from handlers.users.menu import menu
 @DP.message_handler(CommandHelp())
 async def command_help(message: types.Message) -> None:
     """The handler for the 'help' command for the general rules of using"""
-    global TEXT
     await message.answer(TEXT().general_rules())
     await menu(message)

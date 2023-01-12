@@ -33,8 +33,6 @@ async def choose_language(message: types.Message) -> None:
 @DP.message_handler(state=Choosing.language)
 async def check_language(message: types.Message, state: FSMContext) -> None:
     """For checking language and changing if user has mailing"""
-    global TEXT, MY_DB
-
     user_text = message.text.lower()
     user_chat_id = message.from_user.id
     await state.finish()

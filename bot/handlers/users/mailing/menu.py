@@ -30,7 +30,6 @@ def _get_mailing_menu_keyboard_with_(mute: bool) -> types.ReplyKeyboardMarkup:
 @DP.message_handler(Text(variants[2], ignore_case=True))
 async def mailing_menu(message: types.Message) -> None:
     """The handler for getting the mailing menu"""
-    global TEXT
     user_text = message.text.lower()
 
     if user_text in variants:

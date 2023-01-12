@@ -23,8 +23,6 @@ async def checking_answer_about_turning_on_mailing(
     message: types.Message, state: FSMContext
 ) -> None:
     """For checking user answer about turning on mailing"""
-    global INFO, TEXT
-
     user_answer = message.text.lower()
     await state.finish()
 
@@ -45,7 +43,7 @@ async def checking_answer_about_turning_on_mailing(
 @DP.message_handler(state=Mailing.mute_mode)
 async def checking_answer_about_mailing_mute_mode(message: types.Message) -> None:
     """For checking answer about mailing mute mode"""
-    global MUTE, TEXT
+    global MUTE
 
     user_answer = message.text.lower()
 
@@ -63,8 +61,6 @@ async def check_selected_mailing_time(
     message: types.Message, state: FSMContext
 ) -> None:
     """For checking selected mailing time"""
-    global INFO, TEXT
-
     user_text = message.text.lower()
     await state.finish()
 
@@ -85,8 +81,6 @@ async def check_selected_mailing_time(
 
 async def confirm_mailing_for_user(message: types.Message, time: int) -> None:
     """For confirmation mailing and adding user in db"""
-    global TEXT
-
     MY_DB.add_(user=TelegramUser(
         message, mute_mode=MUTE, time=time), info=INFO)
 

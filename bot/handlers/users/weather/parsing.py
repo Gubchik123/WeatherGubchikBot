@@ -92,8 +92,6 @@ def get_wind_symbol() -> str:
 
 def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
     """For checking if period is today or tomorrow and getting weather details"""
-    global INFO
-
     if INFO.about_today:
         return WeatherDetail(
             rain=get_atmosphere_row(0, block),

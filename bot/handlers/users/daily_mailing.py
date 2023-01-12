@@ -26,8 +26,6 @@ def get_users_with_mailing_on_current_time() -> tuple:
 
 def fill_weather_information_by_(user: UserDBInfo) -> None:
     """For filling info object with user data for weather searching"""
-    global INFO
-
     INFO.clean_information()
 
     INFO.city = user.city
@@ -37,7 +35,6 @@ def fill_weather_information_by_(user: UserDBInfo) -> None:
 
 def get_message_text_by_(lang_code: str) -> str:
     """For getting message text with weather information"""
-    global INFO, TEXT
     TEXT.change_on(lang_code)
 
     return (

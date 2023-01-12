@@ -16,7 +16,6 @@ from .mailing.menu import mailing_menu
 @DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message) -> None:
     """The handler for asking about changing mailing city"""
-    global TEXT
     _check_language_from_(message.text.lower(), uk_word="місто", ru_word="город")
 
     await message.answer(
@@ -31,7 +30,6 @@ async def ask_about_changing_mailing_city(message: types.Message) -> None:
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message) -> None:
     """The handler for asking about changing mailing period"""
-    global TEXT
     _check_language_from_(message.text.lower(), uk_word="період", ru_word="период")
 
     await message.answer(
@@ -43,7 +41,6 @@ async def ask_about_changing_mailing_period(message: types.Message) -> None:
 
 async def select_mailing_time(message: types.Message, goal: str = "mailing") -> None:
     """For choosing mailing time"""
-    global INFO
     INFO.goal = goal
 
     markup = make_keyboard(width=3)

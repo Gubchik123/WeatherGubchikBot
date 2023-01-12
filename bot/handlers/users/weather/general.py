@@ -1,5 +1,4 @@
 import logging
-import traceback
 
 import requests
 from aiogram import types
@@ -11,7 +10,6 @@ from constants import TEXT
 
 def get_soup_by_(url: str) -> BeautifulSoup:
     """For getting BeautifulSoup object by url"""
-    global TEXT
     lang_code = TEXT().lang_code
 
     if lang_code != "uk":
@@ -27,7 +25,6 @@ def get_soup_by_(url: str) -> BeautifulSoup:
 
 async def send_message_to_user_about_error(message: types.Message, error: str) -> None:
     """For sending error message to user and logging"""
-    global TEXT
     await message.answer(TEXT().error_message())
 
     logger = logging.getLogger()
