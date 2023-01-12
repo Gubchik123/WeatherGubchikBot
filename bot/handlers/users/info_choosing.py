@@ -70,7 +70,7 @@ async def weather_in_Europe(message: types.Message) -> None:
 
 def _get_choosing_region_markup_by_(
     user_chat_id: int,
-) -> types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove:
+) -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardRemove()  # Default keyboard
 
     if user_chat_id in MY_DB.chat_IDs:
