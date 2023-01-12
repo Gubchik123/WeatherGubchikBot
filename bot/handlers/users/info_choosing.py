@@ -6,7 +6,7 @@ from fuzzywuzzy.process import extractBests
 from bot_info import DP
 from states import Choosing
 from data.localities import *
-from constants import INFO, TEXT
+from constants import INFO, TEXT, MY_DB
 from keyboard import make_keyboard, make_button
 
 from .mailing_info import (
@@ -16,6 +16,9 @@ from .mailing_info import (
 )
 from .menu import _check_language_from_
 from .weather.parsing import get_info_about_weather_by_
+
+
+where_weather = ""
 
 
 async def _clean_info_and_change_regions_on_(
@@ -38,7 +41,9 @@ async def _clean_info_and_change_regions_on_(
 @DP.message_handler(Text("weather in ukraine", ignore_case=True))
 async def weather_in_Ukraine(message: types.Message) -> None:
     """The handler for getting weather information in Ukraine"""
-    global TEXT
+    global TEXT, where_weather
+
+    where_weather = "uk"
     _check_language_from_(message.text.lower(), uk_word="україні", ru_word="украине")
 
     ukr_regions = {"uk": UK_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
@@ -53,7 +58,9 @@ async def weather_in_Ukraine(message: types.Message) -> None:
 @DP.message_handler(Text("weather in europe", ignore_case=True))
 async def weather_in_Europe(message: types.Message) -> None:
     """The handler for getting weather information in Europe"""
-    global TEXT
+    global TEXT, where_weather
+
+    where_weather = "foreign"
     _check_language_from_(message.text.lower(), uk_word="європі", ru_word="европе")
 
     abroad_regions = {"uk": UK_ABROAD_LOCALITIES, "ru": RU_ABROAD_LOCALITIES}.get(
@@ -63,11 +70,32 @@ async def weather_in_Europe(message: types.Message) -> None:
     await _clean_info_and_change_regions_on_(abroad_regions, message)
 
 
+def _get_choosing_region_markup_by_(
+    user_chat_id: int,
+) -> types.ReplyKeyboardMarkup | types.ReplyKeyboardRemove:
+    markup = types.ReplyKeyboardRemove()  # Default keyboard
+
+    if user_chat_id in MY_DB.chat_IDs:
+        mailing_city, last_city = MY_DB.get_columns_for_user_with_(
+            user_chat_id, columns=f"city_title, last_{where_weather}_city"
+        )
+
+        markup = make_keyboard(width=2)
+        markup.add(
+            *(mailing_city, last_city)
+            if last_city and mailing_city != last_city
+            else (mailing_city,)
+        )
+
+    return markup
+
+
 async def choose_region(message: types.Message) -> None:
     """For choosing weather region"""
     global TEXT
     await message.answer(
-        TEXT().choose_region_message(), reply_markup=types.ReplyKeyboardRemove()
+        TEXT().choose_region_message(),
+        reply_markup=_get_choosing_region_markup_by_(message.from_user.id),
     )
     await Choosing.region.set()
 
@@ -141,6 +169,16 @@ async def check_selected_region_title(
         await choose_region_title(message, state)
 
 
+def _update_user_last_searched_city_by_(message: types.Message) -> None:
+    """For updating the user's last searched city if the user exists in db"""
+    chat_id = message.from_user.id
+
+    if chat_id in MY_DB.chat_IDs:
+        MY_DB.update_last_city_for_user_with_(
+            chat_id, city_type=where_weather, new_last_city=message.text.capitalize()
+        )
+
+
 def _get_weather_period_buttons() -> tuple:
     """For getting buttons with weather periods"""
     return (
@@ -154,6 +192,8 @@ def _get_weather_period_buttons() -> tuple:
 async def choose_period(message: types.Message) -> None:
     """For choosing weather period"""
     global TEXT
+
+    _update_user_last_searched_city_by_(message)
 
     markup = make_keyboard(width=2)
     markup.add(*_get_weather_period_buttons())

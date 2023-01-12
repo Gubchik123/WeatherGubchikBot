@@ -77,6 +77,13 @@ class DB:
             data = cursor.fetchone()
         return UserDBInfo(*data)
 
+    def get_columns_for_user_with_(self, chat_id: int, columns: str) -> tuple:
+        """For getting <column> from the database for the user identified by <chat_id>"""
+        with self.connection.cursor() as cursor:
+            cursor.execute(f"SELECT {columns} FROM mailing WHERE chat_id={chat_id};")
+            data = cursor.fetchone()
+        return data
+
     def update_mailing_city_for_user_with_(self, chat_id: int, new_city: dict) -> None:
         """For updating user mailing city in database"""
         with self.connection.cursor() as cursor:
@@ -129,6 +136,17 @@ class DB:
         with self.connection.cursor() as cursor:
             sql_update_query = f"""
                 UPDATE mailing SET lang = '{new_lang_code}' WHERE chat_id = {chat_id};
+            """
+            cursor.execute(sql_update_query)
+
+    def update_last_city_for_user_with_(
+        self, chat_id: int, city_type: str, new_last_city: str
+    ) -> None:
+        """For updating the user's last <Ukrainian or foreign> city, which the user searched"""
+        with self.connection.cursor() as cursor:
+            sql_update_query = f"""
+                UPDATE mailing SET last_{city_type}_city = '{new_last_city}' 
+                WHERE chat_id = {chat_id};
             """
             cursor.execute(sql_update_query)
 
