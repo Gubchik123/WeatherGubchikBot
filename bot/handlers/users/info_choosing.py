@@ -186,7 +186,8 @@ def _get_weather_period_buttons() -> tuple:
 
 async def choose_period(message: types.Message) -> None:
     """For choosing weather period"""
-    _update_user_last_searched_city_by_(message)
+    if INFO.goal == "normal":
+        _update_user_last_searched_city_by_(message)
 
     markup = make_keyboard(width=2)
     markup.add(*_get_weather_period_buttons())
