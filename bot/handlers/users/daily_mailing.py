@@ -65,5 +65,6 @@ async def send_to_users() -> None:
             logger = logging.getLogger()
             logger.error(f"Exception in daily mailing with user: {user.chat_id}")
             logger.error(str(e))
-            logger.error(f'Place: {traceback.format_exception(e)[-2].strip().replace("\n", " ")}')
+            exception_place = traceback.format_exception(e)[-2].strip().replace("\n", " ")
+            logger.error(f'Place: {exception_place}')
             continue
