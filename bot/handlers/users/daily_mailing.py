@@ -1,4 +1,5 @@
 import logging
+import traceback
 from datetime import datetime
 
 from bot_info import BOT
@@ -60,7 +61,9 @@ async def send_to_users() -> None:
                 get_message_text_by_(user.lang),
                 disable_notification=user.mute,
             )
-        except:
+        except Exception as e:
             logger = logging.getLogger()
             logger.error(f"Exception in daily mailing with user: {user.chat_id}")
+            logger.error(str(e))
+            logger.error(f'Place: {traceback.format_exception(e)[-2].strip().replace("\n", " ")}')
             continue
