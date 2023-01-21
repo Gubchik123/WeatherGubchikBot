@@ -33,6 +33,7 @@ To run this project, you will need to add the following environment variables to
 
 `DB_URI`
 `BOT_TOKEN`
+`MY_TELEGRAM_CHAT_ID`
 
 ### Run Locally
 
