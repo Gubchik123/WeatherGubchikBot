@@ -39,12 +39,16 @@ class DB:
 
     def catch_closed_connection(func: Callable):
         """Decorator for catching exception by closed connection to db"""
+
         def inner(self, *args, **kwargs):
             try:
+                if not self.__connection:
+                    self._set_db_connection()
+
                 return func(self, *args, **kwargs)
             except psycopg2.InterfaceError as e:
-                logger = logging.getLogger()
-                logger.error(f"Exception in db class decorator: {str(e)}")
+                logger = logging.getLogger("my_logger")
+                logger.error(f"InterfaceError in db: {str(e)}")
 
                 self._set_db_connection()
                 return func(self, *args, **kwargs)

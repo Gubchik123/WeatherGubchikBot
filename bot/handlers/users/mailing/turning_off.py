@@ -5,9 +5,11 @@ from bot_info import DP
 from states import Mailing
 from constants import MY_DB, TEXT
 
-from ..menu import menu
 from .action import turn_off_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
+
+from ..menu import menu
+from ..weather.general import send_message_to_user_about_error
 
 
 @DP.message_handler(state=Mailing.turn_off)
@@ -28,8 +30,11 @@ async def checking_answer_about_turning_off_mailing(
 
 async def withdraw_mailing_for_user(message: types.Message, state: FSMContext) -> None:
     """For withdrawing mailing and deleting user from db"""
-    MY_DB.delete_user_with_(message.from_user.id)
-
-    await message.answer(TEXT().successfully_turn_off_mailing_message())
-    await state.finish()
-    await menu(message)
+    try:
+        MY_DB.delete_user_with_(message.from_user.id)
+        await message.answer(TEXT().successfully_turn_off_mailing_message())
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e))
+    finally:
+        await state.finish()
+        await menu(message)

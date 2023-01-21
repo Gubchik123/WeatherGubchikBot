@@ -12,6 +12,7 @@ from .action import turn_on_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 from ..menu import menu
+from ..weather.general import send_message_to_user_about_error
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
 
@@ -71,18 +72,26 @@ async def check_selected_mailing_time(
             INFO.lang = TEXT().lang_code
             await confirm_mailing_for_user(message, time=time_int)
         else:
-            MY_DB.update_mailing_time_int_for_user_with_(
-                chat_id=message.from_user.id, new_time_int=time_int
-            )
-            await mailing_menu(message)
+            try:
+                MY_DB.update_mailing_time_int_for_user_with_(
+                    chat_id=message.from_user.id, new_time_int=time_int
+                )
+            except Exception as e:
+                await send_message_to_user_about_error(
+                    message, str(e), message_to_user=False
+                )
+            finally:
+                await mailing_menu(message)
     else:
         await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
 
 
 async def confirm_mailing_for_user(message: types.Message, time: int) -> None:
     """For confirmation mailing and adding user in db"""
-    MY_DB.add_(user=TelegramUser(
-        message, mute_mode=MUTE, time=time), info=INFO)
-
-    await message.answer(TEXT().successfully_turn_on_mailing_message())
-    await menu(message)
+    try:
+        MY_DB.add_(user=TelegramUser(message, mute_mode=MUTE, time=time), info=INFO)
+        await message.answer(TEXT().successfully_turn_on_mailing_message())
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e))
+    finally:
+        await menu(message)

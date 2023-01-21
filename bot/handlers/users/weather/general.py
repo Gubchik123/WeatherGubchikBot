@@ -23,9 +23,12 @@ def get_soup_by_(url: str) -> BeautifulSoup:
     return BeautifulSoup(response.text, "lxml")
 
 
-async def send_message_to_user_about_error(message: types.Message, error: str) -> None:
+async def send_message_to_user_about_error(
+    message: types.Message, error: str, message_to_user: bool = True
+) -> None:
     """For sending error message to user and logging"""
-    await message.answer(TEXT().error_message())
+    if message_to_user:
+        await message.answer(TEXT().error_message())
 
-    logger = logging.getLogger()
+    logger = logging.getLogger("my_logger")
     logger.error(error)

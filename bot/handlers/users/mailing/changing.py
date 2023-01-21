@@ -18,6 +18,7 @@ from ..mailing_info import (
 )
 from ..menu import _check_language_from_
 from ..info_choosing import choose_period
+from ..weather.general import send_message_to_user_about_error
 
 
 @DP.message_handler(Text("увімкнути режим оповіщення", ignore_case=True))
@@ -25,8 +26,7 @@ from ..info_choosing import choose_period
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing alert mute mode"""
-    _check_language_from_(message.text.lower(),
-                          uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().unmute_mailing_mode_question_message(),
@@ -44,10 +44,16 @@ async def checking_turning_on_mute_mode(
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_mailing_mute_mode_for_user_with_(
-            chat_id=message.from_user.id, new_mute_mode=False
-        )
-        await mailing_menu(message)
+        try:
+            MY_DB.update_mailing_mute_mode_for_user_with_(
+                chat_id=message.from_user.id, new_mute_mode=False
+            )
+        except Exception as e:
+            await send_message_to_user_about_error(
+                message, str(e), message_to_user=False
+            )
+        finally:
+            await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -61,8 +67,7 @@ async def checking_turning_on_mute_mode(
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing mute mode"""
-    _check_language_from_(message.text.lower(),
-                          uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
 
     await message.answer(
         TEXT().mute_mailing_mode_question_message(),
@@ -80,10 +85,16 @@ async def checking_turning_on_mute_mode(
     await state.finish()
 
     if user_answer == TEXT().yes_btn().lower():
-        MY_DB.update_mailing_mute_mode_for_user_with_(
-            chat_id=message.from_user.id, new_mute_mode=True
-        )
-        await mailing_menu(message)
+        try:
+            MY_DB.update_mailing_mute_mode_for_user_with_(
+                chat_id=message.from_user.id, new_mute_mode=True
+            )
+        except Exception as e:
+            await send_message_to_user_about_error(
+                message, str(e), message_to_user=False
+            )
+        finally:
+            await mailing_menu(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
@@ -97,8 +108,7 @@ async def checking_turning_on_mute_mode(
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message) -> None:
     """The handler for asking about changing mailing time"""
-    _check_language_from_(message.text.lower(),
-                          uk_word="змінити", ru_word="сменить")
+    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
 
     await message.answer(
         TEXT().change_mailing_time_question_message(),

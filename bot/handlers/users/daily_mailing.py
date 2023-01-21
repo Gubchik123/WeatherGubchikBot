@@ -11,6 +11,9 @@ from .weather.parsing import (
 )
 
 
+logger = logging.getLogger("my_logger")
+
+
 async def send_to_users() -> None:
     """For sending weather message to users with current time for mailing"""
     for user in _get_users_with_mailing_on_current_time():
@@ -29,7 +32,6 @@ async def send_to_users() -> None:
                 disable_notification=user.mute,
             )
         except Exception as e:
-            logger = logging.getLogger()
             logger.error(f"Exception in daily mailing with user: {user.chat_id}")
             logger.error(str(e))
             continue
@@ -43,9 +45,13 @@ def _get_users_with_mailing_on_current_time() -> tuple:
     added_hour = 2 if datetime_now.month in [1, 2, 3, 11, 12] else 3
     ukrainian_hour = datetime_now.hour + added_hour
 
-    return tuple(
-        user for user in MY_DB.get_all_users() if user.time_int == ukrainian_hour
-    )
+    try:
+        return tuple(
+            user for user in MY_DB.get_all_users() if user.time_int == ukrainian_hour
+        )
+    except Exception as e:
+        logger.error(f"Exception in db: {str(e)}")
+        return tuple()
 
 
 def _fill_weather_information_by_(user: UserDBInfo) -> None:

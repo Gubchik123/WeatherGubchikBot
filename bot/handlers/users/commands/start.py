@@ -5,9 +5,10 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 from bot_info import DP
 from states import Choosing
 from constants import TEXT, MY_DB
+from keyboard import make_keyboard
 
 from ..menu import menu
-from keyboard import make_keyboard
+from ..weather.general import send_message_to_user_about_error
 
 
 GOAL = ""
@@ -40,12 +41,17 @@ async def check_language(message: types.Message, state: FSMContext) -> None:
     if user_text in ("uk", "en", "ru"):
         TEXT.change_on(user_text)
 
-        if user_chat_id in MY_DB.chat_IDs:
-            MY_DB.update_mailing_lang_code_for_user_with_(
-                chat_id=user_chat_id, new_lang_code=user_text
+        try:
+            if user_chat_id in MY_DB.chat_IDs:
+                MY_DB.update_mailing_lang_code_for_user_with_(
+                    chat_id=user_chat_id, new_lang_code=user_text
+                )
+        except Exception as e:
+            await send_message_to_user_about_error(
+                message, str(e), message_to_user=False
             )
-
-        await start(message) if GOAL == "start" else await menu(message)
+        finally:
+            await start(message) if GOAL == "start" else await menu(message)
     else:
         await choose_language(message)
 

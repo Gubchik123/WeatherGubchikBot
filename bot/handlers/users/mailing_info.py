@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import types
 from aiogram.dispatcher.filters import Text
 
@@ -9,6 +11,10 @@ from keyboard import make_keyboard_for_yes_or_no_answer
 
 from .menu import _check_language_from_
 from .mailing.menu import mailing_menu
+from .weather.general import send_message_to_user_about_error
+
+
+logger = logging.getLogger("my_logger")
 
 
 @DP.message_handler(Text("змінити місто", ignore_case=True))
@@ -65,13 +71,22 @@ async def ask_about_mailing_mute_mode(message: types.Message) -> None:
 
 async def change_mailing_period(message: types.Message) -> None:
     """For changing mailing period"""
-    MY_DB.update_mailing_time_for_user_with_(message.from_user.id, info=INFO)
-    await mailing_menu(message)
+    try:
+        MY_DB.update_mailing_time_for_user_with_(message.from_user.id, info=INFO)
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+    finally:
+        await mailing_menu(message)
 
 
 async def change_mailing_city_on_(message: types.Message) -> None:
     """For changing mailing city"""
-    MY_DB.update_mailing_city_for_user_with_(
-        message.from_user.id, new_city={"string": INFO.city, "title": INFO.city_title}
-    )
-    await mailing_menu(message)
+    try:
+        MY_DB.update_mailing_city_for_user_with_(
+            message.from_user.id,
+            new_city={"string": INFO.city, "title": INFO.city_title},
+        )
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+    finally:
+        await mailing_menu(message)

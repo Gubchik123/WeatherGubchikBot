@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
@@ -16,8 +18,10 @@ from .mailing_info import (
 )
 from .menu import _check_language_from_
 from .weather.parsing import get_info_about_weather_by_
+from .weather.general import send_message_to_user_about_error
 
 
+logger = logging.getLogger("my_logger")
 where_weather = mailing_city = last_city = ""
 
 
@@ -68,17 +72,24 @@ async def weather_in_Europe(message: types.Message) -> None:
     await _clean_info_and_change_regions_on_(abroad_regions, message)
 
 
-def _get_choosing_region_markup_by_(
-    user_chat_id: int,
-) -> types.ReplyKeyboardMarkup:
+async def _set_mailing_city_and_last_city(message: types.Message):
     global mailing_city, last_city
 
+    try:
+        mailing_city, last_city = MY_DB.get_columns_for_user_with_(
+            message.from_user.id, columns=f"city_title, last_{where_weather}_city"
+        )
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+
+
+async def _get_choosing_region_markup_by_(
+    message: types.Message,
+) -> types.ReplyKeyboardMarkup:
     markup = types.ReplyKeyboardRemove()  # Default keyboard
 
-    if user_chat_id in MY_DB.chat_IDs:
-        mailing_city, last_city = MY_DB.get_columns_for_user_with_(
-            user_chat_id, columns=f"city_title, last_{where_weather}_city"
-        )
+    if message.from_user.id in MY_DB.chat_IDs:
+        await _set_mailing_city_and_last_city(message)
         markup = make_keyboard(width=2)
         markup.add(
             *(mailing_city, last_city)
@@ -92,7 +103,7 @@ async def choose_region(message: types.Message) -> None:
     """For choosing weather region"""
     await message.answer(
         TEXT().choose_region_message(),
-        reply_markup=_get_choosing_region_markup_by_(message.from_user.id),
+        reply_markup=await _get_choosing_region_markup_by_(message),
     )
     await Choosing.region.set()
 
@@ -164,14 +175,17 @@ async def check_selected_region_title(
         await choose_region_title(message, state)
 
 
-def _update_user_last_searched_city_by_(message: types.Message) -> None:
+async def _update_user_last_searched_city_by_(message: types.Message) -> None:
     """For updating the user's last searched city if the user exists in db"""
     chat_id, user_text = message.from_user.id, message.text.capitalize()
 
-    if chat_id in MY_DB.chat_IDs and user_text not in (mailing_city, last_city):
-        MY_DB.update_last_city_for_user_with_(
-            chat_id, city_type=where_weather, new_last_city=user_text
-        )
+    try:
+        if chat_id in MY_DB.chat_IDs and user_text not in (mailing_city, last_city):
+            MY_DB.update_last_city_for_user_with_(
+                chat_id, city_type=where_weather, new_last_city=user_text
+            )
+    except Exception as e:
+        await send_message_to_user_about_error(message, str(e), message_to_user=False)
 
 
 def _get_weather_period_buttons() -> tuple:
@@ -187,7 +201,7 @@ def _get_weather_period_buttons() -> tuple:
 async def choose_period(message: types.Message) -> None:
     """For choosing weather period"""
     if INFO.goal == "normal":
-        _update_user_last_searched_city_by_(message)
+        await _update_user_last_searched_city_by_(message)
 
     markup = make_keyboard(width=2)
     markup.add(*_get_weather_period_buttons())
