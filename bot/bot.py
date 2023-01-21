@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 from aiogram import executor
@@ -10,8 +11,8 @@ from handlers.users.daily_mailing import send_to_users
 
 
 def set_hours_for_daily_mailing() -> None:
-    """For setting daily mailing time by Kiev timezone"""
-    scheduler = AsyncIOScheduler(timezone="Europe/Kiev")
+    """For setting daily mailing time by settings timezone"""
+    scheduler = AsyncIOScheduler(timezone=str(os.getenv("TIMEZONE")))
     for hour in (6, 9, 12, 15, 18, 21):
         scheduler.add_job(
             send_to_users,

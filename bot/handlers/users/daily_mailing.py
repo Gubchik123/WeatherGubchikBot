@@ -1,3 +1,5 @@
+import os
+import pytz
 import logging
 from datetime import datetime
 
@@ -39,15 +41,12 @@ async def send_to_users() -> None:
 
 def _get_users_with_mailing_on_current_time() -> tuple:
     """For getting users with current time for mailing"""
-    datetime_now = datetime.now()
-
-    # If it's Nov, Dec, Jan, Feb or Mar, the hour in Ukraine is UTC +2, otherwise +3
-    added_hour = 2 if datetime_now.month in [1, 2, 3, 11, 12] else 3
-    ukrainian_hour = datetime_now.hour + added_hour
+    time_zone = pytz.timezone(str(os.getenv("TIMEZONE")))
+    current_hour = datetime.now(time_zone).hour
 
     try:
         return tuple(
-            user for user in MY_DB.get_all_users() if user.time_int == ukrainian_hour
+            user for user in MY_DB.get_all_users() if user.time_int == current_hour
         )
     except Exception as e:
         logger.error(f"Exception in db: {str(e)}")
