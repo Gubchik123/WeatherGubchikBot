@@ -13,8 +13,7 @@ logger = logging.getLogger("my_logger")
 
 def _get_user_agent() -> str:
     try:
-        user_agent = UserAgent().random
-        return user_agent.split()
+        return UserAgent().random.strip()
     except FakeUserAgentError as e:
         logger.error(f"FakeUserAgentError: {str(e)}")
         # Return default random user agent
