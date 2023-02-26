@@ -1,44 +1,35 @@
+import os
 import logging
 
 import requests
 from aiogram import types
 from bs4 import BeautifulSoup
 from user_agent import generate_user_agent
-from requests.exceptions import RequestException
 
+from ..menu import menu
+from bot_info import BOT
 from constants import TEXT
 
 
 logger = logging.getLogger("my_logger")
 
 
-def _get_default_user_agent():
-    """For getting default random User-Agent"""
-    return "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2"
-
-
-def _get_user_agent() -> str:
-    """For getting random User-Agent"""
-    return generate_user_agent().strip()
+class InvalidResponse(Exception):
+    """Exception for invalid response from GET request to the site"""
 
 
 def _get_response_from_(url: str, lang_code: str) -> requests.Response:
     """For sending GET request to url and getting response"""
-    cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
-
-    try:
-        return requests.get(
-            url,
-            cookies=cookies,
-            headers={"user-agent": _get_user_agent()},
+    response = requests.get(
+        url,
+        headers={"user-agent": generate_user_agent().strip()},
+        cookies={"cookie": f"needed_thing=''; default_lang={lang_code};"},
+    )
+    if response.status_code != 200:
+        raise InvalidResponse(
+            f"InvalidResponse from the site ({response.status_code}); url={url}"
         )
-    except RequestException as e:
-        logger.error(f"RequestException: {str(e)}")
-        return requests.get(
-            url,
-            cookies=cookies,
-            headers={"user-agent": _get_default_user_agent()},
-        )
+    return response
 
 
 def get_soup_by_(url: str) -> BeautifulSoup:
@@ -57,4 +48,15 @@ async def send_message_to_user_about_error(
     """For sending error message to user and logging"""
     if message_to_user:
         await message.answer(TEXT().error_message())
+        await menu(message)
+
     logger.error(error)
+    await _send_message_about_error_to_me(message)
+
+
+async def _send_message_about_error_to_me(message: types.Message) -> str:
+    """For sending to me message about weather info user got"""
+    my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
+
+    if message.from_user.id != my_chat_id:
+        await BOT.send_message(my_chat_id, "There was an error")
