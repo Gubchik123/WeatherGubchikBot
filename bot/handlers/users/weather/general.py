@@ -3,7 +3,8 @@ import logging
 import requests
 from aiogram import types
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent, FakeUserAgentError
+from user_agent import generate_user_agent
+from requests.exceptions import RequestException
 
 from constants import TEXT
 
@@ -11,13 +12,33 @@ from constants import TEXT
 logger = logging.getLogger("my_logger")
 
 
+def _get_default_user_agent():
+    """For getting default random User-Agent"""
+    return "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2"
+
+
 def _get_user_agent() -> str:
+    """For getting random User-Agent"""
+    return generate_user_agent().strip()
+
+
+def _get_response_from_(url: str, lang_code: str) -> requests.Response:
+    """For sending GET request to url and getting response"""
+    cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
+
     try:
-        return UserAgent().random.strip()
-    except FakeUserAgentError as e:
-        logger.error(f"FakeUserAgentError: {str(e)}")
-        # Return default random user agent
-        return "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2"
+        return requests.get(
+            url,
+            cookies=cookies,
+            headers={"user-agent": _get_user_agent()},
+        )
+    except RequestException as e:
+        logger.error(f"RequestException: {str(e)}")
+        return requests.get(
+            url,
+            cookies=cookies,
+            headers={"user-agent": _get_default_user_agent()},
+        )
 
 
 def get_soup_by_(url: str) -> BeautifulSoup:
@@ -27,12 +48,7 @@ def get_soup_by_(url: str) -> BeautifulSoup:
     if lang_code != "uk":
         url = url.replace("/ua/", f"/{lang_code}/")
 
-    response = requests.get(
-        url,
-        headers={"user-agent": _get_user_agent()},
-        cookies={"cookie": f"needed_thing=''; default_lang={lang_code};"},
-    )
-    return BeautifulSoup(response.text, "lxml")
+    return BeautifulSoup(_get_response_from_(url, lang_code).text, "lxml")
 
 
 async def send_message_to_user_about_error(
