@@ -1,7 +1,9 @@
 import os
+import logging
 from datetime import datetime
 
 from aiogram import executor
+from aiogram.utils.exceptions import TelegramAPIError
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 import handlers
@@ -27,5 +29,9 @@ def set_hours_for_daily_mailing() -> None:
 if __name__ == "__main__":
     set_hours_for_daily_mailing()
 
-    # Start polling and set default bot commands for three languages
-    executor.start_polling(DP, on_startup=set_default_commands)
+    try:
+        # Start polling and set default bot commands for three languages
+        executor.start_polling(DP, on_startup=set_default_commands)
+    except TelegramAPIError as e:
+        logger = logging.getLogger("my_logger")
+        logger.error(f"Exception during polling: {str(e)}")
