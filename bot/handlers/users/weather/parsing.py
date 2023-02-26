@@ -52,11 +52,8 @@ async def get_info_about_weather_by_(message: types.Message) -> str:
 
 def get_block_and_title_from(soup: BeautifulSoup) -> tuple:
     """For getting block for future parsing and page title (h1)"""
-    try:
-        block = soup.find("div", class_="page-columns-wrapper")
-        return (block, block.find("h1").text.strip())
-    except AttributeError:
-        return get_block_and_title_from(get_soup_by_(INFO.generated_url))
+    block = soup.find("div", class_="page-columns-wrapper")
+    return (block, block.find("h1").text.strip())
 
 
 def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
