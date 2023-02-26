@@ -1,2 +1,9 @@
-__pycache__
-.env
+# Compiled bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Local development files
+venv/
+.vscode/
+*.env
