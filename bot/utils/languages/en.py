@@ -113,9 +113,12 @@ class EN(_Basic):
         return "Unknown forecast period"
 
     def error_message(self) -> str:
+        return "An error occurred!"
+
+    def try_again_message(self) -> str:
         return self._get_correct_text_from_(
-            """
-        An error occurred!
+            f"""
+        {self.error_message()}
         Please try again or restart the bot with the /start command
         """
         )

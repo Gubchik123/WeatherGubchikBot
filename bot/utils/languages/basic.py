@@ -83,6 +83,9 @@ class _Basic:
 
     def error_message(self) -> str:
         """For getting the error message text"""
+        
+    def try_again_message(self) -> str:
+        """For getting the message text to try again"""
 
     def mailing_info_message(
         self, time_int: int, mute: bool, time: str, city: str

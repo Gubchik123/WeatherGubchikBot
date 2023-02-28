@@ -113,9 +113,12 @@ class UA(_Basic):
         return "Невідомий період прогнозу"
 
     def error_message(self) -> str:
+        return "Виникла помилка!"
+
+    def try_again_message(self) -> str:
         return self._get_correct_text_from_(
-            """
-        Виникла помилка!
+            f"""
+        {self.error_message()}
         Спробуйте повторити спробу або перезапустіть бота командою /start
         """
         )

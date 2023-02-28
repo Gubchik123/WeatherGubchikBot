@@ -47,7 +47,7 @@ async def send_message_to_user_about_error(
 ) -> None:
     """For sending error message to user and logging"""
     if message_to_user:
-        await message.answer(TEXT().error_message())
+        await message.answer(TEXT().try_again_message())
         await menu(message)
 
     logger.error(error)
