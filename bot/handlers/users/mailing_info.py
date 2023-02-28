@@ -22,7 +22,9 @@ logger = logging.getLogger("my_logger")
 @DP.message_handler(Text("change city", ignore_case=True))
 async def ask_about_changing_mailing_city(message: types.Message) -> None:
     """The handler for asking about changing mailing city"""
-    _check_language_from_(message.text.lower(), uk_word="місто", ru_word="город")
+    _check_language_from_(
+        message.text.lower(), uk_word="місто", ru_word="город"
+    )
 
     await message.answer(
         TEXT().change_mailing_city_question_message(),
@@ -36,7 +38,9 @@ async def ask_about_changing_mailing_city(message: types.Message) -> None:
 @DP.message_handler(Text("change the forecast period", ignore_case=True))
 async def ask_about_changing_mailing_period(message: types.Message) -> None:
     """The handler for asking about changing mailing period"""
-    _check_language_from_(message.text.lower(), uk_word="період", ru_word="период")
+    _check_language_from_(
+        message.text.lower(), uk_word="період", ru_word="период"
+    )
 
     await message.answer(
         TEXT().change_mailing_period_question_message(),
@@ -45,13 +49,18 @@ async def ask_about_changing_mailing_period(message: types.Message) -> None:
     await Mailing.change_period.set()
 
 
-async def select_mailing_time(message: types.Message, goal: str = "mailing") -> None:
+async def select_mailing_time(
+    message: types.Message, goal: str = "mailing"
+) -> None:
     """For choosing mailing time"""
     INFO.goal = goal
 
     markup = make_keyboard(width=3)
     markup.add(
-        *[make_button(f"{hour}:00") for hour in ("06", "09", "12", "15", "18", "21")]
+        *[
+            make_button(f"{hour}:00")
+            for hour in ("06", "09", "12", "15", "18", "21")
+        ]
     )
 
     await message.answer(
@@ -72,9 +81,16 @@ async def ask_about_mailing_mute_mode(message: types.Message) -> None:
 async def change_mailing_period(message: types.Message) -> None:
     """For changing mailing period"""
     try:
-        MY_DB.update_mailing_time_for_user_with_(message.from_user.id, info=INFO)
+        MY_DB.update_mailing_time_for_user_with_(
+            message.from_user.id, info=INFO
+        )
     except Exception as e:
-        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+        await send_message_to_user_about_error(
+            message,
+            str(e),
+            error_place=" during updating mailing time",
+            message_to_user=False,
+        )
     finally:
         await mailing_menu(message)
 
@@ -87,6 +103,11 @@ async def change_mailing_city_on_(message: types.Message) -> None:
             new_city={"string": INFO.city, "title": INFO.city_title},
         )
     except Exception as e:
-        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+        await send_message_to_user_about_error(
+            message,
+            str(e),
+            error_place=" during updating mailing city",
+            message_to_user=False,
+        )
     finally:
         await mailing_menu(message)

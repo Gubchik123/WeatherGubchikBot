@@ -43,14 +43,17 @@ def get_soup_by_(url: str) -> BeautifulSoup:
 
 
 async def send_message_to_user_about_error(
-    message: types.Message, error: str, message_to_user: bool = True
+    message: types.Message,
+    error: str,
+    error_place: str = "",
+    message_to_user: bool = True,
 ) -> None:
     """For sending error message to user and logging"""
     if message_to_user:
         await message.answer(TEXT().try_again_message())
         await menu(message)
 
-    logger.error(error)
+    logger.error(f"Exception{error_place}: {error}")
     await _send_message_about_error_to_me(message)
 
 

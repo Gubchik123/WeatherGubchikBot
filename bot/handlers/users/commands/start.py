@@ -48,7 +48,10 @@ async def check_language(message: types.Message, state: FSMContext) -> None:
                 )
         except Exception as e:
             await send_message_to_user_about_error(
-                message, str(e), message_to_user=False
+                message,
+                str(e),
+                error_place=" during updating mailing lang code",
+                message_to_user=False,
             )
         finally:
             await start(message) if GOAL == "start" else await menu(message)

@@ -38,11 +38,15 @@ async def checking_answer_about_turning_on_mailing(
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(turn_on_mailing, message)
+        await there_is_no_such_type_of_answer_try_again(
+            turn_on_mailing, message
+        )
 
 
 @DP.message_handler(state=Mailing.mute_mode)
-async def checking_answer_about_mailing_mute_mode(message: types.Message) -> None:
+async def checking_answer_about_mailing_mute_mode(
+    message: types.Message,
+) -> None:
     """For checking answer about mailing mute mode"""
     global MUTE
 
@@ -78,20 +82,29 @@ async def check_selected_mailing_time(
                 )
             except Exception as e:
                 await send_message_to_user_about_error(
-                    message, str(e), message_to_user=False
+                    message,
+                    str(e),
+                    error_place=" during updating mailing time int",
+                    message_to_user=False,
                 )
             finally:
                 await mailing_menu(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(select_mailing_time, message)
+        await there_is_no_such_type_of_answer_try_again(
+            select_mailing_time, message
+        )
 
 
 async def confirm_mailing_for_user(message: types.Message, time: int) -> None:
     """For confirmation mailing and adding user in db"""
     try:
-        MY_DB.add_(user=TelegramUser(message, mute_mode=MUTE, time=time), info=INFO)
+        MY_DB.add_(
+            user=TelegramUser(message, mute_mode=MUTE, time=time), info=INFO
+        )
         await message.answer(TEXT().successfully_turn_on_mailing_message())
     except Exception as e:
-        await send_message_to_user_about_error(message, str(e))
+        await send_message_to_user_about_error(
+            message, str(e), error_place=" during adding user for mailing"
+        )
     finally:
         await menu(message)

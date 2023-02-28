@@ -26,7 +26,9 @@ from ..weather.general import send_message_to_user_about_error
 @DP.message_handler(Text("enable notification mode", ignore_case=True))
 async def turn_off_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing alert mute mode"""
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(
+        message.text.lower(), uk_word="увімкнути", ru_word="включить"
+    )
 
     await message.answer(
         TEXT().unmute_mailing_mode_question_message(),
@@ -50,7 +52,10 @@ async def checking_turning_on_mute_mode(
             )
         except Exception as e:
             await send_message_to_user_about_error(
-                message, str(e), message_to_user=False
+                message,
+                str(e),
+                error_place=" during updating mailing mute mode on False",
+                message_to_user=False,
             )
         finally:
             await mailing_menu(message)
@@ -67,7 +72,9 @@ async def checking_turning_on_mute_mode(
 @DP.message_handler(Text("enable silent mode", ignore_case=True))
 async def turn_on_mute_mode_for_mailing(message: types.Message) -> None:
     """The handler for asking about mailing mute mode"""
-    _check_language_from_(message.text.lower(), uk_word="увімкнути", ru_word="включить")
+    _check_language_from_(
+        message.text.lower(), uk_word="увімкнути", ru_word="включить"
+    )
 
     await message.answer(
         TEXT().mute_mailing_mode_question_message(),
@@ -91,7 +98,7 @@ async def checking_turning_on_mute_mode(
             )
         except Exception as e:
             await send_message_to_user_about_error(
-                message, str(e), message_to_user=False
+                message, str(e), error_place=" during updating mailing mute mode on True", message_to_user=False
             )
         finally:
             await mailing_menu(message)
@@ -108,7 +115,9 @@ async def checking_turning_on_mute_mode(
 @DP.message_handler(Text("change the mailing time", ignore_case=True))
 async def change_mailing_time(message: types.Message) -> None:
     """The handler for asking about changing mailing time"""
-    _check_language_from_(message.text.lower(), uk_word="змінити", ru_word="сменить")
+    _check_language_from_(
+        message.text.lower(), uk_word="змінити", ru_word="сменить"
+    )
 
     await message.answer(
         TEXT().change_mailing_time_question_message(),
@@ -130,11 +139,15 @@ async def checking_changed_mailing_time(
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
-        await there_is_no_such_type_of_answer_try_again(change_mailing_time, message)
+        await there_is_no_such_type_of_answer_try_again(
+            change_mailing_time, message
+        )
 
 
 @DP.message_handler(state=Mailing.change_city)
-async def checking_changing_city(message: types.Message, state: FSMContext) -> None:
+async def checking_changing_city(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking answer about changing mailing city"""
     user_answer = message.text.lower()
     await state.finish()
@@ -156,7 +169,9 @@ async def checking_changing_city(message: types.Message, state: FSMContext) -> N
 
 
 @DP.message_handler(state=Mailing.change_period)
-async def checking_changing_period(message: types.Message, state: FSMContext) -> None:
+async def checking_changing_period(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking answer about changing mailing period"""
     user_answer = message.text.lower()
     await state.finish()

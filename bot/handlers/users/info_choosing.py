@@ -87,7 +87,10 @@ async def _set_mailing_city_and_last_city(message: types.Message):
         )
     except Exception as e:
         await send_message_to_user_about_error(
-            message, str(e), message_to_user=False
+            message,
+            str(e),
+            error_place=" during getting last_city",
+            message_to_user=False,
         )
 
 
@@ -203,7 +206,10 @@ async def _update_user_last_searched_city_by_(message: types.Message) -> None:
             )
     except Exception as e:
         await send_message_to_user_about_error(
-            message, str(e), message_to_user=False
+            message,
+            str(e),
+            error_place=" during updating last_city",
+            message_to_user=False,
         )
 
 

@@ -47,7 +47,9 @@ async def get_info_about_weather_by_(message: types.Message) -> str:
         await _send_weather_info_to_me(message)
         await menu(message)
     except Exception as error:
-        await send_message_to_user_about_error(message, str(error))
+        await send_message_to_user_about_error(
+            message, str(error), error_place=" during parsing"
+        )
 
 
 def get_block_and_title_from(soup: BeautifulSoup) -> tuple:
