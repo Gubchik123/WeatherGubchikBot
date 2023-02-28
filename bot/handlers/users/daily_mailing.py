@@ -36,7 +36,12 @@ async def send_to_users() -> None:
         except Exception as e:
             logger.error(f"Exception in daily mailing with user: {user.chat_id}")
             logger.error(str(e))
-            continue
+
+            await BOT.send_message(
+                user.chat_id,
+                TEXT().error_message(),
+                disable_notification=user.mute,
+            )
 
 
 def _get_users_with_mailing_on_current_time() -> tuple:
