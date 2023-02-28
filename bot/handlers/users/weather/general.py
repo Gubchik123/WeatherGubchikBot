@@ -52,14 +52,16 @@ async def send_message_to_user_about_error(
     if message_to_user:
         await message.answer(TEXT().try_again_message())
         await menu(message)
+        
+    error_message = f"Exception{error_place}: {error}"
 
-    logger.error(f"Exception{error_place}: {error}")
-    await _send_message_about_error_to_me(message)
+    logger.error(error_message)
+    await _send_message_about_error_to_me(message, error_message)
 
 
-async def _send_message_about_error_to_me(message: types.Message) -> str:
+async def _send_message_about_error_to_me(message: types.Message, error_message: str) -> str:
     """For sending to me message about weather info user got"""
     my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
 
     if message.from_user.id != my_chat_id:
-        await BOT.send_message(my_chat_id, "There was an error")
+        await BOT.send_message(my_chat_id, error_message)
