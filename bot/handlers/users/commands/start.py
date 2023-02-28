@@ -22,10 +22,10 @@ async def choose_language(message: types.Message) -> None:
     GOAL = "menu" if "language" in message.text else "start"
 
     markup = make_keyboard(width=3)
-    markup.add("UK", "EN", "RU")
+    markup.add("UA", "EN", "RU")
 
     await message.answer(
-        "UK - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
+        "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
         reply_markup=markup,
     )
     await Choosing.language.set()
@@ -38,7 +38,7 @@ async def check_language(message: types.Message, state: FSMContext) -> None:
     user_chat_id = message.from_user.id
     await state.finish()
 
-    if user_text in ("uk", "en", "ru"):
+    if user_text in ("ua", "en", "ru"):
         TEXT.change_on(user_text)
 
         try:

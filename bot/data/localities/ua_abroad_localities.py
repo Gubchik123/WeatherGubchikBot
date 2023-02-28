@@ -1,4 +1,4 @@
-UK_ABROAD_LOCALITIES = {
+UA_ABROAD_LOCALITIES = {
     "айзенштадт": "Eisenstadt",
     "бад-тацмансдорф": "Badtatzmanndorf",
     "бургенланд": "Burgenland-burgenland",

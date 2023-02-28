@@ -45,10 +45,12 @@ async def weather_in_Ukraine(message: types.Message) -> None:
     """The handler for getting weather information in Ukraine"""
     global where_weather
 
-    where_weather = "uk"
-    _check_language_from_(message.text.lower(), uk_word="україні", ru_word="украине")
+    where_weather = "ua"
+    _check_language_from_(
+        message.text.lower(), uk_word="україні", ru_word="украине"
+    )
 
-    ukr_regions = {"uk": UK_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
+    ukr_regions = {"ua": UA_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
         TEXT().lang_code, EN_UKR_LOCALITIES
     )
 
@@ -63,11 +65,14 @@ async def weather_in_Europe(message: types.Message) -> None:
     global where_weather
 
     where_weather = "foreign"
-    _check_language_from_(message.text.lower(), uk_word="європі", ru_word="европе")
-
-    abroad_regions = {"uk": UK_ABROAD_LOCALITIES, "ru": RU_ABROAD_LOCALITIES}.get(
-        TEXT().lang_code, EN_ABROAD_LOCALITIES
+    _check_language_from_(
+        message.text.lower(), uk_word="європі", ru_word="европе"
     )
+
+    abroad_regions = {
+        "ua": UA_ABROAD_LOCALITIES,
+        "ru": RU_ABROAD_LOCALITIES,
+    }.get(TEXT().lang_code, EN_ABROAD_LOCALITIES)
 
     await _clean_info_and_change_regions_on_(abroad_regions, message)
 
@@ -77,10 +82,13 @@ async def _set_mailing_city_and_last_city(message: types.Message):
 
     try:
         mailing_city, last_city = MY_DB.get_columns_for_user_with_(
-            message.from_user.id, columns=f"city_title, last_{where_weather}_city"
+            message.from_user.id,
+            columns=f"city_title, last_{where_weather}_city",
         )
     except Exception as e:
-        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+        await send_message_to_user_about_error(
+            message, str(e), message_to_user=False
+        )
 
 
 async def _get_choosing_region_markup_by_(
@@ -125,7 +133,9 @@ async def check_user_goal_on_region_phase(
 
 
 @DP.message_handler(state=Choosing.region)
-async def check_selected_region(message: types.Message, state: FSMContext) -> None:
+async def check_selected_region(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking selected weather region"""
     user_text = message.text.lower()
 
@@ -143,7 +153,9 @@ async def check_selected_region(message: types.Message, state: FSMContext) -> No
         await choose_region_title(message, state)
 
 
-async def choose_region_title(message: types.Message, state: FSMContext) -> None:
+async def choose_region_title(
+    message: types.Message, state: FSMContext
+) -> None:
     """For choosing weather region the user had in mind"""
     result: list[str] = await state.get_data("result_list")
 
@@ -171,7 +183,9 @@ async def check_selected_region_title(
     elif user_text == TEXT().repeat_choosing_btn().lower():
         await choose_region(message)
     else:
-        await message.answer(TEXT().there_are_not_such_type_of_region_message())
+        await message.answer(
+            TEXT().there_are_not_such_type_of_region_message()
+        )
         await choose_region_title(message, state)
 
 
@@ -180,12 +194,17 @@ async def _update_user_last_searched_city_by_(message: types.Message) -> None:
     chat_id, user_text = message.from_user.id, message.text.capitalize()
 
     try:
-        if chat_id in MY_DB.chat_IDs and user_text not in (mailing_city, last_city):
+        if chat_id in MY_DB.chat_IDs and user_text not in (
+            mailing_city,
+            last_city,
+        ):
             MY_DB.update_last_city_for_user_with_(
                 chat_id, city_type=where_weather, new_last_city=user_text
             )
     except Exception as e:
-        await send_message_to_user_about_error(message, str(e), message_to_user=False)
+        await send_message_to_user_about_error(
+            message, str(e), message_to_user=False
+        )
 
 
 def _get_weather_period_buttons() -> tuple:
@@ -231,11 +250,15 @@ async def check_user_goal_on_period_phase(message: types.Message) -> None:
 
 
 @DP.message_handler(state=Choosing.period)
-async def check_selected_period(message: types.Message, state: FSMContext) -> None:
+async def check_selected_period(
+    message: types.Message, state: FSMContext
+) -> None:
     """For checking selected weather period"""
     user_text = message.text.lower()
 
-    if user_text in [period.lower() for period in _get_weather_period_buttons()]:
+    if user_text in [
+        period.lower() for period in _get_weather_period_buttons()
+    ]:
         INFO.time_title = user_text
 
         check_selected_period_it_is_week_or_other()
@@ -243,5 +266,7 @@ async def check_selected_period(message: types.Message, state: FSMContext) -> No
         await state.finish()
         await check_user_goal_on_period_phase(message)
     else:
-        await message.answer(TEXT().there_are_not_such_type_of_period_message())
+        await message.answer(
+            TEXT().there_are_not_such_type_of_period_message()
+        )
         await choose_period(message)

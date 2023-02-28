@@ -36,7 +36,7 @@ def get_soup_by_(url: str) -> BeautifulSoup:
     """For getting BeautifulSoup object by url"""
     lang_code = TEXT().lang_code
 
-    if lang_code != "uk":
+    if lang_code != "ua":
         url = url.replace("/ua/", f"/{lang_code}/")
 
     return BeautifulSoup(_get_response_from_(url, lang_code).text, "lxml")

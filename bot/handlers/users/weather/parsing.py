@@ -84,10 +84,12 @@ def get_span_number_from_(column: BeautifulSoup, class_: str) -> str:
 
 def get_wind_symbol() -> str:
     """For getting wind symbol by current language code"""
-    return {"uk": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
+    return {"ua": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
 
 
-def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
+def get_weather_details_on_one_day_from_(
+    block: BeautifulSoup,
+) -> WeatherDetail:
     """For checking if period is today or tomorrow and getting weather details"""
     if INFO.about_today:
         return WeatherDetail(
@@ -99,7 +101,9 @@ def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
     # if selected time is tomorrow
     rain, wind, humidity = 0, 0, 0
     for column in get_all_columns_from_(block):
-        rain += int(get_span_number_from_(column, class_="precipitation-chance"))
+        rain += int(
+            get_span_number_from_(column, class_="precipitation-chance")
+        )
         wind += int(get_span_number_from_(column, class_="wind-direction"))
         humidity += int(get_span_number_from_(column, class_="humidity"))
 
@@ -113,7 +117,7 @@ def get_weather_details_on_one_day_from_(block: BeautifulSoup) -> WeatherDetail:
 def get_weather_detail_titles() -> WeatherDetailTitle:
     """For getting weather detail titles by current language code"""
     return {
-        "uk": WeatherDetailTitle(
+        "ua": WeatherDetailTitle(
             rain="Імовірність опадів", wind="Вітер", humidity="Вологість"
         ),
         "ru": WeatherDetailTitle(
@@ -131,8 +135,12 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
     column = block.find("ul", class_="today-hourly-weather").find_all("li")
 
     for count in range(4):
-        name = get_span_text_from_(column[count], class_="today-hourly-weather__name")
-        temp = get_span_text_from_(column[count], class_="today-hourly-weather__temp")
+        name = get_span_text_from_(
+            column[count], class_="today-hourly-weather__name"
+        )
+        temp = get_span_text_from_(
+            column[count], class_="today-hourly-weather__temp"
+        )
         desc = (
             column[count]
             .find("i", class_="today-hourly-weather__icon")
@@ -208,7 +216,9 @@ def get_information_about_many_days() -> str:
         date = get_div_text_from_(day, class_="thumbnail-item__subtitle")
         temp = get_div_text_from_(day, class_="temperature-min")
 
-        weather_details = get_weather_details_on_many_days_from_(all_details, count)
+        weather_details = get_weather_details_on_many_days_from_(
+            all_details, count
+        )
         description = get_description_from_(soup, count)
 
         text += f"""

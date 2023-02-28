@@ -1,4 +1,4 @@
-UK_UKR_LOCALITIES = {
+UA_UKR_LOCALITIES = {
     "вінниця": "Vinnitsa",
     "луцьк": "Lutsk",
     "дніпро": "Dnipropetrovsk",

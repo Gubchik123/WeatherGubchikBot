@@ -1,10 +1,10 @@
 from .basic import _Basic
 
 
-class UK(_Basic):
+class UA(_Basic):
     """Ukrainian language class"""
 
-    lang_code = "uk"
+    lang_code = "ua"
 
     def hello_message(self, name: str) -> str:
         return self._get_correct_text_from_(

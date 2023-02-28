@@ -1,5 +1,5 @@
-from .uk_ukr_localities import UK_UKR_LOCALITIES
-from .uk_abroad_localities import UK_ABROAD_LOCALITIES
+from .ua_ukr_localities import UA_UKR_LOCALITIES
+from .ua_abroad_localities import UA_ABROAD_LOCALITIES
 
 from .en_urk_localities import EN_UKR_LOCALITIES
 from .en_abroad_localities import EN_ABROAD_LOCALITIES

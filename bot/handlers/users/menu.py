@@ -13,9 +13,13 @@ answer_options = (
 )
 
 
-def _check_language_from_(text: types.Message, *, uk_word: str, ru_word: str) -> None:
+def _check_language_from_(
+    text: types.Message, *, uk_word: str, ru_word: str
+) -> None:
     """For comparing current language with user message and changing if needed"""
-    lang_code = "uk" if uk_word in text else ("ru" if ru_word in text else "en")
+    lang_code = (
+        "ua" if uk_word in text else ("ru" if ru_word in text else "en")
+    )
     TEXT.check_language_by_(lang_code)
 
 
@@ -40,7 +44,9 @@ async def menu(message: types.Message) -> None:
     user_message = message.text.lower()
 
     if user_message in answer_options:
-        _check_language_from_(user_message, uk_word="головне", ru_word="главное")
+        _check_language_from_(
+            user_message, uk_word="головне", ru_word="главное"
+        )
 
     INFO.goal = "normal"
     await message.answer(
