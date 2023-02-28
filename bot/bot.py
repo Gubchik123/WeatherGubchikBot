@@ -27,7 +27,7 @@ def set_hours_for_daily_mailing() -> None:
 
 
 if __name__ == "__main__":
-    # set_hours_for_daily_mailing()
+    set_hours_for_daily_mailing()
 
     try:
         # Start polling and set default bot commands for three languages
