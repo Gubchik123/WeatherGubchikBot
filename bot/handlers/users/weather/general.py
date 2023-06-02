@@ -18,9 +18,7 @@ class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site"""
 
 
-def _get_response_from_(
-    url: str, lang_code: str
-) -> tuple[requests.Response, int]:
+def _get_response_from_(url: str, lang_code: str) -> tuple:
     """For sending GET request to url and getting response"""
     headers = {"user-agent": generate_user_agent().strip()}
     cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
@@ -45,7 +43,7 @@ def _get_response_from_(
     return (response, first_status_code)
 
 
-def get_soup_by_(url: str) -> tuple[BeautifulSoup, int]:
+def get_soup_by_(url: str) -> tuple:
     """For getting BeautifulSoup object by url"""
     lang_code = TEXT().lang_code
 

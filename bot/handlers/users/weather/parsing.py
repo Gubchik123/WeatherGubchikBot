@@ -206,7 +206,7 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days(soup: BeautifulSoup | None = None) -> str:
+def get_information_about_many_days(soup: BeautifulSoup = None) -> str:
     """For getting result weather message about many days"""
     text = ""
     start = end = None
