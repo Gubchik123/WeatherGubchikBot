@@ -18,34 +18,42 @@ class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site"""
 
 
-def _get_response_from_(url: str, lang_code: str) -> requests.Response:
+def _get_response_from_(
+    url: str, lang_code: str
+) -> tuple[requests.Response, int]:
     """For sending GET request to url and getting response"""
     headers = {"user-agent": generate_user_agent().strip()}
     cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
 
     response = requests.get(url, headers=headers, cookies=cookies)
+    first_status_code = response.status_code
 
-    if response.status_code == 410:
+    if first_status_code == 410:
+        info_type = INFO.type
+        info_time = INFO.time
         INFO.type = "weather"
         INFO.time = ""
         response = requests.get(
             INFO.generated_url, headers=headers, cookies=cookies
         )
-    if response.status_code != 200:
+        INFO.type = info_type
+        INFO.time = info_time
+    elif first_status_code != 200:
         raise InvalidResponse(
             f"InvalidResponse from the site ({response.status_code}); url={url}"
         )
-    return response
+    return (response, first_status_code)
 
 
-def get_soup_by_(url: str) -> BeautifulSoup:
+def get_soup_by_(url: str) -> tuple[BeautifulSoup, int]:
     """For getting BeautifulSoup object by url"""
     lang_code = TEXT().lang_code
 
     if lang_code != "ua":
         url = url.replace("/ua/", f"/{lang_code}/")
 
-    return BeautifulSoup(_get_response_from_(url, lang_code).text, "lxml")
+    response, first_status_code = _get_response_from_(url, lang_code)
+    return (BeautifulSoup(response.text, "lxml"), first_status_code)
 
 
 async def send_message_to_user_about_error(

@@ -12,6 +12,9 @@ from .getting_emoji import get_weather_emoji_by_
 from .general import get_soup_by_, send_message_to_user_about_error
 
 
+STATUS_CODE = 200
+
+
 class WeatherDetail(NamedTuple):
     """For storing weather details after parsing"""
 
@@ -157,7 +160,11 @@ def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
 
 def get_information_about_one_day() -> str:
     """For getting result weather message about one day"""
-    block, title = get_block_and_title_from(get_soup_by_(INFO.generated_url))
+    soup, status_code = get_soup_by_(INFO.generated_url)
+    if status_code == 410:
+        return get_information_about_many_days(soup)
+    
+    block, title = get_block_and_title_from(soup)
 
     weather_detail_titles = get_weather_detail_titles()
     weather_details = get_weather_details_on_one_day_from_(block)
@@ -199,11 +206,23 @@ def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
     return block.find("div", class_=class_).text.strip()
 
 
-def get_information_about_many_days() -> str:
+def get_information_about_many_days(soup: BeautifulSoup | None = None) -> str:
     """For getting result weather message about many days"""
     text = ""
-    soup = get_soup_by_(INFO.generated_url)
+    start = end = None
+    if soup is None:
+        soup, first_status_code = get_soup_by_(INFO.generated_url)
+    else:
+        first_status_code = 410
     block, title = get_block_and_title_from(soup)
+
+    if first_status_code == 410:
+        if INFO.about_week:
+            end = -7
+        else:
+            start = 1 if INFO.about_tomorrow else None
+            end = 2 if INFO.about_tomorrow else None
+        title = " ".join(title.split()[:-1]) + " " + INFO.time_title
 
     text += f"{title}:"
 
@@ -211,7 +230,7 @@ def get_information_about_many_days() -> str:
     all_details = block.find("div", class_="item-table").find_all("ul")
 
     block = block.find("div", class_="swiper-wrapper")
-    all_days = block.find_all("div", class_="swiper-slide")
+    all_days = block.find_all("div", class_="swiper-slide")[start:end]
 
     for count, day in enumerate(all_days):
         name = get_div_text_from_(day, class_="thumbnail-item__title")
