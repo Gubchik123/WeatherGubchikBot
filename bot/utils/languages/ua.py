@@ -39,7 +39,12 @@ class UA(_Basic):
         Приємного використання!!!
 
         Контакти автора бота:
-        Instagram: https://www.instagram.com/nikitos.1746/
+        CV site: https://nikita-hubariev.me
+        LinkedIn: https://www.linkedin.com/in/nikita-hubariev
+        Instagram: https://www.instagram.com/nikitos.1746
+
+        Інші проекти автора доступні на:
+        Дошка проектів: https://gubchik123-project-board.netlify.app
         GitHub: https://github.com/Gubchik123
         """
         )
