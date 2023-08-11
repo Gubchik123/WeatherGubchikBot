@@ -87,6 +87,38 @@ def check_cloud_with_rain_description() -> str:
     return (
         emojize(":cloud_with_rain:")
         if string == DESC
+        else check_cloud_with_lightning_description()
+    )
+
+
+def check_cloud_with_lightning_description() -> str:
+    """For getting 🌩 emoji description by RegEcp and language"""
+    string = get_string_by_(
+        regex={
+            "ua": r".+(?:гроза|блискавиці).+",
+            "ru": r".+(?:гроза|молнии).+",
+            "en": r".+(?:thunderstorm|lightning).+",
+        }.get(LANG)
+    )
+    return (
+        emojize(":cloud_with_lightning:")
+        if string == DESC
+        else check_cloud_with_lightning_and_rain_description()
+    )
+
+
+def check_cloud_with_lightning_and_rain_description() -> str:
+    """For getting ⛈ emoji description by RegExp and language"""
+    string = get_string_by_(
+        regex={
+            "ua": r"(?:гроз).+,.+(?:дощ|опади)",
+            "ru": r"(?:гроз).+,.+(?:дождь|осадки)",
+            "en": r"(?:thunder|storm).+,.+(?:rain|precipitation)",
+        }.get(LANG)
+    )
+    return (
+        emojize(":cloud_with_lightning_and_rain:")
+        if string == DESC
         else check_cloud_with_snow_description()
     )
 
