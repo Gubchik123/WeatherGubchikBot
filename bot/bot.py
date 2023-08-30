@@ -31,7 +31,9 @@ if __name__ == "__main__":
 
     try:
         # Start polling and set default bot commands for three languages
-        executor.start_polling(DP, on_startup=set_default_commands)
+        executor.start_polling(
+            DP, skip_updates=True, on_startup=set_default_commands
+        )
     except TelegramAPIError as e:
         logger = logging.getLogger("my_logger")
         logger.error(f"Exception during polling: {str(e)}")
