@@ -3,11 +3,9 @@ import logging
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from fuzzywuzzy.process import extractBests
 
 from bot_info import DP
 from states import Choosing
-from data.localities import *
 from constants import INFO, TEXT, MY_DB
 from keyboard import make_keyboard, make_button
 
@@ -17,64 +15,35 @@ from .mailing_info import (
     change_mailing_city_on_,
 )
 from .menu import _check_language_from_
+from .weather.search import get_searched_data_with_
 from .weather.parsing import get_info_about_weather_by_
 from .weather.general import send_message_to_user_about_error
 
 
 logger = logging.getLogger("my_logger")
-where_weather = mailing_city = last_city = ""
+where_weather = "foreign"
+mailing_city = last_city = ""
 
 
-async def _clean_info_and_change_regions_on_(
-    some_regions: dict, message: types.Message
-) -> None:
+async def _clean_info_and_continue(message: types.Message) -> None:
     """For cleaning weather info and changing region for weather searching"""
     goal = INFO.goal if INFO.goal else "normal"
 
     INFO.clean_information()
-    INFO.regions = some_regions
     INFO.goal = goal
 
     await choose_region(message)
 
 
-@DP.message_handler(Text("погода в україні", ignore_case=True))
-@DP.message_handler(Text("погода в украине", ignore_case=True))
-@DP.message_handler(Text("weather in ukraine", ignore_case=True))
-async def weather_in_Ukraine(message: types.Message) -> None:
-    """The handler for getting weather information in Ukraine"""
-    global where_weather
-
-    where_weather = "ua"
+@DP.message_handler(Text("прогноз погоди", ignore_case=True))
+@DP.message_handler(Text("прогноз погоды", ignore_case=True))
+@DP.message_handler(Text("weather forecast", ignore_case=True))
+async def weather_forecast(message: types.Message) -> None:
+    """The handler for getting weather information"""
     _check_language_from_(
-        message.text.lower(), uk_word="україні", ru_word="украине"
+        message.text.lower(), uk_word="погоди", ru_word="погоды"
     )
-
-    ukr_regions = {"ua": UA_UKR_LOCALITIES, "ru": RU_UKR_LOCALITIES}.get(
-        TEXT().lang_code, EN_UKR_LOCALITIES
-    )
-
-    await _clean_info_and_change_regions_on_(ukr_regions, message)
-
-
-@DP.message_handler(Text("погода в європі", ignore_case=True))
-@DP.message_handler(Text("погода в европе", ignore_case=True))
-@DP.message_handler(Text("weather in europe", ignore_case=True))
-async def weather_in_Europe(message: types.Message) -> None:
-    """The handler for getting weather information in Europe"""
-    global where_weather
-
-    where_weather = "foreign"
-    _check_language_from_(
-        message.text.lower(), uk_word="європі", ru_word="европе"
-    )
-
-    abroad_regions = {
-        "ua": UA_ABROAD_LOCALITIES,
-        "ru": RU_ABROAD_LOCALITIES,
-    }.get(TEXT().lang_code, EN_ABROAD_LOCALITIES)
-
-    await _clean_info_and_change_regions_on_(abroad_regions, message)
+    await _clean_info_and_continue(message)
 
 
 async def _set_mailing_city_and_last_city(message: types.Message):
@@ -119,11 +88,6 @@ async def choose_region(message: types.Message) -> None:
     await Choosing.region.set()
 
 
-def _check_the_match_is_100_between_user_option_and_(result: str) -> bool:
-    """For checking the match is 100% between user option and extracted option"""
-    return result[0][1] == 100
-
-
 async def check_user_goal_on_region_phase(
     message: types.Message, state: FSMContext
 ) -> None:
@@ -144,15 +108,15 @@ async def check_selected_region(
 
     await message.answer(TEXT().searching_message())
 
-    result: list = extractBests(user_text, INFO.region_titles, limit=4)
+    result, is_match_100 = get_searched_data_with_(user_text)
 
-    if _check_the_match_is_100_between_user_option_and_(result):
-        INFO.city = INFO.regions[user_text]
+    if is_match_100:
+        INFO.city = result
         INFO.city_title = user_text.capitalize()
 
         await check_user_goal_on_region_phase(message, state)
     else:
-        await state.set_data({"result_list": [data[0] for data in result]})
+        await state.set_data({"result_list": result})
         await choose_region_title(message, state)
 
 
@@ -160,10 +124,12 @@ async def choose_region_title(
     message: types.Message, state: FSMContext
 ) -> None:
     """For choosing weather region the user had in mind"""
-    result: list[str] = await state.get_data("result_list")
+    result: dict = await state.get_data("result_list")
 
     markup = make_keyboard(width=2)
-    markup.add(*[title.capitalize() for title in result["result_list"]])
+    markup.add(
+        *[city_title.title() for city_title in result["result_list"]]
+    )
     markup.add(make_button(TEXT().repeat_choosing_btn()))
 
     await message.answer(TEXT().choose_minded_option(), reply_markup=markup)
@@ -176,11 +142,11 @@ async def check_selected_region_title(
 ) -> None:
     """For checking weather region the user had in mind"""
     user_text = message.text.lower()
-    result: list[str] = await state.get_data("result_list")
+    result: dict = await state.get_data("result_list")
 
-    if user_text in result["result_list"]:
-        INFO.city = INFO.regions[user_text]
-        INFO.city_title = user_text.capitalize()
+    if user_text in result["result_list"].keys():
+        INFO.city = result["result_list"][user_text]
+        INFO.city_title = user_text.title()
 
         await check_user_goal_on_region_phase(message, state)
     elif user_text == TEXT().repeat_choosing_btn().lower():
