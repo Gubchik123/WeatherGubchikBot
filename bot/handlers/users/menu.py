@@ -3,7 +3,7 @@ from aiogram.dispatcher.filters import Text
 
 from bot_info import DP
 from constants import MY_DB, INFO, TEXT
-from keyboard import make_keyboard_for_country_choosing, make_button
+from keyboard import make_weather_forecast_keyboard, make_button
 
 
 answer_options = (
@@ -29,8 +29,7 @@ def _get_menu_keyboard(message: types.Message) -> types.ReplyKeyboardMarkup:
         if message.from_user.id in MY_DB.chat_IDs
         else TEXT().menu_btn_turn_on_mailing()
     )
-
-    markup = make_keyboard_for_country_choosing()
+    markup = make_weather_forecast_keyboard()
     markup.add(make_button(mailing_btn_text))
     markup.add(make_button(TEXT().menu_btn_goodbye()))
     return markup

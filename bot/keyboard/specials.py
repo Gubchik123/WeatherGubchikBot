@@ -10,11 +10,8 @@ def make_keyboard_for_yes_or_no_answer() -> types.ReplyKeyboardMarkup:
     return markup
 
 
-def make_keyboard_for_country_choosing() -> types.ReplyKeyboardMarkup:
+def make_weather_forecast_keyboard() -> types.ReplyKeyboardMarkup:
     """For getting keyboard with buttons for searching weather information"""
     markup = make_keyboard(width=2, one_time=True)
-    markup.add(
-        make_button(TEXT().weather_in_Ukraine_btn()),
-        make_button(TEXT().weather_in_Europe_btn()),
-    )
+    markup.add(make_button(TEXT().weather_forecast_btn()))
     return markup
