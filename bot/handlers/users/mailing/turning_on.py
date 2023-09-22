@@ -5,13 +5,13 @@ from bot_info import DP
 from states import Mailing
 from constants import MY_DB, INFO, TEXT
 from utils.class_User import TelegramUser
-from keyboard import make_keyboard_for_country_choosing
 
 from .menu import mailing_menu
 from .action import turn_on_mailing
 from .general import cancel_action, there_is_no_such_type_of_answer_try_again
 
 from ..menu import menu
+from ..info_choosing import weather_forecast
 from ..weather.general import send_message_to_user_about_error
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
@@ -31,10 +31,12 @@ async def checking_answer_about_turning_on_mailing(
         INFO.goal = "mailing"
 
         await state.finish()
-        await message.answer(
-            TEXT().choose_mailing_country_question_message(),
-            reply_markup=make_keyboard_for_country_choosing(),
-        )
+        message.text = {  # ! Workaround
+            "ua": "прогноз погоди",
+            "ru": "прогноз погоды",
+            "en": "weather forecast",
+        }.get(TEXT().lang_code)
+        await weather_forecast(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:

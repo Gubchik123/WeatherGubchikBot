@@ -6,7 +6,6 @@ from bot_info import DP
 from states import Mailing
 from constants import MY_DB, INFO, TEXT
 from keyboard import make_keyboard_for_yes_or_no_answer
-from keyboard import make_keyboard_for_country_choosing
 
 from .menu import mailing_menu
 from .turning_on import select_mailing_time
@@ -17,7 +16,7 @@ from ..mailing_info import (
     ask_about_changing_mailing_period,
 )
 from ..menu import _check_language_from_
-from ..info_choosing import choose_period
+from ..info_choosing import weather_forecast, choose_period
 from ..weather.general import send_message_to_user_about_error
 
 
@@ -98,7 +97,10 @@ async def checking_turning_on_mute_mode(
             )
         except Exception as e:
             await send_message_to_user_about_error(
-                message, str(e), error_place=" during updating mailing mute mode on True", message_to_user=False
+                message,
+                str(e),
+                error_place=" during updating mailing mute mode on True",
+                message_to_user=False,
             )
         finally:
             await mailing_menu(message)
@@ -156,10 +158,12 @@ async def checking_changing_city(
         INFO.clean_information()
         INFO.goal = "changing mailing"
 
-        await message.answer(
-            TEXT().choose_mailing_country_question_message(),
-            reply_markup=make_keyboard_for_country_choosing(),
-        )
+        message.text = {  # ! Workaround
+            "ua": "прогноз погоди",
+            "ru": "прогноз погоды",
+            "en": "weather forecast",
+        }.get(TEXT().lang_code)
+        await weather_forecast(message)
     elif user_answer == TEXT().no_btn().lower():
         await cancel_action(message)
     else:
