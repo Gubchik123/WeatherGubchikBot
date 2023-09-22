@@ -30,11 +30,8 @@ class _Basic:
     def no_btn(self) -> str:
         """For getting the decline button text"""
 
-    def weather_in_Ukraine_btn(self) -> str:
-        """For getting the button text for getting weather in Ukraine"""
-
-    def weather_in_Europe_btn(self) -> str:
-        """For getting the button text for getting weather in Europe"""
+    def weather_forecast_btn(self) -> str:
+        """For getting the button text for getting weather forecast"""
 
     def back_to_menu_btn(self) -> str:
         """For getting the returning back button text"""

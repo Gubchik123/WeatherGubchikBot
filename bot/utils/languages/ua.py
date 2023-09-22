@@ -61,11 +61,8 @@ class UA(_Basic):
     def no_btn(self) -> str:
         return "Ні"
 
-    def weather_in_Ukraine_btn(self) -> str:
-        return "Погода в Україні"
-
-    def weather_in_Europe_btn(self) -> str:
-        return "Погода в Європі"
+    def weather_forecast_btn(self) -> str:
+        return "Прогноз погоди"
 
     def back_to_menu_btn(self) -> str:
         return "← Повернутися у головне меню"

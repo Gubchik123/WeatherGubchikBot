@@ -61,11 +61,8 @@ class RU(_Basic):
     def no_btn(self) -> str:
         return "Нет"
 
-    def weather_in_Ukraine_btn(self) -> str:
-        return "Погода в Украине"
-
-    def weather_in_Europe_btn(self) -> str:
-        return "Погода в Европе"
+    def weather_forecast_btn(self) -> str:
+        return "Прогноз погоды"
 
     def back_to_menu_btn(self) -> str:
         return "← Вернуться в главное меню"

@@ -61,11 +61,8 @@ class EN(_Basic):
     def no_btn(self) -> str:
         return "No"
 
-    def weather_in_Ukraine_btn(self) -> str:
-        return "Weather in Ukraine"
-
-    def weather_in_Europe_btn(self) -> str:
-        return "Weather in Europe"
+    def weather_forecast_btn(self) -> str:
+        return "Weather forecast"
 
     def back_to_menu_btn(self) -> str:
         return "← Return to the main menu"
