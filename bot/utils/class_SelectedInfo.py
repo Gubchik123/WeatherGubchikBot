@@ -7,18 +7,12 @@ class SelectedInfo:
 
     def clean_information(self) -> None:
         """For cleaning all data for weather searching"""
-        self.regions = {}
         self.goal = ""
         self.city = ""
         self.city_title = ""
         self.time = ""
         self.time_title = ""
         self.type = "weather"
-
-    @property
-    def region_titles(self):
-        """Getter for region titles"""
-        return self.regions.keys()
 
     @property
     def generated_url(self) -> str:
