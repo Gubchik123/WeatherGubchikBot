@@ -19,7 +19,7 @@ def _get_response_json_by_(user_input: str) -> dict:
 def _get_filtered_(result_data: list) -> list:
     """For getting filtered list of countries or cities"""
     return {
-        f"{data[0].lower()} ({data[2].lower()})": data[4]
+        data[0].lower() + f" ({data[2].lower()})" if data[2] else "": data[4]
         for data in result_data
         if data[1] not in ("Росія", "Россия", "Russia")
     }
