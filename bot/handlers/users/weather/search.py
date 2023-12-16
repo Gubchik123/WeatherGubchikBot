@@ -3,14 +3,14 @@ from typing import Tuple, Union
 import requests
 from user_agent import generate_user_agent
 
-from constants import INFO, TEXT
+from constants import TEXT
 
 
 def _get_response_json_by_(user_input: str) -> dict:
-    """For getting response json from meteoprog.ua"""
+    """For getting response json from meteoprog.com"""
     lang_code = TEXT().lang_code
     return requests.get(
-        f"https://www.meteoprog.ua/{lang_code}/search/json?q={user_input}",
+        f"https://www.meteoprog.com/{lang_code}/search/json?q={user_input}",
         headers={"user-agent": generate_user_agent().strip()},
         cookies={"cookie": f"needed_thing=''; default_lang={lang_code};"},
     ).json()
