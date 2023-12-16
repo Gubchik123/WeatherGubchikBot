@@ -34,8 +34,8 @@ async def _send_weather_info_to_me(message: types.Message) -> str:
     if message.from_user.id != my_chat_id:
         await BOT.send_message(
             my_chat_id,
-            f"{message.from_user.first_name} ({message.from_user.username}) got "
-            "weather in {INFO.city_title} ({INFO.time_title})",
+            f"{message.from_user.first_name} (@{message.from_user.username}) got "
+            f"weather in {INFO.city_title} ({INFO.time_title})",
         )
 
 
