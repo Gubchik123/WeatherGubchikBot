@@ -45,17 +45,18 @@ async def mailing_menu(message: types.Message) -> None:
         )
 
     try:
-        user = MY_DB.get_user_with_(chat_id=message.from_user.id)
-
-        await message.answer(
-            TEXT().mailing_info_message(
-                user.time_int, user.mute, user.time_title, user.city_title
+        if not (user := MY_DB.get_user_with_(chat_id=message.from_user.id)):
+            await message.answer(TEXT().try_again_message())
+        else:
+            await message.answer(
+                TEXT().mailing_info_message(
+                    user.time_int, user.mute, user.time_title, user.city_title
+                )
             )
-        )
-        await message.answer(
-            TEXT().what_do_you_want_to_do_with_mailing_message(),
-            reply_markup=_get_mailing_menu_keyboard_with_(user.mute),
-        )
+            await message.answer(
+                TEXT().what_do_you_want_to_do_with_mailing_message(),
+                reply_markup=_get_mailing_menu_keyboard_with_(user.mute),
+            )
     except Exception as e:
         await send_message_to_user_about_error(
             message, str(e), error_place=" in mailing menu"

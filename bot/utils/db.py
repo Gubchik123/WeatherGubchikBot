@@ -1,5 +1,5 @@
 import logging
-from typing import NamedTuple, Callable
+from typing import NamedTuple, Callable, Union
 
 import psycopg2
 
@@ -81,14 +81,16 @@ class DB:
         return tuple(UserDBInfo(*row) for row in data)
 
     @catch_closed_connection
-    def get_user_with_(self, chat_id: int) -> UserDBInfo:
+    def get_user_with_(self, chat_id: int) -> Union[UserDBInfo, None]:
         """For getting information about user from database by chat id"""
         with self.__connection.cursor() as cursor:
             cursor.execute(
                 f"SELECT {self.__rows_for_selecting} FROM mailing WHERE chat_id={chat_id};"
             )
             data = cursor.fetchone()
-        return UserDBInfo(*data)
+        if data is not None:
+            return UserDBInfo(*data)
+        return None
 
     @catch_closed_connection
     def get_columns_for_user_with_(self, chat_id: int, columns: str) -> tuple:
