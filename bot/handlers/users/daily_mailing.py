@@ -3,6 +3,8 @@ import pytz
 import logging
 from datetime import datetime
 
+from aiogram.utils.exceptions import BotBlocked
+
 from bot_info import BOT
 from utils.db import UserDBInfo
 from constants import MY_DB, INFO, TEXT
@@ -35,6 +37,11 @@ async def send_to_users() -> None:
                 _get_weather_info_message_by_(user.lang),
                 disable_notification=user.mute,
             )
+        except BotBlocked:
+            logger.warning(
+                f"User with chat id - {user.chat_id} has blocked the bot"
+            )
+            MY_DB.delete_user_with_(user.chat_id)
         except Exception as e:
             logger.error(
                 f"Exception in daily mailing (user chat id - {user.chat_id}): {str(e)}"
