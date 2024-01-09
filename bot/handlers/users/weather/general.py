@@ -26,7 +26,7 @@ def _get_response_from_(url: str, lang_code: str) -> tuple:
     response = requests.get(url, headers=headers, cookies=cookies)
     first_status_code = response.status_code
 
-    if first_status_code == 410:
+    if first_status_code in (404, 410):
         info_type = INFO.type
         info_time = INFO.time
         INFO.type = "weather"
