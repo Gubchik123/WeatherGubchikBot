@@ -41,7 +41,7 @@ class EN(_Basic):
         Bot author contacts:
         CV site: https://nikita-hubariev.me
         LinkedIn: https://www.linkedin.com/in/nikita-hubariev
-        Instagram: https://www.instagram.com/nikitos.1746
+        Instagram: https://www.instagram.com/notwhale.1746
 
         Other projects of the author are available on:
         Project board: https://gubchik123-project-board.netlify.app

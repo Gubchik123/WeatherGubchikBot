@@ -41,7 +41,7 @@ class RU(_Basic):
         Контакты автора бота:
         CV site: https://nikita-hubariev.me
         LinkedIn: https://www.linkedin.com/in/nikita-hubariev
-        Instagram: https://www.instagram.com/nikitos.1746
+        Instagram: https://www.instagram.com/notwhale.1746
 
         Другие проекты автора доступны на:
         Доска проектов: https://gubchik123-project-board.netlify.app
