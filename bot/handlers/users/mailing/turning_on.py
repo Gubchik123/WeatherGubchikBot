@@ -16,7 +16,7 @@ from ..weather.general import send_message_to_user_about_error
 from ..mailing_info import ask_about_mailing_mute_mode, select_mailing_time
 
 
-MUTE = None
+MUTE = True
 
 
 @DP.message_handler(state=Mailing.turn_on)
@@ -59,7 +59,7 @@ async def checking_answer_about_mailing_mute_mode(
             ask_about_mailing_mute_mode, message
         )
 
-    MUTE = True if user_answer == TEXT().yes_btn().lower() else False
+    MUTE = user_answer == TEXT().yes_btn().lower()
     await select_mailing_time(message, "mailing")
 
 
