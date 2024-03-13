@@ -44,7 +44,9 @@ class SelectedInfo:
     @property
     def about_one_day(self) -> bool:
         """Getter for condition about one day"""
-        return self.type == "weather" and self.about_today
+        return self.type == "weather" and (
+            self.about_today or self.about_tomorrow
+        )
 
     @property
     def about_many_days(self) -> bool:
