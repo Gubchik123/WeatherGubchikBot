@@ -21,7 +21,6 @@ logger = logging.getLogger("my_logger")
 
 async def send_to_users() -> None:
     """For sending weather message to users with current time for mailing"""
-    global cached_weather_messages
     for user in _get_users_with_mailing_on_current_time():
         try:
             TEXT.change_on(user.lang)
@@ -43,14 +42,14 @@ async def send_to_users() -> None:
             )
             MY_DB.delete_user_with_(user.chat_id)
         except Exception as e:
-            logger.error(
-                f"Exception in daily mailing (user chat id - {user.chat_id}): {str(e)}"
-            )
+            error_message = f"Exception in daily mailing (user chat id - {user.chat_id}): {str(e)}"
+            logger.error(error_message)
             await BOT.send_message(
                 user.chat_id,
                 TEXT().error_message(),
                 disable_notification=user.mute,
             )
+            await _send_message_about_error_to_me(error_message)
     cached_weather_messages.clear()
 
 
@@ -84,7 +83,6 @@ def _fill_weather_information_by_(user: UserDBInfo) -> None:
 
 def _get_weather_info_message_by_(user_lang_code: str) -> str:
     """For getting message text with weather information"""
-    global cached_weather_messages
     user_city_and_lang_code = (INFO.city_title, user_lang_code)
 
     try:
@@ -97,3 +95,10 @@ def _get_weather_info_message_by_(user_lang_code: str) -> str:
         )
         cached_weather_messages[user_city_and_lang_code] = weather_message
         return weather_message
+
+
+async def _send_message_about_error_to_me(error_message: str) -> str:
+    """For sending to me message about weather info user got"""
+    await BOT.send_message(
+        int(os.getenv("MY_TELEGRAM_CHAT_ID")), error_message
+    )
