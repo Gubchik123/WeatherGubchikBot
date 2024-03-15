@@ -1,5 +1,5 @@
 import os
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
 from aiogram import types
 from bs4 import BeautifulSoup
@@ -27,27 +27,17 @@ class WeatherDetailTitle(WeatherDetail):
     """For storing weather detail titles by language"""
 
 
-async def _send_weather_info_to_me(message: types.Message) -> str:
-    """For sending to me message about weather info user got"""
-    my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
-
-    if message.from_user.id != my_chat_id:
-        await BOT.send_message(
-            my_chat_id,
-            f"{message.from_user.first_name} (@{message.from_user.username}) got "
-            f"weather in {INFO.city_title} ({INFO.time_title})",
-        )
-
-
 async def get_info_about_weather_by_(message: types.Message) -> str:
     """For sending weather message to user"""
     try:
         await message.answer(
-            get_information_about_one_day()
-            if INFO.about_one_day
-            else get_information_about_many_days()
+            (
+                get_information_about_one_day()
+                if INFO.about_one_day
+                else get_information_about_many_days()
+            ),
+            parse_mode="HTML",
         )
-
         await _send_weather_info_to_me(message)
         await menu(message)
     except Exception as error:
@@ -56,71 +46,92 @@ async def get_info_about_weather_by_(message: types.Message) -> str:
         )
 
 
-def get_block_and_title_from(soup: BeautifulSoup) -> tuple:
-    """For getting block for future parsing and page title (h1)"""
-    block = soup.find("div", class_="page-columns-wrapper")
-    return (block, block.find("h1").text.strip())
+def get_information_about_one_day() -> str:
+    """For getting result weather message about one day"""
+    soup, status_code = get_soup_by_(INFO.generated_url)
+    active_swiper_slide = get_active_swiper_slide_from(soup)
+    return f"{get_one_day_title(soup)}:\n{get_weather_info_about_day_from_(active_swiper_slide)}"
 
 
-def get_atmosphere_row(index: int, block: BeautifulSoup) -> str:
-    """For getting parsed row from table by index"""
-    return (
-        block.find("table", class_="today__atmosphere")
-        .find_all("tr")[index]
-        .find("td")
-        .text.strip()
-    )
+def get_information_about_many_days() -> str:
+    soup, status_code = get_soup_by_(INFO.generated_url)
+    return f"{get_many_days_title(soup)}:\n{get_weather_info_about_many_days_from_(soup)}"
 
 
-def get_all_columns_from_(block: BeautifulSoup) -> tuple:
-    """For getting all list items with weather data"""
-    return block.find("ul", class_="today-hourly-weather").find_all("li")
+def get_one_day_title(soup: BeautifulSoup) -> str:
+    """For getting title from the given soup"""
+    h1 = " ".join(soup.find("h1").text.strip().split()[:-1])
+
+    swiper_slide = soup.find("div", class_="swiper-wrapper").find_all(
+        "div", class_="swiper-slide"
+    )[0 if INFO.about_today else 1]
+    return f"{h1} {get_subtitle_from(swiper_slide).lower()}"
 
 
-def get_span_text_from_(column: BeautifulSoup, class_: str) -> str:
-    """For getting span text from column by class CSS selector"""
-    return column.find("span", class_=class_).text.strip()
-
-
-def get_span_number_from_(column: BeautifulSoup, class_: str) -> str:
-    """For getting span number from column by class CSS selector"""
-    span_text = get_span_text_from_(column, class_)
-    return span_text.split(" ")[0] if " " in span_text else span_text[:-1]
-
-
-def get_wind_symbol() -> str:
-    """For getting wind symbol by current language code"""
-    return {"ua": "м/с", "en": "mps", "ru": "м/с"}.get(TEXT().lang_code)
-
-
-def get_weather_details_on_one_day_from_(
-    block: BeautifulSoup,
-) -> WeatherDetail:
-    """For checking if period is today or tomorrow and getting weather details"""
-    if INFO.about_today:
-        return WeatherDetail(
-            rain=get_atmosphere_row(0, block),
-            wind=get_atmosphere_row(1, block),
-            humidity=get_atmosphere_row(4, block),
+def get_subtitle_from(
+    swiper_slide: BeautifulSoup, with_temp: Optional[bool] = False
+) -> str:
+    """For getting subtitle from the given swiper slide"""
+    swiper_title = swiper_slide.find(
+        "div", class_="thumbnail-item__title"
+    ).text.strip()
+    swiper_subtitle = swiper_slide.find(
+        "div", class_="thumbnail-item__subtitle"
+    ).text.strip()
+    temp = ""
+    if with_temp:
+        swiper_temp = swiper_slide.find(
+            "div", class_="thumbnail-item__temperature"
         )
+        temp_max = swiper_temp.find(
+            "div", class_="temperature-max"
+        ).text.strip()
+        temp_min = swiper_temp.find(
+            "div", class_="temperature-min"
+        ).text.strip()
+        temp = f": {temp_max} ... {temp_min}"
+    return f"{swiper_title} ({swiper_subtitle}){temp}"
 
-    # if selected time is tomorrow
-    rain, wind, humidity = 0, 0, 0
-    for column in get_all_columns_from_(block):
-        rain += int(
-            get_span_number_from_(column, class_="precipitation-chance")
+
+def get_active_swiper_slide_from(soup: BeautifulSoup) -> BeautifulSoup:
+    """For getting swiper gallery from the given soup"""
+    return soup.find("div", class_="swiper-gallery").find_all(
+        "div", class_="swiper-slide"
+    )[0 if INFO.about_today else 1]
+
+
+def get_weather_info_about_day_from_(
+    active_swiper_slide: BeautifulSoup,
+) -> str:
+    weather_detail_title = get_weather_detail_title()
+    day_emojis = ("🌃", "🌇", "🏙️", "🌆")
+
+    text = ""
+
+    for index, time_of_day in enumerate(
+        active_swiper_slide.find_all("ul", class_="times-of-day__item")
+    ):
+        title = time_of_day.find("li", class_="title").text.strip()
+        description = (
+            time_of_day.find("li", class_="icon")
+            .find("div", class_="item-icon")
+            .get("title")
+            .strip()
         )
-        wind += int(get_span_number_from_(column, class_="wind-direction"))
-        humidity += int(get_span_number_from_(column, class_="humidity"))
+        temperature = time_of_day.find("li", class_="temperature").text.strip()
 
-    return WeatherDetail(
-        rain=f"{int(rain/4)} %",
-        wind=f"{int(wind/4)} {get_wind_symbol()}",
-        humidity=f"{int(humidity/4)} %",
-    )
+        text += f"""
+        {day_emojis[index]} <b>{title}: {temperature}</b> {get_weather_emoji_by_(description)}
+        {description.capitalize()}
+
+        {get_weather_details_by_(time_of_day, weather_detail_title)}
+        {"_"*35}\n""".replace(
+            "        ", ""
+        )
+    return text
 
 
-def get_weather_detail_titles() -> WeatherDetailTitle:
+def get_weather_detail_title() -> WeatherDetailTitle:
     """For getting weather detail titles by current language code"""
     return {
         "ua": WeatherDetailTitle(
@@ -135,124 +146,93 @@ def get_weather_detail_titles() -> WeatherDetailTitle:
     }.get(TEXT().lang_code)
 
 
-def get_weather_info_about_day_from_(block: BeautifulSoup) -> str:
-    """For getting text with weather information about one day"""
-    text = ""
-    column = block.find("ul", class_="today-hourly-weather").find_all("li")
+def get_weather_details_by_(
+    time_of_day: BeautifulSoup,
+    weather_detail_title: WeatherDetailTitle,
+    day: Optional[int] = 0,
+) -> str:
+    """For getting weather details on the given time of day"""
+    weather_info = time_of_day.find_all("li", class_="weather-info")
+    is_full_info = day < 9
+    decrement = 0 if is_full_info else 1
 
-    for count in range(4):
-        name = get_span_text_from_(
-            column[count], class_="today-hourly-weather__name"
-        )
-        temp = get_span_text_from_(
-            column[count], class_="today-hourly-weather__temp"
-        )
-        desc = (
-            column[count]
-            .find("i", class_="today-hourly-weather__icon")
-            .get("title")
-            .strip()
-        )
-
-        text += f"\n{name}: {temp}  {get_weather_emoji_by_(desc)}\n({desc})\n"
-
-    return text
-
-
-def get_information_about_one_day() -> str:
-    """For getting result weather message about one day"""
-    soup, status_code = get_soup_by_(INFO.generated_url)
-    if status_code == 410:
-        return get_information_about_many_days(soup)
-    
-    block, title = get_block_and_title_from(soup)
-
-    weather_detail_titles = get_weather_detail_titles()
-    weather_details = get_weather_details_on_one_day_from_(block)
-
-    return f"""
-    {title}:
-
-    {weather_detail_titles.wind}: {weather_details.wind}  🌬
-    {weather_detail_titles.humidity}: {weather_details.humidity}  💦
-    {weather_detail_titles.rain}: {weather_details.rain}  💧
-    {get_weather_info_about_day_from_(block)}
-    """.replace(
+    weather_details = f"""{weather_detail_title.wind}: {weather_info[2 - decrement].find("span").text.strip()}  🌬
+    {weather_detail_title.humidity}: {weather_info[3 - decrement].find("span").text.strip()}  💦""".replace(
         "    ", ""
     )
+    if is_full_info:
+        weather_details += f"\n{weather_detail_title.rain}: {weather_info[0].find('span').text.strip()}  💧"
+    return weather_details
 
 
-def get_weather_details_on_many_days_from_(
-    block: BeautifulSoup, count: int
-) -> WeatherDetail:
-    """For getting weather details from block (div) by column count"""
-    return WeatherDetail(
-        wind=block[0].find_all("li")[count].text.strip(),
-        humidity=block[1].find_all("li")[count].text.strip(),
-        rain=block[3].find_all("li")[count].text.strip(),
+def get_many_days_title(soup: BeautifulSoup) -> str:
+    """For getting title from the given soup"""
+    title_tag = soup.find("h1")
+    if title_tag is None:
+        title_tag = soup.find("h2")
+    title = title_tag.text.strip()
+
+    if INFO.about_big_city:
+        return title
+    return {
+        "ua": f"Прогноз погоди в {INFO.city_title} на {INFO.time_title.lower()}",
+        "ru": f"Прогноз погоды в {INFO.city_title} на {INFO.time_title.lower()}",
+        "en": f"{INFO.time_title.capitalize()} weather forecast in {INFO.city_title}",
+    }.get(TEXT().lang_code)
+
+
+def get_weather_info_about_many_days_from_(
+    soup: BeautifulSoup,
+) -> str:
+    """For getting weather info about many days from the given weather temp graph"""
+    slider = soup.find("section", class_="weather-day-by-day-slider")
+
+    thumbnails = slider.find("div", class_="swiper-thumbnails").find_all(
+        "div", class_="swiper-slide"
     )
-
-
-def get_description_from_(block: BeautifulSoup, count: int) -> str:
-    """For getting day weather description from block (div) by column count"""
-    block_with_details = block.find("div", class_="swiper-gallery")
-    description = block_with_details.find_all("div", class_="description")[
-        count
-    ].text.strip()
-    return description.split(": ")[1]
-
-
-def get_div_text_from_(block: BeautifulSoup, class_: str) -> str:
-    """For getting text from block (div) by class CSS selector"""
-    return block.find("div", class_=class_).text.strip()
-
-
-def get_information_about_many_days(soup: BeautifulSoup = None) -> str:
-    """For getting result weather message about many days"""
+    gallery = slider.find("div", class_="swiper-gallery").find_all(
+        "div", class_="swiper-slide"
+    )
+    weather_detail_title = get_weather_detail_title()
     text = ""
-    start = end = None
-    if soup is None:
-        soup, first_status_code = get_soup_by_(INFO.generated_url)
-    else:
-        first_status_code = 410
-    block, title = get_block_and_title_from(soup)
 
-    if first_status_code == 410:
-        if INFO.about_week:
-            end = -7
-        else:
-            start = 1 if INFO.about_tomorrow else None
-            end = 2 if INFO.about_tomorrow else None
-        title = " ".join(title.split()[:-1]) + " " + INFO.time_title
+    for day in range(7 if INFO.about_week else 14):
+        try:
+            title = get_subtitle_from(thumbnails[day], with_temp=True)
+            description = (
+                gallery[day]
+                .find("div", class_="swiper-extended-item__footer")
+                .find("div", class_="description")
+                .text.strip()
+                .split(":")[-1]
+                .strip()
+            )
+            weather_details = get_weather_details_by_(
+                gallery[day].find_all("ul", class_="times-of-day__item")[2],
+                weather_detail_title,
+                day,
+            )
+            text += f"""
+            <b>{title}</b> {get_weather_emoji_by_(description)}
+            {description}
 
-    text += f"{title}:"
-
-    weather_detail_titles = get_weather_detail_titles()
-    all_details = block.find("div", class_="item-table").find_all("ul")
-
-    block = block.find("div", class_="swiper-wrapper")
-    all_days = block.find_all("div", class_="swiper-slide")[start:end]
-
-    for count, day in enumerate(all_days):
-        name = get_div_text_from_(day, class_="thumbnail-item__title")
-        date = get_div_text_from_(day, class_="thumbnail-item__subtitle")
-        temp = get_div_text_from_(day, class_="temperature-min")
-
-        weather_details = get_weather_details_on_many_days_from_(
-            all_details, count
-        )
-        description = get_description_from_(soup, count)
-
-        text += f"""
-        
-        {name} ({date}): {temp}  {get_weather_emoji_by_(description)}
-        {description}
-
-        {weather_detail_titles.wind}: {weather_details.wind}  🌬
-        {weather_detail_titles.humidity}: {weather_details.humidity}  💦
-        {weather_detail_titles.rain}: {weather_details.rain}  💧
-        {"_"*35}""".replace(
-            "        ", ""
-        )
-
+            {weather_details}
+            {"_"*35}
+            """.replace(
+                "            ", ""
+            )
+        except IndexError:
+            break
     return text
+
+
+async def _send_weather_info_to_me(message: types.Message) -> str:
+    """For sending to me message about weather info user got"""
+    my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
+
+    if message.from_user.id != my_chat_id:
+        await BOT.send_message(
+            my_chat_id,
+            f"{message.from_user.first_name} (@{message.from_user.username}) got "
+            f"weather in {INFO.city_title} ({INFO.time_title})",
+        )

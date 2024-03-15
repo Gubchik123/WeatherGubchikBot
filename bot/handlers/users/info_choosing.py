@@ -72,9 +72,11 @@ async def _get_choosing_region_markup_by_(
         await _set_mailing_city_and_last_city(message)
         markup = make_keyboard(width=2)
         markup.add(
-            *(mailing_city, last_city)
-            if last_city and mailing_city != last_city
-            else (mailing_city,)
+            *(
+                (mailing_city, last_city)
+                if last_city and mailing_city != last_city
+                else (mailing_city,)
+            )
         )
     return markup
 
@@ -127,9 +129,7 @@ async def choose_region_title(
     result: dict = await state.get_data("result_list")
 
     markup = make_keyboard(width=2)
-    markup.add(
-        *[city_title.title() for city_title in result["result_list"]]
-    )
+    markup.add(*[city_title.title() for city_title in result["result_list"]])
     markup.add(make_button(TEXT().repeat_choosing_btn()))
 
     await message.answer(TEXT().choose_minded_option(), reply_markup=markup)
