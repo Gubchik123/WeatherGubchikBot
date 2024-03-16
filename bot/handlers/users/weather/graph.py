@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import make_interp_spline, BSpline
@@ -6,7 +8,7 @@ from constants import TEXT
 
 
 def get_generated_temp_graph_image_path(
-    max_temps: list[int], min_temps: list[int]
+    max_temps: List[int], min_temps: List[int]
 ) -> str:
     """Returns the path to the image with the generated temperature graph."""
     figure = plt.figure()
@@ -32,7 +34,7 @@ def get_generated_temp_graph_image_path(
 
 
 def plot_smooth_line(
-    ax: plt.Axes, x_new, temps: list[int], color: str, label: str
+    ax: plt.Axes, x_new, temps: List[int], color: str, label: str
 ) -> None:
     """Plots a smooth line on the graph."""
     spl: BSpline = make_interp_spline(range(len(temps)), temps, k=3)
@@ -40,12 +42,12 @@ def plot_smooth_line(
     ax.plot(x_new, power_smooth, "-", color=color, label=label)
 
 
-def plot_points(ax: plt.Axes, temps: list[int], color: str) -> None:
+def plot_points(ax: plt.Axes, temps: List[int], color: str) -> None:
     """Plots points on the graph."""
     ax.plot(range(len(temps)), temps, "o", color=color)
 
 
-def annotate_points(ax: plt.Axes, temps: list[int]) -> None:
+def annotate_points(ax: plt.Axes, temps: List[int]) -> None:
     """Annotates points on the graph."""
     for i, txt in enumerate(temps):
         ax.annotate(
