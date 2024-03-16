@@ -35,6 +35,7 @@ async def send_to_users() -> None:
                 user.chat_id,
                 _get_weather_info_message_by_(user.lang),
                 disable_notification=user.mute,
+                parse_mode="HTML",
             )
         except BotBlocked:
             logger.warning(
