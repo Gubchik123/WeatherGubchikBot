@@ -108,7 +108,7 @@ async def check_selected_region(
     """For checking selected weather region"""
     user_text = message.text.lower()
 
-    await message.answer(TEXT().searching_message())
+    searching_message = await message.answer(TEXT().searching_message())
 
     result, is_match_100 = get_searched_data_with_(user_text)
 
@@ -120,6 +120,8 @@ async def check_selected_region(
     else:
         await state.set_data({"result_list": result})
         await choose_region_title(message, state)
+
+    await searching_message.delete()
 
 
 async def choose_region_title(
@@ -211,7 +213,7 @@ def check_selected_period_it_is_week_or_other() -> None:
 
 async def check_user_goal_on_period_phase(message: types.Message) -> None:
     """For checking user goal for further actions"""
-    await message.answer(TEXT().wait_message())
+    wait_message = await message.answer(TEXT().wait_message())
 
     if INFO.goal == "normal":
         await get_info_about_weather_by_(message)
@@ -219,6 +221,8 @@ async def check_user_goal_on_period_phase(message: types.Message) -> None:
         await ask_about_mailing_mute_mode(message)
     elif INFO.goal == "changing mailing":
         await change_mailing_period(message)
+
+    await wait_message.delete()
 
 
 @DP.message_handler(state=Choosing.period)

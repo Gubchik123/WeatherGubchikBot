@@ -55,6 +55,12 @@ class EN(_Basic):
     def wait_message(self) -> str:
         return "Processing..."
 
+    def day_label(self) -> str:
+        return "Day"
+
+    def night_label(self) -> str:
+        return "Night"
+
     def yes_btn(self) -> str:
         return "Yes"
 

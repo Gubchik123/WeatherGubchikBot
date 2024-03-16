@@ -55,6 +55,12 @@ class UA(_Basic):
     def wait_message(self) -> str:
         return "Опрацювання..."
 
+    def day_label(self) -> str:
+        return "Вдень"
+
+    def night_label(self) -> str:
+        return "Вночі"
+
     def yes_btn(self) -> str:
         return "Так"
 

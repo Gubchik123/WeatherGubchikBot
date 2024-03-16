@@ -55,6 +55,12 @@ class RU(_Basic):
     def wait_message(self) -> str:
         return "Обработка..."
 
+    def day_label(self) -> str:
+        return "Днем"
+
+    def night_label(self) -> str:
+        return "Ночью"
+
     def yes_btn(self) -> str:
         return "Да"
 

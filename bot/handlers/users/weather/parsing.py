@@ -9,10 +9,14 @@ from constants import INFO, TEXT
 
 from ..menu import menu
 from .getting_emoji import get_weather_emoji_by_
+from .graph import get_generated_temp_graph_image_path
 from .general import get_soup_by_, send_message_to_user_about_error
 
 
 STATUS_CODE = 200
+
+MAX_TEMPS: list[int] = []
+MIN_TEMPS: list[int] = []
 
 
 class WeatherDetail(NamedTuple):
@@ -30,14 +34,21 @@ class WeatherDetailTitle(WeatherDetail):
 async def get_info_about_weather_by_(message: types.Message) -> str:
     """For sending weather message to user"""
     try:
-        await message.answer(
-            (
-                get_information_about_one_day()
-                if INFO.about_one_day
-                else get_information_about_many_days()
-            ),
-            parse_mode="HTML",
-        )
+        if INFO.about_one_day:
+            await message.answer(
+                get_information_about_one_day(), parse_mode="HTML"
+            )
+        else:
+            await message.answer(
+                get_information_about_many_days(), parse_mode="HTML"
+            )
+            await message.answer_photo(
+                types.InputFile(
+                    get_generated_temp_graph_image_path(MAX_TEMPS, MIN_TEMPS)
+                )
+            )
+            MAX_TEMPS.clear()
+            MIN_TEMPS.clear()
         await _send_weather_info_to_me(message)
         await menu(message)
     except Exception as error:
@@ -89,6 +100,8 @@ def get_subtitle_from(
         temp_min = swiper_temp.find(
             "div", class_="temperature-min"
         ).text.strip()
+        MAX_TEMPS.append(int(temp_max[:-2]))  # [:-2] - remove "°C"
+        MIN_TEMPS.append(int(temp_min[:-2]))  # [:-2] - remove "°C"
         temp = f": {temp_max} ... {temp_min}"
     return f"{swiper_title} ({swiper_subtitle}){temp}"
 
