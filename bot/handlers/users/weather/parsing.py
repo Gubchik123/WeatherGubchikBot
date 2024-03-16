@@ -1,5 +1,5 @@
 import os
-from typing import NamedTuple, Optional
+from typing import List, NamedTuple, Optional
 
 from aiogram import types
 from bs4 import BeautifulSoup
@@ -15,8 +15,8 @@ from .general import get_soup_by_, send_message_to_user_about_error
 
 STATUS_CODE = 200
 
-MAX_TEMPS: list[int] = []
-MIN_TEMPS: list[int] = []
+MAX_TEMPS: List[int] = []
+MIN_TEMPS: List[int] = []
 
 
 class WeatherDetail(NamedTuple):
