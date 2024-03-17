@@ -1,30 +1,32 @@
-from typing import List
+from typing import Dict, List
 
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.interpolate import make_interp_spline, BSpline
 
 from constants import TEXT
 
 
 def get_generated_temp_graph_image_path(
-    max_temps: List[int], min_temps: List[int]
+    max_temps: Dict[str, int], min_temps: Dict[str, int]
 ) -> str:
     """Returns the path to the image with the generated temperature graph."""
     figure = plt.figure()
     ax = figure.add_subplot(1, 1, 1)
 
-    x_new = np.linspace(0, len(max_temps) - 1, 300)
+    plot_lines_with_points(
+        ax, max_temps.values(), "blue", TEXT().night_label()
+    )
+    annotate_points(ax, list(max_temps.values()))
 
-    plot_smooth_line(ax, x_new, max_temps, "blue", TEXT().night_label())
-    plot_points(ax, max_temps, "blue")
-    annotate_points(ax, max_temps)
+    plot_lines_with_points(ax, min_temps.values(), "red", TEXT().day_label())
+    annotate_points(ax, list(min_temps.values()))
 
-    plot_smooth_line(ax, x_new, min_temps, "red", TEXT().day_label())
-    plot_points(ax, min_temps, "red")
-    annotate_points(ax, min_temps)
-
-    remove_axes(ax)
+    ax.get_yaxis().set_visible(False)
+    plt.xticks(
+        np.arange(len(max_temps)),
+        max_temps.keys(),
+        rotation=45 if len(max_temps) == 7 else 90,
+    )
     remove_border_lines(ax)
 
     ax.legend()
@@ -33,35 +35,23 @@ def get_generated_temp_graph_image_path(
     return image_path
 
 
-def plot_smooth_line(
-    ax: plt.Axes, x_new, temps: List[int], color: str, label: str
+def plot_lines_with_points(
+    ax: plt.Axes, temps: List[int], color: str, label: str
 ) -> None:
-    """Plots a smooth line on the graph."""
-    spl: BSpline = make_interp_spline(range(len(temps)), temps, k=3)
-    power_smooth = spl(x_new)
-    ax.plot(x_new, power_smooth, "-", color=color, label=label)
-
-
-def plot_points(ax: plt.Axes, temps: List[int], color: str) -> None:
-    """Plots points on the graph."""
-    ax.plot(range(len(temps)), temps, "o", color=color)
+    """Plots lines with points on the graph."""
+    ax.plot(temps, "-o", color=color, label=label)
 
 
 def annotate_points(ax: plt.Axes, temps: List[int]) -> None:
     """Annotates points on the graph."""
-    for i, txt in enumerate(temps):
+    for index, num in enumerate(temps):
+        symbol = "+" if num > 0 else ""
         ax.annotate(
-            txt,
-            (range(len(temps))[i], temps[i]),
+            f"{symbol}{num}°",
+            (range(len(temps))[index], temps[index]),
             xytext=(3, 3),
             textcoords="offset points",
         )
-
-
-def remove_axes(ax: plt.Axes) -> None:
-    """Removes axes from the graph."""
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
 
 
 def remove_border_lines(ax: plt.Axes) -> None:

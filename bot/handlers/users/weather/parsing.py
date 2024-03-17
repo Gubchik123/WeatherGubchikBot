@@ -1,5 +1,5 @@
 import os
-from typing import List, NamedTuple, Optional
+from typing import Dict, NamedTuple, Optional
 
 from aiogram import types
 from bs4 import BeautifulSoup
@@ -15,8 +15,8 @@ from .general import get_soup_by_, send_message_to_user_about_error
 
 STATUS_CODE = 200
 
-MAX_TEMPS: List[int] = []
-MIN_TEMPS: List[int] = []
+MAX_TEMPS: Dict[str, int] = {}
+MIN_TEMPS: Dict[str, int] = {}
 
 
 class WeatherDetail(NamedTuple):
@@ -100,9 +100,14 @@ def get_subtitle_from(
         temp_min = swiper_temp.find(
             "div", class_="temperature-min"
         ).text.strip()
-        MAX_TEMPS.append(int(temp_max[:-2]))  # [:-2] - remove "°C"
-        MIN_TEMPS.append(int(temp_min[:-2]))  # [:-2] - remove "°C"
-        temp = f": {temp_max} ... {temp_min}"
+        key = f"{swiper_title} ({swiper_subtitle.split()[0]})"
+        MAX_TEMPS[key] = int(temp_max[:-2])  # [:-2] - remove "°C"
+        MIN_TEMPS[key] = int(temp_min[:-2])  # [:-2] - remove "°C"
+        temp = (
+            f": {temp_max}"
+            if MAX_TEMPS[key] == MIN_TEMPS[key]
+            else f": {temp_max} ... {temp_min}"
+        )
     return f"{swiper_title} ({swiper_subtitle}){temp}"
 
 
