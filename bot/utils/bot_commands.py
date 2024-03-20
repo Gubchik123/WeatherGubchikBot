@@ -21,9 +21,9 @@ async def set_default_commands(message) -> None:
         ],
         "ru": [
             BotCommand("start", "Начало работы з ботом"),
-            BotCommand("language", "Изменения языка бота"),
+            BotCommand("language", "Изменение языка бота"),
             BotCommand("help", "Отображение основных правил использования"),
-            BotCommand("weather", "Отображение информауии о погоде"),
+            BotCommand("weather", "Отображение информации о погоде"),
             BotCommand("goodbye", "Завершение работы с ботом"),
         ],
     }
