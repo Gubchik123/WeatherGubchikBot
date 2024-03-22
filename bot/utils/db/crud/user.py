@@ -8,15 +8,12 @@ from ..models import User
 from ..db import MySession, commit_and_refresh, add_commit_and_refresh
 
 
-users = {}
-
-
 def _get_user_by_(session: Session, user_chat_id: int) -> User:
     """Returns user by the given session and user chat id."""
     return session.query(User).filter(User.chat_id == user_chat_id).first()
 
 
-def create_user_by_(telegram_user: TelegramUser, message_args: str) -> None:
+def create_user_by_(telegram_user: TelegramUser) -> None:
     """Creates user in database by the given telegram user."""
     add_commit_and_refresh(
         User(
@@ -29,15 +26,9 @@ def create_user_by_(telegram_user: TelegramUser, message_args: str) -> None:
 
 def get_user_by_(user_chat_id: int) -> User:
     """Returns user by the given user chat id."""
-    try:
-        if (user := users[user_chat_id]) is None:
-            raise KeyError
-        return user
-    except KeyError:
-        with MySession() as session:
-            user = _get_user_by_(session, user_chat_id)
-        users[user_chat_id] = user
-        return user
+    with MySession() as session:
+        user = _get_user_by_(session, user_chat_id)
+    return user
 
 
 def get_user_locale_by_(user_chat_id: int) -> Union[str, None]:
@@ -55,8 +46,6 @@ def change_user_locale_by_(user_chat_id: int, locale: str) -> None:
             .values(locale=locale)
         )
         session.commit()
-    if users[user_chat_id]:
-        users[user_chat_id].locale = locale
 
 
 def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
@@ -68,4 +57,3 @@ def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
             .values(timezone=timezone)
         )
         session.commit()
-    users[user_chat_id].timezone = timezone

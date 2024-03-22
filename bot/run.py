@@ -17,6 +17,8 @@ from data.config import (
     SCHEDULER_JOBS_DATABASE_URL,
 )
 
+from handlers import handlers_router
+
 
 bot = Bot(
     token=BOT_TOKEN,
@@ -43,7 +45,7 @@ i18n = I18n(
 
 
 def _register_routers() -> None:
-    pass  # dispatcher.include_router(s)(...)
+    dispatcher.include_router(handlers_router)
 
 
 def _register_middlewares() -> None:

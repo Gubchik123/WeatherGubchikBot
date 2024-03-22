@@ -1,68 +1,37 @@
-from aiogram import types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.builtin import CommandStart
+from aiogram import Router, F
+from aiogram.filters import CommandStart
+from aiogram.utils.i18n import gettext as _
+from aiogram.types import Message, CallbackQuery
 
-from bot_info import DP
-from states import Choosing
-from constants import TEXT, MY_DB
-from keyboard import make_keyboard
-
-from ..menu import menu
-from ..weather.general import send_message_to_user_about_error
+from keyboards.inline.language import get_language_inline_keyboard
+from utils.db.crud.user import create_user_by_, change_user_locale_by_
 
 
-GOAL = ""
+router = Router()
 
 
-@DP.message_handler(CommandStart())
-@DP.message_handler(commands="language")
-async def choose_language(message: types.Message) -> None:
-    """The handler for the 'start' and 'language' command"""
-    global GOAL
-    GOAL = "menu" if "language" in message.text else "start"
-
-    markup = make_keyboard(width=3)
-    markup.add("UA", "EN", "RU")
-
+@router.message(CommandStart())
+async def handle_start_command(message: Message):
+    create_user_by_(message.from_user)
     await message.answer(
         "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
-        reply_markup=markup,
+        reply_markup=get_language_inline_keyboard(action="start"),
     )
-    await Choosing.language.set()
 
 
-@DP.message_handler(state=Choosing.language)
-async def check_language(message: types.Message, state: FSMContext) -> None:
-    """For checking language and changing if user has mailing"""
-    user_text = message.text.lower()
-    user_chat_id = message.from_user.id
-    await state.finish()
+@router.callback_query(F.data.startswith("btn_start_lang"))
+async def handle_choose_language(callback_query: CallbackQuery):
+    locale = callback_query.data.split("_")[-1]
 
-    if user_text in ("ua", "en", "ru"):
-        TEXT.change_on(user_text)
+    change_user_locale_by_(callback_query.from_user.id, locale)
 
-        try:
-            if user_chat_id in MY_DB.chat_IDs:
-                MY_DB.update_mailing_lang_code_for_user_with_(
-                    chat_id=user_chat_id, new_lang_code=user_text
-                )
-        except Exception as e:
-            await send_message_to_user_about_error(
-                message,
-                str(e),
-                error_place=" during updating mailing lang code",
-                message_to_user=False,
-            )
-        finally:
-            await start(message) if GOAL == "start" else await menu(message)
-    else:
-        await choose_language(message)
-
-
-async def start(message: types.Message) -> None:
-    """For sending the greeting message after 'start' command"""
-    await message.answer_sticker(
+    await callback_query.message.delete()
+    await callback_query.message.answer_sticker(
         "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
     )
-    await message.answer(TEXT().hello_message(message.from_user.first_name))
-    await menu(message)
+    await callback_query.message.answer(
+        _(
+            "Hello, {name}!\n"
+            "I am the one who will help you find out information about the weather in cities around the world."
+        ).format(name=callback_query.from_user.full_name)
+    )
