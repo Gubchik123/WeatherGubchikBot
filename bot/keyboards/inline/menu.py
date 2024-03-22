@@ -8,6 +8,12 @@ def get_menu_inline_keyboard() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [
                 InlineKeyboardButton(
+                    text="Change language",
+                    callback_data="btn_language",
+                ),
+            ],
+            [
+                InlineKeyboardButton(
                     text="Change timezone",
                     callback_data="btn_timezone",
                 ),
