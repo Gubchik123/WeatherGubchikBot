@@ -49,7 +49,7 @@ def _register_routers() -> None:
 
 
 def _register_middlewares() -> None:
-    dispatcher.message.middleware(LanguageMiddleware(i18n))
+    dispatcher.message.outer_middleware(LanguageMiddleware(i18n))
     dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
     # dispatcher.message.middleware(SchedulerMiddleware(scheduler))
 
