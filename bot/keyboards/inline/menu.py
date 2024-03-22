@@ -1,3 +1,4 @@
+from aiogram.utils.i18n import gettext as _
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -12,4 +13,12 @@ def get_menu_inline_keyboard() -> InlineKeyboardMarkup:
                 ),
             ],
         ]
+    )
+
+
+def get_back_to_menu_inline_button() -> InlineKeyboardButton:
+    """Returns back to menu inline button."""
+    return InlineKeyboardButton(
+        text=_("← Return to the main menu"),
+        callback_data="btn_menu",
     )

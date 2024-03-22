@@ -19,10 +19,19 @@ router = Router()
 @router.message(F.text.lower() == __("← return to the main menu"))
 async def menu(event: Union[Message, CallbackQuery]) -> None:
     """Sends the main menu to the user."""
-    message = event.message if isinstance(event, CallbackQuery) else event
+    is_callback_query = isinstance(event, CallbackQuery)
+    message = event.message if is_callback_query else event
 
     user = get_user_by_(user_chat_id=message.chat.id)
-    await message.answer(
+    if not is_callback_query:
+        await message.answer(
+            "---",
+            reply_markup=get_menu_keyboard(
+                user_mailing=get_mailing_by_(user.chat_id)
+            ),
+        )
+    answer_method = message.edit_text if is_callback_query else message.answer
+    await answer_method(
         _(
             "<b>Main menu</b>\n\n"
             "Language: <i>{locale}</i>\n"
@@ -33,10 +42,5 @@ async def menu(event: Union[Message, CallbackQuery]) -> None:
             timezone=user.timezone,
             created=user.created.strftime("%d.%m.%Y"),
         ),
-        reply_markup=get_menu_keyboard(
-            user_mailing=get_mailing_by_(user.chat_id)
-        ),
-    )
-    await message.answer(
-        _("Select further actions"), reply_markup=get_menu_inline_keyboard()
+        reply_markup=get_menu_inline_keyboard(),
     )
