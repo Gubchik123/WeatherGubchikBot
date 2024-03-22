@@ -1,4 +1,4 @@
-from typing import Any, Awaitable, Callable
+from typing import Dict, Any, Awaitable, Callable
 
 from aiogram.types.base import TelegramObject
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -15,9 +15,9 @@ class SchedulerMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: dict[str, Any],
+        data: Dict[str, Any],
     ) -> Any:
         """Passes the scheduler to the handler."""
         data["scheduler"] = self._scheduler
