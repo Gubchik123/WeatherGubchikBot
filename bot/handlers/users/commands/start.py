@@ -13,7 +13,8 @@ router = Router()
 
 @router.message(CommandStart())
 async def handle_start_command(message: Message):
-    """Handles the /start command."""
+    """Handles the /start command.
+    Creates a new user in the database if it does not exist."""
     try:
         create_user_by_(message.from_user)
         await message.answer(
@@ -25,7 +26,7 @@ async def handle_start_command(message: Message):
 
 
 @router.callback_query(F.data.startswith("btn_start_lang"))
-async def handle_choose_language(callback_query: CallbackQuery):
+async def handle_choose_start_language(callback_query: CallbackQuery):
     """Handles the language selection on start."""
     change_user_locale_by_(
         callback_query.from_user.id, locale=callback_query.data.split("_")[-1]
