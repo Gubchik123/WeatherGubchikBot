@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, CallbackQuery
+from sqlalchemy.exc import IntegrityError
 
 from keyboards.inline.language import get_language_inline_keyboard
 from utils.db.crud.user import create_user_by_, change_user_locale_by_
@@ -12,7 +13,10 @@ router = Router()
 
 @router.message(CommandStart())
 async def handle_start_command(message: Message):
-    create_user_by_(message.from_user)
+    try:
+        create_user_by_(message.from_user)
+    except IntegrityError:
+        pass  # User already exists
     await message.answer(
         "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
         reply_markup=get_language_inline_keyboard(action="start"),
