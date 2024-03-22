@@ -7,6 +7,8 @@ from sqlalchemy.exc import IntegrityError
 from keyboards.inline.language import get_language_inline_keyboard
 from utils.db.crud.user import create_user_by_, change_user_locale_by_
 
+from ..menu import menu
+
 
 router = Router()
 
@@ -48,3 +50,4 @@ async def _greet_user(message: Message, user_full_name: str):
             "I am the one who will help you find out information about the weather in cities around the world."
         ).format(name=user_full_name)
     )
+    await menu(message)

@@ -6,6 +6,8 @@ from aiogram.types import Message, CallbackQuery
 from utils.db.crud.user import change_user_locale_by_
 from keyboards.inline.language import get_language_inline_keyboard
 
+from ..menu import menu
+
 
 router = Router()
 
@@ -27,4 +29,4 @@ async def handle_choose_menu_language(callback_query: CallbackQuery):
         callback_query.from_user.id, locale=callback_query.data.split("_")[-1]
     )
     await callback_query.message.delete()
-    await callback_query.answer("Menu")
+    await menu(callback_query)
