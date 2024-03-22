@@ -13,29 +13,37 @@ router = Router()
 
 @router.message(CommandStart())
 async def handle_start_command(message: Message):
+    """Handles the /start command."""
     try:
         create_user_by_(message.from_user)
-    except IntegrityError:
-        pass  # User already exists
-    await message.answer(
-        "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
-        reply_markup=get_language_inline_keyboard(action="start"),
-    )
+        await message.answer(
+            "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
+            reply_markup=get_language_inline_keyboard(action="start"),
+        )
+    except IntegrityError:  # psycopg2.errors.UniqueViolation
+        await _greet_user(message, message.from_user.full_name)
 
 
 @router.callback_query(F.data.startswith("btn_start_lang"))
 async def handle_choose_language(callback_query: CallbackQuery):
-    locale = callback_query.data.split("_")[-1]
-
-    change_user_locale_by_(callback_query.from_user.id, locale)
-
+    """Handles the language selection on start."""
+    change_user_locale_by_(
+        callback_query.from_user.id, locale=callback_query.data.split("_")[-1]
+    )
     await callback_query.message.delete()
-    await callback_query.message.answer_sticker(
+    await _greet_user(
+        callback_query.message, callback_query.from_user.full_name
+    )
+
+
+async def _greet_user(message: Message, user_full_name: str):
+    """Sends a greeting message to the user."""
+    await message.answer_sticker(
         "CAACAgIAAxkBAAIB0mLG7bJvk_WJoRbWYZ6R7sGTQ9ANAAICBAAC0lqIAQIoJ02u67UxKQQ"
     )
-    await callback_query.message.answer(
+    await message.answer(
         _(
             "Hello, {name}!\n"
             "I am the one who will help you find out information about the weather in cities around the world."
-        ).format(name=callback_query.from_user.full_name)
+        ).format(name=user_full_name)
     )
