@@ -25,7 +25,7 @@ async def menu(event: Union[Message, CallbackQuery]) -> None:
     user = get_user_by_(user_chat_id=message.chat.id)
     if not is_callback_query:
         await message.answer(
-            "---",
+            "🤖",
             reply_markup=get_menu_keyboard(
                 user_mailing=get_mailing_by_(user.chat_id)
             ),
