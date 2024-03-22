@@ -1,35 +1,63 @@
+from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault
-from bot_info import BOT
 
 
-async def set_default_commands(message) -> None:
-    """For setting default bot commands for 3 language"""
+async def set_default_bot_commands(bot: Bot) -> None:
+    """Sets default bot commands for en, uk and ru languages."""
     bot_commands = {
         "uk": [
-            BotCommand("start", "Початок роботи з ботом"),
-            BotCommand("language", "Змінення мови бота"),
-            BotCommand("help", "Відображення основних правил використання"),
-            BotCommand("weather", "Відображення інформації про погоду"),
-            BotCommand("goodbye", "Завершення роботи з ботом"),
+            BotCommand(command="start", description="Початок роботи з ботом"),
+            BotCommand(command="language", description="Змінення мови бота"),
+            BotCommand(
+                command="help",
+                description="Відображення основних правил використання",
+            ),
+            BotCommand(
+                command="weather",
+                description="Відображення інформації про погоду",
+            ),
+            BotCommand(
+                command="goodbye", description="Завершення роботи з ботом"
+            ),
         ],
         "en": [
-            BotCommand("start", "Start working with the bot"),
-            BotCommand("language", "Change the language of the bot"),
-            BotCommand("help", "Display of basic usage rules"),
-            BotCommand("weather", "Display information about the weather"),
-            BotCommand("goodbye", "Ending work with the bot"),
+            BotCommand(
+                command="start", description="Start working with the bot"
+            ),
+            BotCommand(
+                command="language",
+                description="Change the language of the bot",
+            ),
+            BotCommand(
+                command="help", description="Display of basic usage rules"
+            ),
+            BotCommand(
+                command="weather",
+                description="Display information about the weather",
+            ),
+            BotCommand(
+                command="goodbye", description="Ending work with the bot"
+            ),
         ],
         "ru": [
-            BotCommand("start", "Начало работы з ботом"),
-            BotCommand("language", "Изменения языка бота"),
-            BotCommand("help", "Отображение основных правил использования"),
-            BotCommand("weather", "Отображение информауии о погоде"),
-            BotCommand("goodbye", "Завершение работы с ботом"),
+            BotCommand(command="start", description="Начало работы з ботом"),
+            BotCommand(command="language", description="Изменение языка бота"),
+            BotCommand(
+                command="help",
+                description="Отображение основных правил использования",
+            ),
+            BotCommand(
+                command="weather",
+                description="Отображение информации о погоде",
+            ),
+            BotCommand(
+                command="goodbye", description="Завершение работы с ботом"
+            ),
         ],
     }
 
     for language_code, commands in bot_commands.items():
-        await BOT.set_my_commands(
+        await bot.set_my_commands(
             commands=commands,
             scope=BotCommandScopeDefault(),
             language_code=language_code,
