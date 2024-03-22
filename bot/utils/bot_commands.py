@@ -7,7 +7,6 @@ async def set_default_bot_commands(bot: Bot) -> None:
     bot_commands = {
         "uk": [
             BotCommand(command="start", description="Початок роботи з ботом"),
-            BotCommand(command="language", description="Змінення мови бота"),
             BotCommand(
                 command="help",
                 description="Відображення основних правил використання",
@@ -25,10 +24,6 @@ async def set_default_bot_commands(bot: Bot) -> None:
                 command="start", description="Start working with the bot"
             ),
             BotCommand(
-                command="language",
-                description="Change the language of the bot",
-            ),
-            BotCommand(
                 command="help", description="Display of basic usage rules"
             ),
             BotCommand(
@@ -41,7 +36,6 @@ async def set_default_bot_commands(bot: Bot) -> None:
         ],
         "ru": [
             BotCommand(command="start", description="Начало работы з ботом"),
-            BotCommand(command="language", description="Изменение языка бота"),
             BotCommand(
                 command="help",
                 description="Отображение основных правил использования",
