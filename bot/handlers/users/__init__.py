@@ -1,10 +1,9 @@
 from aiogram import Router
 
+from .menu import menu_router
 from .commands import commands_router
-from .menu import router as menu_router
-from .timezone import router as timezone_router
 
 
 users_router = Router()
 
-users_router.include_routers(commands_router, menu_router, timezone_router)
+users_router.include_routers(menu_router, commands_router)

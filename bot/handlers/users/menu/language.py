@@ -1,30 +1,20 @@
-from typing import Union
-
 from aiogram import Router, F
-from aiogram.filters import Command
+from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
-from aiogram.types import Message, CallbackQuery
 
 from utils.db.crud.user import change_user_locale_by_
 from keyboards.inline.language import get_language_inline_keyboard
 
-from ..menu import menu
+from .menu import menu
 
 
 router = Router()
 
 
-@router.message(Command(commands=["language"]))
 @router.callback_query(F.data == "btn_language")
-async def handle_language_command(event: Union[Message, CallbackQuery]):
-    """Handles the /language command.
-    Asks the user to choose a language."""
-    answer_method = (
-        event.message.edit_text
-        if isinstance(event, CallbackQuery)
-        else event.answer
-    )
-    await answer_method(
+async def handle_change_language(callback_query: CallbackQuery):
+    """Asks the user to choose a language."""
+    await callback_query.message.edit_text(
         "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
         reply_markup=get_language_inline_keyboard(action="menu"),
     )
