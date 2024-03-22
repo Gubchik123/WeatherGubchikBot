@@ -1,0 +1,160 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-03-22 15:47+0200\n"
+"PO-Revision-Date: 2024-03-22 15:48+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ua\n"
+"Language-Team: ua <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: bot/handlers/users/menu.py:19
+msgid "← return to the main menu"
+msgstr "← повернутися у головне меню"
+
+#: bot/handlers/users/menu.py:35
+msgid ""
+"<b>Main menu</b>\n"
+"\n"
+"Language: <i>{locale}</i>\n"
+"Timezone: <i>{timezone}</i>\n"
+"Date you joined: <i>{created}</i>"
+msgstr ""
+"<b>Головне меню</b>\n"
+"\n"
+"Мова: <i>{locale}</i>\n"
+"Часовий пояс: <i>{timezone}</i>\n"
+"Дата приєднання: <i>{created}</i>"
+
+#: bot/handlers/users/timezone.py:21
+msgid ""
+"<b>Changing timezone.</b>\n"
+"\n"
+"You can choose a new time zone by choosing from the options below."
+msgstr ""
+"<b>Зміна часового поясу.</b>\n"
+"\n"
+"Ви можете вибрати новий часовий пояс з варіантів нижче."
+
+#: bot/handlers/users/timezone.py:34
+msgid "Choose a city in {country}:"
+msgstr "Виберіть місто в {country}:"
+
+#: bot/handlers/users/timezone.py:46
+msgid "Timezone successfully changed to {timezone}!"
+msgstr "Часовий пояс успішно змінено на {timezone}!"
+
+#: bot/handlers/users/commands/goodbye.py:13
+msgid "end communication"
+msgstr "завершити спілкування"
+
+#: bot/handlers/users/commands/goodbye.py:20
+msgid ""
+"Bye, {name}, come bake again!\n"
+"Next time just type or press /start"
+msgstr ""
+"До побачення, {name}, повертайтесь ще!\n"
+"Наступного разу просто введіть або натисніть /start"
+
+#: bot/handlers/users/commands/help.py:37
+msgid ""
+"\n"
+"            Bot commands:\n"
+"            /start - Start working with the bot\n"
+"            /language - Change the language of the bot\n"
+"            /help - Display of basic usage rules\n"
+"            /weather - Display information about the weather\n"
+"            /goodbye - Ending work with the bot\n"
+"\n"
+"            Sign up for the newsletter to receive daily weather "
+"information in the city of your choice (you can turn it off at any time)"
+"\n"
+"\n"
+"            I advise you to use the buttons for the intended result\n"
+"\n"
+"            Enjoy using!!!\n"
+"\n"
+"            Bot author contacts:\n"
+"            CV site: https://nikita-hubariev.me\n"
+"            LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"            Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"            Other projects of the author are available on:\n"
+"            Project board: https://gubchik123-project-board.netlify.app\n"
+"            GitHub: https://github.com/Gubchik123\n"
+"            "
+msgstr ""
+"Команди бота:"
+"            /start - Початок роботи з ботом"
+"            /language - Змінення мови бота"
+"            /help - Відображення основних правил використання"
+"            /weather - Відображення інформації про погоду"
+"            /goodbye - Завершення роботи з ботом"
+"\n"
+"            Оформіть розсилку, щоб кожного дня дізнаватися інформацію про погоду в місті, яке ви обирете (в будь-який час її можно відключити)"
+"\n"
+"            Раджу використати кнопки для задуманого результату"
+"\n"
+"            Приємного використання!!!"
+"\n"
+"            Контакти автора бота:"
+"            CV site: https://nikita-hubariev.me"
+"            LinkedIn: https://www.linkedin.com/in/nikita-hubariev"
+"            Instagram: https://www.instagram.com/notwhale.1746"
+"\n"
+"            Інші проекти автора доступні на:"
+"            Дошка проектів: https://gubchik123-project-board.netlify.app"
+"            GitHub: https://github.com/Gubchik123"
+
+#: bot/handlers/users/commands/language.py:39
+msgid "Language successfully changed to {locale}!"
+msgstr "Мову успішно змінено на {locale}!"
+
+#: bot/handlers/users/commands/start.py:48
+msgid ""
+"Hello, {name}!\n"
+"I am the one who will help you find out information about the weather in "
+"cities around the world."
+msgstr ""
+"Привіт, {name}!\n"
+"Я той, хто допоможе Вам дізнатися інформацію про погоду в містах по всьому світу."
+
+#: bot/keyboards/default/menu.py:11
+msgid "Weather forecast"
+msgstr "Прогноз погоди"
+
+#: bot/keyboards/default/menu.py:14
+msgid "Mailing management"
+msgstr "Управління розсилкою"
+
+#: bot/keyboards/default/menu.py:16
+msgid "Enable mailing"
+msgstr "Увімкнути розсилку"
+
+#: bot/keyboards/default/menu.py:19
+msgid "End communication"
+msgstr "Завершити спілкування"
+
+#: bot/keyboards/inline/menu.py:28
+msgid "← Return to the main menu"
+msgstr "← Повернутися у головне меню"
+
+#: bot/utils/weather/graph.py:15
+msgid "Night"
+msgstr "Вночі"
+
+#: bot/utils/weather/graph.py:18
+msgid "Day"
+msgstr "Вдень"
+

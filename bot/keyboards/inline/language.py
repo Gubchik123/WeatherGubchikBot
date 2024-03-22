@@ -13,7 +13,7 @@ def get_language_inline_keyboard(action: str) -> InlineKeyboardMarkup:
                     text="EN", callback_data=f"btn_{action}_lang_en"
                 ),
                 InlineKeyboardButton(
-                    text="RU", callback_data=f"btn_{action}_lang_en"
+                    text="RU", callback_data=f"btn_{action}_lang_ru"
                 ),
             ],
         ],
