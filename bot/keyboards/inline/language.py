@@ -1,5 +1,7 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from .profile import get_back_to_profile_inline_button
+
 
 def get_language_inline_keyboard(action: str) -> InlineKeyboardMarkup:
     """Returns inline keyboard with language buttons."""
@@ -16,5 +18,6 @@ def get_language_inline_keyboard(action: str) -> InlineKeyboardMarkup:
                     text="RU", callback_data=f"btn_{action}_lang_ru"
                 ),
             ],
+            [get_back_to_profile_inline_button()],
         ],
     )
