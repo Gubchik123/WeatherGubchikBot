@@ -4,18 +4,12 @@ from aiogram.types import ReplyKeyboardMarkup
 from .maker import make_keyboard, make_button
 
 
-def get_menu_keyboard(user_mailing: bool) -> ReplyKeyboardMarkup:
+def get_menu_keyboard() -> ReplyKeyboardMarkup:
     """Returns main menu keyboard."""
     return make_keyboard(
         [
             [make_button(_("Weather forecast"))],
-            [
-                make_button(
-                    _("Mailing management")
-                    if user_mailing
-                    else _("Enable mailing")
-                )
-            ],
+            [make_button(_("Profile")), make_button(_("Mailing"))],
             [make_button(_("End communication"))],
         ]
     )

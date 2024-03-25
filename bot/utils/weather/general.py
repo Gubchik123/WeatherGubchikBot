@@ -1,4 +1,3 @@
-import os
 import logging
 
 import requests
@@ -7,7 +6,7 @@ from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 from user_agent import generate_user_agent
 
-from handlers.users.menu import menu
+from handlers.users.menu import handle_menu
 
 
 class InvalidResponse(Exception):
@@ -51,7 +50,7 @@ async def send_message_to_user_about_error(
                 "Please, try again or restart the bot with the /start command."
             )
         )
-        await menu(message)
+        await handle_menu(message)
 
     error_message = f"Exception{error_place}: {error}"
 
