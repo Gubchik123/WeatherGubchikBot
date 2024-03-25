@@ -5,8 +5,10 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
+from states.mailing_setup import MailingSetup
 from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_period_inline_keyboard
+from keyboards.inline.maker import make_yes_or_no_inline_keyboard
 
 from .send import send_weather_forecast_by_
 
@@ -34,17 +36,36 @@ async def check_period(
     callback_query: CallbackQuery, state: FSMContext, i18n: I18n
 ):
     """Processes the selected period of the weather forecast."""
-    wait_message = await callback_query.message.answer(_("Processing..."))
-    await callback_query.message.delete()
-
-    period = callback_query.data.split(":")[-1]
+    await callback_query.message.edit_text(_("Processing..."))
 
     await state.update_data(
-        {"time_title": period.lower(), "lang_code": i18n.current_locale}
+        {
+            "time_title": callback_query.data.split(":")[-1].lower(),
+            "lang_code": i18n.current_locale,
+        }
     )
-    data = await state.get_data()
+    current_state = await state.get_state()
 
-    await send_weather_forecast_by_(callback_query.message, data)
+    if current_state == "WeatherSearch:period":
+        data = await state.get_data()
+        await send_weather_forecast_by_(callback_query.message, data)
 
-    await wait_message.delete()
-    await state.clear()
+        await state.clear()
+        await callback_query.message.delete()
+    else:  # MailingSetup.period
+        await ask_about_mailing_mute_mode(callback_query, state)
+
+
+# ! Can't put it into the users/mailing/enable.py file because of the circular import
+async def ask_about_mailing_mute_mode(
+    callback_query: CallbackQuery, state: FSMContext
+):
+    """Asks user to choose the mute mode for the mailing."""
+    await callback_query.message.edit_text(
+        _("Do you want to mute the mailing?"),
+        reply_markup=make_yes_or_no_inline_keyboard(
+            yes_callback_data="btn_mailing_mute:yes",
+            no_callback_data="btn_mailing_mute:",
+        ),
+    )
+    await state.set_state(MailingSetup.mute)

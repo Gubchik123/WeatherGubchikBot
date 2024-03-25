@@ -44,3 +44,38 @@ def get_mailing_menu_inline_keyboard(
             ],
         ]
     )
+
+
+def get_mailing_time_inline_keyboard() -> InlineKeyboardMarkup:
+    """Returns mailing time inline keyboard."""
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="06:00", callback_data="btn_mailing_time_int:6"
+                ),
+                InlineKeyboardButton(
+                    text="09:00", callback_data="btn_mailing_time_int:9"
+                ),
+                InlineKeyboardButton(
+                    text="12:00", callback_data="btn_mailing_time_int:12"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    text="15:00", callback_data="btn_mailing_time_int:15"
+                ),
+                InlineKeyboardButton(
+                    text="18:00", callback_data="btn_mailing_time_int:18"
+                ),
+                InlineKeyboardButton(
+                    text="21:00", callback_data="btn_mailing_time_int:21"
+                ),
+            ],
+            # [
+            #     InlineKeyboardButton(
+            #         text=_("Custom time"), callback_data="btn_mailing_time_int"
+            #     ),
+            # ],
+        ]
+    )
