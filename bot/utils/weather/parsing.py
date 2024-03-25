@@ -65,10 +65,10 @@ def get_subtitle_from(
         swiper_temp = swiper_slide.find(
             "div", class_="thumbnail-item__temperature"
         )
-        temp_max = swiper_temp.find(
+        temp_min = swiper_temp.find(
             "div", class_="temperature-max"
         ).text.strip()
-        temp_min = swiper_temp.find(
+        temp_max = swiper_temp.find(
             "div", class_="temperature-min"
         ).text.strip()
         key = f"{swiper_title} ({swiper_subtitle.split()[0]})"
@@ -77,7 +77,7 @@ def get_subtitle_from(
         temp = (
             f": {temp_max}"
             if MAX_TEMPS[key] == MIN_TEMPS[key]
-            else f": {temp_max} ... {temp_min}"
+            else f": {temp_min} ... {temp_max}"
         )
     return f"{swiper_title} ({swiper_subtitle}){temp}"
 

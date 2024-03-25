@@ -12,10 +12,10 @@ def get_generated_temp_graph_image_path(
     figure = plt.figure()
     ax = figure.add_subplot(1, 1, 1)
 
-    plot_lines_with_points(ax, max_temps.values(), "blue", _("Night"))
+    plot_lines_with_points(ax, max_temps.values(), "red", _("Day"))
     annotate_points(ax, list(max_temps.values()))
 
-    plot_lines_with_points(ax, min_temps.values(), "red", _("Day"))
+    plot_lines_with_points(ax, min_temps.values(), "blue", _("Night"))
     annotate_points(ax, list(min_temps.values()))
 
     ax.get_yaxis().set_visible(False)
