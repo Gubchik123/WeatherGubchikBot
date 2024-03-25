@@ -11,5 +11,6 @@ def get_menu_keyboard() -> ReplyKeyboardMarkup:
             [make_button(_("Weather forecast"))],
             [make_button(_("Profile")), make_button(_("Mailing"))],
             [make_button(_("End communication"))],
-        ]
+        ],
+        one_time=True,
     )
