@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
-from states.weather_search import WeatherSearch
+from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_period_inline_keyboard
 
 from .send import send_weather_forecast_by_
@@ -25,10 +25,11 @@ async def ask_about_period(
         _("Select the forecast period"),
         reply_markup=get_period_inline_keyboard(),
     )
-    await state.set_state(WeatherSearch.period)
+    state_class = await get_state_class_by_(state)
+    await state.set_state(state_class.period)
 
 
-@router.callback_query(WeatherSearch.period, F.data.startswith("btn_period:"))
+@router.callback_query(F.data.startswith("btn_period:"))
 async def check_period(
     callback_query: CallbackQuery, state: FSMContext, i18n: I18n
 ):

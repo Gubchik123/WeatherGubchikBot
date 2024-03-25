@@ -12,16 +12,23 @@ from utils.db.crud.search_log import get_last_4_search_cities_by_
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
+from ..other import handle_all_other_messages
 
 
 router = Router()
 
 
 @router.message(F.text.lower() == __("weather forecast"))
-@router.callback_query(F.data == "btn_retry_weather_city")
-async def ask_about_city(
+async def handle_weather(
     event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
 ):
+    """Starts the weather forecast search state."""
+    await ask_about_city(event, i18n)
+    await state.set_state(WeatherSearch.city)
+
+
+@router.callback_query(F.data == "btn_retry_weather_city")
+async def ask_about_city(event: Union[Message, CallbackQuery], i18n: I18n):
     """Asks user to enter the city name."""
     if isinstance(event, Message):
         message = event
@@ -37,12 +44,15 @@ async def ask_about_city(
             retry_btn=False,
         ),
     )
-    await state.set_state(WeatherSearch.city)
 
 
-@router.message(WeatherSearch.city, F.text)
+@router.message(F.text)
 async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     """Requests search city and checks it."""
+    current_state = await state.get_state()
+    if not current_state:
+        return await handle_all_other_messages(message)
+
     city = message.text.lower()
     searching_message = await message.answer(_("Searching..."))
 
@@ -60,9 +70,7 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     await searching_message.delete()
 
 
-@router.callback_query(
-    WeatherSearch.city, F.data.startswith("btn_city_title:")
-)
+@router.callback_query(F.data.startswith("btn_city_title:"))
 async def check_city_callback_query(
     event: CallbackQuery, i18n: I18n, state: FSMContext
 ):

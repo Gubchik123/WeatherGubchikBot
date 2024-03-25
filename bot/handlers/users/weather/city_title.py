@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import gettext as _
 
-from states.weather_search import WeatherSearch
+from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_cities_inline_keyboard
 
 from .period import ask_about_period
@@ -21,12 +21,11 @@ async def ask_about_city_title(message: Message, state: FSMContext) -> None:
             cities=data["search_cities"].keys()
         ),
     )
-    await state.set_state(WeatherSearch.city_title)
+    state_class = await get_state_class_by_(state)
+    await state.set_state(state_class.city_title)
 
 
-@router.callback_query(
-    WeatherSearch.city_title, F.data.startswith("btn_city_title:")
-)
+@router.callback_query(F.data.startswith("btn_city_title:"))
 async def process_city_title(
     callback_query: CallbackQuery, state: FSMContext
 ) -> None:
