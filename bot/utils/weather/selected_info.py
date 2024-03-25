@@ -12,7 +12,8 @@ class SelectedInfo:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        self._set_time()
+        if not self.time and self.time_title:
+            self._set_time()
 
     def clean_information(self) -> None:
         """For cleaning all data for weather searching"""

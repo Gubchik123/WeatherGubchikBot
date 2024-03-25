@@ -57,3 +57,11 @@ def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
             .values(timezone=timezone)
         )
         session.commit()
+
+
+def delete_user_with_(user_chat_id: int) -> None:
+    """Deletes user with the given user chat id."""
+    with MySession() as session:
+        user = _get_user_by_(session, user_chat_id)
+        session.delete(user)
+        session.commit()

@@ -25,6 +25,15 @@ class WeatherDetailTitle(WeatherDetail):
     """For storing weather detail titles by language"""
 
 
+def get_information_about_weather_by_(data: dict) -> str:
+    """For getting result weather message about weather"""
+    INFO.set(**data)
+    
+    if INFO.about_one_day:
+        return get_information_about_one_day()
+    return get_information_about_many_days()
+
+
 def get_information_about_one_day() -> str:
     """For getting result weather message about one day"""
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
