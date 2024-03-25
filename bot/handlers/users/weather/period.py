@@ -1,4 +1,3 @@
-import asyncio
 from typing import Union
 
 from aiogram import Router, F
@@ -7,9 +6,9 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
 from states.weather_search import WeatherSearch
-from utils.db.crud.search_log import create_search_log
-from utils.weather.parsing import send_weather_forecast_by_
 from keyboards.inline.weather import get_period_inline_keyboard
+
+from .send import send_weather_forecast_by_
 
 
 router = Router()
@@ -44,9 +43,6 @@ async def check_period(
     )
     data = await state.get_data()
 
-    asyncio.create_task(
-        create_search_log(callback_query.message.chat.id, data["city_title"])
-    )
     await send_weather_forecast_by_(callback_query.message, data)
 
     await wait_message.delete()

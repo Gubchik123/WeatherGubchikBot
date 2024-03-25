@@ -1,14 +1,10 @@
 from typing import Dict, NamedTuple, Optional
 
 from bs4 import BeautifulSoup
-from aiogram.types import Message, FSInputFile
 
-from handlers.users.menu import menu
-
-from .selected_info import SelectedInfo
+from .general import get_soup_by_
 from .getting_emoji import get_weather_emoji_by_
-from .graph import get_generated_temp_graph_image_path
-from .general import get_soup_by_, send_message_to_user_about_error
+from .selected_info import SelectedInfo
 
 
 INFO = SelectedInfo()
@@ -29,33 +25,6 @@ class WeatherDetailTitle(WeatherDetail):
     """For storing weather detail titles by language"""
 
 
-async def send_weather_forecast_by_(message: Message, data: dict) -> str:
-    """For sending weather message to user"""
-    INFO.set(**data)
-
-    try:
-        if INFO.about_one_day:
-            await message.answer(
-                get_information_about_one_day(), parse_mode="HTML"
-            )
-        else:
-            await message.answer(
-                get_information_about_many_days(), parse_mode="HTML"
-            )
-            await message.answer_photo(
-                FSInputFile(
-                    get_generated_temp_graph_image_path(MAX_TEMPS, MIN_TEMPS)
-                )
-            )
-            MAX_TEMPS.clear()
-            MIN_TEMPS.clear()
-        await menu(message)
-    except Exception as error:
-        await send_message_to_user_about_error(
-            message, str(error), error_place=" during parsing"
-        )
-
-
 def get_information_about_one_day() -> str:
     """For getting result weather message about one day"""
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
@@ -64,6 +33,9 @@ def get_information_about_one_day() -> str:
 
 
 def get_information_about_many_days() -> str:
+    MAX_TEMPS.clear()
+    MIN_TEMPS.clear()
+
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
     return f"{get_many_days_title(soup)}:\n{get_weather_info_about_many_days_from_(soup)}"
 
