@@ -20,7 +20,7 @@ router = Router()
 @router.message(F.text.lower() == __("weather forecast"))
 @router.callback_query(F.data == "btn_retry_weather_city")
 async def ask_about_city(
-    event: Union[Message, CallbackQuery], state: FSMContext
+    event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
 ):
     """Asks user to enter the city name."""
     if isinstance(event, Message):
@@ -31,7 +31,9 @@ async def ask_about_city(
     await message.answer(
         _("Enter the name of the city / locality"),
         reply_markup=get_cities_inline_keyboard(  # TODO: Add mailing city
-            cities=get_last_4_search_cities_by_(message.chat.id),
+            cities=get_last_4_search_cities_by_(
+                message.chat.id, i18n.current_locale
+            ),
             retry_btn=False,
         ),
     )

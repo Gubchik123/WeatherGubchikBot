@@ -18,7 +18,11 @@ from utils.weather.parsing import (
 async def send_weather_forecast_by_(message: Message, data: dict):
     """Sends weather forecast to user (creates search log)."""
     await _send_weather_forecast_by_(message, data)
-    asyncio.create_task(create_search_log(message.chat.id, data["city_title"]))
+    asyncio.create_task(
+        create_search_log(
+            message.chat.id, data["city_title"], data["lang_code"]
+        )
+    )
 
 
 async def _send_weather_forecast_by_(message: Message, data: dict):
