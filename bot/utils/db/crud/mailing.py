@@ -10,7 +10,9 @@ from ..db import MySession, commit_and_refresh, add_commit_and_refresh
 def _get_mailing_by_(session: Session, user_chat_id: int) -> Mailing:
     """Returns mailing by the given session and user chat id."""
     return (
-        session.query(Mailing).filter(Mailing.user_id == user_chat_id).first()
+        session.query(Mailing)
+        .filter(Mailing.id_user_id == user_chat_id)
+        .first()
     )
 
 
