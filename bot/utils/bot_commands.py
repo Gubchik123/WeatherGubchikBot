@@ -9,43 +9,55 @@ async def set_default_bot_commands(bot: Bot) -> None:
             BotCommand(command="start", description="Початок роботи з ботом"),
             BotCommand(
                 command="help",
-                description="Відображення основних правил використання",
+                description="Отримати основні правила використання",
             ),
             BotCommand(
-                command="weather",
-                description="Відображення інформації про погоду",
+                command="weather", description="Отримати прогноз погоди"
             ),
             BotCommand(
-                command="goodbye", description="Завершення роботи з ботом"
+                command="profile", description="Отримати профіль користувача"
+            ),
+            BotCommand(
+                command="mailing",
+                description="Отримати меню розсилки / Підписатися на розсилку",
+            ),
+            BotCommand(
+                command="goodbye", description="Призупинити роботу з ботом"
             ),
         ],
         "en": [
             BotCommand(
                 command="start", description="Start working with the bot"
             ),
+            BotCommand(command="help", description="Get basic usage rules"),
+            BotCommand(command="weather", description="Get weather forecast"),
+            BotCommand(command="profile", description="Get user profile"),
             BotCommand(
-                command="help", description="Display of basic usage rules"
+                command="mailing",
+                description="Get mailing menu / Sign up for the newsletter",
             ),
             BotCommand(
-                command="weather",
-                description="Display information about the weather",
-            ),
-            BotCommand(
-                command="goodbye", description="Ending work with the bot"
+                command="goodbye", description="Pause working with the bot"
             ),
         ],
         "ru": [
-            BotCommand(command="start", description="Начало работы з ботом"),
+            BotCommand(command="start", description="Начало работы с ботом"),
             BotCommand(
                 command="help",
-                description="Отображение основных правил использования",
+                description="Получить основные правила использования",
             ),
             BotCommand(
-                command="weather",
-                description="Отображение информации о погоде",
+                command="weather", description="Получить прогноз погоды"
             ),
             BotCommand(
-                command="goodbye", description="Завершение работы с ботом"
+                command="profile", description="Получить профиль пользователя"
+            ),
+            BotCommand(
+                command="mailing",
+                description="Получить меню рассылки / Подписаться на рассылку",
+            ),
+            BotCommand(
+                command="goodbye", description="Приостановить работу с ботом"
             ),
         ],
     }

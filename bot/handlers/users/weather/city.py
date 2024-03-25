@@ -1,7 +1,6 @@
 from typing import Union
 
 from aiogram import Router, F
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _, lazy_gettext as __
@@ -18,14 +17,12 @@ from .period import ask_about_period
 router = Router()
 
 
-@router.message(Command(commands=("weather")))
 @router.message(F.text.lower() == __("weather forecast"))
 @router.callback_query(F.data == "btn_retry_weather_city")
 async def ask_about_city(
     event: Union[Message, CallbackQuery], state: FSMContext
 ):
-    """Handles the /weather command.
-    Asks user to enter the city name."""
+    """Asks user to enter the city name."""
     if isinstance(event, Message):
         message = event
     else:

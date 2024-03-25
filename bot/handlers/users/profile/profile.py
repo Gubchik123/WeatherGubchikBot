@@ -1,7 +1,6 @@
 from typing import Union
 
 from aiogram import Router, F
-from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import gettext as _, lazy_gettext as __
 
@@ -12,11 +11,10 @@ from keyboards.inline.profile import get_profile_inline_keyboard
 router = Router()
 
 
-@router.message(Command(commands=["profile"]))
 @router.message(F.text.lower() == __("profile"))
 @router.callback_query(F.data == "btn_profile")
 async def handle_profile(event: Union[Message, CallbackQuery]) -> None:
-    """Handles user's profile."""
+    """Sends user profile."""
     is_callback_query = isinstance(event, CallbackQuery)
     message = event.message if is_callback_query else event
     user = get_user_by_(user_chat_id=message.chat.id)
