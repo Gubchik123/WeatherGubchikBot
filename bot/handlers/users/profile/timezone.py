@@ -8,7 +8,7 @@ from keyboards.inline.timezone import (
     get_cities_keyboard,
 )
 
-from .menu import menu
+from .profile import handle_profile
 
 
 router = Router()
@@ -47,4 +47,4 @@ async def change_timezone(callback_query: CallbackQuery) -> None:
             timezone=timezone
         )
     )
-    await menu(callback_query)
+    await handle_profile(callback_query)

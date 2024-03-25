@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.countries import COUNTRIES
 from .back import get_back_inline_button_by_
-from .menu import get_back_to_menu_inline_button
+from .profile import get_back_to_profile_inline_button
 
 
 def _get_new_callback_data(country: str = "", city: str = "") -> str:
@@ -23,7 +23,7 @@ def get_countries_keyboard() -> InlineKeyboardMarkup:
                 callback_data=_get_new_callback_data(country),
             )
         )
-    keyboard.row(get_back_to_menu_inline_button())
+    keyboard.row(get_back_to_profile_inline_button())
     return keyboard.as_markup()
 
 

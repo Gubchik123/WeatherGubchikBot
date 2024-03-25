@@ -5,7 +5,7 @@ from aiogram.utils.i18n import gettext as _
 from utils.db.crud.user import change_user_locale_by_
 from keyboards.inline.language import get_language_inline_keyboard
 
-from .menu import menu
+from .profile import handle_profile
 
 
 router = Router()
@@ -30,4 +30,4 @@ async def handle_choose_menu_language(callback_query: CallbackQuery):
             locale=locale
         )
     )
-    await menu(callback_query)
+    await handle_profile(callback_query)
