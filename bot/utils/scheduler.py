@@ -20,22 +20,20 @@ async def send_mailing(user_chat_id: int, user_locale: str):
     mailing = get_mailing_by_(user_chat_id)
     weather_provider_info = get_weather_provider_info_by_(mailing.id_user_id)
 
-    await temp_bot.send_message(
-        user_chat_id, "📨", disable_notification=mailing.mute
-    )
     try:
-        await temp_bot.send_message(
-            user_chat_id,
-            get_information_about_weather_by_(
-                data={
-                    "lang_code": user_locale,
-                    "time_title": mailing.time_title,
-                    "city": weather_provider_info.city,
-                    "time": weather_provider_info.time,
-                    "type": weather_provider_info.type,
-                }
-            ),
+        information_about_weather = get_information_about_weather_by_(
+            data={
+                "lang_code": user_locale,
+                "time_title": mailing.time_title,
+                "city": weather_provider_info.city,
+                "time": weather_provider_info.time,
+                "type": weather_provider_info.type,
+            }
         )
+        await temp_bot.send_message(
+            user_chat_id, "📨", disable_notification=mailing.mute
+        )
+        await temp_bot.send_message(user_chat_id, information_about_weather)
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)
     except Exception as e:
@@ -46,7 +44,7 @@ async def send_mailing(user_chat_id: int, user_locale: str):
             "Error :(",
             disable_notification=mailing.mute,
         )
-        # await _send_message_about_error_to_me(error_message)
+        # await send_to_admin(error_message)
     finally:
         await temp_bot.session.close()
         del temp_bot
