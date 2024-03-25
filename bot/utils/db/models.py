@@ -28,8 +28,6 @@ class User(Base):
     locale = Column(String(2), nullable=False, default=DEFAULT_LOCALE)
     timezone = Column(String(32), nullable=False, default=DEFAULT_TIMEZONE)
     created = Column(DateTime, default=datetime.now(tz(DEFAULT_TIMEZONE)))
-    # One-to-one relationship with Mailing
-    mailing = relationship("Mailing", uselist=False, backref="user")
     # One-to-many relationship with SearchLog
     search_logs = relationship(
         "SearchLog",
@@ -37,45 +35,55 @@ class User(Base):
         lazy="dynamic",
         passive_deletes=True,
     )
-
-
-class Mailing(Base):
-    """Model for storing mailing information."""
-
-    __tablename__ = "mailing"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    mute = Column(Boolean, nullable=False, default=False)
-    city = Column(String(64), nullable=False)
-    time_int = Column(Integer, nullable=False)
-    time_title = Column(String(32), nullable=False)
-    # One-to-one relationship with WeatherProvider
-    weather_provider_info_id = Column(
-        Integer, ForeignKey("weather_provider_info.id")
-    )
-    # One-to-one relationship with User
-    user_id = Column(BigInteger, ForeignKey("users.chat_id"))
-
-
-class WeatherProviderInfo(Base):
-    """Model for storing weather provider information."""
-
-    __tablename__ = "weather_provider_info"
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    type = Column(String(32), nullable=False, default="weather")
-    city = Column(String(64), nullable=False)
-    time = Column(String(32), nullable=False)
     # One-to-one relationship with Mailing
-    mailing = relationship(
-        "Mailing", uselist=False, backref="weather_provider_info"
-    )
+    mailing = relationship("Mailing", uselist=False, backref="user")
 
 
 class SearchLog(Base):
     """Model for storing search logs."""
 
     __tablename__ = "search_logs"
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     city = Column(String(64), nullable=False)
+    locale = Column(String(2), nullable=False)
     count = Column(Integer, nullable=False, default=1)
     # One-to-many relationship with User
     user_id = Column(BigInteger, ForeignKey("users.chat_id"), nullable=False)
+
+
+class Mailing(Base):
+    """Model for storing mailing information."""
+
+    __tablename__ = "mailing"
+
+    id_user_id = Column(
+        BigInteger,
+        ForeignKey("users.chat_id"),
+        primary_key=True,
+        autoincrement=True,
+    )
+    mute = Column(Boolean, nullable=False, default=False)
+    city = Column(String(64), nullable=False)
+    time_int = Column(Integer, nullable=False)
+    time_title = Column(String(32), nullable=False)
+    # One-to-one relationship with WeatherProvider
+    weather_provider_info = relationship(
+        "WeatherProviderInfo", uselist=False, backref="mailing"
+    )
+
+
+class WeatherProviderInfo(Base):
+    """Model for storing weather provider information."""
+
+    __tablename__ = "weather_provider_info"
+
+    id_mailing_id = Column(
+        BigInteger,
+        ForeignKey("mailing.id_user_id"),
+        primary_key=True,
+        autoincrement=True,
+    )
+    type = Column(String(32), nullable=False, default="weather")
+    city = Column(String(64), nullable=False)
+    time = Column(String(32), nullable=False)
