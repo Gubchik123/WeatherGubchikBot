@@ -14,7 +14,7 @@ router = Router()
 @router.message(F.text.lower() == __("profile"))
 @router.callback_query(F.data == "btn_profile")
 async def handle_profile(event: Union[Message, CallbackQuery]) -> None:
-    """Sends user profile."""
+    """Sends user profile menu."""
     is_callback_query = isinstance(event, CallbackQuery)
     message = event.message if is_callback_query else event
     user = get_user_by_(user_chat_id=message.chat.id)

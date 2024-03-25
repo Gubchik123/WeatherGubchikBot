@@ -8,7 +8,7 @@ from keyboards.inline.timezone import (
     get_cities_keyboard,
 )
 
-from .profile import handle_profile
+from .menu import handle_profile
 
 
 router = Router()

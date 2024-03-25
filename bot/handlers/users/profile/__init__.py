@@ -1,6 +1,6 @@
 from aiogram import Router
 
-from .profile import router, handle_profile
+from .menu import router, handle_profile
 from .language import router as language_router
 from .timezone import router as timezone_router
 
