@@ -42,8 +42,7 @@ async def _send_user_mailing_menu(
     """Sends user mailing menu."""
     await answer_method(
         _(
-            "You are in the mailing menu.\n"
-            "Details of your newsletter:\n\n"
+            "<b>Mailing</b>\n\n"
             "Mode: {mode}\n"
             "Daily at {time_int}:00\n\n"
             "Forecast period: {time}\n"
