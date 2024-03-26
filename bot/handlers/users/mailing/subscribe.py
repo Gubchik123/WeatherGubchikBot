@@ -11,7 +11,7 @@ from utils.scheduler import send_mailing
 from utils.db.crud.user import get_user_by_
 from utils.db.crud.mailing import create_mailing_for_
 from keyboards.inline.mailing import get_mailing_time_inline_keyboard
-from states.mailing_setup import MailingSetup
+from states.mailing_subscription import MailingSubscription
 
 from .menu import handle_mailing_menu
 from ..weather.city import ask_about_city
@@ -20,17 +20,17 @@ from ..weather.city import ask_about_city
 router = Router()
 
 
-@router.callback_query(F.data == "btn_enable_mailing")
-async def enable_mailing(
+@router.callback_query(F.data == "btn_subscribe_mailing")
+async def handle_subscribe_mailing(
     callback_query: CallbackQuery, state: FSMContext, i18n: I18n
 ):
-    """Starts the mailing setup state."""
+    """Starts the mailing subscription state."""
     await ask_about_city(callback_query, i18n)
-    await state.set_state(MailingSetup.city)
+    await state.set_state(MailingSubscription.city)
 
 
 @router.callback_query(
-    MailingSetup.mute, F.data.startswith("btn_mailing_mute:")
+    MailingSubscription.mute, F.data.startswith("btn_mailing_mute:")
 )
 async def check_mute_mode(callback_query: CallbackQuery, state: FSMContext):
     """Processes the selected mute mode for the mailing."""
@@ -47,11 +47,11 @@ async def ask_about_mailing_time(
         _("At what time would you like to receive the newsletter?"),
         reply_markup=get_mailing_time_inline_keyboard(),
     )
-    await state.set_state(MailingSetup.time)
+    await state.set_state(MailingSubscription.time)
 
 
 @router.callback_query(
-    MailingSetup.time, F.data.startswith("btn_mailing_time_int:")
+    MailingSubscription.time, F.data.startswith("btn_mailing_time_int:")
 )
 async def check_mailing_time(
     callback_query: CallbackQuery,
@@ -63,7 +63,7 @@ async def check_mailing_time(
         {"time_int": int(callback_query.data.split(":")[-1])}
     )
     data = await state.get_data()
-    _enable_mailing(callback_query.message.chat.id, data, scheduler)
+    _subscribe_mailing(callback_query.message.chat.id, data, scheduler)
     await state.clear()
 
     await callback_query.answer(
@@ -72,7 +72,7 @@ async def check_mailing_time(
     await handle_mailing_menu(callback_query)
 
 
-def _enable_mailing(
+def _subscribe_mailing(
     user_chat_id: int, data: dict, scheduler: AsyncIOScheduler
 ):
     """Enables the mailing."""

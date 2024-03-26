@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
-from states.mailing_setup import MailingSetup
+from states.mailing_subscription import MailingSubscription
 from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_period_inline_keyboard
 from keyboards.inline.maker import make_yes_or_no_inline_keyboard
@@ -52,11 +52,11 @@ async def check_period(
 
         await state.clear()
         await callback_query.message.delete()
-    else:  # MailingSetup.period
+    else:  # MailingSubscription:period
         await ask_about_mailing_mute_mode(callback_query, state)
 
 
-# ! Can't put it into the users/mailing/enable.py file because of the circular import
+# ! Can't put it into the users/mailing/subscribe.py file because of the circular import
 async def ask_about_mailing_mute_mode(
     callback_query: CallbackQuery, state: FSMContext
 ):
@@ -68,4 +68,4 @@ async def ask_about_mailing_mute_mode(
             no_callback_data="btn_mailing_mute:",
         ),
     )
-    await state.set_state(MailingSetup.mute)
+    await state.set_state(MailingSubscription.mute)

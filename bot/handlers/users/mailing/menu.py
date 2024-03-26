@@ -16,7 +16,7 @@ router = Router()
 @router.message(F.text.lower() == __("mailing"))
 @router.callback_query(F.data == "btn_mailing")
 async def handle_mailing_menu(event: Union[Message, CallbackQuery]):
-    """Checks if user has mailing enabled and sends mailing menu."""
+    """Checks if user has mailing subscription and sends mailing menu."""
     is_callback_query = isinstance(event, CallbackQuery)
     message = event.message if is_callback_query else event
     answer_method = message.edit_text if is_callback_query else message.answer
@@ -26,10 +26,10 @@ async def handle_mailing_menu(event: Union[Message, CallbackQuery]):
     if not mailing:
         return await answer_method(
             _(
-                "Do you really want to set up a daily weather forecast newsletter?"
+                "Do you really want to subscribe to the daily weather forecast mailing?"
             ),
             reply_markup=make_yes_or_no_inline_keyboard(
-                yes_callback_data="btn_enable_mailing",
+                yes_callback_data="btn_subscribe_mailing",
                 no_callback_data="btn_profile",
             ),
         )

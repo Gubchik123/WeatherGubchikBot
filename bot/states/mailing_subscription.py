@@ -3,8 +3,8 @@ from aiogram.fsm.state import State
 from .weather_search import WeatherSearch
 
 
-class MailingSetup(WeatherSearch):
-    """States to enable mailing."""
+class MailingSubscription(WeatherSearch):
+    """States to subscribe to the mailing."""
 
     city = State()
     city_title = State()
