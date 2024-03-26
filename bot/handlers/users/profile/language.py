@@ -16,7 +16,9 @@ async def handle_change_language(callback_query: CallbackQuery):
     """Asks the user to choose a language."""
     await callback_query.message.edit_text(
         "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
-        reply_markup=get_language_inline_keyboard(action="menu"),
+        reply_markup=get_language_inline_keyboard(
+            action="menu", back_to_profile_btn=True
+        ),
     )
 
 
