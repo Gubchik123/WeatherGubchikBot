@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-22 15:47+0200\n"
+"POT-Creation-Date: 2024-03-26 16:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,109 +16,282 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: bot/handlers/users/menu.py:19
-msgid "← return to the main menu"
-msgstr ""
-
-#: bot/handlers/users/menu.py:35
+#: handlers/users/menu.py:24
 msgid ""
-"<b>Main menu</b>\n"
-"\n"
-"Language: <i>{locale}</i>\n"
-"Timezone: <i>{timezone}</i>\n"
-"Date you joined: <i>{created}</i>"
+"You are in the main menu.\n"
+"Select further actions with the buttons below."
 msgstr ""
 
-#: bot/handlers/users/timezone.py:21
+#: handlers/users/other.py:13
 msgid ""
-"<b>Changing timezone.</b>\n"
-"\n"
-"You can choose a new time zone by choosing from the options below."
+"I don't understand you :(\n"
+"I advise you to use the buttons or commands for the intended result."
 msgstr ""
 
-#: bot/handlers/users/timezone.py:34
-msgid "Choose a city in {country}:"
-msgstr ""
-
-#: bot/handlers/users/timezone.py:46
-msgid "Timezone successfully changed to {timezone}!"
-msgstr ""
-
-#: bot/handlers/users/commands/goodbye.py:13
+#: handlers/users/commands/goodbye.py:13
 msgid "end communication"
 msgstr ""
 
-#: bot/handlers/users/commands/goodbye.py:20
+#: handlers/users/commands/goodbye.py:20
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
 msgstr ""
 
-#: bot/handlers/users/commands/help.py:37
+#: handlers/users/commands/help.py:14
 msgid ""
+"Bot commands:\n"
+"/start - Start working with the bot\n"
+"/help - Get basic usage rules\n"
+"/weather - Get weather forecast\n"
+"/profile - Get user profile\n"
+"/mailing - Get mailing menu / Sign up for the newsletter\n"
+"/goodbye - Pause working with the bot\n"
 "\n"
-"            Bot commands:\n"
-"            /start - Start working with the bot\n"
-"            /language - Change the language of the bot\n"
-"            /help - Display of basic usage rules\n"
-"            /weather - Display information about the weather\n"
-"            /goodbye - Ending work with the bot\n"
-"\n"
-"            Sign up for the newsletter to receive daily weather "
+"Sign up for the newsletter (/mailing) to receive daily weather "
 "information in the city of your choice (you can turn it off at any time)"
 "\n"
 "\n"
-"            I advise you to use the buttons for the intended result\n"
+"I advise you to use the buttons or commands for the intended result\n"
 "\n"
-"            Enjoy using!!!\n"
+"Enjoy using!!!\n"
 "\n"
-"            Bot author contacts:\n"
-"            CV site: https://nikita-hubariev.me\n"
-"            LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
-"            Instagram: https://www.instagram.com/notwhale.1746\n"
+"Bot author contacts:\n"
+"CV site: https://nikita-hubariev.me\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
 "\n"
-"            Other projects of the author are available on:\n"
-"            Project board: https://gubchik123-project-board.netlify.app\n"
-"            GitHub: https://github.com/Gubchik123\n"
-"            "
+"Other projects of the author are available on:\n"
+"Project board: https://gubchik123-project-board.netlify.app\n"
+"GitHub: https://github.com/Gubchik123\n"
 msgstr ""
 
-#: bot/handlers/users/commands/language.py:39
-msgid "Language successfully changed to {locale}!"
-msgstr ""
-
-#: bot/handlers/users/commands/start.py:48
+#: handlers/users/commands/start.py:48
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
 "cities around the world."
 msgstr ""
 
-#: bot/keyboards/default/menu.py:11
+#: handlers/users/mailing/menu.py:16
+msgid "mailing"
+msgstr ""
+
+#: handlers/users/mailing/menu.py:28
+msgid "Do you really want to subscribe to the daily weather forecast mailing?"
+msgstr ""
+
+#: handlers/users/mailing/menu.py:44
+msgid ""
+"<b>Mailing</b>\n"
+"\n"
+"Mode: {mode}\n"
+"Daily at {time_int}:00\n"
+"\n"
+"Forecast period: {time}\n"
+"City / locality: {city}"
+msgstr ""
+
+#: handlers/users/mailing/menu.py:52
+msgid "silent"
+msgstr ""
+
+#: handlers/users/mailing/menu.py:52
+msgid "alert"
+msgstr ""
+
+#: handlers/users/mailing/subscribe.py:50
+msgid "At what time would you like to receive the newsletter?"
+msgstr ""
+
+#: handlers/users/mailing/subscribe.py:74
+msgid "You have successfully completed the mailing setup!"
+msgstr ""
+
+#: handlers/users/mailing/unsubscribe.py:19
+msgid "Are you sure you want to unsubscribe from the mailing?"
+msgstr ""
+
+#: handlers/users/mailing/unsubscribe.py:38
+msgid "You have successfully unsubscribed from the mailing!"
+msgstr ""
+
+#: handlers/users/mailing/update/city.py:35 handlers/users/weather/city.py:58
+msgid "Searching..."
+msgstr ""
+
+#: handlers/users/mailing/update/city.py:67
+#: handlers/users/mailing/update/city.py:80
+msgid "The mailing city has been successfully updated!"
+msgstr ""
+
+#: handlers/users/mailing/update/mute.py:28
+msgid "The mailing has been muted!"
+msgstr ""
+
+#: handlers/users/mailing/update/mute.py:30
+msgid "The mailing has been unmuted!"
+msgstr ""
+
+#: handlers/users/mailing/update/period.py:32
+msgid "The mailing period has been successfully updated!"
+msgstr ""
+
+#: handlers/users/mailing/update/time.py:36
+msgid "The mailing time has been successfully updated!"
+msgstr ""
+
+#: handlers/users/profile/language.py:31
+msgid "Language successfully changed to {locale}!"
+msgstr ""
+
+#: handlers/users/profile/menu.py:14
+msgid "profile"
+msgstr ""
+
+#: handlers/users/profile/menu.py:24
+msgid ""
+"<b>Profile</b>\n"
+"\n"
+"Language: <i>{locale}</i>\n"
+"Timezone: <i>{timezone}</i>\n"
+"Date you joined: <i>{created}</i>"
+msgstr ""
+
+#: handlers/users/profile/timezone.py:24
+msgid ""
+"<b>Changing timezone.</b>\n"
+"\n"
+"You can choose a new time zone by choosing from the options below."
+msgstr ""
+
+#: handlers/users/profile/timezone.py:37
+msgid "Choose a city in {country}:"
+msgstr ""
+
+#: handlers/users/profile/timezone.py:54
+msgid "Timezone successfully changed to {timezone}!"
+msgstr ""
+
+#: handlers/users/weather/city.py:21
+msgid "weather forecast"
+msgstr ""
+
+#: handlers/users/weather/city.py:40
+msgid "Enter the name of the city / locality"
+msgstr ""
+
+#: handlers/users/weather/city_title.py:20
+msgid "Choose the city / locality you had in mind:"
+msgstr ""
+
+#: handlers/users/weather/period.py:29
+msgid "Select the forecast period"
+msgstr ""
+
+#: handlers/users/weather/period.py:41
+msgid "Processing..."
+msgstr ""
+
+#: handlers/users/weather/period.py:73
+msgid "Do you want to mute the mailing?"
+msgstr ""
+
+#: keyboards/default/menu.py:11
 msgid "Weather forecast"
 msgstr ""
 
-#: bot/keyboards/default/menu.py:14
-msgid "Mailing management"
+#: keyboards/default/menu.py:12
+msgid "Profile"
 msgstr ""
 
-#: bot/keyboards/default/menu.py:16
-msgid "Enable mailing"
+#: keyboards/default/menu.py:12 keyboards/inline/profile.py:19
+msgid "Mailing"
 msgstr ""
 
-#: bot/keyboards/default/menu.py:19
+#: keyboards/default/menu.py:13
 msgid "End communication"
 msgstr ""
 
-#: bot/keyboards/inline/menu.py:28
-msgid "← Return to the main menu"
+#: keyboards/inline/back.py:8
+msgid "🔙 Back"
 msgstr ""
 
-#: bot/utils/weather/graph.py:15
-msgid "Night"
+#: keyboards/inline/mailing.py:13
+msgid "Change the mute mode"
 msgstr ""
 
-#: bot/utils/weather/graph.py:18
+#: keyboards/inline/mailing.py:17
+msgid "Change the time"
+msgstr ""
+
+#: keyboards/inline/mailing.py:23
+msgid "Change the forecast period"
+msgstr ""
+
+#: keyboards/inline/mailing.py:27
+msgid "Change the city"
+msgstr ""
+
+#: keyboards/inline/mailing.py:32
+msgid "Unsubscribe"
+msgstr ""
+
+#: keyboards/inline/maker.py:15
+msgid "Yes"
+msgstr ""
+
+#: keyboards/inline/maker.py:16
+msgid "No"
+msgstr ""
+
+#: keyboards/inline/profile.py:11
+msgid "Change language"
+msgstr ""
+
+#: keyboards/inline/profile.py:14
+msgid "Change timezone"
+msgstr ""
+
+#: keyboards/inline/profile.py:24
+msgid "🔙 Menu"
+msgstr ""
+
+#: keyboards/inline/profile.py:34
+msgid "🔙 Profile"
+msgstr ""
+
+#: keyboards/inline/weather.py:23
+msgid "Retry the input"
+msgstr ""
+
+#: keyboards/inline/weather.py:36
+msgid "Today"
+msgstr ""
+
+#: keyboards/inline/weather.py:39
+msgid "Tomorrow"
+msgstr ""
+
+#: keyboards/inline/weather.py:45
+msgid "Week"
+msgstr ""
+
+#: keyboards/inline/weather.py:48
+msgid "Fortnight"
+msgstr ""
+
+#: utils/weather/general.py:48
+msgid ""
+"An error occurred! :(\n"
+"Please, try again or restart the bot with the /start command."
+msgstr ""
+
+#: utils/weather/graph.py:15
 msgid "Day"
+msgstr ""
+
+#: utils/weather/graph.py:18
+msgid "Night"
 msgstr ""
 

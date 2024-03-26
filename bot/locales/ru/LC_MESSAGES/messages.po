@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-22 15:47+0200\n"
+"POT-Creation-Date: 2024-03-26 16:53+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,25 +19,193 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: bot/handlers/users/menu.py:19
-msgid "← return to the main menu"
-msgstr "← вернуться в главное меню"
-
-#: bot/handlers/users/menu.py:35
+#: handlers/users/menu.py:24
 msgid ""
-"<b>Main menu</b>\n"
+"You are in the main menu.\n"
+"Select further actions with the buttons below."
+msgstr ""
+"Вы в главном меню.\n"
+"Выберите следующие действия с помощью кнопок ниже."
+
+#: handlers/users/other.py:13
+msgid ""
+"I don't understand you :(\n"
+"I advise you to use the buttons or commands for the intended result."
+msgstr ""
+"Я вас не понимаю :(\n"
+"Советую использовать кнопки или команды для задуманного результата."
+
+#: handlers/users/commands/goodbye.py:13
+msgid "end communication"
+msgstr "закончить общение"
+
+#: handlers/users/commands/goodbye.py:20
+msgid ""
+"Bye, {name}, come bake again!\n"
+"Next time just type or press /start"
+msgstr ""
+"Пока, {name}, возвращайся еще!\n"
+"В следующий раз просто введите или нажмите /start"
+
+#: handlers/users/commands/help.py:14
+msgid ""
+"Bot commands:\n"
+"/start - Start working with the bot\n"
+"/help - Get basic usage rules\n"
+"/weather - Get weather forecast\n"
+"/profile - Get user profile\n"
+"/mailing - Get mailing menu / Sign up for the newsletter\n"
+"/goodbye - Pause working with the bot\n"
+"\n"
+"Sign up for the newsletter (/mailing) to receive daily weather "
+"information in the city of your choice (you can turn it off at any time)"
+"\n"
+"\n"
+"I advise you to use the buttons or commands for the intended result\n"
+"\n"
+"Enjoy using!!!\n"
+"\n"
+"Bot author contacts:\n"
+"CV site: https://nikita-hubariev.me\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"Other projects of the author are available on:\n"
+"Project board: https://gubchik123-project-board.netlify.app\n"
+"GitHub: https://github.com/Gubchik123\n"
+msgstr ""
+"Команды бота:\n"
+"/start - Начало работы с ботом\n"
+"/help - Получить основные правила использования\n"
+"/weather - Получить прогноз погоды\n"
+"/profile - Получить профиль пользователя\n"
+"/mailing - Получить меню рассылки / Подписаться на рассылку\n"
+"/goodbye - Приостановить работу с ботом\n"
+"\n"
+"Оформите рассылку, чтобы каждый день узнавать информацию о "
+"погоде в выбранном городе (в любое время ее можно отключить)"
+"\n"
+"\n"
+"Советую использовать кнопки для задуманного результата\n"
+"\n"
+"Приятного использования!!!\n"
+"\n"
+"Контакты автора бота:\n"
+"CV site: https://nikita-hubariev.me\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"Другие проекты автора доступны на:\n"
+"Доска проектов: https://gubchik123-project-board.netlify.app\n"
+"GitHub: https://github.com/Gubchik123\n"
+
+#: handlers/users/commands/start.py:48
+msgid ""
+"Hello, {name}!\n"
+"I am the one who will help you find out information about the weather in "
+"cities around the world."
+msgstr ""
+"Привет, {name}!\n"
+"Я тот, кто поможет тебе узнать информацию о погоде в городах по всему миру."
+
+#: handlers/users/mailing/menu.py:16
+msgid "mailing"
+msgstr "рассылка"
+
+#: handlers/users/mailing/menu.py:28
+msgid "Do you really want to subscribe to the daily weather forecast mailing?"
+msgstr "Вы действительно хотите подписаться на ежедневную рассылку прогноза погоды?"
+
+#: handlers/users/mailing/menu.py:44
+msgid ""
+"<b>Mailing</b>\n"
+"\n"
+"Mode: {mode}\n"
+"Daily at {time_int}:00\n"
+"\n"
+"Forecast period: {time}\n"
+"City / locality: {city}"
+msgstr ""
+"<b>Рассылка</b>\n"
+"\n"
+"Режим: {mode}\n"
+"Ежедневно в {time_int}:00\n"
+"\n"
+"Период прогноза: {time}\n"
+"Город / населенный пункт: {city}"
+
+#: handlers/users/mailing/menu.py:52
+msgid "silent"
+msgstr "без звука"
+
+#: handlers/users/mailing/menu.py:52
+msgid "alert"
+msgstr "со звуком"
+
+#: handlers/users/mailing/subscribe.py:50
+msgid "At what time would you like to receive the newsletter?"
+msgstr "В какое время Вы хотите получать рассылку?"
+
+#: handlers/users/mailing/subscribe.py:74
+msgid "You have successfully completed the mailing setup!"
+msgstr "Вы успешно завершили настройку рассылки!"
+
+#: handlers/users/mailing/unsubscribe.py:19
+msgid "Are you sure you want to unsubscribe from the mailing?"
+msgstr "Вы уверены, что хотите отписаться от рассылки?"
+
+#: handlers/users/mailing/unsubscribe.py:38
+msgid "You have successfully unsubscribed from the mailing!"
+msgstr "Вы успешно отписались от рассылки!"
+
+#: handlers/users/mailing/update/city.py:35 handlers/users/weather/city.py:58
+msgid "Searching..."
+msgstr "Поиск..."
+
+#: handlers/users/mailing/update/city.py:67
+#: handlers/users/mailing/update/city.py:80
+msgid "The mailing city has been successfully updated!"
+msgstr "Город рассылки успешно обновлен!"
+
+#: handlers/users/mailing/update/mute.py:28
+msgid "The mailing has been muted!"
+msgstr "Включен режим без звука!"
+
+#: handlers/users/mailing/update/mute.py:30
+msgid "The mailing has been unmuted!"
+msgstr "Включен режим со звуком!"
+
+#: handlers/users/mailing/update/period.py:32
+msgid "The mailing period has been successfully updated!"
+msgstr "Период рассылки успешно обновлен!"
+
+#: handlers/users/mailing/update/time.py:36
+msgid "The mailing time has been successfully updated!"
+msgstr "Время рассылки успешно обновлено!"
+
+#: handlers/users/profile/language.py:31
+msgid "Language successfully changed to {locale}!"
+msgstr "Язык успешно изменен на {locale}!"
+
+#: handlers/users/profile/menu.py:14
+msgid "profile"
+msgstr "профиль"
+
+#: handlers/users/profile/menu.py:24
+msgid ""
+"<b>Profile</b>\n"
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
-"<b>Главное меню</b>\n"
+"<b>Профиль</b>\n"
 "\n"
 "Язык: <i>{locale}</i>\n"
 "Часовой пояс: <i>{timezone}</i>\n"
 "День, когда Вы присоединились: <i>{created}</i>"
 
-#: bot/handlers/users/timezone.py:21
+#: handlers/users/profile/timezone.py:24
 msgid ""
 "<b>Changing timezone.</b>\n"
 "\n"
@@ -47,115 +215,141 @@ msgstr ""
 "\n"
 "Вы можете выбрать новый часовой пояс, выбрав один из вариантов ниже."
 
-#: bot/handlers/users/timezone.py:34
+#: handlers/users/profile/timezone.py:37
 msgid "Choose a city in {country}:"
 msgstr "Выберите город в {country}:"
 
-#: bot/handlers/users/timezone.py:46
+#: handlers/users/profile/timezone.py:54
 msgid "Timezone successfully changed to {timezone}!"
 msgstr "Часовой пояс успешно изменен на {timezone}!"
 
-#: bot/handlers/users/commands/goodbye.py:13
-msgid "end communication"
-msgstr "закончить общение"
+#: handlers/users/weather/city.py:21
+msgid "weather forecast"
+msgstr "прогноз погоды"
 
-#: bot/handlers/users/commands/goodbye.py:20
-msgid ""
-"Bye, {name}, come bake again!\n"
-"Next time just type or press /start"
-msgstr ""
-"Пока, {name}, возвращайся еще!\n"
-"В следующий раз просто введите или нажмите /start"
+#: handlers/users/weather/city.py:40
+msgid "Enter the name of the city / locality"
+msgstr "Введите название города / населенного пункта"
 
-#: bot/handlers/users/commands/help.py:37
-msgid ""
-"\n"
-"            Bot commands:\n"
-"            /start - Start working with the bot\n"
-"            /language - Change the language of the bot\n"
-"            /help - Display of basic usage rules\n"
-"            /weather - Display information about the weather\n"
-"            /goodbye - Ending work with the bot\n"
-"\n"
-"            Sign up for the newsletter to receive daily weather "
-"information in the city of your choice (you can turn it off at any time)"
-"\n"
-"\n"
-"            I advise you to use the buttons for the intended result\n"
-"\n"
-"            Enjoy using!!!\n"
-"\n"
-"            Bot author contacts:\n"
-"            CV site: https://nikita-hubariev.me\n"
-"            LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
-"            Instagram: https://www.instagram.com/notwhale.1746\n"
-"\n"
-"            Other projects of the author are available on:\n"
-"            Project board: https://gubchik123-project-board.netlify.app\n"
-"            GitHub: https://github.com/Gubchik123\n"
-"            "
-msgstr ""
-"\n"
-"            Команды бота:"
-"            /start - Начало работы с ботом"
-"            /language - Изменение языка бота"
-"            /help - Отображение основных правил использования"
-"            /weather - Отображение информации о погоде"
-"            /goodbye - Завершение работы с ботом"
-"\n"
-"            Оформите рассылку, чтобы каждый день узнавать информацию о погоде в выбранном городе (в любое время ее можно отключить)"
-"\n"
-"            Советую использовать кнопки для задуманного результата"
-"\n"
-"            Приятного использования!!!"
-"\n"
-"            Контакты автора бота:"
-"            CV site: https://nikita-hubariev.me"
-"            LinkedIn: https://www.linkedin.com/in/nikita-hubariev"
-"            Instagram: https://www.instagram.com/notwhale.1746"
-"\n"
-"            Другие проекты автора доступны на:"
-"            Доска проектов: https://gubchik123-project-board.netlify.app"
-"            GitHub: https://github.com/Gubchik123"
+#: handlers/users/weather/city_title.py:20
+msgid "Choose the city / locality you had in mind:"
+msgstr "Выберите город / населенный пункт, который Вы имели в виду:"
 
-#: bot/handlers/users/commands/language.py:39
-msgid "Language successfully changed to {locale}!"
-msgstr "Язык успешно изменен на {locale}!"
+#: handlers/users/weather/period.py:29
+msgid "Select the forecast period"
+msgstr "Выберите город / населенный пункт"
 
-#: bot/handlers/users/commands/start.py:48
-msgid ""
-"Hello, {name}!\n"
-"I am the one who will help you find out information about the weather in "
-"cities around the world."
-msgstr ""
-"Привет, {name}!\n"
-"Я тот, кто поможет тебе узнать информацию о погоде в городах Украины и Европы."
+#: handlers/users/weather/period.py:41
+msgid "Processing..."
+msgstr "Обработка..."
 
-#: bot/keyboards/default/menu.py:11
+#: handlers/users/weather/period.py:73
+msgid "Do you want to mute the mailing?"
+msgstr "Вы хотите включить режим без звука?"
+
+#: keyboards/default/menu.py:11
 msgid "Weather forecast"
 msgstr "Прогноз погоды"
 
-#: bot/keyboards/default/menu.py:14
-msgid "Mailing management"
-msgstr "Управление рассылкой"
+#: keyboards/default/menu.py:12
+msgid "Profile"
+msgstr "Профиль"
 
-#: bot/keyboards/default/menu.py:16
-msgid "Enable mailing"
-msgstr "Включить рассылку"
+#: keyboards/default/menu.py:12 keyboards/inline/profile.py:19
+msgid "Mailing"
+msgstr "Рассылка"
 
-#: bot/keyboards/default/menu.py:19
+#: keyboards/default/menu.py:13
 msgid "End communication"
 msgstr "Закончить общение"
 
-#: bot/keyboards/inline/menu.py:28
-msgid "← Return to the main menu"
-msgstr "← Вернуться в главное меню"
+#: keyboards/inline/back.py:8
+msgid "🔙 Back"
+msgstr "🔙 Назад"
 
-#: bot/utils/weather/graph.py:15
+#: keyboards/inline/mailing.py:13
+msgid "Change the mute mode"
+msgstr "Изменить режим звука"
+
+#: keyboards/inline/mailing.py:17
+msgid "Change the time"
+msgstr "Изменить время"
+
+#: keyboards/inline/mailing.py:23
+msgid "Change the forecast period"
+msgstr "Изменить период прогноза"
+
+#: keyboards/inline/mailing.py:27
+msgid "Change the city"
+msgstr "Изменить город"
+
+#: keyboards/inline/mailing.py:32
+msgid "Unsubscribe"
+msgstr "Отписаться"
+
+#: keyboards/inline/maker.py:15
+msgid "Yes"
+msgstr "Да"
+
+#: keyboards/inline/maker.py:16
+msgid "No"
+msgstr "Нет"
+
+#: keyboards/inline/profile.py:11
+msgid "Change language"
+msgstr "Изменить язык"
+
+#: keyboards/inline/profile.py:14
+msgid "Change timezone"
+msgstr "Изменить часовой пояс"
+
+#: keyboards/inline/profile.py:24
+msgid "🔙 Menu"
+msgstr "🔙 Меню"
+
+#: keyboards/inline/profile.py:34
+msgid "🔙 Profile"
+msgstr "🔙 Профиль"
+
+#: keyboards/inline/weather.py:23
+msgid "Retry the input"
+msgstr "Повторить ввод"
+
+#: keyboards/inline/weather.py:36
+msgid "Today"
+msgstr "Сегодня"
+
+#: keyboards/inline/weather.py:39
+msgid "Tomorrow"
+msgstr "Завтра"
+
+#: keyboards/inline/weather.py:45
+msgid "Week"
+msgstr "Неделя"
+
+#: keyboards/inline/weather.py:48
+msgid "Fortnight"
+msgstr "Две недели"
+
+#: utils/weather/general.py:48
+msgid ""
+"An error occurred! :(\n"
+"Please, try again or restart the bot with the /start command."
+msgstr ""
+"Произошла ошибка! :(\n"
+"Пожалуйста, попробуйте еще раз или перезапустите бота командой /start."
+
+#: utils/weather/graph.py:15
+msgid "Day"
+msgstr "Днем"
+
+#: utils/weather/graph.py:18
 msgid "Night"
 msgstr "Ночью"
 
-#: bot/utils/weather/graph.py:18
-msgid "Day"
-msgstr "Днем"
+#~ msgid "← return to the main menu"
+#~ msgstr "← вернуться в главное меню"
+
+#~ msgid "Mailing management"
+#~ msgstr "Управление рассылкой"
 
