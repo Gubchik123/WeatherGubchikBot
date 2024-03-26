@@ -11,8 +11,7 @@ from states.mailing_setup import MailingSetup
 from utils.db.crud.user import get_user_by_
 from utils.weather.search import get_searched_data_with_
 from utils.db.crud.mailing import (
-    update_mailing_mute_mode,
-    update_mailing_time,
+    update_mailing_with_,
     update_mailing_period,
     update_mailing_city,
 )
@@ -35,7 +34,7 @@ async def handle_update_mailing_mute(
     await state.clear()
     mute = callback_query.data.endswith("yes")
 
-    update_mailing_mute_mode(callback_query.from_user.id, mute)
+    update_mailing_with_(callback_query.from_user.id, mute=mute)
 
     message = (
         _("The mailing has been muted!")
@@ -60,7 +59,7 @@ async def handle_update_mailing_time(
     user_chat_id = callback_query.from_user.id
     time_int = int(callback_query.data.split(":")[-1])
 
-    update_mailing_time(user_chat_id, time_int)
+    update_mailing_with_(user_chat_id, time_int=time_int)
     _reschedule_mailing(user_chat_id, time_int, scheduler)
 
     await callback_query.answer(

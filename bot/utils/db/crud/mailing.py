@@ -1,10 +1,8 @@
-from typing import Union
-
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 
 from ..models import Mailing
-from ..db import MySession, commit_and_refresh, add_commit_and_refresh
+from ..db import MySession, add_commit_and_refresh
 
 from .weather_provider_info import get_or_create_weather_provider_info_by_
 
@@ -40,24 +38,13 @@ def get_mailing_by_(user_chat_id: int) -> Mailing:
     return mailing
 
 
-def update_mailing_mute_mode(user_chat_id: int, mute: bool) -> None:
-    """Updates the mute mode of the mailing for the given user chat id."""
+def update_mailing_with_(user_chat_id: int, **fields) -> None:
+    """Updates the mailing by the given user chat id with the given fields."""
     with MySession() as session:
         session.execute(
             update(Mailing)
             .where(Mailing.id_user_id == user_chat_id)
-            .values(mute=mute)
-        )
-        session.commit()
-
-
-def update_mailing_time(user_chat_id: int, time: int) -> None:
-    """Updates the time of the mailing for the given user chat id."""
-    with MySession() as session:
-        session.execute(
-            update(Mailing)
-            .where(Mailing.id_user_id == user_chat_id)
-            .values(time_int=time)
+            .values(**fields)
         )
         session.commit()
 
