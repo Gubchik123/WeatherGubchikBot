@@ -1,8 +1,8 @@
 from aiogram.fsm.state import State, StatesGroup
 
 
-class MailingSubscription(StatesGroup):
-    """States to subscribe to the mailing."""
+class MailingSetup(StatesGroup):
+    """States to set up the mailing."""
 
     city = State()
     city_title = State()

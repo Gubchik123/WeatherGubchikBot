@@ -32,10 +32,11 @@ async def ask_about_city(event: Union[Message, CallbackQuery], i18n: I18n):
     """Asks user to enter the city name."""
     if isinstance(event, Message):
         message = event
+        answer_method = message.answer
     else:
         message = event.message
-        await message.delete()
-    await message.answer(
+        answer_method = message.edit_text
+    await answer_method(
         _("Enter the name of the city / locality"),
         reply_markup=get_cities_inline_keyboard(  # TODO: Add mailing city
             cities=get_last_4_search_cities_by_(
@@ -68,16 +69,3 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
         await ask_about_city_title(message, state)
 
     await searching_message.delete()
-
-
-@router.callback_query(F.data.startswith("btn_city_title:"))
-async def check_city_callback_query(
-    event: CallbackQuery, i18n: I18n, state: FSMContext
-):
-    """Requests search city and checks it."""
-    city = event.data.split(":")[-1].strip().lower()
-
-    result, _ = get_searched_data_with_(city, i18n.current_locale)
-
-    await state.update_data({"city": result, "city_title": city.capitalize()})
-    await ask_about_period(event, state)

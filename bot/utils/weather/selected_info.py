@@ -12,8 +12,7 @@ class SelectedInfo:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        if not self.time and self.time_title:
-            self._set_time()
+        self.time = "" if self.time == "review" else self.time
 
     def clean_information(self) -> None:
         """For cleaning all data for weather searching"""
@@ -67,14 +66,3 @@ class SelectedInfo:
     def about_many_days(self) -> bool:
         """Getter for condition about many days"""
         return self.about_week or self.about_fortnight
-
-    def _set_time(self) -> str:
-        """Sets special time string."""
-        if self.time_title in ["сьогодні", "сегодня", "today"]:
-            self.time = ""
-        elif self.time_title in ["завтра", "tomorrow"]:
-            self.time = "tomorrow"
-        elif self.time_title in ["тиждень", "неделя", "week"]:
-            self.time = "6_10"
-        elif self.time_title in ["два тижні", "две недели", "fortnight"]:
-            self.type = "review"

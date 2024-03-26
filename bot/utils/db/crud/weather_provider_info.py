@@ -24,15 +24,14 @@ def get_weather_provider_info_by_(
 def get_or_create_weather_provider_info_by_(
     state_data: dict,
 ) -> WeatherProviderInfo:
-    city = state_data["city"]
-    time = state_data["time_title"]
-    type = "review" if time == "fortnight" else "weather"
-
-    weather_provider_info = get_weather_provider_info_by_(city, time, type)
-
+    weather_provider_info = get_weather_provider_info_by_(
+        state_data["city"], state_data["time"], state_data["type"]
+    )
     if not weather_provider_info:
         weather_provider_info = WeatherProviderInfo(
-            city=city, time=time, type=type
+            city=state_data["city"],
+            time=state_data["time"],
+            type=state_data["type"],
         )
         add_commit_and_refresh(weather_provider_info)
     return weather_provider_info

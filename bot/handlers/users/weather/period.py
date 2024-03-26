@@ -5,6 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
+from states.mailing_setup import MailingSetup
 from states.mailing_subscription import MailingSubscription
 from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_period_inline_keyboard
@@ -16,6 +17,7 @@ from .send import send_weather_forecast_by_
 router = Router()
 
 
+@router.callback_query(F.data == "btn_mailing_period")
 async def ask_about_period(
     event: Union[Message, CallbackQuery], state: FSMContext
 ):
@@ -37,11 +39,14 @@ async def check_period(
 ):
     """Processes the selected period of the weather forecast."""
     await callback_query.message.edit_text(_("Processing..."))
+    time_title, time = callback_query.data.split(":")[1:]
 
     await state.update_data(
         {
-            "time_title": callback_query.data.split(":")[-1].lower(),
+            "time": time,
+            "time_title": time_title,
             "lang_code": i18n.current_locale,
+            "type": "weather" if time != "review" else time,
         }
     )
     current_state = await state.get_state()
@@ -57,6 +62,9 @@ async def check_period(
 
 
 # ! Can't put it into the users/mailing/subscribe.py file because of the circular import
+
+
+@router.callback_query(F.data == "btn_mailing_mute_mode")
 async def ask_about_mailing_mute_mode(
     callback_query: CallbackQuery, state: FSMContext
 ):
@@ -68,4 +76,5 @@ async def ask_about_mailing_mute_mode(
             no_callback_data="btn_mailing_mute:",
         ),
     )
-    await state.set_state(MailingSubscription.mute)
+    state_class = await get_state_class_by_(state)
+    await state.set_state(state_class.mute)

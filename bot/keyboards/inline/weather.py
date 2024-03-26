@@ -33,18 +33,20 @@ def get_period_inline_keyboard() -> InlineKeyboardMarkup:
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text=_("Today"), callback_data="btn_period:today"
+                    text=_("Today"), callback_data="btn_period:today:"
                 ),
                 InlineKeyboardButton(
-                    text=_("Tomorrow"), callback_data="btn_period:tomorrow"
+                    text=_("Tomorrow"),
+                    callback_data="btn_period:tomorrow:tomorrow",
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    text=_("Week"), callback_data="btn_period:week"
+                    text=_("Week"), callback_data="btn_period:week:6_10"
                 ),
                 InlineKeyboardButton(
-                    text=_("Fortnight"), callback_data="btn_period:fortnight"
+                    text=_("Fortnight"),
+                    callback_data="btn_period:fortnight:review",
                 ),
             ],
         ]
