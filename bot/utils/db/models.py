@@ -52,6 +52,23 @@ class SearchLog(Base):
     user_id = Column(BigInteger, ForeignKey("users.chat_id"), nullable=False)
 
 
+class WeatherProviderInfo(Base):
+    """Model for storing weather provider information."""
+
+    __tablename__ = "weather_provider_info"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    city = Column(String(64), nullable=False)
+    time = Column(String(8), nullable=False)
+    type = Column(String(7), nullable=False, default="weather")
+    # One-to-many relationship with Mailing
+    mailing = relationship(
+        "Mailing",
+        lazy="dynamic",
+        backref=backref("weather_provider_info", lazy="joined"),
+    )
+
+
 class Mailing(Base):
     """Model for storing mailing information."""
 
@@ -67,23 +84,7 @@ class Mailing(Base):
     city = Column(String(64), nullable=False)
     time_int = Column(Integer, nullable=False)
     time_title = Column(String(32), nullable=False)
-    # One-to-one relationship with WeatherProvider
-    weather_provider_info = relationship(
-        "WeatherProviderInfo", uselist=False, backref="mailing"
+    # One-to-many relationship with WeatherProviderInfo
+    weather_provider_info_id = Column(
+        Integer, ForeignKey("weather_provider_info.id"), nullable=False
     )
-
-
-class WeatherProviderInfo(Base):
-    """Model for storing weather provider information."""
-
-    __tablename__ = "weather_provider_info"
-
-    id_mailing_id = Column(
-        BigInteger,
-        ForeignKey("mailing.id_user_id"),
-        primary_key=True,
-        autoincrement=True,
-    )
-    type = Column(String(32), nullable=False, default="weather")
-    city = Column(String(64), nullable=False)
-    time = Column(String(32), nullable=False)
