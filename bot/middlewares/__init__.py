@@ -1,2 +1,3 @@
 from .language import LanguageMiddleware
 from .scheduler import SchedulerMiddleware
+from .callback_query_timeout import CallbackQueryTimeoutMiddleware

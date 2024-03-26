@@ -7,7 +7,11 @@ from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 from utils.db.db import Base, engine
 from utils.notify_admins import notify_admins
 from utils.bot_commands import set_default_bot_commands
-from middlewares import LanguageMiddleware, SchedulerMiddleware
+from middlewares import (
+    LanguageMiddleware,
+    SchedulerMiddleware,
+    CallbackQueryTimeoutMiddleware,
+)
 from data.config import (
     BOT_TOKEN,
     I18N_DOMAIN,
@@ -54,6 +58,7 @@ def _register_middlewares() -> None:
 
     dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
     dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
+    dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
 
 
 @dispatcher.startup()
