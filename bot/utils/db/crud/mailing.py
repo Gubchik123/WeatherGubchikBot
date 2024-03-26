@@ -100,3 +100,11 @@ def update_mailing_city(user_chat_id: int, city: str, city_title: str) -> None:
             )
         )
         session.commit()
+
+
+def delete_mailing_for_(user_chat_id: int) -> None:
+    """Deletes the mailing for the given user chat id."""
+    with MySession() as session:
+        mailing = _get_mailing_by_(session, user_chat_id)
+        session.delete(mailing)
+        session.commit()
