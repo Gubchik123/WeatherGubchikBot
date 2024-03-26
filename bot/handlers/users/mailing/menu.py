@@ -54,5 +54,5 @@ async def _send_user_mailing_menu(
             time=mailing.time_title,
             city=mailing.city,
         ),
-        reply_markup=get_mailing_menu_inline_keyboard(mailing.mute),
+        reply_markup=get_mailing_menu_inline_keyboard(),
     )
