@@ -1,11 +1,11 @@
-from typing import Union
+from typing import Union, List
 
 from sqlalchemy import update
 from sqlalchemy.orm import Session
 from aiogram.types import User as TelegramUser
 
 from ..models import User
-from ..db import MySession, commit_and_refresh, add_commit_and_refresh
+from ..db import MySession, add_commit_and_refresh
 
 
 def _get_user_by_(session: Session, user_chat_id: int) -> User:
@@ -35,6 +35,34 @@ def get_user_locale_by_(user_chat_id: int) -> Union[str, None]:
     """Returns user language code by the given user chat id."""
     user = get_user_by_(user_chat_id)
     return user.locale if user else None
+
+
+def get_all_users() -> List[User]:
+    """Returns all users."""
+    with MySession() as session:
+        users = session.query(User).all()
+    return users
+
+
+def get_all_users_count() -> int:
+    """Returns the count of all users."""
+    with MySession() as session:
+        count = session.query(User).count()
+    return count
+
+
+def get_all_mailing_users() -> List[User]:
+    """Returns all mailing users."""
+    with MySession() as session:
+        users = session.query(User).filter(User.mailing).all()
+    return users
+
+
+def get_all_mailing_users_count() -> int:
+    """Returns the count of all mailing users."""
+    with MySession() as session:
+        count = session.query(User).filter(User.mailing).count()
+    return count
 
 
 def change_user_locale_by_(user_chat_id: int, locale: str) -> None:
