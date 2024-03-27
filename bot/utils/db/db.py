@@ -9,7 +9,7 @@ from data.config import SQLALCHEMY_DATABASE_URL
 
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
-MySession = sessionmaker(engine)
+LocalSession = sessionmaker(engine)
 
 Base = declarative_base()
 
@@ -23,6 +23,6 @@ def commit_and_refresh(session: Session, model):
 
 def add_commit_and_refresh(model):
     """Adds, commits and refreshes model instance and returns it."""
-    with MySession() as session:
+    with LocalSession() as session:
         session.add(model)
         return commit_and_refresh(session, model)

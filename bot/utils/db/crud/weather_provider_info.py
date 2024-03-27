@@ -1,14 +1,14 @@
 from sqlalchemy.orm import Session
 
 from ..models import WeatherProviderInfo
-from ..db import MySession, add_commit_and_refresh
+from ..db import LocalSession, add_commit_and_refresh
 
 
 def get_weather_provider_info_by_(
     city: str, time: str, type: str
 ) -> WeatherProviderInfo:
     """Returns weather provider info by the given city, time, and type."""
-    with MySession() as session:
+    with LocalSession() as session:
         weather_provider_info = (
             session.query(WeatherProviderInfo)
             .filter(

@@ -4,7 +4,7 @@ from sqlalchemy import update
 from sqlalchemy.orm import Session
 
 from ..models import SearchLog
-from ..db import MySession, commit_and_refresh, add_commit_and_refresh
+from ..db import LocalSession, commit_and_refresh, add_commit_and_refresh
 
 
 def _get_search_log_by_(
@@ -26,7 +26,7 @@ async def create_search_log(user_chat_id: int, city: str, locale: str) -> None:
     """Creates search log in database by the given user chat id and city."""
     city = city.split("(")[0].strip()
 
-    with MySession() as session:
+    with LocalSession() as session:
         search_log = _get_search_log_by_(session, user_chat_id, city, locale)
         if search_log is None:
             search_log = SearchLog(
@@ -40,7 +40,7 @@ async def create_search_log(user_chat_id: int, city: str, locale: str) -> None:
 
 def get_last_4_search_cities_by_(user_chat_id: int, locale: str) -> List[str]:
     """Returns last 4 search log cities by the given user chat id."""
-    with MySession() as session:
+    with LocalSession() as session:
         search_logs = (
             session.query(SearchLog)
             .filter(
@@ -55,7 +55,7 @@ def get_last_4_search_cities_by_(user_chat_id: int, locale: str) -> List[str]:
 
 def get_all_user_search_logs(user_chat_id: int) -> List[SearchLog]:
     """Returns all user search logs by the given user chat id."""
-    with MySession() as session:
+    with LocalSession() as session:
         search_logs = (
             session.query(SearchLog)
             .filter(SearchLog.user_id == user_chat_id)
