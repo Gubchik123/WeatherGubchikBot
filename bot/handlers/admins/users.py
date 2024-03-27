@@ -4,6 +4,7 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
 
+from utils.decorators import command_argument_required
 from filters.is_admin import IsAdmin
 from utils.db.models import User
 from utils.db.crud.user import (
@@ -32,7 +33,7 @@ async def _send_list_of_users(message: Message, users: List[User]) -> None:
             f"🆔 <code>{user.chat_id}</code>\n"
             f"👤 <b>{user.full_name}</b> (@{user.username})\n\n"
         )
-    await message.answer(text or "No users found.")
+    await message.answer(text or "<i>No users found.</i>")
 
 
 @router.message(IsAdmin(), Command("users"))
@@ -54,17 +55,11 @@ async def handle_all_mailing_users_command(message: Message) -> None:
 
 
 @router.message(IsAdmin(), Command("user"))
-async def handle_user_command(message: Message) -> None:
+@command_argument_required(int)
+async def handle_user_command(message: Message, user_chat_id: int) -> None:
     """Handles the /user command."""
-    try:
-        user_chat_id = int(message.text.split(" ")[1])
-
-        user = get_user_by_(user_chat_id)
-        if user is None:
-            await message.answer("User not found.")
-            return
-    except (ValueError, IndexError):
-        await message.answer("Invalid command usage.")
+    if (user := get_user_by_(user_chat_id)) is None:
+        await message.answer("<i>User not found.</i>")
         return
     await message.answer(
         f"🆔 <code>{user.chat_id}</code>\n"
