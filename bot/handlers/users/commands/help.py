@@ -7,7 +7,7 @@ from aiogram.utils.i18n import gettext as _
 router = Router()
 
 
-@router.message(Command(commands=["help"]))
+@router.message(Command("help"))
 async def handle_help_command(message: Message):
     """Handles the /help command."""
     await message.answer(

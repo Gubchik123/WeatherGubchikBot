@@ -9,7 +9,7 @@ from utils.db.crud.mailing import get_mailing_by_
 router = Router()
 
 
-@router.message(IsAdmin(), Command(commands=["amailing"]))
+@router.message(IsAdmin(), Command("amailing"))
 async def handle_mailing_command(message: Message) -> None:
     """Handles the /mailing command."""
     try:

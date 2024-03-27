@@ -12,7 +12,7 @@ from filters.is_admin import IsAdmin
 router = Router()
 
 
-@router.message(IsAdmin(), Command(commands=["jobs"]))
+@router.message(IsAdmin(), Command("jobs"))
 async def handle_jobs_command(
     message: Message, scheduler: AsyncIOScheduler
 ) -> None:
@@ -27,7 +27,7 @@ async def handle_jobs_command(
     await message.answer(text or "No jobs found.")
 
 
-@router.message(IsAdmin(), Command(commands=["job"]))
+@router.message(IsAdmin(), Command("job"))
 async def handle_job_command(
     message: Message, scheduler: AsyncIOScheduler
 ) -> None:

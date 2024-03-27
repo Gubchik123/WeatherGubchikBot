@@ -9,7 +9,7 @@ from keyboards.default.maker import make_keyboard, make_button
 router = Router()
 
 
-@router.message(Command(commands=["goodbye"]))
+@router.message(Command("goodbye"))
 @router.message(F.text.lower() == __("end communication"))
 async def handle_goodbye_command(message: Message):
     """Handles the /goodbye command."""

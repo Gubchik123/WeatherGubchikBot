@@ -10,7 +10,7 @@ from ..weather.city import handle_weather
 router = Router()
 
 
-@router.message(Command(commands=["weather"]))
+@router.message(Command("weather"))
 async def handle_weather_command(
     message: Message, state: FSMContext, i18n: I18n
 ):

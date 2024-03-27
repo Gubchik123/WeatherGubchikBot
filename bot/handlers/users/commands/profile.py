@@ -8,7 +8,7 @@ from ..profile import handle_profile
 router = Router()
 
 
-@router.message(Command(commands=["profile"]))
+@router.message(Command("profile"))
 async def handle_profile_command(message: Message):
     """Handles the /profile command."""
     await handle_profile(message)

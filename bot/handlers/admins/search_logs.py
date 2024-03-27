@@ -9,7 +9,7 @@ from utils.db.crud.search_log import get_all_user_search_logs
 router = Router()
 
 
-@router.message(IsAdmin(), Command(commands=["user_search_logs"]))
+@router.message(IsAdmin(), Command("user_search_logs"))
 async def handle_user_search_logs_command(message: Message) -> None:
     """Handles the /user_search_logs command."""
     try:

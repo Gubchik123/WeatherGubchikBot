@@ -11,7 +11,7 @@ from keyboards.default.menu import get_menu_keyboard
 router = Router()
 
 
-@router.message(Command(commands=["menu"]))
+@router.message(Command("menu"))
 @router.callback_query(F.data == "btn_menu")
 async def handle_menu(event: Union[Message, CallbackQuery]) -> None:
     """Handles main menu."""
