@@ -1,4 +1,4 @@
-from typing import Union, List
+from typing import Dict, Union, List
 
 from sqlalchemy import update
 from sqlalchemy.orm import Session
@@ -6,6 +6,9 @@ from aiogram.types import User as TelegramUser
 
 from ..models import User
 from ..db import LocalSession, add_commit_and_refresh
+
+
+users_cache: Dict[int, User] = {}
 
 
 def _get_user_by_(session: Session, user_chat_id: int) -> User:
@@ -26,8 +29,12 @@ def create_user_by_(telegram_user: TelegramUser) -> None:
 
 def get_user_by_(user_chat_id: int) -> User:
     """Returns user by the given user chat id."""
+    if user_chat_id in users_cache:
+        return users_cache[user_chat_id]
+
     with LocalSession() as session:
         user = _get_user_by_(session, user_chat_id)
+        users_cache[user_chat_id] = user
     return user
 
 
@@ -75,6 +82,9 @@ def change_user_locale_by_(user_chat_id: int, locale: str) -> None:
         )
         session.commit()
 
+    if user_chat_id in users_cache:
+        users_cache[user_chat_id].locale = locale
+
 
 def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
     """Changes user timezone by the given user chat id and timezone."""
@@ -86,6 +96,9 @@ def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
         )
         session.commit()
 
+    if user_chat_id in users_cache:
+        users_cache[user_chat_id].timezone = timezone
+
 
 def delete_user_with_(user_chat_id: int) -> None:
     """Deletes user with the given user chat id."""
@@ -93,3 +106,6 @@ def delete_user_with_(user_chat_id: int) -> None:
         user = _get_user_by_(session, user_chat_id)
         session.delete(user)
         session.commit()
+
+    if user_chat_id in users_cache:
+        del users_cache[user_chat_id]
