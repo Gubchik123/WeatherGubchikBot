@@ -56,9 +56,9 @@ def _register_middlewares() -> None:
     dispatcher.message.outer_middleware(LanguageMiddleware(i18n))
     dispatcher.message.middleware(SchedulerMiddleware(scheduler))
 
+    dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
     dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
     dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
-    dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
 
 
 @dispatcher.startup()

@@ -24,5 +24,9 @@ class CallbackQueryTimeoutMiddleware(BaseMiddleware):
             callback_query.message.date.timestamp() + 60 * self._minutes
             < datetime.now().timestamp()
         ):
-            return None
+            await callback_query.answer("🕐")
+            await callback_query.message.edit_text(
+                callback_query.message.text, reply_markup=None
+            )
+            return
         return await handler(callback_query, data)
