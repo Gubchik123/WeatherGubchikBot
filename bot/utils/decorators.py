@@ -1,6 +1,10 @@
+import logging
+
 from typing import Optional, Callable
 
 from aiogram.types import Message
+from aiogram.utils.i18n import I18n
+from aiogram.fsm.context import FSMContext
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 
@@ -24,5 +28,21 @@ def command_argument_required(convert: Optional[type] = str) -> Callable:
                 )
 
         return decorator
+
+    return wrapper
+
+
+def before_command_clear_state(command_handler: Callable) -> None:
+    async def wrapper(message: Message, state: FSMContext, i18n: I18n) -> None:
+        current_state = await state.get_state()
+
+        if current_state is not None:
+            logging.info(f"Cancelling state {current_state}")
+            await state.clear()
+
+        try:
+            await command_handler(message, state, i18n)
+        except TypeError:
+            await command_handler(message)
 
     return wrapper

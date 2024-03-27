@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.utils.i18n import gettext as _, lazy_gettext as __
 
+from utils.decorators import before_command_clear_state
 from keyboards.default.maker import make_keyboard, make_button
 
 
@@ -11,6 +12,7 @@ router = Router()
 
 @router.message(Command("goodbye"))
 @router.message(F.text.lower() == __("end communication"))
+@before_command_clear_state
 async def handle_goodbye_command(message: Message):
     """Handles the /goodbye command."""
     await message.answer_sticker(
