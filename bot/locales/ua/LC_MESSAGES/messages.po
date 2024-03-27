@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-26 16:53+0200\n"
+"POT-Creation-Date: 2024-03-27 13:47+0200\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -33,11 +33,11 @@ msgstr ""
 "Я Вас не розумію :(\n"
 "Раджу використати кнопки або команди для задуманого результату."
 
-#: handlers/users/commands/goodbye.py:13
+#: handlers/users/commands/goodbye.py:14
 msgid "end communication"
 msgstr "завершити спілкування"
 
-#: handlers/users/commands/goodbye.py:20
+#: handlers/users/commands/goodbye.py:22
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
@@ -45,7 +45,7 @@ msgstr ""
 "До побачення, {name}, повертайтесь ще!\n"
 "Наступного разу просто введіть або натисніть /start"
 
-#: handlers/users/commands/help.py:14
+#: handlers/users/commands/help.py:17
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
@@ -80,9 +80,8 @@ msgstr ""
 "/mailing - Отримати меню розсилки / Підписатися на розсилку\n"
 "/goodbye - Призупинити роботу з ботом\n"
 "\n"
-"Оформіть розсилку, щоб кожного дня дізнаватися інформацію про "
-"погоду в місті, яке ви обирете (в будь-який час її можно відключити)"
-"\n"
+"Оформіть розсилку, щоб кожного дня дізнаватися інформацію про погоду в "
+"місті, яке ви обирете (в будь-який час її можно відключити)\n"
 "\n"
 "Раджу використати кнопки для задуманого результату\n"
 "\n"
@@ -97,7 +96,7 @@ msgstr ""
 "Дошка проектів: https://gubchik123-project-board.netlify.app\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/start.py:48
+#: handlers/users/commands/start.py:50
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
@@ -330,7 +329,7 @@ msgstr "Тиждень"
 msgid "Fortnight"
 msgstr "Два тижні"
 
-#: utils/weather/general.py:48
+#: utils/error.py:40
 msgid ""
 "An error occurred! :(\n"
 "Please, try again or restart the bot with the /start command."

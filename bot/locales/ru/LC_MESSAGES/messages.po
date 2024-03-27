@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-26 16:53+0200\n"
+"POT-Creation-Date: 2024-03-27 13:47+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -35,11 +35,11 @@ msgstr ""
 "Я вас не понимаю :(\n"
 "Советую использовать кнопки или команды для задуманного результата."
 
-#: handlers/users/commands/goodbye.py:13
+#: handlers/users/commands/goodbye.py:14
 msgid "end communication"
 msgstr "закончить общение"
 
-#: handlers/users/commands/goodbye.py:20
+#: handlers/users/commands/goodbye.py:22
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
@@ -47,7 +47,7 @@ msgstr ""
 "Пока, {name}, возвращайся еще!\n"
 "В следующий раз просто введите или нажмите /start"
 
-#: handlers/users/commands/help.py:14
+#: handlers/users/commands/help.py:17
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
@@ -82,9 +82,8 @@ msgstr ""
 "/mailing - Получить меню рассылки / Подписаться на рассылку\n"
 "/goodbye - Приостановить работу с ботом\n"
 "\n"
-"Оформите рассылку, чтобы каждый день узнавать информацию о "
-"погоде в выбранном городе (в любое время ее можно отключить)"
-"\n"
+"Оформите рассылку, чтобы каждый день узнавать информацию о погоде в "
+"выбранном городе (в любое время ее можно отключить)\n"
 "\n"
 "Советую использовать кнопки для задуманного результата\n"
 "\n"
@@ -99,14 +98,15 @@ msgstr ""
 "Доска проектов: https://gubchik123-project-board.netlify.app\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/start.py:48
+#: handlers/users/commands/start.py:50
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
 "cities around the world."
 msgstr ""
 "Привет, {name}!\n"
-"Я тот, кто поможет тебе узнать информацию о погоде в городах по всему миру."
+"Я тот, кто поможет тебе узнать информацию о погоде в городах по всему "
+"миру."
 
 #: handlers/users/mailing/menu.py:16
 msgid "mailing"
@@ -114,7 +114,9 @@ msgstr "рассылка"
 
 #: handlers/users/mailing/menu.py:28
 msgid "Do you really want to subscribe to the daily weather forecast mailing?"
-msgstr "Вы действительно хотите подписаться на ежедневную рассылку прогноза погоды?"
+msgstr ""
+"Вы действительно хотите подписаться на ежедневную рассылку прогноза "
+"погоды?"
 
 #: handlers/users/mailing/menu.py:44
 msgid ""
@@ -331,7 +333,7 @@ msgstr "Неделя"
 msgid "Fortnight"
 msgstr "Две недели"
 
-#: utils/weather/general.py:48
+#: utils/error.py:40
 msgid ""
 "An error occurred! :(\n"
 "Please, try again or restart the bot with the /start command."

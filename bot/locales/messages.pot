@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-26 16:53+0200\n"
+"POT-Creation-Date: 2024-03-27 13:47+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,17 +29,17 @@ msgid ""
 "I advise you to use the buttons or commands for the intended result."
 msgstr ""
 
-#: handlers/users/commands/goodbye.py:13
+#: handlers/users/commands/goodbye.py:14
 msgid "end communication"
 msgstr ""
 
-#: handlers/users/commands/goodbye.py:20
+#: handlers/users/commands/goodbye.py:22
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
 msgstr ""
 
-#: handlers/users/commands/help.py:14
+#: handlers/users/commands/help.py:17
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
@@ -66,7 +67,7 @@ msgid ""
 "GitHub: https://github.com/Gubchik123\n"
 msgstr ""
 
-#: handlers/users/commands/start.py:48
+#: handlers/users/commands/start.py:50
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
@@ -281,7 +282,7 @@ msgstr ""
 msgid "Fortnight"
 msgstr ""
 
-#: utils/weather/general.py:48
+#: utils/error.py:40
 msgid ""
 "An error occurred! :(\n"
 "Please, try again or restart the bot with the /start command."
