@@ -35,7 +35,7 @@ async def check_city_callback_query(
     city = event.data.split(":")[-1].strip().lower()
     city = city.split("(")[0].strip()
 
-    result, _ = get_searched_data_with_(city, i18n.current_locale)
+    result, _ = await get_searched_data_with_(city, i18n.current_locale)
 
     await state.update_data({"city": result, "city_title": city.capitalize()})
     await ask_about_period(event, state)

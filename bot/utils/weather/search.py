@@ -1,16 +1,18 @@
+import aiohttp
 from typing import Tuple, Union
 
-import requests
 from user_agent import generate_user_agent
 
 
-def _get_response_json_by_(user_input: str, lang_code: str) -> dict:
+async def _get_response_json_by_(user_input: str, lang_code: str) -> dict:
     """For getting response json from the weather provider site."""
-    return requests.get(
-        f"https://www.meteoprog.com/{lang_code}/search/json?q={user_input}",
-        headers={"user-agent": generate_user_agent().strip()},
-        cookies={"cookie": f"needed_thing=''; default_lang={lang_code};"},
-    ).json()
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            f"https://www.meteoprog.com/{lang_code}/search/json?q={user_input}",
+            headers={"user-agent": generate_user_agent().strip()},
+            cookies={"cookie": f"needed_thing=''; default_lang={lang_code};"},
+        ) as resp:
+            return await resp.json()
 
 
 def _get_filtered_(result_data: list) -> list:
@@ -22,11 +24,12 @@ def _get_filtered_(result_data: list) -> list:
     }
 
 
-def get_searched_data_with_(
+async def get_searched_data_with_(
     user_input: str, lang_code: str
 ) -> Tuple[Union[str, list], bool]:
     """For getting searched list of countries or cities, or exact city."""
-    result_data = _get_response_json_by_(user_input, lang_code)["data"]
+    response_json = await _get_response_json_by_(user_input, lang_code)
+    result_data = response_json["data"]
     is_match_100 = result_data and result_data[0][0].lower() == user_input
 
     if is_match_100:

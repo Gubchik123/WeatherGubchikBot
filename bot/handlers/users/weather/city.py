@@ -57,8 +57,9 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     city = message.text.lower()
     searching_message = await message.answer(_("Searching..."))
 
-    result, is_match_100 = get_searched_data_with_(city, i18n.current_locale)
-
+    result, is_match_100 = await get_searched_data_with_(
+        city, i18n.current_locale
+    )
     if is_match_100:
         await state.update_data(
             {"city": result, "city_title": city.capitalize()}

@@ -34,7 +34,7 @@ async def handle_update_mailing_city(
     city = message.text.lower()
     searching_message = await message.answer(_("Searching..."))
 
-    result, is_match_100 = get_searched_data_with_(
+    result, is_match_100 = await get_searched_data_with_(
         message.text.lower(), i18n.current_locale
     )
     if is_match_100:
@@ -58,8 +58,9 @@ async def handle_update_mailing_city_title(
 
     city = callback_query.data.split(":")[-1].strip().lower()
     city = city.split("(")[0].strip()
-    result, is_match_100 = get_searched_data_with_(city, i18n.current_locale)
-
+    result, is_match_100 = await get_searched_data_with_(
+        city, i18n.current_locale
+    )
     update_mailing_city(
         callback_query.from_user.id, city=result, city_title=city.capitalize()
     )
