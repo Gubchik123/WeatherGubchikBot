@@ -2,6 +2,7 @@ import logging
 from typing import Optional
 
 from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
 
 from data.config import ADMINS, BOT_TOKEN
 
@@ -20,8 +21,10 @@ async def send_to_admins(message: str, temp_bot: Optional[Bot] = None):
     is_temp_bot_none = temp_bot is None
 
     if is_temp_bot_none:
-        temp_bot = Bot(token=BOT_TOKEN)
-
+        temp_bot = Bot(
+            token=BOT_TOKEN,
+            default=DefaultBotProperties(parse_mode="HTML"),
+        )
     for admin in ADMINS:
         await temp_bot.send_message(chat_id=admin, text=message)
 

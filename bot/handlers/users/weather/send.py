@@ -3,8 +3,8 @@ import asyncio
 from aiogram.types import Message, FSInputFile
 
 from handlers.users.menu import handle_menu
+from utils.error import send_message_about_error
 from utils.db.crud.search_log import create_search_log
-from utils.weather.general import send_message_to_user_about_error
 from utils.weather.graph import get_generated_temp_graph_image_path
 from utils.weather.parsing import (
     INFO,
@@ -38,7 +38,7 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         await send_function(message)
         await handle_menu(message)
     except Exception as error:
-        await send_message_to_user_about_error(
+        await send_message_about_error(
             message, str(error), error_place=" during parsing"
         )
 
