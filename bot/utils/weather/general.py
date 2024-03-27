@@ -8,6 +8,8 @@ from user_agent import generate_user_agent
 
 from handlers.users.menu import handle_menu
 
+from ..admins import send_to_admins
+
 
 class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site"""
@@ -56,15 +58,4 @@ async def send_message_to_user_about_error(
 
     logging.error(error_message)
 
-
-#     await _send_message_about_error_to_me(message, error_message)
-
-
-# async def _send_message_about_error_to_me(
-#     message: types.Message, error_message: str
-# ) -> str:
-#     """For sending to me message about weather info user got"""
-#     my_chat_id = int(os.getenv("MY_TELEGRAM_CHAT_ID"))
-
-#     if message.from_user.id != my_chat_id:
-#         await BOT.send_message(my_chat_id, error_message)
+    await send_to_admins(error_message)

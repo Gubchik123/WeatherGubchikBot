@@ -5,8 +5,8 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 from utils.db.db import Base, engine
-from utils.notify_admins import notify_admins
-from utils.bot_commands import set_default_bot_commands
+from utils.bot_commands import set_default_commands_for_
+from bot.utils.admins import notify_admins_on_startup_of_
 from middlewares import (
     LanguageMiddleware,
     SchedulerMiddleware,
@@ -71,8 +71,8 @@ async def on_startup() -> None:
 
     _register_routers()
     _register_middlewares()
-    await set_default_bot_commands(bot)
-    await notify_admins(bot)
+    await set_default_commands_for_(bot)
+    await notify_admins_on_startup_of_(bot)
 
 
 if __name__ == "__main__":
