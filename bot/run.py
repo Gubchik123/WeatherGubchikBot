@@ -1,12 +1,16 @@
-from aiogram import Bot, Dispatcher
+from typing import Union
+
 from aiogram.utils.i18n import I18n
+from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
+from aiogram.types import ErrorEvent, Message, CallbackQuery
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
 from utils.db.db import Base, engine
+from utils.admins import notify_admins_on_startup_of_
+from utils.error import send_message_about_error
 from utils.bot_commands import set_default_commands_for_
-from bot.utils.admins import notify_admins_on_startup_of_
 from middlewares import (
     LanguageMiddleware,
     SchedulerMiddleware,
@@ -48,17 +52,17 @@ i18n = I18n(
 )
 
 
-def _register_routers() -> None:
-    dispatcher.include_router(handlers_router)
-
-
-def _register_middlewares() -> None:
-    dispatcher.message.outer_middleware(LanguageMiddleware(i18n))
-    dispatcher.message.middleware(SchedulerMiddleware(scheduler))
-
-    dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
-    dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
-    dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
+@dispatcher.error(
+    F.update.message.as_("event") | F.update.callback_query.as_("event")
+)
+async def handle_all_errors(
+    error_event: ErrorEvent, event: Union[Message, CallbackQuery]
+):
+    """Handles all message errors."""
+    error = error_event.exception
+    await send_message_about_error(
+        event, str(error), error_place=f" {str(error.__class__)[8:-2]}"
+    )
 
 
 @dispatcher.startup()
@@ -73,6 +77,19 @@ async def on_startup() -> None:
     _register_middlewares()
     await set_default_commands_for_(bot)
     await notify_admins_on_startup_of_(bot)
+
+
+def _register_routers() -> None:
+    dispatcher.include_router(handlers_router)
+
+
+def _register_middlewares() -> None:
+    dispatcher.message.outer_middleware(LanguageMiddleware(i18n))
+    dispatcher.message.middleware(SchedulerMiddleware(scheduler))
+
+    dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
+    dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
+    dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
 
 
 if __name__ == "__main__":
