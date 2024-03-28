@@ -170,18 +170,35 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
         title_tag = soup.find("h2")
     title = title_tag.text.strip()
 
-    if INFO.about_big_city:
-        return {
-            "ua": " ".join(title.split()[:-1]) + f" {INFO.time_title.lower()}",
-            "ru": " ".join(title.split()[:-1]) + f" {INFO.time_title.lower()}",
-            "en": f"{INFO.time_title.capitalize()} "
-            + " ".join(title.split()[1:]),
-        }.get(INFO.lang_code)
-    return {
-        "ua": f"Прогноз погоди в {INFO.city_title} на {INFO.time_title.lower()}",
-        "ru": f"Прогноз погоды в {INFO.city_title} на {INFO.time_title.lower()}",
-        "en": f"{INFO.time_title.capitalize()} weather forecast in {INFO.city_title}",
-    }.get(INFO.lang_code)
+    if title.endswith(")"):
+        title, detail = title.split("(")
+        title = title.strip()
+        detail = f"({detail}" if detail else ""
+    else:
+        detail = ""
+
+    time_title = (
+        INFO.time_title.split(" ")[-1]
+        if INFO.about_big_city
+        else INFO.time_title
+    )
+    print(title, detail, time_title, INFO.lang_code, end="\n")
+    return (
+        {
+            "ua": " ".join(title.split()[:-1])
+            + f" {time_title.lower()} {detail}",
+            "ru": " ".join(title.split()[:-1])
+            + f" {time_title.lower()} {detail}",
+            "en": (
+                f"{time_title.capitalize()} " + " ".join(title.split()[1:])
+                if INFO.about_big_city
+                else " ".join(title.split()[:-1])
+                + f" {time_title.lower()} {detail}"
+            ),
+        }
+        .get(INFO.lang_code)
+        .strip()
+    )
 
 
 def get_weather_info_about_many_days_from_(

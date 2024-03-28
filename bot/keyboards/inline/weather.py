@@ -31,24 +31,29 @@ def get_cities_inline_keyboard(
 
 def get_period_inline_keyboard() -> InlineKeyboardMarkup:
     """Returns an inline keyboard with the forecast periods."""
+    today = _("Today")
+    tomorrow = _("Tomorrow")
+    week = _("Week")
+    fortnight = _("Fortnight")
+
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text=_("Today"), callback_data="btn_period:today:"
+                    text=today, callback_data=f"btn_period:{today.lower()}:"
                 ),
                 InlineKeyboardButton(
-                    text=_("Tomorrow"),
-                    callback_data="btn_period:tomorrow:tomorrow",
+                    text=tomorrow,
+                    callback_data=f"btn_period:{tomorrow.lower()}:tomorrow",
                 ),
             ],
             [
                 InlineKeyboardButton(
-                    text=_("Week"), callback_data="btn_period:week:6_10"
+                    text=week, callback_data=f"btn_period:{week.lower()}:6_10"
                 ),
                 InlineKeyboardButton(
-                    text=_("Fortnight"),
-                    callback_data="btn_period:fortnight:review",
+                    text=fortnight,
+                    callback_data=f"btn_period:{fortnight.lower()}:review",
                 ),
             ],
         ]
