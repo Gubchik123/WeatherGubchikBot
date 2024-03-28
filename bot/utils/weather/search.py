@@ -30,9 +30,9 @@ async def get_searched_data_with_(
     """For getting searched list of countries or cities, or exact city."""
     response_json = await _get_response_json_by_(user_input, lang_code)
     result_data = response_json["data"]
-    is_match_100 = result_data and result_data[0][0].lower() == user_input
-
+    is_match_100 = result_data and (
+        len(result_data) == 1 or result_data[0][0].lower() == user_input
+    )
     if is_match_100:
         return result_data[0][4], is_match_100
-
     return _get_filtered_(result_data), is_match_100

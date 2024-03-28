@@ -182,7 +182,6 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
         if INFO.about_big_city
         else INFO.time_title
     )
-    print(title, detail, time_title, INFO.lang_code, end="\n")
     return (
         {
             "ua": " ".join(title.split()[:-1])
