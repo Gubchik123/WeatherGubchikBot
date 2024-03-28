@@ -28,7 +28,7 @@ class WeatherDetailTitle(WeatherDetail):
 def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
-    
+
     if INFO.about_one_day:
         return get_information_about_one_day()
     return get_information_about_many_days()
@@ -171,7 +171,12 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
     title = title_tag.text.strip()
 
     if INFO.about_big_city:
-        return title
+        return {
+            "ua": " ".join(title.split()[:-1]) + f" {INFO.time_title.lower()}",
+            "ru": " ".join(title.split()[:-1]) + f" {INFO.time_title.lower()}",
+            "en": f"{INFO.time_title.capitalize()} "
+            + " ".join(title.split()[1:]),
+        }.get(INFO.lang_code)
     return {
         "ua": f"Прогноз погоди в {INFO.city_title} на {INFO.time_title.lower()}",
         "ru": f"Прогноз погоды в {INFO.city_title} на {INFO.time_title.lower()}",

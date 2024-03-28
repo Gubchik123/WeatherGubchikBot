@@ -8,20 +8,6 @@ class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site"""
 
 
-def _get_response_from_(url: str, lang_code: str) -> tuple:
-    """For sending GET request to url and getting response"""
-    headers = {"user-agent": generate_user_agent().strip()}
-    cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
-
-    response = requests.get(url, headers=headers, cookies=cookies)
-
-    if not response.ok:
-        raise InvalidResponse(
-            f"InvalidResponse from the site ({response.status_code}); url={url}"
-        )
-    return response
-
-
 def get_soup_by_(url: str, lang_code: str) -> tuple:
     """For getting BeautifulSoup object by url"""
     if lang_code != "ua":
@@ -29,3 +15,25 @@ def get_soup_by_(url: str, lang_code: str) -> tuple:
 
     response = _get_response_from_(url, lang_code)
     return BeautifulSoup(response.text, "lxml")
+
+
+def _get_response_from_(url: str, lang_code: str) -> tuple:
+    """For sending GET request to url and getting response"""
+    headers = {"user-agent": generate_user_agent().strip()}
+    cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
+
+    response = requests.get(url, headers=headers, cookies=cookies)
+
+    if response.status_code == 410:
+        url = (
+            url.replace("review", "weather")
+            if "review" in url
+            else "/".join(url.split("/")[:-1])
+        )  # set url for one day
+        response = requests.get(url, headers=headers, cookies=cookies)
+
+    if not response.ok:
+        raise InvalidResponse(
+            f"InvalidResponse from the site ({response.status_code}); url={url}"
+        )
+    return response
