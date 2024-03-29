@@ -27,8 +27,8 @@ class SelectedInfo:
     def generated_url(self) -> str:
         """Getter for generated url"""
         if self.about_big_city:
-            return f"https://www.meteoprog.ua/ua/{self.type}/{self.city}/{self.time}"
-        return f"https://www.meteoprog.ua/ua/weather/{self.city}/"
+            return f"https://www.meteoprog.com/ua/{self.type}/{self.city}/{self.time}"
+        return f"https://www.meteoprog.com/ua/weather/{self.city}/"
 
     @property
     def about_big_city(self) -> bool:
