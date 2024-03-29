@@ -90,6 +90,6 @@ def _subscribe_mailing(
         second=0,
         timezone=user.timezone,
         id=f"mailing-{user.chat_id}",
-        args=[user.chat_id, user.locale],
+        args=[user.chat_id],
         start_date=datetime.now(tz(user.timezone)),
     )

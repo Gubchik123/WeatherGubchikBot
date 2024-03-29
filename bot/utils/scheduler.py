@@ -7,12 +7,12 @@ from aiogram.client.default import DefaultBotProperties
 from data.config import BOT_TOKEN
 
 from .admins import send_to_admins
-from .db.crud.user import delete_user_with_
 from .db.crud.mailing import get_mailing_by_
+from .db.crud.user import get_user_locale_by_, delete_user_with_
 from .weather.parsing import get_information_about_weather_by_
 
 
-async def send_mailing(user_chat_id: int, user_locale: str):
+async def send_mailing(user_chat_id: int):
     """Sends the mailing to user with the given chat id."""
     temp_bot = Bot(
         token=BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML")
@@ -22,11 +22,11 @@ async def send_mailing(user_chat_id: int, user_locale: str):
     try:
         information_about_weather = get_information_about_weather_by_(
             data={
-                "lang_code": user_locale,
                 "time_title": mailing.time_title,
                 "city": mailing.weather_provider_info.city,
                 "time": mailing.weather_provider_info.time,
                 "type": mailing.weather_provider_info.type,
+                "lang_code": get_user_locale_by_(user_chat_id),
             }
         )
         await temp_bot.send_message(
