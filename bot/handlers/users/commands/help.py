@@ -30,7 +30,7 @@ async def handle_help_command(message: Message):
             "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
             "Instagram: https://www.instagram.com/notwhale.1746\n\n"
             "Other projects of the author are available on:\n"
-            "Project board: https://gubchik123-project-board.netlify.app\n"
+            "Project board: https://portfolio.hubariev.com\n"
             "GitHub: https://github.com/Gubchik123\n"
         )
     )
