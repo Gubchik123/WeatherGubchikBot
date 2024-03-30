@@ -26,7 +26,7 @@ async def handle_help_command(message: Message):
             "I advise you to use the buttons or commands for the intended result\n\n"
             "Enjoy using!!!\n\n"
             "Bot author contacts:\n"
-            "CV site: https://nikita-hubariev.me\n"
+            "CV site: https://hubariev.com\n"
             "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
             "Instagram: https://www.instagram.com/notwhale.1746\n\n"
             "Other projects of the author are available on:\n"

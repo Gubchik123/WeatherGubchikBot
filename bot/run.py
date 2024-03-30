@@ -52,17 +52,17 @@ i18n = I18n(
 )
 
 
-@dispatcher.error(
-    F.update.message.as_("event") | F.update.callback_query.as_("event")
-)
-async def handle_all_errors(
-    error_event: ErrorEvent, event: Union[Message, CallbackQuery]
-):
-    """Handles all message errors."""
-    error = error_event.exception
-    await send_message_about_error(
-        event, str(error), error_place=f" {str(error.__class__)[8:-2]}"
-    )
+# @dispatcher.error(
+#     F.update.message.as_("event") | F.update.callback_query.as_("event")
+# )
+# async def handle_all_errors(
+#     error_event: ErrorEvent, event: Union[Message, CallbackQuery]
+# ):
+#     """Handles all message errors."""
+#     error = error_event.exception
+#     await send_message_about_error(
+#         event, str(error), error_place=f" {str(error.__class__)[8:-2]}"
+#     )
 
 
 @dispatcher.startup()
@@ -76,7 +76,7 @@ async def on_startup() -> None:
     _register_routers()
     _register_middlewares()
     await set_default_commands_for_(bot)
-    await notify_admins_on_startup_of_(bot)
+    # await notify_admins_on_startup_of_(bot)
 
 
 def _register_routers() -> None:
