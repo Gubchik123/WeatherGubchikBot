@@ -27,3 +27,8 @@ Click **<a href="https://t.me/WeatherGubchikBot" target="_blank">here</a>** to o
 <img title="WeatherGubchikBot" alt="Header image" src="./images/en.jpg"> <br>
 **RU** <br>
 <img title="WeatherGubchikBot" alt="Header image" src="./images/ru.jpg"> <br>
+
+            
+### License
+
+[WeatherGubchikBot](https://github.com/Gubchik123/WeatherGubchikBot) is licensed under the [MIT License](https://github.com/Gubchik123/WeatherGubchikBot/blob/master/LICENSE.md).
