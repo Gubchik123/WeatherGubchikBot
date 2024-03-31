@@ -32,3 +32,21 @@ Click **<a href="https://t.me/WeatherGubchikBot" target="_blank">here</a>** to o
 ### License
 
 [WeatherGubchikBot](https://github.com/Gubchik123/WeatherGubchikBot) is licensed under the [MIT License](https://github.com/Gubchik123/WeatherGubchikBot/blob/master/LICENSE.md).
+            
+### Contributing
+
+Feel free to contribute.
+
+You can create an [issue](https://github.com/Gubchik123/WeatherGubchikBot/issues/new) to report a bug, suggest an improvement for this plugin, ask a question, etc.
+
+You can make a [pull request](https://github.com/Gubchik123/WeatherGubchikBot/compare) to contribute to this bot development.
+
+<br>
+
+### Support
+
+If you like this project, you can support me to help me keep working on projects.
+
+Buy me coffee on [buymeacoffee.com/Gubchik123](https://www.buymeacoffee.com/Gubchik123)
+
+<a href="https://www.buymeacoffee.com/Gubchik123" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="60"></a>
