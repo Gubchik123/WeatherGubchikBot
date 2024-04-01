@@ -1,10 +1,12 @@
 import asyncio
 
+from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, FSInputFile
 
 from handlers.users.menu import handle_menu
 from utils.error import send_message_about_error
 from utils.db.crud.search_log import create_search_log
+from utils.weather.general import WeatherProviderServerError
 from utils.weather.graph import get_generated_temp_graph_image_path
 from utils.weather.parsing import (
     INFO,
@@ -37,9 +39,22 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         )
         await send_function(message)
         await handle_menu(message)
+    except WeatherProviderServerError as error:
+        await message.answer(
+            _(
+                "Unfortunately, the weather provider server is not available now. "
+                "The error is not connected with the bot. Please, try again later."
+            )
+        )
+        await send_message_about_error(
+            message,
+            str(error),
+            error_place=f" {str(error.__class__)[8:-2]}",
+            message_to_user=False,
+        )
     except Exception as error:
         await send_message_about_error(
-            message, str(error), error_place=" during parsing"
+            message, str(error), error_place=f" {str(error.__class__)[8:-2]}"
         )
 
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-03-27 13:47+0200\n"
+"POT-Creation-Date: 2024-04-01 11:29+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -144,11 +144,11 @@ msgstr "без звука"
 msgid "alert"
 msgstr "со звуком"
 
-#: handlers/users/mailing/subscribe.py:50
+#: handlers/users/mailing/subscribe.py:52
 msgid "At what time would you like to receive the newsletter?"
 msgstr "В какое время Вы хотите получать рассылку?"
 
-#: handlers/users/mailing/subscribe.py:74
+#: handlers/users/mailing/subscribe.py:76
 msgid "You have successfully completed the mailing setup!"
 msgstr "Вы успешно завершили настройку рассылки!"
 
@@ -160,12 +160,12 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:35 handlers/users/weather/city.py:58
+#: handlers/users/mailing/update/city.py:37 handlers/users/weather/city.py:60
 msgid "Searching..."
 msgstr "Поиск..."
 
-#: handlers/users/mailing/update/city.py:67
-#: handlers/users/mailing/update/city.py:80
+#: handlers/users/mailing/update/city.py:70
+#: handlers/users/mailing/update/city.py:83
 msgid "The mailing city has been successfully updated!"
 msgstr "Город рассылки успешно обновлен!"
 
@@ -225,11 +225,11 @@ msgstr "Выберите город в {country}:"
 msgid "Timezone successfully changed to {timezone}!"
 msgstr "Часовой пояс успешно изменен на {timezone}!"
 
-#: handlers/users/weather/city.py:21
+#: handlers/users/weather/city.py:22
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:40
+#: handlers/users/weather/city.py:42
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
@@ -248,6 +248,14 @@ msgstr "Обработка..."
 #: handlers/users/weather/period.py:73
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
+
+#: handlers/users/weather/send.py:44
+msgid ""
+"Unfortunately, the weather provider server is not available now. The "
+"error is not connected with the bot. Please, try again later."
+msgstr ""
+"К сожалению, сервер прогноза погоды сейчас недоступен. Ошибка не "
+"связана с ботом. Пожалуйста, попробуйте позже."
 
 #: keyboards/default/menu.py:11
 msgid "Weather forecast"
@@ -313,23 +321,23 @@ msgstr "🔙 Меню"
 msgid "🔙 Profile"
 msgstr "🔙 Профиль"
 
-#: keyboards/inline/weather.py:23
+#: keyboards/inline/weather.py:25
 msgid "Retry the input"
 msgstr "Повторить ввод"
 
-#: keyboards/inline/weather.py:36
+#: keyboards/inline/weather.py:34
 msgid "Today"
 msgstr "Сегодня"
 
-#: keyboards/inline/weather.py:39
+#: keyboards/inline/weather.py:35
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:45
+#: keyboards/inline/weather.py:36
 msgid "Week"
 msgstr "Неделя"
 
-#: keyboards/inline/weather.py:48
+#: keyboards/inline/weather.py:37
 msgid "Fortnight"
 msgstr "Две недели"
 

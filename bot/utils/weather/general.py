@@ -4,8 +4,12 @@ from aiogram.utils.i18n import gettext as _
 from user_agent import generate_user_agent
 
 
+class WeatherProviderServerError(Exception):
+    """Exception for server error from the weather provider."""
+
+
 class InvalidResponse(Exception):
-    """Exception for invalid response from GET request to the site"""
+    """Exception for invalid response from GET request to the site."""
 
 
 def get_soup_by_(url: str, lang_code: str) -> tuple:
@@ -32,8 +36,14 @@ def _get_response_from_(url: str, lang_code: str) -> tuple:
         )  # set url for one day
         response = requests.get(url, headers=headers, cookies=cookies)
 
-    if not response.ok:
+    if response.status_code >= 500:
+        raise WeatherProviderServerError(
+            f"Server error from the weather provider ({response.status_code}):"
+            f"\n{url=}\n{response.text=}\n{response.json()}"
+        )
+    elif not response.ok:
         raise InvalidResponse(
-            f"InvalidResponse from the site ({response.status_code}); url={url}"
+            f"Not OK server response from the site ({response.status_code}):"
+            f"\n{url=}\n{response.text=}\n{response.json()}"
         )
     return response
