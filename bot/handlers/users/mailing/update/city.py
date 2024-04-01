@@ -7,6 +7,7 @@ from aiogram.utils.i18n import I18n, gettext as _
 
 from states.mailing_setup import MailingSetup
 from utils.db.crud.mailing import update_mailing_city
+from utils.decorators import before_handler_clear_state
 from utils.weather.search import get_searched_data_with_
 from handlers.users.weather.city import ask_about_city
 from handlers.users.weather.city_title import ask_about_city_title
@@ -18,6 +19,7 @@ router = Router()
 
 
 @router.callback_query(F.data == "btn_mailing_city")
+@before_handler_clear_state
 async def handle_mailing_city(
     callback_query: CallbackQuery, state: FSMContext, i18n: I18n
 ):

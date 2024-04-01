@@ -6,9 +6,10 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _, lazy_gettext as __
 
 from states.weather_search import WeatherSearch
+from utils.decorators import before_handler_clear_state
 from utils.weather.search import get_searched_data_with_
-from keyboards.inline.weather import get_cities_inline_keyboard
 from utils.db.crud.search_log import get_last_4_search_cities_by_
+from keyboards.inline.weather import get_cities_inline_keyboard
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
@@ -19,6 +20,7 @@ router = Router()
 
 
 @router.message(F.text.lower() == __("weather forecast"))
+@before_handler_clear_state
 async def handle_weather(
     event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
 ):

@@ -3,15 +3,15 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.utils.i18n import gettext as _
 
-from utils.decorators import before_command_clear_state
+from utils.decorators import before_handler_clear_state
 
 
 router = Router()
 
 
 @router.message(Command("help"))
-@before_command_clear_state
-async def handle_help_command(message: Message):
+@before_handler_clear_state
+async def handle_help_command(message: Message, *args):
     """Handles the /help command."""
     await message.answer(
         _(

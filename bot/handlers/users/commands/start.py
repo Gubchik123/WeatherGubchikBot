@@ -4,7 +4,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, CallbackQuery
 from sqlalchemy.exc import IntegrityError
 
-from utils.decorators import before_command_clear_state
+from utils.decorators import before_handler_clear_state
 from utils.db.crud.user import create_user_by_, change_user_locale_by_
 from keyboards.inline.language import get_language_inline_keyboard
 
@@ -15,8 +15,8 @@ router = Router()
 
 
 @router.message(CommandStart())
-@before_command_clear_state
-async def handle_start_command(message: Message):
+@before_handler_clear_state
+async def handle_start_command(message: Message, *args):
     """Handles the /start command.
     Creates a new user in the database if it does not exist."""
     try:

@@ -10,6 +10,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from utils.scheduler import send_mailing
 from utils.db.crud.user import get_user_by_
 from utils.db.crud.mailing import create_mailing_for_
+from utils.decorators import before_handler_clear_state
 from keyboards.inline.mailing import get_mailing_time_inline_keyboard
 from states.utils import get_state_class_by_
 from states.mailing_subscription import MailingSubscription
@@ -22,6 +23,7 @@ router = Router()
 
 
 @router.callback_query(F.data == "btn_subscribe_mailing")
+@before_handler_clear_state
 async def handle_subscribe_mailing(
     callback_query: CallbackQuery, state: FSMContext, i18n: I18n
 ):
