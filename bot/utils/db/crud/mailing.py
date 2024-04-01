@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Union
 
 from sqlalchemy import update
 from sqlalchemy.orm import Session
@@ -16,18 +16,21 @@ def create_mailing_for_(user_id: int, state_data: dict) -> None:
     """Creates a new mailing."""
     weather_provider_info = get_or_create_weather_provider_info_by_(state_data)
 
-    mailing = Mailing(
-        id_user_id=user_id,
-        mute=state_data["mute"],
-        city=state_data["city_title"],
-        time_int=state_data["time_int"],
-        time_title=state_data["time_title"],
-        weather_provider_info_id=weather_provider_info.id,
+    add_commit_and_refresh(
+        Mailing(
+            id_user_id=user_id,
+            mute=state_data["mute"],
+            city=state_data["city_title"],
+            time_int=state_data["time_int"],
+            time_title=state_data["time_title"],
+            weather_provider_info_id=weather_provider_info.id,
+        )
     )
-    add_commit_and_refresh(mailing)
 
 
-def _get_mailing_by_(session: Session, user_chat_id: int) -> Mailing:
+def _get_mailing_by_(
+    session: Session, user_chat_id: int
+) -> Union[Mailing, None]:
     """Returns mailing by the given session and user chat id."""
     return (
         session.query(Mailing)
@@ -36,14 +39,15 @@ def _get_mailing_by_(session: Session, user_chat_id: int) -> Mailing:
     )
 
 
-def get_mailing_by_(user_chat_id: int) -> Mailing:
+def get_mailing_by_(user_chat_id: int) -> Union[Mailing, None]:
     """Returns mailing by the given user chat id."""
     if user_chat_id in mailings_cache:
         return mailings_cache[user_chat_id]
 
     with LocalSession() as session:
         mailing = _get_mailing_by_(session, user_chat_id)
-        mailings_cache[user_chat_id] = mailing
+        if mailing is not None:
+            mailings_cache[user_chat_id] = mailing
     return mailing
 
 

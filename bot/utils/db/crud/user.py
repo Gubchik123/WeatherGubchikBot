@@ -11,7 +11,7 @@ from ..db import LocalSession, add_commit_and_refresh
 users_cache: Dict[int, User] = {}
 
 
-def _get_user_by_(session: Session, user_chat_id: int) -> User:
+def _get_user_by_(session: Session, user_chat_id: int) -> Union[User, None]:
     """Returns user by the given session and user chat id."""
     return session.query(User).filter(User.chat_id == user_chat_id).first()
 
@@ -27,14 +27,15 @@ def create_user_by_(telegram_user: TelegramUser) -> None:
     )
 
 
-def get_user_by_(user_chat_id: int) -> User:
+def get_user_by_(user_chat_id: int) -> Union[User, None]:
     """Returns user by the given user chat id."""
     if user_chat_id in users_cache:
         return users_cache[user_chat_id]
 
     with LocalSession() as session:
         user = _get_user_by_(session, user_chat_id)
-        users_cache[user_chat_id] = user
+        if user is not None:
+            users_cache[user_chat_id] = user
     return user
 
 
