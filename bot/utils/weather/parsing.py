@@ -171,7 +171,12 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
     title = title_tag.text.strip()
 
     if title.endswith(")"):
-        title, detail = title.split("(")
+        try:
+            title, detail = title.split("(")
+        except ValueError:
+            splitted_title = title.split("(")
+            title = splitted_title[0] + "(" + splitted_title[1]
+            detail = splitted_title[-1]
         title = title.strip()
         detail = f"({detail}" if detail else ""
     else:
