@@ -5,7 +5,7 @@ from aiogram.types import Message, CallbackQuery
 from sqlalchemy.exc import IntegrityError
 
 from utils.decorators import before_handler_clear_state
-from utils.db.crud.user import create_user_by_, change_user_locale_by_
+from utils.db.crud.user import create_user_by_, update_user_with_
 from keyboards.inline.language import get_language_inline_keyboard
 
 from ..menu import handle_menu
@@ -32,7 +32,7 @@ async def handle_start_command(message: Message, *args):
 @router.callback_query(F.data.startswith("btn_start_lang"))
 async def handle_choose_start_language(callback_query: CallbackQuery):
     """Handles the language selection on start."""
-    change_user_locale_by_(
+    update_user_with_(
         callback_query.from_user.id, locale=callback_query.data.split("_")[-1]
     )
     await callback_query.message.delete()

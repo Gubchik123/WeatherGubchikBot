@@ -5,7 +5,7 @@ from apscheduler.job import Job
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from utils.db.crud.mailing import get_mailing_by_
-from utils.db.crud.user import change_user_timezone_by_
+from utils.db.crud.user import update_user_with_
 from keyboards.inline.timezone import (
     get_countries_keyboard,
     get_cities_keyboard,
@@ -47,7 +47,7 @@ async def change_timezone(
     country, city = callback_query.data.split(":")[1:]
     timezone = f"{country}/{city}"
 
-    change_user_timezone_by_(callback_query.from_user.id, timezone)
+    update_user_with_(callback_query.from_user.id, timezone=timezone)
     _update_mailing_job_for_(callback_query.from_user.id, timezone, scheduler)
 
     await callback_query.answer(

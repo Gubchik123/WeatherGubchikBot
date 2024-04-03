@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
 
-from utils.db.crud.user import change_user_weather_provider_by_
+from utils.db.crud.user import update_user_with_
 from keyboards.inline.weather_provider import (
     get_weather_provider_inline_keyboard,
 )
@@ -29,7 +29,7 @@ async def handle_change_weather_provider(callback_query: CallbackQuery):
 async def handle_change_weather_provider(callback_query: CallbackQuery):
     """Handles changing weather provider."""
     weather_provider = callback_query.data.split(":")[-1]
-    change_user_weather_provider_by_(
+    update_user_with_(
         callback_query.from_user.id, weather_provider=weather_provider
     )
     await callback_query.answer(

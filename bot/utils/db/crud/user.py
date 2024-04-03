@@ -73,48 +73,17 @@ def get_all_mailing_users_count() -> int:
     return count
 
 
-def change_user_locale_by_(user_chat_id: int, locale: str) -> None:
-    """Changes user language by the given user chat id and language code."""
+def update_user_with_(user_chat_id: int, **fields) -> None:
+    """Updates the user by the given user chat id with the given fields."""
     with LocalSession() as session:
         session.execute(
-            update(User)
-            .where(User.chat_id == user_chat_id)
-            .values(locale=locale)
+            update(User).where(User.chat_id == user_chat_id).values(**fields)
         )
         session.commit()
 
     if user_chat_id in users_cache:
-        users_cache[user_chat_id].locale = locale
-
-
-def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
-    """Changes user timezone by the given user chat id and timezone."""
-    with LocalSession() as session:
-        session.execute(
-            update(User)
-            .where(User.chat_id == user_chat_id)
-            .values(timezone=timezone)
-        )
-        session.commit()
-
-    if user_chat_id in users_cache:
-        users_cache[user_chat_id].timezone = timezone
-
-
-def change_user_weather_provider_by_(
-    user_chat_id: int, weather_provider: str
-) -> None:
-    """Changes user weather provider by the given user chat id and timezone."""
-    with LocalSession() as session:
-        session.execute(
-            update(User)
-            .where(User.chat_id == user_chat_id)
-            .values(weather_provider=weather_provider)
-        )
-        session.commit()
-
-    if user_chat_id in users_cache:
-        users_cache[user_chat_id].weather_provider = weather_provider
+        for field, value in fields.items():
+            setattr(users_cache[user_chat_id], field, value)
 
 
 def delete_user_with_(user_chat_id: int) -> None:
