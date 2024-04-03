@@ -11,9 +11,8 @@ def get_cities_inline_keyboard(
     cities: List[str], retry_btn: Optional[bool] = True
 ) -> Union[InlineKeyboardMarkup, None]:
     """Returns an inline keyboard with the given cities."""
-    cities = set(city.split("(")[0].strip() for city in cities)
-
     keyboard = InlineKeyboardBuilder()
+
     for index, city in enumerate(cities):
         keyboard_add_method = keyboard.add if index % 2 else keyboard.row
         keyboard_add_method(
