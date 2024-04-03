@@ -25,10 +25,12 @@ async def handle_profile(event: Union[Message, CallbackQuery]) -> None:
             "<b>Profile</b>\n\n"
             "Language: <i>{locale}</i>\n"
             "Timezone: <i>{timezone}</i>\n"
+            "Weather provider: <i>{weather_provider}</i>\n\n"
             "Date you joined: <i>{created}</i>"
         ).format(
             locale=user.locale,
             timezone=user.timezone,
+            weather_provider=user.weather_provider,
             created=user.created.strftime("%d.%m.%Y"),
         ),
         reply_markup=get_profile_inline_keyboard(),

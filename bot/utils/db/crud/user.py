@@ -101,6 +101,22 @@ def change_user_timezone_by_(user_chat_id: int, timezone: str) -> None:
         users_cache[user_chat_id].timezone = timezone
 
 
+def change_user_weather_provider_by_(
+    user_chat_id: int, weather_provider: str
+) -> None:
+    """Changes user weather provider by the given user chat id and timezone."""
+    with LocalSession() as session:
+        session.execute(
+            update(User)
+            .where(User.chat_id == user_chat_id)
+            .values(weather_provider=weather_provider)
+        )
+        session.commit()
+
+    if user_chat_id in users_cache:
+        users_cache[user_chat_id].weather_provider = weather_provider
+
+
 def delete_user_with_(user_chat_id: int) -> None:
     """Deletes user with the given user chat id."""
     with LocalSession() as session:

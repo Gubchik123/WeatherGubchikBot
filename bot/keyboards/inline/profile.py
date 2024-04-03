@@ -16,6 +16,12 @@ def get_profile_inline_keyboard() -> InlineKeyboardMarkup:
             ],
             [
                 InlineKeyboardButton(
+                    text=_("Change weather provider"),
+                    callback_data="btn_weather_provider",
+                )
+            ],
+            [
+                InlineKeyboardButton(
                     text=_("Mailing"), callback_data="btn_mailing"
                 )
             ],
