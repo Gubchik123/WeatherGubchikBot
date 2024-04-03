@@ -14,9 +14,6 @@ class InvalidResponse(Exception):
 
 def get_soup_by_(url: str, lang_code: str) -> tuple:
     """For getting BeautifulSoup object by url"""
-    if lang_code != "ua":
-        url = url.replace("/ua/", f"/{lang_code}/")
-
     response = _get_response_from_(url, lang_code)
     return BeautifulSoup(response.text, "lxml")
 
