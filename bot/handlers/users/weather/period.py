@@ -5,8 +5,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
-from states.mailing_setup import MailingSetup
-from states.mailing_subscription import MailingSubscription
+from utils.db.crud.user import get_user_by_
 from states.utils import get_state_class_by_
 from keyboards.inline.weather import get_period_inline_keyboard
 from keyboards.inline.maker import make_yes_or_no_inline_keyboard
@@ -25,9 +24,10 @@ async def ask_about_period(
     answer_method = (
         event.answer if isinstance(event, Message) else event.message.edit_text
     )
+    user = get_user_by_(event.from_user.id)
     await answer_method(
         _("Select the forecast period"),
-        reply_markup=get_period_inline_keyboard(),
+        reply_markup=get_period_inline_keyboard(user.weather_provider),
     )
     state_class = await get_state_class_by_(state)
     await state.set_state(state_class.period)
