@@ -6,9 +6,10 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
 from states.mailing_setup import MailingSetup
+from utils.db.crud.user import get_user_by_
 from utils.db.crud.mailing import update_mailing_city
 from utils.decorators import before_handler_clear_state
-from utils.weather.search import get_searched_data_with_
+from utils.weather import get_weather_provider_module_by_
 from handlers.users.weather.city import ask_about_city
 from handlers.users.weather.city_title import ask_about_city_title
 
@@ -36,8 +37,14 @@ async def handle_update_mailing_city(
     city = message.text.lower()
     searching_message = await message.answer(_("Searching..."))
 
-    result, is_match_100 = await get_searched_data_with_(
-        message.text.lower(), i18n.current_locale
+    user = get_user_by_(message.from_user.id)
+    weather_provider_module = get_weather_provider_module_by_(
+        user.weather_provider
+    )
+    result, is_match_100 = (
+        await weather_provider_module.get_searched_data_with_(
+            city, i18n.current_locale
+        )
     )
     if is_match_100:
         await state.clear()
@@ -60,8 +67,15 @@ async def handle_update_mailing_city_title(
 
     city = callback_query.data.split(":")[-1].strip().lower()
     city = city.split("(")[0].strip()
-    result, is_match_100 = await get_searched_data_with_(
-        city, i18n.current_locale
+
+    user = get_user_by_(callback_query.from_user.id)
+    weather_provider_module = get_weather_provider_module_by_(
+        user.weather_provider
+    )
+    result, is_match_100 = (
+        await weather_provider_module.get_searched_data_with_(
+            city, i18n.current_locale
+        )
     )
     update_mailing_city(
         callback_query.from_user.id, city=result, city_title=city.capitalize()

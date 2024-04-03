@@ -6,10 +6,11 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _, lazy_gettext as __
 
 from states.weather_search import WeatherSearch
-from utils.decorators import before_handler_clear_state
-from utils.weather.search import get_searched_data_with_
-from utils.db.crud.search_log import get_last_4_search_cities_by_
 from keyboards.inline.weather import get_cities_inline_keyboard
+from utils.decorators import before_handler_clear_state
+from utils.weather import get_weather_provider_module_by_
+from utils.db.crud.user import get_user_by_
+from utils.db.crud.search_log import get_last_4_search_cities_by_
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
@@ -59,8 +60,14 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     city = message.text.lower()
     searching_message = await message.answer(_("Searching..."))
 
-    result, is_match_100 = await get_searched_data_with_(
-        city, i18n.current_locale
+    user = get_user_by_(message.from_user.id)
+    weather_provider_module = get_weather_provider_module_by_(
+        user.weather_provider
+    )
+    result, is_match_100 = (
+        await weather_provider_module.get_searched_data_with_(
+            city, i18n.current_locale
+        )
     )
     if is_match_100:
         await state.update_data(

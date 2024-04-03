@@ -3,8 +3,9 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
+from utils.db.crud.user import get_user_by_
 from states.utils import get_state_class_by_
-from utils.weather.search import get_searched_data_with_
+from utils.weather import get_weather_provider_module_by_
 from keyboards.inline.weather import get_cities_inline_keyboard
 
 from .period import ask_about_period
@@ -35,7 +36,12 @@ async def check_city_callback_query(
     city = event.data.split(":")[-1].strip().lower()
     city = city.split("(")[0].strip()
 
-    result, _ = await get_searched_data_with_(city, i18n.current_locale)
-
+    user = get_user_by_(event.from_user.id)
+    weather_provider_module = get_weather_provider_module_by_(
+        user.weather_provider
+    )
+    result, _ = await weather_provider_module.get_searched_data_with_(
+        city, i18n.current_locale
+    )
     await state.update_data({"city": result, "city_title": city.capitalize()})
     await ask_about_period(event, state)
