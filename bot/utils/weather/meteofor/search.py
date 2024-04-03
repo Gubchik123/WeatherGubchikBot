@@ -2,6 +2,7 @@ from typing import Tuple, Union
 from collections import OrderedDict
 
 import aiohttp
+from emoji import emojize
 from bs4 import BeautifulSoup
 
 from .parsing import INFO
@@ -68,14 +69,36 @@ def _extract_city_data(
 ) -> Union[str, None]:
     """Extracts city title and url from the given catalog item.
     Fills the given cities ordered dict or return exact city url."""
-    link = catalog_item.find("a")
-    # TODO: Add country flag emoji
-    city_title = link.text.strip().split("(")[0].strip().lower()
-    city_url = link.get("href")
+    city_link = catalog_item.find("a")
+    city_title = city_link.text.strip().split("(")[0].strip().lower()
+    city_url = city_link.get("href")
 
     if city_title == user_input:
         return city_url
 
-    if city_title not in cities:
-        cities[city_title] = city_url
+    country_flag_emoji = _get_country_flag_emoji_from_(catalog_item)
+    city_key = f"{country_flag_emoji} {city_title}".strip()
+
+    if city_key not in cities:
+        cities[city_key] = city_url
     return None
+
+
+def _get_country_flag_emoji_from_(catalog_item: BeautifulSoup) -> str:
+    """Returns country flag emoji or empty string
+    from breadcrumbs of the given catalog item."""
+    country_link: BeautifulSoup = catalog_item.find_all("a")[-1]
+    country_url = country_link.get("href")
+    country_title = (
+        country_url.split("/")[-2].title()
+        if country_url.endswith("/")
+        else country_url.split("/")[-1].title()
+    )
+    country_flag_emoji_name = f":{country_title}:"
+    country_flag_emoji = emojize(country_flag_emoji_name)
+
+    return (
+        ""
+        if country_flag_emoji_name == country_flag_emoji
+        else country_flag_emoji
+    )

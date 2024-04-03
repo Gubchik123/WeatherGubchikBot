@@ -17,7 +17,8 @@ def get_cities_inline_keyboard(
         keyboard_add_method = keyboard.add if index % 2 else keyboard.row
         keyboard_add_method(
             InlineKeyboardButton(
-                text=city.capitalize(), callback_data=f"btn_city_title:{city}"
+                text=city.title(),
+                callback_data=f"btn_city_title:{city.split(' ')[-1]}",
             )
         )
     if retry_btn:
