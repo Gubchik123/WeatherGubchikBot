@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-01 11:29+0300\n"
+"POT-Creation-Date: 2024-04-03 16:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,12 +116,12 @@ msgstr ""
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:37 handlers/users/weather/city.py:60
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:61
 msgid "Searching..."
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:70
-#: handlers/users/mailing/update/city.py:83
+#: handlers/users/mailing/update/city.py:84
+#: handlers/users/mailing/update/city.py:97
 msgid "The mailing city has been successfully updated!"
 msgstr ""
 
@@ -155,6 +155,8 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
+"Weather provider: <i>{weather_provider}</i>\n"
+"\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
 
@@ -173,15 +175,26 @@ msgstr ""
 msgid "Timezone successfully changed to {timezone}!"
 msgstr ""
 
-#: handlers/users/weather/city.py:22
+#: handlers/users/profile/weather_provider.py:20
+msgid ""
+"<b>Changing weather provider.</b>\n"
+"\n"
+"You can choose a new weather provider below:"
+msgstr ""
+
+#: handlers/users/profile/weather_provider.py:36
+msgid "Weather provider successfully changed to {weather_provider}!"
+msgstr ""
+
+#: handlers/users/weather/city.py:23
 msgid "weather forecast"
 msgstr ""
 
-#: handlers/users/weather/city.py:42
+#: handlers/users/weather/city.py:43
 msgid "Enter the name of the city / locality"
 msgstr ""
 
-#: handlers/users/weather/city_title.py:20
+#: handlers/users/weather/city_title.py:21
 msgid "Choose the city / locality you had in mind:"
 msgstr ""
 
@@ -211,7 +224,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile.py:19
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:25
 msgid "Mailing"
 msgstr ""
 
@@ -251,40 +264,44 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: keyboards/inline/profile.py:11
-msgid "Change language"
-msgstr ""
-
-#: keyboards/inline/profile.py:14
-msgid "Change timezone"
-msgstr ""
-
-#: keyboards/inline/profile.py:24
-msgid "🔙 Menu"
-msgstr ""
-
-#: keyboards/inline/profile.py:34
-msgid "🔙 Profile"
-msgstr ""
-
-#: keyboards/inline/weather.py:25
+#: keyboards/inline/weather.py:27
 msgid "Retry the input"
 msgstr ""
 
-#: keyboards/inline/weather.py:34
+#: keyboards/inline/weather.py:39
 msgid "Today"
 msgstr ""
 
-#: keyboards/inline/weather.py:35
+#: keyboards/inline/weather.py:41
 msgid "Tomorrow"
 msgstr ""
 
-#: keyboards/inline/weather.py:36
+#: keyboards/inline/weather.py:44
 msgid "Week"
 msgstr ""
 
-#: keyboards/inline/weather.py:37
+#: keyboards/inline/weather.py:46
 msgid "Fortnight"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:11
+msgid "Change language"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:14
+msgid "Change timezone"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:19
+msgid "Change weather provider"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:30
+msgid "🔙 Menu"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:40
+msgid "🔙 Profile"
 msgstr ""
 
 #: utils/error.py:40

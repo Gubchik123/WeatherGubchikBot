@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-01 11:29+0300\n"
+"POT-Creation-Date: 2024-04-03 16:52+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -160,12 +160,12 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:37 handlers/users/weather/city.py:60
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:61
 msgid "Searching..."
 msgstr "Поиск..."
 
-#: handlers/users/mailing/update/city.py:70
-#: handlers/users/mailing/update/city.py:83
+#: handlers/users/mailing/update/city.py:84
+#: handlers/users/mailing/update/city.py:97
 msgid "The mailing city has been successfully updated!"
 msgstr "Город рассылки успешно обновлен!"
 
@@ -199,12 +199,16 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
+"Weather provider: <i>{weather_provider}</i>\n"
+"\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
 "<b>Профиль</b>\n"
 "\n"
 "Язык: <i>{locale}</i>\n"
 "Часовой пояс: <i>{timezone}</i>\n"
+"Сайт погоды: <i>{weather_provider}</i>\n"
+"\n"
 "День, когда Вы присоединились: <i>{created}</i>"
 
 #: handlers/users/profile/timezone.py:24
@@ -225,15 +229,29 @@ msgstr "Выберите город в {country}:"
 msgid "Timezone successfully changed to {timezone}!"
 msgstr "Часовой пояс успешно изменен на {timezone}!"
 
-#: handlers/users/weather/city.py:22
+#: handlers/users/profile/weather_provider.py:20
+msgid ""
+"<b>Changing weather provider.</b>\n"
+"\n"
+"You can choose a new weather provider below:"
+msgstr ""
+"<b>Изменение сайта погоды</b>\n"
+"\n"
+"Вы можете выбрать новый сайт погоды ниже:"
+
+#: handlers/users/profile/weather_provider.py:36
+msgid "Weather provider successfully changed to {weather_provider}!"
+msgstr "Сайт погоды успешно изменен на {weather_provider}!"
+
+#: handlers/users/weather/city.py:23
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:42
+#: handlers/users/weather/city.py:43
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
-#: handlers/users/weather/city_title.py:20
+#: handlers/users/weather/city_title.py:21
 msgid "Choose the city / locality you had in mind:"
 msgstr "Выберите город / населенный пункт, который Вы имели в виду:"
 
@@ -254,8 +272,8 @@ msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot. Please, try again later."
 msgstr ""
-"К сожалению, сервер прогноза погоды сейчас недоступен. Ошибка не "
-"связана с ботом. Пожалуйста, попробуйте позже."
+"К сожалению, сервер прогноза погоды сейчас недоступен. Ошибка не связана "
+"с ботом. Пожалуйста, попробуйте позже."
 
 #: keyboards/default/menu.py:11
 msgid "Weather forecast"
@@ -265,7 +283,7 @@ msgstr "Прогноз погоды"
 msgid "Profile"
 msgstr "Профиль"
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile.py:19
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:25
 msgid "Mailing"
 msgstr "Рассылка"
 
@@ -305,41 +323,45 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: keyboards/inline/profile.py:11
-msgid "Change language"
-msgstr "Изменить язык"
-
-#: keyboards/inline/profile.py:14
-msgid "Change timezone"
-msgstr "Изменить часовой пояс"
-
-#: keyboards/inline/profile.py:24
-msgid "🔙 Menu"
-msgstr "🔙 Меню"
-
-#: keyboards/inline/profile.py:34
-msgid "🔙 Profile"
-msgstr "🔙 Профиль"
-
-#: keyboards/inline/weather.py:25
+#: keyboards/inline/weather.py:27
 msgid "Retry the input"
 msgstr "Повторить ввод"
 
-#: keyboards/inline/weather.py:34
+#: keyboards/inline/weather.py:39
 msgid "Today"
 msgstr "Сегодня"
 
-#: keyboards/inline/weather.py:35
+#: keyboards/inline/weather.py:41
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:36
+#: keyboards/inline/weather.py:44
 msgid "Week"
 msgstr "Неделя"
 
-#: keyboards/inline/weather.py:37
+#: keyboards/inline/weather.py:46
 msgid "Fortnight"
 msgstr "Две недели"
+
+#: keyboards/inline/profile/__init__.py:11
+msgid "Change language"
+msgstr "Изменить язык"
+
+#: keyboards/inline/profile/__init__.py:14
+msgid "Change timezone"
+msgstr "Изменить часовой пояс"
+
+#: keyboards/inline/profile/__init__.py:19
+msgid "Change weather provider"
+msgstr "Изменить сайт погоды"
+
+#: keyboards/inline/profile/__init__.py:30
+msgid "🔙 Menu"
+msgstr "🔙 Меню"
+
+#: keyboards/inline/profile/__init__.py:40
+msgid "🔙 Profile"
+msgstr "🔙 Профиль"
 
 #: utils/error.py:40
 msgid ""
