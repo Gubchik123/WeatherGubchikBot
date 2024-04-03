@@ -13,7 +13,7 @@ from sqlalchemy import (
 )
 
 from .db import Base
-from data.config import DEFAULT_LOCALE, DEFAULT_TIMEZONE
+from data.config import DEFAULT_LOCALE, DEFAULT_TIMEZONE, WEATHER_PROVIDERS
 
 
 class User(Base):
@@ -27,6 +27,9 @@ class User(Base):
     # Settings fields
     locale = Column(String(2), nullable=False, default=DEFAULT_LOCALE)
     timezone = Column(String(32), nullable=False, default=DEFAULT_TIMEZONE)
+    weather_provider = Column(
+        String(12), nullable=False, default=WEATHER_PROVIDERS[0]
+    )
     created = Column(DateTime, default=datetime.now(tz(DEFAULT_TIMEZONE)))
     # One-to-many relationship with SearchLog
     search_logs = relationship(

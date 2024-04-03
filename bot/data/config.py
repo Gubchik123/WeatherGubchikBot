@@ -22,3 +22,9 @@ I18N_DOMAIN = os.getenv("I18N_DOMAIN", "messages")
 
 DEFAULT_LOCALE = os.getenv("LOCALE", "en")
 DEFAULT_TIMEZONE = os.getenv("TIMEZONE", "UTC")
+
+WEATHER_PROVIDERS = [
+    os.path.basename(dir[0])
+    for dir in os.walk(BASE_DIR / "utils" / "weather")
+    if not os.path.basename(dir[0]).endswith("__")
+][1:]
