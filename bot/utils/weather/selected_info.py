@@ -1,5 +1,10 @@
-class SelectedInfo:
+class BaseSelectedInfo:
     """For storing info for weather searching"""
+
+    today: str
+    tomorrow: str
+    week: str
+    fortnight: str
 
     def __init__(self, **kwargs) -> None:
         """For cleaning and initializing data"""
@@ -12,55 +17,37 @@ class SelectedInfo:
         for key, value in kwargs.items():
             setattr(self, key, value)
 
-        self.time = "" if self.time == "review" else self.time
-
     def clean_information(self) -> None:
         """For cleaning all data for weather searching"""
-        self.lang_code = ""
-        self.city = ""
-        self.city_title = ""
-        self.time = ""
-        self.time_title = ""
-        self.type = "weather"
 
     @property
     def generated_url(self) -> str:
         """Getter for generated url"""
-        if self.about_big_city:
-            return f"https://www.meteoprog.com/ua/{self.type}/{self.city}/{self.time}"
-        return f"https://www.meteoprog.com/ua/weather/{self.city}/"
-
-    @property
-    def about_big_city(self) -> bool:
-        """Getter for condition about big city"""
-        return "-" not in self.city
 
     @property
     def about_today(self) -> bool:
         """Getter for condition about today"""
-        return self.time == ""
+        return self.time == self.today
 
     @property
     def about_tomorrow(self) -> bool:
         """Getter for condition about tomorrow"""
-        return self.time == "tomorrow"
+        return self.time == self.tomorrow
 
     @property
     def about_week(self) -> bool:
         """Getter for condition about week"""
-        return self.time == "6_10"
+        return self.time == self.week
 
     @property
     def about_fortnight(self) -> bool:
         """Getter for condition about fortnight"""
-        return self.type == "review"
+        return self.time == self.fortnight
 
     @property
     def about_one_day(self) -> bool:
         """Getter for condition about one day"""
-        return self.type == "weather" and (
-            self.about_today or self.about_tomorrow
-        )
+        return self.about_today or self.about_tomorrow
 
     @property
     def about_many_days(self) -> bool:
