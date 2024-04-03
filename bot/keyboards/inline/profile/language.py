@@ -3,7 +3,7 @@ from typing import Optional
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from .profile import get_back_to_profile_inline_button
+from . import get_back_to_profile_inline_button
 
 
 def get_language_inline_keyboard(

@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 from utils.decorators import before_handler_clear_state
 from utils.db.crud.user import create_user_by_, update_user_with_
-from keyboards.inline.language import get_language_inline_keyboard
+from keyboards.inline.profile.language import get_language_inline_keyboard
 
 from ..menu import handle_menu
 

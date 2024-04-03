@@ -2,8 +2,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.countries import COUNTRIES
-from .back import get_back_inline_button_by_
-from .profile import get_back_to_profile_inline_button
+from ..back import get_back_inline_button_by_
+from . import get_back_to_profile_inline_button
 
 
 def _get_new_callback_data(country: str = "", city: str = "") -> str:

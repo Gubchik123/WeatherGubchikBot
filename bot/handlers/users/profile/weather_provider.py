@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
 
 from utils.db.crud.user import update_user_with_
-from keyboards.inline.weather_provider import (
+from keyboards.inline.profile.weather_provider import (
     get_weather_provider_inline_keyboard,
 )
 

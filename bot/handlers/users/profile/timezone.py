@@ -6,7 +6,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from utils.db.crud.mailing import get_mailing_by_
 from utils.db.crud.user import update_user_with_
-from keyboards.inline.timezone import (
+from keyboards.inline.profile.timezone import (
     get_countries_keyboard,
     get_cities_keyboard,
 )

@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
 
 from utils.db.crud.user import update_user_with_
-from keyboards.inline.language import get_language_inline_keyboard
+from keyboards.inline.profile.language import get_language_inline_keyboard
 
 from .menu import handle_profile
 

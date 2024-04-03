@@ -3,7 +3,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from data.config import WEATHER_PROVIDERS
 
-from .profile import get_back_to_profile_inline_button
+from . import get_back_to_profile_inline_button
 
 
 def get_weather_provider_inline_keyboard() -> InlineKeyboardMarkup:
