@@ -1,12 +1,11 @@
-aiogram[i18n]
-APScheduler
-beautifulsoup4
-emoji
-lxml
-matplotlib
-psycopg2
-python-dotenv
-pytz
-requests
-SQLAlchemy  # TODO: sqlalchemy[asyncio]
-user-agent
+aiogram[i18n]==3.4.1
+APScheduler==3.10.4
+beautifulsoup4==4.12.3
+lxml==5.2.0
+matplotlib==3.7.5
+psycopg2==2.9.9
+python-dotenv==1.0.1
+pytz==2024.1
+requests==2.31.0
+SQLAlchemy==2.0.29 # TODO: sqlalchemy[asyncio]
+user-agent==0.1.10
