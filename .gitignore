@@ -10,3 +10,5 @@ venv/
 .venv/
 
 *.env
+
+tests.py
