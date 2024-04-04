@@ -66,5 +66,6 @@ async def handle_user_command(message: Message, user_chat_id: int) -> None:
         f"👤 <b>{user.full_name}</b> (@{user.username})\n\n"
         f"🌐 {user.locale}\n"
         f"⏰ {user.timezone}\n"
+        f"📦 {user.weather_provider}\n\n"
         f"🗓 {user.created.strftime('%d.%m.%Y %H:%M')}"
     )

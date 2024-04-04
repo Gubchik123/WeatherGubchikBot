@@ -29,7 +29,7 @@ def get_information_about_one_day() -> str:
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
     active_swiper_slide = get_active_swiper_slide_from(soup)
     return (
-        f"{get_one_day_title(soup)}:\n\n"
+        f"<b>{get_one_day_title(soup)}</b>\n\n"
         f"{get_weather_info_about_day_from_(active_swiper_slide)}"
     )
 
@@ -40,7 +40,7 @@ def get_information_about_many_days() -> str:
 
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
     return (
-        f"{get_many_days_title(soup)}:\n\n"
+        f"<b>{get_many_days_title(soup)}</b>\n\n"
         f"{get_weather_info_about_many_days_from_(soup)}"
     )
 

@@ -62,7 +62,7 @@ def _get_weather_info_by_(
     soup: BeautifulSoup, times: List[Tuple[int, str]]
 ) -> str:
     """Returns text with weather information about one day."""
-    text = f"{soup.find('h1').text.strip()}\n\n"
+    text = f"<b>{soup.find('h1').text.strip()}</b>\n\n"
 
     wind_symbol = _get_wind_symbol()
     weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
