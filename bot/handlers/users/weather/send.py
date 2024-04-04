@@ -5,6 +5,7 @@ from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, FSInputFile
 
 from handlers.users.menu import handle_menu
+from utils.admins import ADMINS, send_to_admins
 from utils.error import send_message_about_error
 from utils.db.crud.user import get_user_by_
 from utils.db.crud.search_log import create_search_log
@@ -42,6 +43,14 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         )
         await send_function(message, weather_provider_module)
         await handle_menu(message)
+
+        if message.chat.id not in ADMINS:
+            asyncio.create_task(
+                send_to_admins(
+                    f"{user.full_name} (<code>{user.chat_id}</code>) "
+                    f"got weather in {data['city_title']}."
+                )
+            )
     except WeatherProviderServerError as error:
         await _send_weather_provider_server_error(message, error)
     except Exception as error:

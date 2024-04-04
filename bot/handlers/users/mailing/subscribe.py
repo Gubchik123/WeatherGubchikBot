@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from pytz import timezone as tz
 
@@ -8,6 +9,7 @@ from aiogram.utils.i18n import I18n, gettext as _
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from utils.scheduler import send_mailing
+from utils.admins import ADMINS, send_to_admins
 from utils.db.crud.user import get_user_by_
 from utils.db.crud.mailing import create_mailing_for_
 from utils.decorators import before_handler_clear_state
@@ -76,6 +78,15 @@ async def check_mailing_time(
         _("You have successfully completed the mailing setup!"),
     )
     await handle_mailing_menu(callback_query)
+
+    user = callback_query.from_user
+    if user.id not in ADMINS:
+        asyncio.create_task(
+            send_to_admins(
+                f"{user.full_name} (<code>{user.id}</code>) "
+                f"subscribe to mailing in {data['city_title']}."
+            )
+        )
 
 
 def _subscribe_mailing(
