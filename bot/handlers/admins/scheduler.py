@@ -13,6 +13,14 @@ from utils.decorators import command_argument_required
 router = Router()
 
 
+@router.message(IsAdmin(), Command("jobs_count"))
+async def handle_jobs_count_command(
+    message: Message, scheduler: AsyncIOScheduler
+) -> None:
+    """Handles the /jobs_count command."""
+    await message.answer(f"🔧 {len(scheduler.get_jobs())}")
+
+
 @router.message(IsAdmin(), Command("jobs"))
 async def handle_jobs_command(
     message: Message, scheduler: AsyncIOScheduler
