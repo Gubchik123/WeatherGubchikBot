@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-03 16:52+0300\n"
+"POT-Creation-Date: 2024-04-04 12:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,7 +182,7 @@ msgid ""
 "You can choose a new weather provider below:"
 msgstr ""
 
-#: handlers/users/profile/weather_provider.py:36
+#: handlers/users/profile/weather_provider.py:38
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr ""
 
@@ -210,10 +210,12 @@ msgstr ""
 msgid "Do you want to mute the mailing?"
 msgstr ""
 
-#: handlers/users/weather/send.py:44
+#: handlers/users/weather/send.py:87
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
-"error is not connected with the bot. Please, try again later."
+"error is not connected with the bot.\n"
+"\n"
+"Please, try again later <b>OR</b> choose another weather provider:"
 msgstr ""
 
 #: keyboards/default/menu.py:11

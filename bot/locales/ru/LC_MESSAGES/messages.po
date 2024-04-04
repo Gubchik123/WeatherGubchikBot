@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-03 16:52+0300\n"
+"POT-Creation-Date: 2024-04-04 12:12+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -239,7 +239,7 @@ msgstr ""
 "\n"
 "Вы можете выбрать новый сайт погоды ниже:"
 
-#: handlers/users/profile/weather_provider.py:36
+#: handlers/users/profile/weather_provider.py:38
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr "Сайт погоды успешно изменен на {weather_provider}!"
 
@@ -267,13 +267,17 @@ msgstr "Обработка..."
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
 
-#: handlers/users/weather/send.py:44
+#: handlers/users/weather/send.py:87
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
-"error is not connected with the bot. Please, try again later."
+"error is not connected with the bot.\n"
+"\n"
+"Please, try again later <b>OR</b> choose another weather provider:"
 msgstr ""
-"К сожалению, сервер прогноза погоды сейчас недоступен. Ошибка не связана "
-"с ботом. Пожалуйста, попробуйте позже."
+"К сожалению, сервер сайта погоды сейчас недоступен. Ошибка не связана с "
+"ботом.\n"
+"\n"
+"Пожалуйста, попробуйте позже <b>ИЛИ</b> выберите другой сайт погоды:"
 
 #: keyboards/default/menu.py:11
 msgid "Weather forecast"
