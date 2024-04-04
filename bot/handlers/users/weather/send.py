@@ -11,6 +11,9 @@ from utils.db.crud.search_log import create_search_log
 from utils.weather import get_weather_provider_module_by_
 from utils.weather.request import WeatherProviderServerError
 from utils.weather.graph import get_generated_temp_graph_image_path
+from keyboards.inline.profile.weather_provider import (
+    get_weather_provider_inline_keyboard,
+)
 
 
 async def send_weather_forecast_by_(message: Message, data: dict):
@@ -40,18 +43,7 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         await send_function(message, weather_provider_module)
         await handle_menu(message)
     except WeatherProviderServerError as error:
-        await message.answer(
-            _(
-                "Unfortunately, the weather provider server is not available now. "
-                "The error is not connected with the bot. Please, try again later."
-            )
-        )
-        await send_message_about_error(
-            message,
-            str(error),
-            error_place=f" {str(error.__class__)[8:-2]}",
-            message_to_user=False,
-        )
+        await _send_weather_provider_server_error(message, error)
     except Exception as error:
         await send_message_about_error(
             message, str(error), error_place=f" {str(error.__class__)[8:-2]}"
@@ -83,4 +75,27 @@ async def _send_weather_forecast_for_many_days(
                 weather_provider_module.MIN_TEMPS,
             )
         )
+    )
+
+
+async def _send_weather_provider_server_error(
+    message: Message, error: Exception
+):
+    """Sends weather provider server error."""
+    user = get_user_by_(message.chat.id)
+    await message.answer(
+        _(
+            "Unfortunately, the weather provider server is not available now. "
+            "The error is not connected with the bot.\n\n"
+            "Please, try again later <b>OR</b> choose another weather provider:"
+        ),
+        reply_markup=get_weather_provider_inline_keyboard(
+            except_weather_provider=user.weather_provider
+        ),
+    )
+    await send_message_about_error(
+        message,
+        str(error),
+        error_place=f" {str(error.__class__)[8:-2]}",
+        message_to_user=False,
     )
