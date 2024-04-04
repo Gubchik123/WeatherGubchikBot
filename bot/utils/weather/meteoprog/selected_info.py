@@ -38,6 +38,13 @@ class SelectedInfo(BaseSelectedInfo):
         return "-" not in self.city
 
     @property
+    def about_one_day(self) -> bool:
+        """Getter for condition about one day"""
+        return self.type == "weather" and (
+            self.about_today or self.about_tomorrow
+        )
+
+    @property
     def about_fortnight(self) -> bool:
         """Getter for condition about fortnight"""
         return self.type == "review"
