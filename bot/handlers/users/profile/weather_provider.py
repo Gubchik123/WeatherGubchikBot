@@ -21,7 +21,9 @@ async def handle_change_weather_provider(callback_query: CallbackQuery):
             "<b>Changing weather provider.</b>\n\n"
             "You can choose a new weather provider below:"
         ),
-        reply_markup=get_weather_provider_inline_keyboard(),
+        reply_markup=get_weather_provider_inline_keyboard(
+            back_to_profile_btn=True
+        ),
     )
 
 
