@@ -72,13 +72,13 @@ def _get_filtered_(cities: List[List[str]], lang_code: str) -> OrderedDict:
 
 
 def _get_country_flag_emoji_by_(country_name: str, lang_code: str) -> str:
-    """Returns country flag emoji or empty string
+    """Returns country flag emoji or white (default) flag
     by the given country name and language code."""
     emoji_name = (
         f":{country_name.replace(' ', '_')}:"
         if lang_code == "en"
-        else COUNTRIES_FLAG_EMOJIS.get(country_name, "")
+        else COUNTRIES_FLAG_EMOJIS.get(country_name, ":white_flag:")
     )
     emoji = emojize(emoji_name)
 
-    return "" if emoji_name == emoji else emoji
+    return emojize(":white_flag:") if emoji_name == emoji else emoji

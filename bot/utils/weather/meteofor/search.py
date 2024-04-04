@@ -59,7 +59,7 @@ def _get_catalog_item_class_by_(lang_code: str) -> str:
 def _is_terrorist_in_(catalog_item: BeautifulSoup) -> bool:
     """Checks if the given catalog item is terrorist country."""
     for terrorist in ("Росія", "Россия", "Russia"):
-        if terrorist in catalog_item.text:
+        if terrorist in catalog_item.find_all("a")[-1].text:
             return True
     return False
 
@@ -85,7 +85,7 @@ def _extract_city_data(
 
 
 def _get_country_flag_emoji_from_(catalog_item: BeautifulSoup) -> str:
-    """Returns country flag emoji or empty string
+    """Returns country flag emoji or white (default) flag
     from breadcrumbs of the given catalog item."""
     country_link: BeautifulSoup = catalog_item.find_all("a")[-1]
     country_url = country_link.get("href")
@@ -98,7 +98,7 @@ def _get_country_flag_emoji_from_(catalog_item: BeautifulSoup) -> str:
     country_flag_emoji = emojize(country_flag_emoji_name)
 
     return (
-        ""
+        emojize(":white_flag:")
         if country_flag_emoji_name == country_flag_emoji
         else country_flag_emoji
     )
