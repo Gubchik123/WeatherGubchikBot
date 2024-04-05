@@ -222,6 +222,6 @@ def get_weather_info_about_many_days_from_(
                 f"{weather_details}\n"
                 f"{'_'*35}\n\n"
             )
-        except IndexError:
+        except (AttributeError, IndexError):
             break
     return text
