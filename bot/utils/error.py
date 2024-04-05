@@ -17,14 +17,14 @@ async def send_message_about_error(
     """Sends the given error message to the admins (and user) and logs it."""
     logging.error(f"{error.capitalize()}{error_place}")
     await send_to_admins(
-        _get_admin_error_message(event, error, error_place),
-        _get_traceback_file_path(),
+        get_admin_error_message(event, error, error_place),
+        get_traceback_file_path(),
     )
     if message_to_user:
-        await event.answer(_get_user_error_message())
+        await event.answer(get_user_error_message())
 
 
-def _get_admin_error_message(
+def get_admin_error_message(
     event: Union[Message, CallbackQuery], error: str, error_place: str
 ) -> str:
     """Returns the default admin error message."""
@@ -41,7 +41,7 @@ def _get_admin_error_message(
     )
 
 
-def _get_traceback_file_path() -> str:
+def get_traceback_file_path() -> str:
     """Returns the path to the file with traceback."""
     file_path = "traceback.txt"
     with open(file_path, "w") as file:
@@ -49,7 +49,7 @@ def _get_traceback_file_path() -> str:
     return file_path
 
 
-def _get_user_error_message() -> str:
+def get_user_error_message() -> str:
     """Returns the default user error message."""
     try:
         return _(
