@@ -1,4 +1,5 @@
 import logging
+import traceback
 from typing import Union
 
 from aiogram.utils.i18n import gettext as _
@@ -15,8 +16,10 @@ async def send_message_about_error(
 ) -> None:
     """Sends the given error message to the admins (and user) and logs it."""
     logging.error(f"{error.capitalize()}{error_place}")
-    await send_to_admins(_get_admin_error_message(event, error, error_place))
-
+    await send_to_admins(
+        _get_admin_error_message(event, error, error_place),
+        _get_traceback_file_path(),
+    )
     if message_to_user:
         await event.answer(_get_user_error_message())
 
@@ -36,6 +39,14 @@ def _get_admin_error_message(
         f"with user <code>{user.id}</code> (@{user.username})\n\n"
         f"{error.capitalize()}\n\nafter {reason}"
     )
+
+
+def _get_traceback_file_path() -> str:
+    """Returns the path to the file with traceback."""
+    file_path = "traceback.txt"
+    with open(file_path, "w") as file:
+        traceback.print_exc(file=file)
+    return file_path
 
 
 def _get_user_error_message() -> str:
