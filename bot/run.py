@@ -58,7 +58,7 @@ i18n = I18n(
 async def handle_all_errors(
     error_event: ErrorEvent, event: Union[Message, CallbackQuery]
 ):
-    """Handles all message errors."""
+    """Handles all errors."""
     error = error_event.exception
     await send_message_about_error(
         event, str(error), error_place=f" {str(error.__class__)[8:-2]}"

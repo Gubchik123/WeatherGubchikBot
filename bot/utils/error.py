@@ -28,7 +28,7 @@ async def send_message_about_error(
         f"with user <code>{user.id}</code> (@{user.username})\n\n"
         f"{error.capitalize()}\n\nafter {reason}"
     )
-    logging.error(error.capitalize())
+    logging.error(f"{error.capitalize()}{error_place}")
     await send_to_admins(error_message)
 
 

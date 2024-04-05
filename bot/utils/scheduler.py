@@ -6,7 +6,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from data.config import BOT_TOKEN
 
-from .admins import send_to_admins
+from .error import send_message_about_error
 from .weather import get_weather_provider_module_by_
 from .db.crud.mailing import get_mailing_by_
 from .db.crud.user import get_user_by_, delete_user_with_
@@ -23,7 +23,7 @@ async def send_mailing(user_chat_id: int):
     )
     mailing = get_mailing_by_(user.chat_id)
 
-    await temp_bot.send_message(
+    message = await temp_bot.send_message(
         user_chat_id, "📨", disable_notification=mailing.mute
     )
     try:
@@ -41,14 +41,16 @@ async def send_mailing(user_chat_id: int):
         )
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)
-    except Exception as e:
-        error_message = f"Exception in daily mailing (user chat id - {user_chat_id}): {str(e)}"
-        logging.error(error_message)
-
+    except Exception as error:
         await temp_bot.send_message(
             user_chat_id, "Error :(", disable_notification=mailing.mute
         )
-        await send_to_admins(error_message, temp_bot)
+        await send_message_about_error(
+            message,
+            str(error),
+            message_to_user=False,
+            error_place=f" {str(error.__class__)[8:-2]} in daily mailing",
+        )
     finally:
         await temp_bot.session.close()
         del temp_bot

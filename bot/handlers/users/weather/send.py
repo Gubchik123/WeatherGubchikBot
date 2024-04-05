@@ -55,7 +55,9 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         await _send_weather_provider_server_error(message, error)
     except Exception as error:
         await send_message_about_error(
-            message, str(error), error_place=f" {str(error.__class__)[8:-2]}"
+            message,
+            str(error),
+            error_place=f" {str(error.__class__)[8:-2]} during parsing",
         )
 
 
