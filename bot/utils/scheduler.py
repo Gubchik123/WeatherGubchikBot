@@ -42,13 +42,9 @@ async def send_mailing(user_chat_id: int):
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)
     except Exception as error:
-        await temp_bot.send_message(
-            user_chat_id, "Error :(", disable_notification=mailing.mute
-        )
         await send_message_about_error(
             message,
             str(error),
-            message_to_user=False,
             error_place=f" {str(error.__class__)[8:-2]} in daily mailing",
         )
     finally:
