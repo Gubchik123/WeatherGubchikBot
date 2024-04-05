@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-04 12:12+0300\n"
+"POT-Creation-Date: 2024-04-05 16:34+0300\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -140,19 +140,19 @@ msgstr "беззвучний"
 msgid "alert"
 msgstr "зі звуком"
 
-#: handlers/users/mailing/subscribe.py:52
+#: handlers/users/mailing/subscribe.py:54
 msgid "At what time would you like to receive the newsletter?"
 msgstr "О котрій годині ви бажаєте отримувати розсилку?"
 
-#: handlers/users/mailing/subscribe.py:76
+#: handlers/users/mailing/subscribe.py:78
 msgid "You have successfully completed the mailing setup!"
 msgstr "Ви успішно завершили налаштування розсилки!"
 
-#: handlers/users/mailing/unsubscribe.py:19
+#: handlers/users/mailing/unsubscribe.py:22
 msgid "Are you sure you want to unsubscribe from the mailing?"
 msgstr "Ви впевнені, що хочете відписатися від розсилки?"
 
-#: handlers/users/mailing/unsubscribe.py:38
+#: handlers/users/mailing/unsubscribe.py:41
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Ви успішно відписалися від розсилки!"
 
@@ -263,15 +263,14 @@ msgstr "Опрацювання..."
 msgid "Do you want to mute the mailing?"
 msgstr "Ви хочете вимкнути звук розсилки?"
 
-#: handlers/users/weather/send.py:87
+#: handlers/users/weather/send.py:98
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"
 "\n"
 "Please, try again later <b>OR</b> choose another weather provider:"
 msgstr ""
-"На жаль, сервер погоди зараз недоступний. Помилка не "
-"пов'язана з ботом.\n"
+"На жаль, сервер погоди зараз недоступний. Помилка не пов'язана з ботом.\n"
 "\n"
 "Будь ласка, спробуйте пізніше <b>АБО</b> оберіть інший сайт погоди:"
 
@@ -363,12 +362,19 @@ msgstr "🔙 Меню"
 msgid "🔙 Profile"
 msgstr "🔙 Профіль"
 
-#: utils/error.py:40
+#: utils/error.py:44
 msgid ""
-"An error occurred! :(\n"
+"An error occurred! 😥\n"
+"\n"
+"The admins have already been notified about this and will fix the problem"
+" as soon as possible.\n"
+"\n"
 "Please, try again or restart the bot with the /start command."
 msgstr ""
-"Виникла помилка! :(\n"
+"Виникла помилка! 😥\n"
+"\n"
+"Адміністратори вже були сповіщені про це і виправлять проблему якнайшвидше.\n"
+"\n"
 "Будь ласка, спробуйте ще раз або перезапустіть бота командою /start."
 
 #: utils/weather/graph.py:15
@@ -384,4 +390,11 @@ msgstr "Вночі"
 
 #~ msgid "Mailing management"
 #~ msgstr "Управління розсилкою"
+
+#~ msgid ""
+#~ "An error occurred! :(\n"
+#~ "Please, try again or restart the bot with the /start command."
+#~ msgstr ""
+#~ "Виникла помилка! :(\n"
+#~ "Будь ласка, спробуйте ще раз або перезапустіть бота командою /start."
 
