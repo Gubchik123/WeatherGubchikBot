@@ -45,7 +45,7 @@ async def handle_unsubscribe(
     if user.id not in ADMINS:
         asyncio.create_task(
             send_to_admins(
-                f"{user.full_name} (<code>{user.id}</code>) "
+                f"❌📨 {user.full_name} (<code>{user.id}</code>) "
                 "unsubscribe from mailing."
             )
         )

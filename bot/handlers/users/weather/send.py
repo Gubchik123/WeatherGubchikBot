@@ -47,8 +47,8 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         if message.chat.id not in ADMINS:
             asyncio.create_task(
                 send_to_admins(
-                    f"{user.full_name} (<code>{user.chat_id}</code>) "
-                    f"got weather in {data['city_title']}."
+                    f"ℹ️ {user.full_name} (<code>{user.chat_id}</code>) "
+                    f"got weather in {data['city_title']} ({data['time_title']})."
                 )
             )
     except WeatherProviderServerError as error:

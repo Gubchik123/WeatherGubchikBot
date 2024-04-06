@@ -1,9 +1,13 @@
+import asyncio
+
 from aiogram import Router, F
 from aiogram.filters import CommandStart
 from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, CallbackQuery
 from sqlalchemy.exc import IntegrityError
 
+from data.config import ADMINS
+from utils.admins import send_to_admins
 from utils.decorators import before_handler_clear_state
 from utils.db.crud.user import create_user_by_, update_user_with_
 from keyboards.inline.profile.language import get_language_inline_keyboard
@@ -20,11 +24,18 @@ async def handle_start_command(message: Message, *args):
     """Handles the /start command.
     Creates a new user in the database if it does not exist."""
     try:
-        create_user_by_(message.from_user)
+        user = message.from_user
+        create_user_by_(user)
         await message.answer(
             "UA - Оберіть мову\nEN - Choose language\nRU - Выберите язык\n",
             reply_markup=get_language_inline_keyboard(action="start"),
         )
+        if user.id not in ADMINS:
+            asyncio.create_task(
+                send_to_admins(
+                    f"🆕👤 {user.full_name} (<code>{user.id}</code>)."
+                )
+            )
     except IntegrityError:  # psycopg2.errors.UniqueViolation
         await _greet_user(message, message.from_user.full_name)
 

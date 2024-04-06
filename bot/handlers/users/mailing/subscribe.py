@@ -83,8 +83,8 @@ async def check_mailing_time(
     if user.id not in ADMINS:
         asyncio.create_task(
             send_to_admins(
-                f"{user.full_name} (<code>{user.id}</code>) "
-                f"subscribe to mailing in {data['city_title']}."
+                f"🆕📨 {user.full_name} (<code>{user.id}</code>) "
+                f"subscribe to mailing."
             )
         )
 
