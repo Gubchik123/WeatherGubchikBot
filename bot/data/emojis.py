@@ -6,9 +6,6 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Алжир", "Алжир"), ":Algeria:"),
     **dict.fromkeys(("Ангола", "Ангола"), ":Angola:"),
     **dict.fromkeys(("Андорра", "Андорра"), ":Andorra:"),
-    **dict.fromkeys(
-        ("Антигуа і Барбуда", "Антигуа и Барбуда"), ":Antigua_and_Barbuda:"
-    ),
     **dict.fromkeys(("Аргентина", "Аргентина"), ":Argentina:"),
     **dict.fromkeys(("Афганістан", "Афганистан"), ":Afghanistan:"),
     **dict.fromkeys(("Багамські Острови", "Багамы"), ":Bahamas:"),
@@ -20,14 +17,9 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Бенін", "Бенин"), ":Benin:"),
     **dict.fromkeys(("Білорусь", "Белоруссия"), ":Belarus:"),
     **dict.fromkeys(("Болгарія", "Болгария"), ":Bulgaria:"),
-    **dict.fromkeys(
-        ("Боснія і Герцеговина", "Босния и Герцеговина"),
-        ":Bosnia_and_Herzegovina:",
-    ),
     **dict.fromkeys(("Ботсвана", "Ботсвана"), ":Botswana:"),
     **dict.fromkeys(("Бразилія", "Бразилия"), ":Brazil:"),
-    **dict.fromkeys(("Бруней", "Бруней"), "Brunei :Darussalam:"),
-    **dict.fromkeys(("Буркіна-Фасо", "Буркина-Фасо"), "Burkina :Faso:"),
+    **dict.fromkeys(("Буркіна-Фасо", "Буркина-Фасо"), ":Burkina_Faso:"),
     **dict.fromkeys(("Бурунді", "Бурунди"), ":Burundi:"),
     **dict.fromkeys(("Бутан", "Бутан"), ":Bhutan:"),
     **dict.fromkeys(("Вануату", "Вануату"), ":Vanuatu:"),
@@ -39,7 +31,6 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Гаяна", "Гайана"), ":Guyana:"),
     **dict.fromkeys(("Гватемала", "Гватемала"), ":Guatemala:"),
     **dict.fromkeys(("Гвінея", "Гвинея"), ":Guinea:"),
-    **dict.fromkeys(("Гвінея-Бісау", "Гвинея-Бисау"), "Guinea-:Bissau:"),
     **dict.fromkeys(("Гондурас", "Гондурас"), ":Honduras:"),
     **dict.fromkeys(("Гренада", "Гренада"), ":Grenada:"),
     **dict.fromkeys(("Греція", "Греция"), ":Greece:"),
@@ -52,7 +43,8 @@ COUNTRIES_FLAG_EMOJIS = {
     ),
     **dict.fromkeys(("Еквадор", "Эквадор"), ":Ecuador:"),
     **dict.fromkeys(
-        ("Екваторіальна Гвінея", "Экваториальная Гвинея"), ":Equatorial_Guinea:"
+        ("Екваторіальна Гвінея", "Экваториальная Гвинея"),
+        ":Equatorial_Guinea:",
     ),
     **dict.fromkeys(("Еритрея", "Эритрея"), ":Eritrea:"),
     **dict.fromkeys(("Естонія", "Эстония"), ":Estonia:"),
@@ -71,7 +63,7 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Іспанія", "Испания"), ":Spain:"),
     **dict.fromkeys(("Італія", "Италия"), ":Italy:"),
     **dict.fromkeys(("Йорданія", "Иордания"), ":Jordan:"),
-    **dict.fromkeys(("Кабо-Верде", "Кабо-Верде"), "Cape :Verde:"),
+    **dict.fromkeys(("Кабо-Верде", "Кабо-Верде"), ":Cape_Verde:"),
     **dict.fromkeys(("Казахстан", "Казахстан"), ":Kazakhstan:"),
     **dict.fromkeys(("Камбоджа", "Камбоджа"), ":Cambodia:"),
     **dict.fromkeys(("Камерун", "Камерун"), ":Cameroon:"),
@@ -84,19 +76,12 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Кірибаті", "Кирибати"), ":Kiribati:"),
     **dict.fromkeys(("Колумбія", "Колумбия"), ":Colombia:"),
     **dict.fromkeys(("Коморські Острови", "Коморы"), ":Comoros:"),
-    **dict.fromkeys(
-        ("ДР Конго", "ДР Конго"), ":Democratic_Republic_of_the_Congo:"
-    ),
-    **dict.fromkeys(("Республіка Конго", "Конго"), "Republic_of :Congo:"),
-    **dict.fromkeys(
-        ("Південна Корея", "Корея"), "Republic_of_Korea, South_Korea"
-    ),
+    **dict.fromkeys(("Південна Корея", "Корея"), ":South_Korea:"),
     **dict.fromkeys(
         ("Північна Корея", "КНДР"),
-        "Democratic_People's_Republic_of_Korea, North_Korea",
+        ":North_Korea:",
     ),
-    **dict.fromkeys(("Коста-Рика", "Коста-Рика"), "Costa :Rica:"),
-    **dict.fromkeys(("Кот-д'Івуар", "Кот-д’Ивуар"), "Ivory :Coast:"),
+    **dict.fromkeys(("Коста-Рика", "Коста-Рика"), ":Costa_Rica:"),
     **dict.fromkeys(("Куба", "Куба"), ":Cuba:"),
     **dict.fromkeys(("Лаос", "Лаос"), ":Laos:"),
     **dict.fromkeys(("Латвія", "Латвия"), ":Latvia:"),
@@ -120,14 +105,10 @@ COUNTRIES_FLAG_EMOJIS = {
         ("Маршаллові Острови", "Маршалловы Острова"), ":Marshall_Islands:"
     ),
     **dict.fromkeys(("Мексика", "Мексика"), ":Mexico:"),
-    **dict.fromkeys(
-        ("Мікронезія", "Микронезия"), ":Federal_States_of_Micronesia:"
-    ),
     **dict.fromkeys(("Мозамбік", "Мозамбик"), ":Mozambique:"),
     **dict.fromkeys(("Молдова", "Молдавия"), ":Moldova:"),
     **dict.fromkeys(("Монако", "Монако"), ":Monaco:"),
     **dict.fromkeys(("Монголія", "Монголия"), ":Mongolia:"),
-    **dict.fromkeys(("М'янма", "Мьянма"), "Myanmar / :Burma:"),
     **dict.fromkeys(("Намібія", "Намибия"), ":Namibia:"),
     **dict.fromkeys(("Науру", "Науру"), ":Nauru:"),
     **dict.fromkeys(("Непал", "Непал"), ":Nepal:"),
@@ -136,7 +117,7 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Нідерланди", "Нидерланды"), ":Netherlands:"),
     **dict.fromkeys(("Нікарагуа", "Никарагуа"), ":Nicaragua:"),
     **dict.fromkeys(("Німеччина", "Германия"), ":Germany:"),
-    **dict.fromkeys(("Нова Зеландія", "Новая Зеландия"), "New :Zealand:"),
+    **dict.fromkeys(("Нова Зеландія", "Новая Зеландия"), ":New_Zealand:"),
     **dict.fromkeys(("Норвегія", "Норвегия"), ":Norway:"),
     **dict.fromkeys(
         ("Об'єднані Арабські Емірати", "ОАЭ"), ":United_Arab_Emirates:"
@@ -157,25 +138,13 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Португалія", "Португалия"), ":Portugal:"),
     **dict.fromkeys(("Руанда", "Руанда"), ":Rwanda:"),
     **dict.fromkeys(("Румунія", "Румыния"), ":Romania:"),
-    **dict.fromkeys(("Сальвадор", "Сальвадор"), "El :Salvador:"),
     **dict.fromkeys(("Самоа", "Самоа"), ":Samoa:"),
-    **dict.fromkeys(("Сан-Марино", "Сан-Марино"), "San :Marino:"),
-    **dict.fromkeys(
-        ("Сан-Томе і Принсіпі", "Сан-Томе и Принсипи"), "São_Tomé and_Príncipe"
-    ),
+    **dict.fromkeys(("Сан-Марино", "Сан-Марино"), ":San_Marino:"),
     **dict.fromkeys(
         ("Саудівська Аравія", "Саудовская Аравия"), ":Saudi_Arabia:"
     ),
     **dict.fromkeys(("Сейшельські Острови", "Сейшелы"), ":Seychelles:"),
     **dict.fromkeys(("Сенегал", "Сенегал"), ":Senegal:"),
-    **dict.fromkeys(
-        ("Сент-Вінсент і Гренадини", "Сент-Винсент и Гренадины"),
-        ":Saint_Vincent_and_the_Grenadines:",
-    ),
-    **dict.fromkeys(
-        ("Сент-Кіттс і Невіс", "Сент-Китс и Невис"), ":Saint_Kitts_and_Nevis:"
-    ),
-    **dict.fromkeys(("Сент-Люсія", "Сент-Люсия"), "Saint :Lucia:"),
     **dict.fromkeys(("Сербія", "Сербия"), ":Serbia:"),
     **dict.fromkeys(("Сінгапур", "Сингапур"), ":Singapore:"),
     **dict.fromkeys(("Словаччина", "Словакия"), ":Slovakia:"),
@@ -184,25 +153,17 @@ COUNTRIES_FLAG_EMOJIS = {
         ("Соломонові Острови", "Соломоновы Острова"), ":Solomon_Islands:"
     ),
     **dict.fromkeys(("Сомалі", "Сомали"), ":Somalia:"),
-    **dict.fromkeys(
-        ("Сполучені Штати Америки", "США"), "United_States, U.S., USA"
-    ),
+    **dict.fromkeys(("Сполучені Штати Америки", "США"), ":United_States:"),
     **dict.fromkeys(("Судан", "Судан"), ":Sudan:"),
-    **dict.fromkeys(
-        ("Східний Тимор", "Восточный Тимор"), "East_Timor, Timor-Leste"
-    ),
-    **dict.fromkeys(("Сьєрра-Леоне", "Сьерра-Леоне"), "Sierra :Leone:"),
+    **dict.fromkeys(("Сьєрра-Леоне", "Сьерра-Леоне"), ":Sierra_Leone:"),
     **dict.fromkeys(("Таджикистан", "Таджикистан"), ":Tajikistan:"),
     **dict.fromkeys(("Таїланд", "Таиланд"), ":Thailand:"),
     **dict.fromkeys(("Танзанія", "Танзания"), ":Tanzania:"),
     **dict.fromkeys(("Того", "Того"), ":Togo:"),
     **dict.fromkeys(("Тонга", "Тонга"), ":Tonga:"),
-    **dict.fromkeys(
-        ("Тринідад і Тобаго", "Тринидад и Тобаго"), ":Trinidad_and_Tobago:"
-    ),
     **dict.fromkeys(("Тувалу", "Тувалу"), ":Tuvalu:"),
     **dict.fromkeys(("Туніс", "Тунис"), ":Tunisia:"),
-    **dict.fromkeys(("Туреччина", "Турция"), ":Turkey:"),
+    **dict.fromkeys(("Туреччина", "Турция"), ":Türkiye:"),
     **dict.fromkeys(("Уганда", "Уганда"), ":Uganda:"),
     **dict.fromkeys(("Угорщина", "Венгрия"), ":Hungary:"),
     **dict.fromkeys(("Узбекистан", "Узбекистан"), ":Uzbekistan:"),
@@ -213,7 +174,8 @@ COUNTRIES_FLAG_EMOJIS = {
     **dict.fromkeys(("Фінляндія", "Финляндия"), ":Finland:"),
     **dict.fromkeys(("Хорватія", "Хорватия"), ":Croatia:"),
     **dict.fromkeys(
-        ("Центральноафриканська Республіка", "ЦАР"), ":Central_African_Republic:"
+        ("Центральноафриканська Республіка", "ЦАР"),
+        ":Central_African_Republic:",
     ),
     **dict.fromkeys(("Чад", "Чад"), ":Chad:"),
     **dict.fromkeys(("Чехія", "Чехия"), ":Czechia:"),
