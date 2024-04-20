@@ -42,18 +42,7 @@ def _parse_catalog_items_from_(text: str, lang_code: str) -> BeautifulSoup:
     from the given response text and by the given language code."""
     soup = BeautifulSoup(text, "lxml")
     catalog_lists = soup.find_all("div", class_="catalog-list")
-    return catalog_lists[-1].find_all(
-        "div", class_=_get_catalog_item_class_by_(lang_code)
-    )
-
-
-def _get_catalog_item_class_by_(lang_code: str) -> str:
-    """Returns class name of the catalog item by the given language code."""
-    return {
-        "en": "catalog-group-items",
-        "ua": "catalog-item-link",
-        "ru": "catalog-item-link",
-    }.get(lang_code)
+    return catalog_lists[-1].find_all("div", class_="catalog-group-items")
 
 
 def _is_terrorist_in_(catalog_item: BeautifulSoup) -> bool:

@@ -47,13 +47,7 @@ def get_information_about_many_days() -> str:
 
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
     date_rows = _get_rows_from_div_with_class_(
-        (
-            "widget-row-date"
-            if INFO.site_domain.endswith(".com")
-            else "widget-row-days-date"
-        ),
-        _get_widget_body_from_(soup),
-        tag="a",
+        "widget-row-date", _get_widget_body_from_(soup), tag="a"
     )
     return _get_weather_info_by_(soup, enumerate(date_rows))
 
@@ -69,11 +63,19 @@ def _get_weather_info_by_(
 
     widget_body = _get_widget_body_from_(soup)
 
-    description_rows = _get_description_rows_from_(widget_body)
-    precipitation_rows = _get_precipitation_rows_from_(widget_body)
-    wind_rows = _get_wind_rows_from_(widget_body)
-    humidity_rows = _get_humidity_rows_from_(widget_body)
-    temperature_rows = _get_temperature_rows_from_(widget_body)
+    description_rows = _get_rows_from_div_with_class_(
+        "widget-row-icon", widget_body
+    )
+    precipitation_rows = _get_rows_from_div_with_class_(
+        "widget-row-precipitation-bars", widget_body
+    )
+    wind_rows = _get_rows_from_div_with_class_("widget-row-wind", widget_body)
+    humidity_rows = _get_rows_from_div_with_class_(
+        "widget-row-humidity", widget_body
+    )
+    temperature_rows = widget_body.find(
+        "div", class_="widget-row-chart"
+    ).find_all("div", class_="value")
 
     for row_index, time in times:
         if INFO.about_many_days:
@@ -123,53 +125,11 @@ def _get_widget_body_from_(soup: BeautifulSoup) -> BeautifulSoup:
     return soup.find("div", class_="widget-body")
 
 
-def _get_description_rows_from_(
-    widget_body: BeautifulSoup,
-) -> List[BeautifulSoup]:
-    """Returns rows with info about description."""
-    return _get_rows_from_div_with_class_("widget-row-icon", widget_body)
-
-
-def _get_precipitation_rows_from_(
-    widget_body: BeautifulSoup,
-) -> List[BeautifulSoup]:
-    """Returns rows with info about precipitation."""
-    return _get_rows_from_div_with_class_(
-        "widget-row-precipitation-bars", widget_body
-    )
-
-
-def _get_humidity_rows_from_(
-    widget_body: BeautifulSoup,
-) -> List[BeautifulSoup]:
-    """Returns rows with info about humidity."""
-    return _get_rows_from_div_with_class_("widget-row-humidity", widget_body)
-
-
-def _get_wind_rows_from_(widget_body: BeautifulSoup) -> List[BeautifulSoup]:
-    """Returns rows with info about wind."""
-    return _get_rows_from_div_with_class_(
-        (
-            "widget-row-wind"
-            if INFO.site_domain.endswith(".com")
-            else "widget-row-wind-speed"
-        ),
-        widget_body,
-    )
-
-
 def _get_rows_from_div_with_class_(
     class_: str, block: BeautifulSoup, tag: str = "div"
 ) -> List[BeautifulSoup]:
     """Returns rows by block class selector."""
     return block.find("div", class_=class_).find_all(tag, class_="row-item")
-
-
-def _get_temperature_rows_from_(block: BeautifulSoup) -> BeautifulSoup:
-    """Returns rows with info about temperature."""
-    return block.find("div", class_="widget-row-chart").find_all(
-        "div", class_="value"
-    )
 
 
 def _get_pretty_day_string_from_(day_block: BeautifulSoup) -> str:
