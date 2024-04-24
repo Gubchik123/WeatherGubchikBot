@@ -12,13 +12,13 @@ class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site."""
 
 
-def get_soup_by_(url: str, lang_code: str) -> tuple:
+def get_soup_by_(url: str, lang_code: str) -> BeautifulSoup:
     """For getting BeautifulSoup object by url"""
     response = _get_response_from_(url, lang_code)
     return BeautifulSoup(response.text, "lxml")
 
 
-def _get_response_from_(url: str, lang_code: str) -> tuple:
+def _get_response_from_(url: str, lang_code: str) -> requests.Response:
     """For sending GET request to url and getting response"""
     url = url.strip()
     headers = {"user-agent": generate_user_agent().strip()}
