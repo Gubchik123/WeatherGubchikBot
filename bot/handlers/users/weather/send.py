@@ -69,7 +69,7 @@ async def _send_weather_forecast_for_one_day(
     send_function = (
         weather_provider_module.get_information_for_now
         if weather_provider_module.INFO.about_now
-        else weather_provider_module.get_information_for_one_day
+        else weather_provider_module.get_information_about_one_day
     )
     await message.answer(send_function(), parse_mode="HTML")
 
