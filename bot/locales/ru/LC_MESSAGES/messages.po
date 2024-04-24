@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-05 16:34+0300\n"
+"POT-Creation-Date: 2024-04-24 18:49+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Вы в главном меню.\n"
 "Выберите следующие действия с помощью кнопок ниже."
 
-#: handlers/users/other.py:13
+#: handlers/users/other.py:15
 msgid ""
 "I don't understand you :(\n"
 "I advise you to use the buttons or commands for the intended result."
@@ -98,7 +98,7 @@ msgstr ""
 "Доска проектов: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/start.py:50
+#: handlers/users/commands/start.py:61
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
@@ -267,7 +267,7 @@ msgstr "Обработка..."
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
 
-#: handlers/users/weather/send.py:98
+#: handlers/users/weather/send.py:101
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"
@@ -332,18 +332,22 @@ msgid "Retry the input"
 msgstr "Повторить ввод"
 
 #: keyboards/inline/weather.py:39
+msgid "Now"
+msgstr "Сейчас"
+
+#: keyboards/inline/weather.py:40
 msgid "Today"
 msgstr "Сегодня"
 
-#: keyboards/inline/weather.py:41
+#: keyboards/inline/weather.py:42
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:44
+#: keyboards/inline/weather.py:45
 msgid "Week"
 msgstr "Неделя"
 
-#: keyboards/inline/weather.py:46
+#: keyboards/inline/weather.py:47
 msgid "Fortnight"
 msgstr "Две недели"
 
@@ -367,7 +371,7 @@ msgstr "🔙 Меню"
 msgid "🔙 Profile"
 msgstr "🔙 Профиль"
 
-#: utils/error.py:44
+#: utils/error.py:55
 msgid ""
 "An error occurred! 😥\n"
 "\n"
@@ -378,7 +382,8 @@ msgid ""
 msgstr ""
 "Произошла ошибка! 😥\n"
 "\n"
-"Администраторы уже уведомлены об этом и исправят проблему как можно скорее.\n"
+"Администраторы уже уведомлены об этом и исправят проблему как можно "
+"скорее.\n"
 "\n"
 "Пожалуйста, попробуйте еще раз или перезапустите бота командой /start."
 
