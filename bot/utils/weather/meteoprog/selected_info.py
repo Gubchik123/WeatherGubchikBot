@@ -4,6 +4,7 @@ from ..selected_info import BaseSelectedInfo
 class SelectedInfo(BaseSelectedInfo):
     """For storing info for weather searching"""
 
+    now = " "
     today = ""
     tomorrow = "tomorrow"
     week = "6_10"
@@ -41,7 +42,7 @@ class SelectedInfo(BaseSelectedInfo):
     def about_one_day(self) -> bool:
         """Getter for condition about one day"""
         return self.type == "weather" and (
-            self.about_today or self.about_tomorrow
+            self.about_now or self.about_today or self.about_tomorrow
         )
 
     @property

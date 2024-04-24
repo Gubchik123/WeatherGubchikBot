@@ -19,9 +19,47 @@ def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
 
-    if INFO.about_one_day:
+    if INFO.about_now:
+        return get_information_for_now()
+    elif INFO.about_one_day:
         return get_information_about_one_day()
     return get_information_about_many_days()
+
+
+def get_information_for_now() -> str:
+    """For getting result weather message for now."""
+    soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
+    return _get_weather_info_for_now_from_(soup)
+
+
+def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
+    """For getting weather message for now."""
+    block = soup.find("section", class_="today-block")
+    # Temperature
+    temp = (
+        block.find("div", class_="today-temperature").find("span").text.strip()
+    )
+    feels_like = (
+        block.find("span", class_="feels-like")
+        .text.strip()
+        .replace("°C ", "°C (")
+        + ")"
+    )
+    # Description
+    desc = block.find("h3").text.strip()
+    # Details
+    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
+    details = block.find("table", class_="today__atmosphere").find_all("td")
+
+    return (
+        f"<b>{block.find('h2').text.strip()}</b>\n\n"
+        f"{temp}C {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
+        f"{feels_like}\n\n"
+        f"{desc}\n\n"
+        f"{weather_detail_titles.wind}: {details[1].text.strip()} 🌬\n"
+        f"{weather_detail_titles.humidity}: {details[-2].text.strip()} 💦\n"
+        f"{weather_detail_titles.rain}: {details[0].text.strip()} 💧"
+    )
 
 
 def get_information_about_one_day() -> str:

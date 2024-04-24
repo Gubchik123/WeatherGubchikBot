@@ -1,6 +1,7 @@
 class BaseSelectedInfo:
     """For storing info for weather searching"""
 
+    now: str
     today: str
     tomorrow: str
     week: str
@@ -25,6 +26,11 @@ class BaseSelectedInfo:
         """Getter for generated url"""
 
     @property
+    def about_now(self) -> bool:
+        """Getter for condition about now"""
+        return self.time == self.now
+
+    @property
     def about_today(self) -> bool:
         """Getter for condition about today"""
         return self.time == self.today
@@ -47,7 +53,7 @@ class BaseSelectedInfo:
     @property
     def about_one_day(self) -> bool:
         """Getter for condition about one day"""
-        return self.about_today or self.about_tomorrow
+        return self.about_now or self.about_today or self.about_tomorrow
 
     @property
     def about_many_days(self) -> bool:

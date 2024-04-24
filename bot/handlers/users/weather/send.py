@@ -66,10 +66,12 @@ async def _send_weather_forecast_for_one_day(
     message: Message, weather_provider_module: ModuleType
 ):
     """Sends weather forecast for one day."""
-    await message.answer(
-        weather_provider_module.get_information_about_one_day(),
-        parse_mode="HTML",
+    send_function = (
+        weather_provider_module.get_information_for_now
+        if weather_provider_module.INFO.about_now
+        else weather_provider_module.get_information_for_one_day
     )
+    await message.answer(send_function(), parse_mode="HTML")
 
 
 async def _send_weather_forecast_for_many_days(
