@@ -19,13 +19,54 @@ def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
 
-    if INFO.about_one_day:
+    if INFO.about_now:
+        return get_information_for_now()
+    elif INFO.about_one_day:
         return get_information_about_one_day()
     return get_information_about_many_days()
 
 
+def get_information_for_now() -> str:
+    """For getting result weather message for now."""
+    INFO.set_site_domain_by_(
+        "ua" if INFO.lang_code == "ru" else INFO.lang_code
+    )  # ! Workaround for valid url
+    soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
+    return _get_weather_info_for_now_from_(soup)
+
+
+def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
+    """For getting weather message for now."""
+    block = soup.find("div", class_="now")
+
+    local_date = block.find("div", class_="now-localdate").text.strip()
+    # Temperature
+    temp = block.find("div", class_="now-weather").text.strip() + "°C"
+    feels_like = block.find("div", class_="now-feel").text.strip() + "°C"
+    # Description
+    desc = block.find("div", class_="now-desc").text.strip()
+    # Details
+    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
+    details = [
+        item.find("div", class_="item-value").text.strip()
+        for item in block.find_all("div", class_="now-info-item")
+    ]
+    return (
+        f"<b>{soup.find('h1').text.strip()} - {local_date}</b>\n\n"
+        f"{temp} {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
+        f"{feels_like}\n\n"
+        f"{desc}\n\n"
+        f"{weather_detail_titles.wind}: {details[0]} {_get_wind_symbol()} 🌬\n"
+        f"{weather_detail_titles.humidity}: {details[2]} % 💦\n"
+        # f"{weather_detail_titles.rain}: {rain} 💧"
+    )
+
+
 def get_information_about_one_day() -> str:
     """Returns result weather message about one day."""
+    INFO.set_site_domain_by_(
+        "ua" if INFO.lang_code == "ru" else INFO.lang_code
+    )  # ! Workaround for valid url
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
     times = dict(zip((0, 2, 4, 6), _get_day_period_titles()))
     return _get_weather_info_by_(soup, times.items())
@@ -42,6 +83,10 @@ def _get_day_period_titles() -> Tuple[str]:
 
 def get_information_about_many_days() -> str:
     """Returns result weather message about many days."""
+    INFO.set_site_domain_by_(
+        "ua" if INFO.lang_code == "ru" else INFO.lang_code
+    )  # ! Workaround for valid url
+
     MAX_TEMPS.clear()
     MIN_TEMPS.clear()
 
@@ -101,7 +146,7 @@ def _get_weather_info_by_(
                 .text.strip()
                 .replace(",", ".")
             )
-            * 100
+            * 10
         )
         text += (
             f"<b>{time}: {temp}°C</b> "
