@@ -36,6 +36,7 @@ def get_period_inline_keyboard(weather_provider: str) -> InlineKeyboardMarkup:
     weather_provider_module = get_weather_provider_module_by_(weather_provider)
 
     days = {
+        "now": (_("Now"), weather_provider_module.SelectedInfo.now),
         "today": (_("Today"), weather_provider_module.SelectedInfo.today),
         "tomorrow": (
             _("Tomorrow"),
@@ -49,6 +50,15 @@ def get_period_inline_keyboard(weather_provider: str) -> InlineKeyboardMarkup:
     }
     return InlineKeyboardMarkup(
         inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text=days["now"][0],
+                    callback_data=(
+                        "btn_period:"
+                        f"{days['now'][0].lower()}:{days['now'][1]}"
+                    ),
+                ),
+            ],
             [
                 InlineKeyboardButton(
                     text=days["today"][0],
