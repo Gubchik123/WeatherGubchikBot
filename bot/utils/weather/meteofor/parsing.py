@@ -1,6 +1,7 @@
 from typing import Dict, List, Tuple
 
 from bs4 import BeautifulSoup
+from aiogram.utils.i18n import gettext as _
 
 from ..request import get_soup_by_
 from ..emoji import get_weather_emoji_by_
@@ -45,6 +46,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
     feels_like = block.find("div", class_="now-feel").text.strip() + "°C"
     # Description
     desc = block.find("div", class_="now-desc").text.strip()
+    joke = _("<b>OR</b> look at the window")
     # Details
     weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
     details = [
@@ -55,7 +57,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
         f"<b>{soup.find('h1').text.strip()} - {local_date}</b>\n\n"
         f"{temp} {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
-        f"{desc}\n\n"
+        f"{desc}\n{joke} 😅\n\n"
         f"{weather_detail_titles.wind}: {details[0]} {_get_wind_symbol()} 🌬\n"
         f"{weather_detail_titles.humidity}: {details[2]} % 💦\n"
         # f"{weather_detail_titles.rain}: {rain} 💧"
