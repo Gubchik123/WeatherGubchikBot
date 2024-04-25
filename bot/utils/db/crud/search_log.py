@@ -39,7 +39,7 @@ async def create_search_log(user_chat_id: int, city: str, locale: str) -> None:
 
 
 def get_last_4_search_cities_by_(user_chat_id: int, locale: str) -> List[str]:
-    """Returns last 4 search log cities by the given user chat id."""
+    """Returns last 4 search log cities by the given user chat id and locale."""
     with LocalSession() as session:
         search_logs = (
             session.query(SearchLog)
@@ -48,6 +48,20 @@ def get_last_4_search_cities_by_(user_chat_id: int, locale: str) -> List[str]:
             )
             .order_by(SearchLog.count.desc())
             .limit(4)
+            .all()
+        )
+    return [search_log.city for search_log in search_logs]
+
+
+def get_last_search_cities_by_(user_chat_id: int, locale: str) -> List[str]:
+    """Returns last search log cities by the given user chat id and locale."""
+    with LocalSession() as session:
+        search_logs = (
+            session.query(SearchLog)
+            .filter(
+                SearchLog.user_id == user_chat_id, SearchLog.locale == locale
+            )
+            .order_by(SearchLog.count.desc())
             .all()
         )
     return [search_log.city for search_log in search_logs]

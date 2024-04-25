@@ -8,7 +8,9 @@ from utils.weather import get_weather_provider_module_by_
 
 
 def get_cities_inline_keyboard(
-    cities: List[str], retry_btn: Optional[bool] = True
+    cities: List[str],
+    all_cities_btn: Optional[bool] = False,
+    retry_btn: Optional[bool] = True,
 ) -> Union[InlineKeyboardMarkup, None]:
     """Returns an inline keyboard with the given cities."""
     keyboard = InlineKeyboardBuilder()
@@ -19,6 +21,12 @@ def get_cities_inline_keyboard(
             InlineKeyboardButton(
                 text=city.title(),
                 callback_data=f"btn_city_title:{city}",
+            )
+        )
+    if all_cities_btn:
+        keyboard.row(
+            InlineKeyboardButton(
+                text="🔽", callback_data="btn_all_user_search_cities"
             )
         )
     if retry_btn:

@@ -10,7 +10,7 @@ from keyboards.inline.weather import get_cities_inline_keyboard
 from utils.decorators import before_handler_clear_state
 from utils.weather import get_weather_provider_module_by_
 from utils.db.crud.user import get_user_by_
-from utils.db.crud.search_log import get_last_4_search_cities_by_
+from utils.db.crud.search_log import get_last_search_cities_by_
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
@@ -39,14 +39,31 @@ async def ask_about_city(event: Union[Message, CallbackQuery], i18n: I18n):
     else:
         message = event.message
         answer_method = message.edit_text
+    all_user_search_logs = get_last_search_cities_by_(
+        message.chat.id, i18n.current_locale
+    )
     await answer_method(
         _("Enter the name of the city / locality"),
         reply_markup=get_cities_inline_keyboard(  # TODO: Add mailing city
-            cities=get_last_4_search_cities_by_(
-                message.chat.id, i18n.current_locale
-            ),
+            cities=all_user_search_logs[:4],
+            all_cities_btn=len(all_user_search_logs) > 4,
             retry_btn=False,
         ),
+    )
+
+
+@router.callback_query(F.data == "btn_all_user_search_cities")
+async def update_keyboard_with_all_user_search_cities(
+    event: CallbackQuery, i18n: I18n
+):
+    """Updates the keyboard with all user search cities."""
+    all_user_search_logs = get_last_search_cities_by_(
+        event.from_user.id, i18n.current_locale
+    )
+    await event.message.edit_reply_markup(
+        reply_markup=get_cities_inline_keyboard(
+            cities=all_user_search_logs, all_cities_btn=False, retry_btn=False
+        )
     )
 
 
