@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-24 18:49+0300\n"
+"POT-Creation-Date: 2024-04-25 11:30+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: handlers/users/menu.py:24
+#: handlers/users/menu.py:22
 msgid ""
 "You are in the main menu.\n"
 "Select further actions with the buttons below."
@@ -52,7 +52,9 @@ msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
+"/menu - Get main menu\n"
 "/weather - Get weather forecast\n"
+"/moon - Get moon phase\n"
 "/profile - Get user profile\n"
 "/mailing - Get mailing menu / Sign up for the newsletter\n"
 "/goodbye - Pause working with the bot\n"
@@ -77,7 +79,9 @@ msgstr ""
 "Команды бота:\n"
 "/start - Начало работы с ботом\n"
 "/help - Получить основные правила использования\n"
+"/menu - Получить главное меню\n"
 "/weather - Получить прогноз погоды\n"
+"/moon - Получить фазу луны\n"
 "/profile - Получить профиль пользователя\n"
 "/mailing - Получить меню рассылки / Подписаться на рассылку\n"
 "/goodbye - Приостановить работу с ботом\n"
@@ -97,6 +101,42 @@ msgstr ""
 "Другие проекты автора доступны на:\n"
 "Доска проектов: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
+
+#: handlers/users/commands/moon.py:38
+msgid "Full Moon"
+msgstr "Полнолуние"
+
+#: handlers/users/commands/moon.py:39
+msgid "Waning Gibbous"
+msgstr "Убывающая Луна"
+
+#: handlers/users/commands/moon.py:40
+msgid "Third Quarter"
+msgstr "Последняя четверть"
+
+#: handlers/users/commands/moon.py:41
+msgid "Waning Crescent"
+msgstr "Убывающий серп"
+
+#: handlers/users/commands/moon.py:42
+msgid "New Moon"
+msgstr "Новолуние"
+
+#: handlers/users/commands/moon.py:43
+msgid "Waxing Crescent"
+msgstr "Растущий серп"
+
+#: handlers/users/commands/moon.py:44
+msgid "First Quarter"
+msgstr "Первая четверть"
+
+#: handlers/users/commands/moon.py:45
+msgid "Waxing Gibbous"
+msgstr "Растущая луна"
+
+#: handlers/users/commands/moon.py:46
+msgid "Unknown"
+msgstr "Неизвестно"
 
 #: handlers/users/commands/start.py:61
 msgid ""

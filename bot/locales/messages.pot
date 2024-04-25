@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-24 18:49+0300\n"
+"POT-Creation-Date: 2024-04-25 11:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: handlers/users/menu.py:24
+#: handlers/users/menu.py:22
 msgid ""
 "You are in the main menu.\n"
 "Select further actions with the buttons below."
@@ -43,7 +43,9 @@ msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
+"/menu - Get main menu\n"
 "/weather - Get weather forecast\n"
+"/moon - Get moon phase\n"
 "/profile - Get user profile\n"
 "/mailing - Get mailing menu / Sign up for the newsletter\n"
 "/goodbye - Pause working with the bot\n"
@@ -64,6 +66,42 @@ msgid ""
 "Other projects of the author are available on:\n"
 "Project board: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
+msgstr ""
+
+#: handlers/users/commands/moon.py:38
+msgid "Full Moon"
+msgstr ""
+
+#: handlers/users/commands/moon.py:39
+msgid "Waning Gibbous"
+msgstr ""
+
+#: handlers/users/commands/moon.py:40
+msgid "Third Quarter"
+msgstr ""
+
+#: handlers/users/commands/moon.py:41
+msgid "Waning Crescent"
+msgstr ""
+
+#: handlers/users/commands/moon.py:42
+msgid "New Moon"
+msgstr ""
+
+#: handlers/users/commands/moon.py:43
+msgid "Waxing Crescent"
+msgstr ""
+
+#: handlers/users/commands/moon.py:44
+msgid "First Quarter"
+msgstr ""
+
+#: handlers/users/commands/moon.py:45
+msgid "Waxing Gibbous"
+msgstr ""
+
+#: handlers/users/commands/moon.py:46
+msgid "Unknown"
 msgstr ""
 
 #: handlers/users/commands/start.py:61
