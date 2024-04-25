@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-25 11:30+0300\n"
+"POT-Creation-Date: 2024-04-25 13:21+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -434,6 +434,10 @@ msgstr "Днем"
 #: utils/weather/graph.py:18
 msgid "Night"
 msgstr "Ночью"
+
+#: utils/weather/meteofor/parsing.py:49 utils/weather/meteoprog/parsing.py:51
+msgid "<b>OR</b> look at the window"
+msgstr "<b>ИЛИ</b> посмотрите в окно"
 
 #~ msgid "← return to the main menu"
 #~ msgstr "← вернуться в главное меню"
