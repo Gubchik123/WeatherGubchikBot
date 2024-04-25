@@ -1,7 +1,6 @@
 from typing import Union
 
 from aiogram import Router, F
-from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import gettext as _
 
@@ -11,7 +10,6 @@ from keyboards.default.menu import get_menu_keyboard
 router = Router()
 
 
-@router.message(Command("menu"))
 @router.callback_query(F.data == "btn_menu")
 async def handle_menu(event: Union[Message, CallbackQuery]) -> None:
     """Handles main menu."""

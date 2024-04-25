@@ -18,6 +18,7 @@ async def handle_help_command(message: Message, *args):
             "Bot commands:\n"
             "/start - Start working with the bot\n"
             "/help - Get basic usage rules\n"
+            "/menu - Get main menu\n"
             "/weather - Get weather forecast\n"
             "/moon - Get moon phase\n"
             "/profile - Get user profile\n"
