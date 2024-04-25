@@ -1,4 +1,4 @@
-from datetime import datetime
+from typing import Tuple
 
 from aiogram import Router
 from aiogram.types import Message
@@ -17,27 +17,30 @@ router = Router()
 @router.message(Command("moon"))
 @before_handler_clear_state
 async def command_moon(message: Message, *args):
-    url = "https://www.spaceweatherlive.com/uk/kalendar-misyachnih-faz.html"
-
-    soup = get_soup_by_(url, lang_code="uk")
+    """Handles the /moon command."""
+    url = "https://www.moongiant.com/phase/today/"
     moon = (
-        soup.find("table", class_="table")
-        .find_all("td", class_="text-center")[datetime.now().day - 1]
-        .find("span")
-        .text.strip()
+        get_soup_by_(url, lang_code="uk")
+        .find("div", id="todayMoonContainer")
+        .find("img")
+        .get("alt")
+        .split(" on ")[0]
     )
-    await message.answer(_get_moon_emoji_by_(moon))
+    moon_phase, moon_emoji = _get_moon_phase_and_emoji_by_(moon)
+    await message.answer(moon_emoji)
+    await message.answer(moon_phase)
     await handle_menu(message)
 
 
-def _get_moon_emoji_by_(moon: str):
+def _get_moon_phase_and_emoji_by_(moon: str) -> Tuple[str, str]:
+    """Returns translated moon phase and emoji by the given en moon phase."""
     return {
-        "повня": "🌕",
-        "спадаючий опуклий місяць": "🌖",
-        "остання чверть": "🌗",
-        "спадаючий півмісяць": "🌘",
-        "новий місяць": "🌑",
-        "зростаючий півмісяць": "🌒",
-        "перша чверть": "🌓",
-        "зростаючий опуклий місяць": "🌔",
-    }.get(moon.lower(), "")
+        "full moon": (_("Full Moon"), "🌕"),
+        "waning gibbous": (_("Waning Gibbous"), "🌖"),
+        "third quarter": (_("Third Quarter"), "🌗"),
+        "waning crescent": (_("Waning Crescent"), "🌘"),
+        "new moon": (_("New Moon"), "🌑"),
+        "waxing crescent": (_("Waxing Crescent"), "🌒"),
+        "first quarter": (_("First Quarter"), "🌓"),
+        "waxing gibbous": (_("Waxing Gibbous"), "🌔"),
+    }.get(moon.lower(), (_("Unknown"), "❔"))
