@@ -103,6 +103,14 @@ def _get_weather_info_by_(
     """Returns text with weather information about one day."""
     text = f"<b>{soup.find('h1').text.strip()}</b>\n\n"
 
+    if INFO.about_one_day:
+        all_astro_divs = soup.find("div", class_="astro-times").find_all("div")
+        text += (
+            f"🌅 {all_astro_divs[1].text.strip()}\n"
+            f"🌆 {all_astro_divs[2].text.strip()}\n"
+            f"🕐 {all_astro_divs[0].text.strip()}\n"
+            f"ℹ️ {soup.find('div', class_='astro-bottom').text.strip()}\n\n"
+        )
     wind_symbol = _get_wind_symbol()
     weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
 
