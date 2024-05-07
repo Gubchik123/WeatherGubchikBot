@@ -6,6 +6,8 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from utils.weather import get_weather_provider_module_by_
 
+from .profile import get_back_to_profile_inline_button
+
 
 def _get_cities_inline_keyboard_builder(
     cities: List[str],
@@ -39,7 +41,7 @@ def get_cities_inline_keyboard(
 def get_cities_with_expand_inline_keyboard(
     cities: List[str],
 ) -> InlineKeyboardMarkup:
-    """Returns an inline keyboard with all the given cities."""
+    """Returns an inline keyboard with the expand button."""
     inline_keyboard_builder = _get_cities_inline_keyboard_builder(cities)
     inline_keyboard_builder.row(
         InlineKeyboardButton(
@@ -60,6 +62,20 @@ def get_cities_with_retry_inline_keyboard(
             callback_data="btn_retry_weather_city",
         )
     )
+    return inline_keyboard_builder.as_markup()
+
+
+def get_cities_with_delete_inline_keyboard(
+    cities: List[str],
+) -> InlineKeyboardMarkup:
+    """Returns an inline keyboard with the delete button."""
+    inline_keyboard_builder = _get_cities_inline_keyboard_builder(cities)
+    inline_keyboard_builder.row(
+        InlineKeyboardButton(
+            text="🗑️", callback_data="btn_delete_selected_search_cities"
+        )
+    )
+    inline_keyboard_builder.row(get_back_to_profile_inline_button())
     return inline_keyboard_builder.as_markup()
 
 

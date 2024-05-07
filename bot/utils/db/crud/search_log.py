@@ -1,10 +1,9 @@
 from typing import List
 
-from sqlalchemy import update
 from sqlalchemy.orm import Session
 
 from ..models import SearchLog
-from ..db import LocalSession, commit_and_refresh, add_commit_and_refresh
+from ..db import LocalSession, commit_and_refresh
 
 
 def _get_search_log_by_(
@@ -77,3 +76,17 @@ def get_all_user_search_logs(user_chat_id: int) -> List[SearchLog]:
             .all()
         )
     return search_logs
+
+
+def delete_search_cities(
+    user_chat_id: int, cities: List[str], locale: str
+) -> None:
+    """Deletes search log cities by the given user chat id and cities."""
+    with LocalSession() as session:
+        query = SearchLog.__table__.delete().where(
+            SearchLog.user_id == user_chat_id,
+            SearchLog.locale == locale,
+            SearchLog.city.in_(cities),
+        )
+        session.execute(query)
+        session.commit()
