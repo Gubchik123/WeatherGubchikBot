@@ -78,6 +78,22 @@ def get_all_user_search_logs(user_chat_id: int) -> List[SearchLog]:
     return search_logs
 
 
+def get_all_user_search_logs_by_(
+    user_chat_id: int, locale: str
+) -> List[SearchLog]:
+    """Returns all user search logs by the given user chat id."""
+    with LocalSession() as session:
+        search_logs = (
+            session.query(SearchLog)
+            .filter(
+                SearchLog.user_id == user_chat_id, SearchLog.locale == locale
+            )
+            .order_by(SearchLog.count.desc())
+            .all()
+        )
+    return search_logs
+
+
 def delete_search_cities(
     user_chat_id: int, cities: List[str], locale: str
 ) -> None:
