@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-25 13:21+0300\n"
+"POT-Creation-Date: 2024-05-07 17:35+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -200,7 +200,7 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:61
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:82
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -251,6 +251,22 @@ msgstr ""
 "\n"
 "День, когда Вы присоединились: <i>{created}</i>"
 
+#: handlers/users/profile/search_history.py:29
+msgid "You have no search history yet."
+msgstr "У Вас пока нет истории поиска."
+
+#: handlers/users/profile/search_history.py:34
+msgid "Select cities from your search history you want to delete:"
+msgstr "Выберите города из вашей истории поиска, которые хотите удалить:"
+
+#: handlers/users/profile/search_history.py:71
+msgid "No cities selected."
+msgstr "Города не выбраны."
+
+#: handlers/users/profile/search_history.py:78
+msgid "Selected cities deleted."
+msgstr "Выбранные города удалены."
+
 #: handlers/users/profile/timezone.py:24
 msgid ""
 "<b>Changing timezone.</b>\n"
@@ -283,15 +299,15 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr "Сайт погоды успешно изменен на {weather_provider}!"
 
-#: handlers/users/weather/city.py:23
+#: handlers/users/weather/city.py:26
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:43
+#: handlers/users/weather/city.py:54
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
-#: handlers/users/weather/city_title.py:21
+#: handlers/users/weather/city_title.py:22
 msgid "Choose the city / locality you had in mind:"
 msgstr "Выберите город / населенный пункт, который Вы имели в виду:"
 
@@ -327,7 +343,7 @@ msgstr "Прогноз погоды"
 msgid "Profile"
 msgstr "Профиль"
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:25
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:31
 msgid "Mailing"
 msgstr "Рассылка"
 
@@ -367,27 +383,27 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: keyboards/inline/weather.py:27
+#: keyboards/inline/weather.py:61
 msgid "Retry the input"
 msgstr "Повторить ввод"
 
-#: keyboards/inline/weather.py:39
+#: keyboards/inline/weather.py:87
 msgid "Now"
 msgstr "Сейчас"
 
-#: keyboards/inline/weather.py:40
+#: keyboards/inline/weather.py:88
 msgid "Today"
 msgstr "Сегодня"
 
-#: keyboards/inline/weather.py:42
+#: keyboards/inline/weather.py:90
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:45
+#: keyboards/inline/weather.py:93
 msgid "Week"
 msgstr "Неделя"
 
-#: keyboards/inline/weather.py:47
+#: keyboards/inline/weather.py:95
 msgid "Fortnight"
 msgstr "Две недели"
 
@@ -403,11 +419,15 @@ msgstr "Изменить часовой пояс"
 msgid "Change weather provider"
 msgstr "Изменить сайт погоды"
 
-#: keyboards/inline/profile/__init__.py:30
+#: keyboards/inline/profile/__init__.py:25
+msgid "Manage search history"
+msgstr "Управление историей поиска"
+
+#: keyboards/inline/profile/__init__.py:36
 msgid "🔙 Menu"
 msgstr "🔙 Меню"
 
-#: keyboards/inline/profile/__init__.py:40
+#: keyboards/inline/profile/__init__.py:46
 msgid "🔙 Profile"
 msgstr "🔙 Профиль"
 
@@ -435,10 +455,6 @@ msgstr "Днем"
 msgid "Night"
 msgstr "Ночью"
 
-#: utils/weather/meteofor/parsing.py:49 utils/weather/meteoprog/parsing.py:51
-msgid "<b>OR</b> look at the window"
-msgstr "<b>ИЛИ</b> посмотрите в окно"
-
 #~ msgid "← return to the main menu"
 #~ msgstr "← вернуться в главное меню"
 
@@ -451,4 +467,7 @@ msgstr "<b>ИЛИ</b> посмотрите в окно"
 #~ msgstr ""
 #~ "Произошла ошибка! :(\n"
 #~ "Пожалуйста, попробуйте еще раз или перезапустите бота командой /start."
+
+#~ msgid "<b>OR</b> look at the window"
+#~ msgstr "<b>ИЛИ</b> посмотрите в окно"
 

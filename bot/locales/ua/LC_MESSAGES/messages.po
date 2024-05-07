@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-25 13:21+0300\n"
+"POT-Creation-Date: 2024-05-07 17:35+0200\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -196,7 +196,7 @@ msgstr "Ви впевнені, що хочете відписатися від �
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Ви успішно відписалися від розсилки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:61
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:82
 msgid "Searching..."
 msgstr "Пошук..."
 
@@ -247,6 +247,22 @@ msgstr ""
 "\n"
 "Дата приєднання: <i>{created}</i>"
 
+#: handlers/users/profile/search_history.py:29
+msgid "You have no search history yet."
+msgstr "У вас ще немає історії пошуку."
+
+#: handlers/users/profile/search_history.py:34
+msgid "Select cities from your search history you want to delete:"
+msgstr "Виберіть міста з вашої історії пошуку, які ви хочете видалити:"
+
+#: handlers/users/profile/search_history.py:71
+msgid "No cities selected."
+msgstr "Міста не вибрані."
+
+#: handlers/users/profile/search_history.py:78
+msgid "Selected cities deleted."
+msgstr "Вибрані міста видалено."
+
 #: handlers/users/profile/timezone.py:24
 msgid ""
 "<b>Changing timezone.</b>\n"
@@ -279,15 +295,15 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr "Сайт погоди успішно змінено на {weather_provider}!"
 
-#: handlers/users/weather/city.py:23
+#: handlers/users/weather/city.py:26
 msgid "weather forecast"
 msgstr "прогноз погоди"
 
-#: handlers/users/weather/city.py:43
+#: handlers/users/weather/city.py:54
 msgid "Enter the name of the city / locality"
 msgstr "Введіть назву міста / населеного пункту"
 
-#: handlers/users/weather/city_title.py:21
+#: handlers/users/weather/city_title.py:22
 msgid "Choose the city / locality you had in mind:"
 msgstr "Виберіть місто / населений пункт, яке ви мали на увазі:"
 
@@ -322,7 +338,7 @@ msgstr "Прогноз погоди"
 msgid "Profile"
 msgstr "Профіль"
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:25
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:31
 msgid "Mailing"
 msgstr "Розсилка"
 
@@ -362,27 +378,27 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: keyboards/inline/weather.py:27
+#: keyboards/inline/weather.py:61
 msgid "Retry the input"
 msgstr "Повторити спробу введення"
 
-#: keyboards/inline/weather.py:39
+#: keyboards/inline/weather.py:87
 msgid "Now"
 msgstr "Зараз"
 
-#: keyboards/inline/weather.py:40
+#: keyboards/inline/weather.py:88
 msgid "Today"
 msgstr "Сьогодні"
 
-#: keyboards/inline/weather.py:42
+#: keyboards/inline/weather.py:90
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:45
+#: keyboards/inline/weather.py:93
 msgid "Week"
 msgstr "Тиждень"
 
-#: keyboards/inline/weather.py:47
+#: keyboards/inline/weather.py:95
 msgid "Fortnight"
 msgstr "Два тижні"
 
@@ -398,11 +414,15 @@ msgstr "Змінити часовий пояс"
 msgid "Change weather provider"
 msgstr "Змінити сайт погоди"
 
-#: keyboards/inline/profile/__init__.py:30
+#: keyboards/inline/profile/__init__.py:25
+msgid "Manage search history"
+msgstr "Керування історією пошуку"
+
+#: keyboards/inline/profile/__init__.py:36
 msgid "🔙 Menu"
 msgstr "🔙 Меню"
 
-#: keyboards/inline/profile/__init__.py:40
+#: keyboards/inline/profile/__init__.py:46
 msgid "🔙 Profile"
 msgstr "🔙 Профіль"
 
@@ -430,10 +450,6 @@ msgstr "Вдень"
 msgid "Night"
 msgstr "Вночі"
 
-#: utils/weather/meteofor/parsing.py:49 utils/weather/meteoprog/parsing.py:51
-msgid "<b>OR</b> look at the window"
-msgstr "<b>АБО</b> подивіться у вікно"
-
 #~ msgid "← return to the main menu"
 #~ msgstr "← повернутися у головне меню"
 
@@ -446,4 +462,7 @@ msgstr "<b>АБО</b> подивіться у вікно"
 #~ msgstr ""
 #~ "Виникла помилка! :(\n"
 #~ "Будь ласка, спробуйте ще раз або перезапустіть бота командою /start."
+
+#~ msgid "<b>OR</b> look at the window"
+#~ msgstr "<b>АБО</b> подивіться у вікно"
 
