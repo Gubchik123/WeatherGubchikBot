@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import List
 
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -7,36 +7,60 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from utils.weather import get_weather_provider_module_by_
 
 
-def get_cities_inline_keyboard(
+def _get_cities_inline_keyboard_builder(
     cities: List[str],
-    all_cities_btn: Optional[bool] = False,
-    retry_btn: Optional[bool] = True,
-) -> Union[InlineKeyboardMarkup, None]:
+) -> InlineKeyboardBuilder:
     """Returns an inline keyboard with the given cities."""
-    keyboard = InlineKeyboardBuilder()
+    inline_keyboard_builder = InlineKeyboardBuilder()
 
     for index, city in enumerate(cities):
-        keyboard_add_method = keyboard.add if index % 2 else keyboard.row
+        keyboard_add_method = (
+            inline_keyboard_builder.add
+            if index % 2
+            else inline_keyboard_builder.row
+        )
         keyboard_add_method(
             InlineKeyboardButton(
                 text=city.title(),
                 callback_data=f"btn_city_title:{city}",
             )
         )
-    if all_cities_btn:
-        keyboard.row(
-            InlineKeyboardButton(
-                text="🔽", callback_data="btn_all_user_search_cities"
-            )
+    return inline_keyboard_builder
+
+
+def get_cities_inline_keyboard(
+    cities: List[str],
+) -> InlineKeyboardMarkup:
+    """Returns an inline keyboard with all the given cities."""
+    inline_keyboard_builder = _get_cities_inline_keyboard_builder(cities)
+    return inline_keyboard_builder.as_markup()
+
+
+def get_cities_with_expand_inline_keyboard(
+    cities: List[str],
+) -> InlineKeyboardMarkup:
+    """Returns an inline keyboard with all the given cities."""
+    inline_keyboard_builder = _get_cities_inline_keyboard_builder(cities)
+    inline_keyboard_builder.row(
+        InlineKeyboardButton(
+            text="🔽", callback_data="btn_all_user_search_cities"
         )
-    if retry_btn:
-        keyboard.row(
-            InlineKeyboardButton(
-                text=_("Retry the input"),
-                callback_data="btn_retry_weather_city",
-            )
+    )
+    return inline_keyboard_builder.as_markup()
+
+
+def get_cities_with_retry_inline_keyboard(
+    cities: List[str],
+) -> InlineKeyboardMarkup:
+    """Returns an inline keyboard with the retry button."""
+    inline_keyboard_builder = _get_cities_inline_keyboard_builder(cities)
+    inline_keyboard_builder.row(
+        InlineKeyboardButton(
+            text=_("Retry the input"),
+            callback_data="btn_retry_weather_city",
         )
-    return keyboard.as_markup()
+    )
+    return inline_keyboard_builder.as_markup()
 
 
 def get_period_inline_keyboard(weather_provider: str) -> InlineKeyboardMarkup:

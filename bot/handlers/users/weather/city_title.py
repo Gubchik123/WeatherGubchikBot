@@ -7,7 +7,7 @@ from states.utils import get_state_class_by_
 from utils.services import get_city_from_
 from utils.db.crud.user import get_user_by_
 from utils.weather import get_weather_provider_module_by_
-from keyboards.inline.weather import get_cities_inline_keyboard
+from keyboards.inline.weather import get_cities_with_retry_inline_keyboard
 
 from .period import ask_about_period
 
@@ -20,7 +20,7 @@ async def ask_about_city_title(message: Message, state: FSMContext) -> None:
     data: dict = await state.get_data()
     await message.answer(
         _("Choose the city / locality you had in mind:"),
-        reply_markup=get_cities_inline_keyboard(
+        reply_markup=get_cities_with_retry_inline_keyboard(
             cities=data["search_cities"].keys()
         ),
     )

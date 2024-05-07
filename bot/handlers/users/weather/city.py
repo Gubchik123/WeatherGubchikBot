@@ -6,11 +6,14 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _, lazy_gettext as __
 
 from states.weather_search import WeatherSearch
-from keyboards.inline.weather import get_cities_inline_keyboard
 from utils.decorators import before_handler_clear_state
 from utils.weather import get_weather_provider_module_by_
 from utils.db.crud.user import get_user_by_
 from utils.db.crud.search_log import get_last_search_cities_by_
+from keyboards.inline.weather import (
+    get_cities_inline_keyboard,
+    get_cities_with_expand_inline_keyboard,
+)
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
@@ -42,12 +45,15 @@ async def ask_about_city(event: Union[Message, CallbackQuery], i18n: I18n):
     all_user_search_logs = get_last_search_cities_by_(
         message.chat.id, i18n.current_locale
     )
+    keyboard_method = (
+        get_cities_inline_keyboard
+        if len(all_user_search_logs) < 5
+        else get_cities_with_expand_inline_keyboard
+    )
     await answer_method(
         _("Enter the name of the city / locality"),
-        reply_markup=get_cities_inline_keyboard(  # TODO: Add mailing city
-            cities=all_user_search_logs[:4],
-            all_cities_btn=len(all_user_search_logs) > 4,
-            retry_btn=False,
+        reply_markup=keyboard_method(  # TODO: Add mailing city
+            all_user_search_logs[:4]
         ),
     )
 
@@ -61,9 +67,7 @@ async def update_keyboard_with_all_user_search_cities(
         event.from_user.id, i18n.current_locale
     )
     await event.message.edit_reply_markup(
-        reply_markup=get_cities_inline_keyboard(
-            cities=all_user_search_logs, all_cities_btn=False, retry_btn=False
-        )
+        reply_markup=get_cities_inline_keyboard(all_user_search_logs)
     )
 
 
