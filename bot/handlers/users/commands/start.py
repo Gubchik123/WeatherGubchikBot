@@ -11,6 +11,7 @@ from utils.admins import send_to_admins
 from utils.decorators import before_handler_clear_state
 from utils.db.crud.user import create_user_by_, update_user_with_
 from keyboards.inline.profile.language import get_language_inline_keyboard
+from filters.is_private_chat_type import IsPrivateChatType
 
 from ..menu import handle_menu
 
@@ -18,7 +19,7 @@ from ..menu import handle_menu
 router = Router()
 
 
-@router.message(CommandStart())
+@router.message(IsPrivateChatType(), CommandStart())
 @before_handler_clear_state
 async def handle_start_command(message: Message, *args):
     """Handles the /start command.

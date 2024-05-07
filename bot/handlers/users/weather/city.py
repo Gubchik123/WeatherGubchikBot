@@ -14,6 +14,7 @@ from keyboards.inline.weather import (
     get_cities_inline_keyboard,
     get_cities_with_expand_inline_keyboard,
 )
+from filters.is_private_chat_type import IsPrivateChatType
 
 from .city_title import ask_about_city_title
 from .period import ask_about_period
@@ -23,7 +24,7 @@ from ..other import handle_all_other_messages
 router = Router()
 
 
-@router.message(F.text.lower() == __("weather forecast"))
+@router.message(IsPrivateChatType(), F.text.lower() == __("weather forecast"))
 @before_handler_clear_state
 async def handle_weather(
     event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
@@ -71,7 +72,7 @@ async def update_keyboard_with_all_user_search_cities(
     )
 
 
-@router.message(F.text)
+@router.message(IsPrivateChatType(), F.text)
 async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     """Requests search city and checks it."""
     current_state = await state.get_state()

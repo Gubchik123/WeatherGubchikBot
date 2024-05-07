@@ -8,13 +8,14 @@ from utils.db.models import Mailing
 from utils.db.crud.mailing import get_mailing_by_
 from keyboards.inline.mailing import get_mailing_menu_inline_keyboard
 from keyboards.inline.maker import make_yes_or_no_inline_keyboard
+from filters.is_private_chat_type import IsPrivateChatType
 
 
 router = Router()
 
 
-@router.message(F.text.lower() == __("mailing"))
 @router.callback_query(F.data == "btn_mailing")
+@router.message(IsPrivateChatType(), F.text.lower() == __("mailing"))
 async def handle_mailing_menu(event: Union[Message, CallbackQuery]):
     """Checks if user has mailing subscription and sends mailing menu."""
     is_callback_query = isinstance(event, CallbackQuery)

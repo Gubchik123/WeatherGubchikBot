@@ -6,13 +6,14 @@ from aiogram.utils.i18n import gettext as _, lazy_gettext as __
 
 from utils.db.crud.user import get_user_by_
 from keyboards.inline.profile import get_profile_inline_keyboard
+from filters.is_private_chat_type import IsPrivateChatType
 
 
 router = Router()
+ 
 
-
-@router.message(F.text.lower() == __("profile"))
 @router.callback_query(F.data == "btn_profile")
+@router.message(IsPrivateChatType(), F.text.lower() == __("profile"))
 async def handle_profile(event: Union[Message, CallbackQuery]) -> None:
     """Sends user profile menu."""
     is_callback_query = isinstance(event, CallbackQuery)

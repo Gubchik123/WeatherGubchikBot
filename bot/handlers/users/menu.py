@@ -16,6 +16,9 @@ async def handle_menu(event: Union[Message, CallbackQuery]) -> None:
     is_callback_query = isinstance(event, CallbackQuery)
     message = event.message if is_callback_query else event
 
+    if message.chat.type != "private":
+        return
+
     if is_callback_query:
         await message.delete()
     await message.answer(

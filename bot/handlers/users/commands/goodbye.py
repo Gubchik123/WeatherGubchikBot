@@ -5,13 +5,14 @@ from aiogram.utils.i18n import gettext as _, lazy_gettext as __
 
 from utils.decorators import before_handler_clear_state
 from keyboards.default.maker import make_keyboard, make_button
+from filters.is_private_chat_type import IsPrivateChatType
 
 
 router = Router()
 
 
-@router.message(Command("goodbye"))
-@router.message(F.text.lower() == __("end communication"))
+@router.message(IsPrivateChatType(), Command("goodbye"))
+@router.message(IsPrivateChatType(), F.text.lower() == __("end communication"))
 @before_handler_clear_state
 async def handle_goodbye_command(message: Message, *args):
     """Handles the /goodbye command."""
