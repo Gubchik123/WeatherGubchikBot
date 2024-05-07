@@ -12,14 +12,15 @@ class InvalidResponse(Exception):
     """Exception for invalid response from GET request to the site."""
 
 
-def get_soup_by_(url: str, lang_code: str) -> tuple:
+def get_soup_by_(url: str, lang_code: str) -> BeautifulSoup:
     """For getting BeautifulSoup object by url"""
     response = _get_response_from_(url, lang_code)
     return BeautifulSoup(response.text, "lxml")
 
 
-def _get_response_from_(url: str, lang_code: str) -> tuple:
+def _get_response_from_(url: str, lang_code: str) -> requests.Response:
     """For sending GET request to url and getting response"""
+    url = url.strip()
     headers = {"user-agent": generate_user_agent().strip()}
     cookies = {"cookie": f"needed_thing=''; default_lang={lang_code};"}
 
@@ -36,11 +37,11 @@ def _get_response_from_(url: str, lang_code: str) -> tuple:
     if response.status_code >= 500:
         raise WeatherProviderServerError(
             f"Server error from the weather provider ({response.status_code}):"
-            f"\n{url=}\n{response.text=}\n{response.json()}"
+            f"\n{url=}"
         )
     elif not response.ok:
         raise InvalidResponse(
             f"Not OK server response from the site ({response.status_code}):"
-            f"\n{url=}\n{response.text=}\n{response.json()}"
+            f"\n{url=}"
         )
     return response

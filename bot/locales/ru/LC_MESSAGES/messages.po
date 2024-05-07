@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-04-05 16:34+0300\n"
+"POT-Creation-Date: 2024-05-07 17:35+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: handlers/users/menu.py:24
+#: handlers/users/menu.py:22
 msgid ""
 "You are in the main menu.\n"
 "Select further actions with the buttons below."
@@ -27,7 +27,7 @@ msgstr ""
 "Вы в главном меню.\n"
 "Выберите следующие действия с помощью кнопок ниже."
 
-#: handlers/users/other.py:13
+#: handlers/users/other.py:15
 msgid ""
 "I don't understand you :(\n"
 "I advise you to use the buttons or commands for the intended result."
@@ -52,7 +52,9 @@ msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
+"/menu - Get main menu\n"
 "/weather - Get weather forecast\n"
+"/moon - Get moon phase\n"
 "/profile - Get user profile\n"
 "/mailing - Get mailing menu / Sign up for the newsletter\n"
 "/goodbye - Pause working with the bot\n"
@@ -77,7 +79,9 @@ msgstr ""
 "Команды бота:\n"
 "/start - Начало работы с ботом\n"
 "/help - Получить основные правила использования\n"
+"/menu - Получить главное меню\n"
 "/weather - Получить прогноз погоды\n"
+"/moon - Получить фазу луны\n"
 "/profile - Получить профиль пользователя\n"
 "/mailing - Получить меню рассылки / Подписаться на рассылку\n"
 "/goodbye - Приостановить работу с ботом\n"
@@ -98,7 +102,43 @@ msgstr ""
 "Доска проектов: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/start.py:50
+#: handlers/users/commands/moon.py:38
+msgid "Full Moon"
+msgstr "Полнолуние"
+
+#: handlers/users/commands/moon.py:39
+msgid "Waning Gibbous"
+msgstr "Убывающая Луна"
+
+#: handlers/users/commands/moon.py:40
+msgid "Third Quarter"
+msgstr "Последняя четверть"
+
+#: handlers/users/commands/moon.py:41
+msgid "Waning Crescent"
+msgstr "Убывающий серп"
+
+#: handlers/users/commands/moon.py:42
+msgid "New Moon"
+msgstr "Новолуние"
+
+#: handlers/users/commands/moon.py:43
+msgid "Waxing Crescent"
+msgstr "Растущий серп"
+
+#: handlers/users/commands/moon.py:44
+msgid "First Quarter"
+msgstr "Первая четверть"
+
+#: handlers/users/commands/moon.py:45
+msgid "Waxing Gibbous"
+msgstr "Растущая луна"
+
+#: handlers/users/commands/moon.py:46
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: handlers/users/commands/start.py:61
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
@@ -160,7 +200,7 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:61
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:82
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -211,6 +251,22 @@ msgstr ""
 "\n"
 "День, когда Вы присоединились: <i>{created}</i>"
 
+#: handlers/users/profile/search_history.py:29
+msgid "You have no search history yet."
+msgstr "У Вас пока нет истории поиска."
+
+#: handlers/users/profile/search_history.py:34
+msgid "Select cities from your search history you want to delete:"
+msgstr "Выберите города из вашей истории поиска, которые хотите удалить:"
+
+#: handlers/users/profile/search_history.py:71
+msgid "No cities selected."
+msgstr "Города не выбраны."
+
+#: handlers/users/profile/search_history.py:78
+msgid "Selected cities deleted."
+msgstr "Выбранные города удалены."
+
 #: handlers/users/profile/timezone.py:24
 msgid ""
 "<b>Changing timezone.</b>\n"
@@ -243,15 +299,15 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr "Сайт погоды успешно изменен на {weather_provider}!"
 
-#: handlers/users/weather/city.py:23
+#: handlers/users/weather/city.py:26
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:43
+#: handlers/users/weather/city.py:54
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
-#: handlers/users/weather/city_title.py:21
+#: handlers/users/weather/city_title.py:22
 msgid "Choose the city / locality you had in mind:"
 msgstr "Выберите город / населенный пункт, который Вы имели в виду:"
 
@@ -267,7 +323,7 @@ msgstr "Обработка..."
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
 
-#: handlers/users/weather/send.py:98
+#: handlers/users/weather/send.py:101
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"
@@ -287,7 +343,7 @@ msgstr "Прогноз погоды"
 msgid "Profile"
 msgstr "Профиль"
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:25
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:31
 msgid "Mailing"
 msgstr "Рассылка"
 
@@ -327,23 +383,27 @@ msgstr "Да"
 msgid "No"
 msgstr "Нет"
 
-#: keyboards/inline/weather.py:27
+#: keyboards/inline/weather.py:61
 msgid "Retry the input"
 msgstr "Повторить ввод"
 
-#: keyboards/inline/weather.py:39
+#: keyboards/inline/weather.py:87
+msgid "Now"
+msgstr "Сейчас"
+
+#: keyboards/inline/weather.py:88
 msgid "Today"
 msgstr "Сегодня"
 
-#: keyboards/inline/weather.py:41
+#: keyboards/inline/weather.py:90
 msgid "Tomorrow"
 msgstr "Завтра"
 
-#: keyboards/inline/weather.py:44
+#: keyboards/inline/weather.py:93
 msgid "Week"
 msgstr "Неделя"
 
-#: keyboards/inline/weather.py:46
+#: keyboards/inline/weather.py:95
 msgid "Fortnight"
 msgstr "Две недели"
 
@@ -359,15 +419,19 @@ msgstr "Изменить часовой пояс"
 msgid "Change weather provider"
 msgstr "Изменить сайт погоды"
 
-#: keyboards/inline/profile/__init__.py:30
+#: keyboards/inline/profile/__init__.py:25
+msgid "Manage search history"
+msgstr "Управление историей поиска"
+
+#: keyboards/inline/profile/__init__.py:36
 msgid "🔙 Menu"
 msgstr "🔙 Меню"
 
-#: keyboards/inline/profile/__init__.py:40
+#: keyboards/inline/profile/__init__.py:46
 msgid "🔙 Profile"
 msgstr "🔙 Профиль"
 
-#: utils/error.py:44
+#: utils/error.py:55
 msgid ""
 "An error occurred! 😥\n"
 "\n"
@@ -378,7 +442,8 @@ msgid ""
 msgstr ""
 "Произошла ошибка! 😥\n"
 "\n"
-"Администраторы уже уведомлены об этом и исправят проблему как можно скорее.\n"
+"Администраторы уже уведомлены об этом и исправят проблему как можно "
+"скорее.\n"
 "\n"
 "Пожалуйста, попробуйте еще раз или перезапустите бота командой /start."
 
@@ -402,4 +467,7 @@ msgstr "Ночью"
 #~ msgstr ""
 #~ "Произошла ошибка! :(\n"
 #~ "Пожалуйста, попробуйте еще раз или перезапустите бота командой /start."
+
+#~ msgid "<b>OR</b> look at the window"
+#~ msgstr "<b>ИЛИ</b> посмотрите в окно"
 

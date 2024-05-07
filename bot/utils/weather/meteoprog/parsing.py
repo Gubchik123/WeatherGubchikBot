@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
 from bs4 import BeautifulSoup
+from aiogram.utils.i18n import gettext as _
 
 from .selected_info import SelectedInfo
 
@@ -19,9 +20,47 @@ def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
 
-    if INFO.about_one_day:
+    if INFO.about_now:
+        return get_information_for_now()
+    elif INFO.about_one_day:
         return get_information_about_one_day()
     return get_information_about_many_days()
+
+
+def get_information_for_now() -> str:
+    """For getting result weather message for now."""
+    soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
+    return _get_weather_info_for_now_from_(soup)
+
+
+def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
+    """For getting weather message for now."""
+    block = soup.find("section", class_="today-block")
+    # Temperature
+    temp = (
+        block.find("div", class_="today-temperature").find("span").text.strip()
+    )
+    feels_like = (
+        block.find("span", class_="feels-like")
+        .text.strip()
+        .replace("°C ", "°C (")
+        + ")"
+    )
+    # Description
+    desc = block.find("h3").text.strip()
+    # Details
+    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
+    details = block.find("table", class_="today__atmosphere").find_all("td")
+
+    return (
+        f"<b>{block.find('h2').text.strip()}</b>\n\n"
+        f"{temp}C {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
+        f"{feels_like}\n\n"
+        f"{desc}\n\n"
+        f"{weather_detail_titles.wind}: {details[1].text.strip()} 🌬\n"
+        f"{weather_detail_titles.humidity}: {details[-2].text.strip()} 💦\n"
+        f"{weather_detail_titles.rain}: {details[0].text.strip()} 💧"
+    )
 
 
 def get_information_about_one_day() -> str:
@@ -97,10 +136,20 @@ def get_active_swiper_slide_from(soup: BeautifulSoup) -> BeautifulSoup:
 def get_weather_info_about_day_from_(
     active_swiper_slide: BeautifulSoup,
 ) -> str:
-    weather_detail_title = get_weather_detail_titles_by_(INFO.lang_code)
-    day_emojis = ("🌃", "🌇", "🏙️", "🌆")
-
     text = ""
+
+    all_astro_li = (
+        active_swiper_slide.find("div", class_="overall-day-info")
+        .find("ul")
+        .find_all("li")
+    )
+    for index, astro_li in enumerate(all_astro_li[:3]):
+        astro_li_text = astro_li.text.strip().replace("\n", " — ")
+        text += f"{'🌅🌆🕐'[index]} {astro_li_text}\n"
+    text += "\n"
+
+    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
+    day_emojis = ("🌃", "🌇", "🏙️", "🌆")
 
     for index, time_of_day in enumerate(
         active_swiper_slide.find_all("ul", class_="times-of-day__item")
@@ -118,7 +167,7 @@ def get_weather_info_about_day_from_(
             f"{day_emojis[index]} <b>{title}: {temperature}</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
             f"{description.capitalize()}\n\n"
-            f"{get_weather_details_by_(time_of_day, weather_detail_title)}\n"
+            f"{get_weather_details_by_(time_of_day, weather_detail_titles)}\n"
             f"{'_'*35}\n\n"
         )
     return text

@@ -12,3 +12,6 @@ venv/
 *.env
 
 tests.py
+
+traceback.txt
+weather_temperature_graph.png

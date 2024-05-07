@@ -4,6 +4,7 @@ from ..selected_info import BaseSelectedInfo
 class SelectedInfo(BaseSelectedInfo):
     """For storing info for weather searching"""
 
+    now = "now"
     today = ""
     tomorrow = "tomorrow"
     week = "weekly"

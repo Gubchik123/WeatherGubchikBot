@@ -11,9 +11,11 @@ async def set_default_commands_for_(bot: Bot) -> None:
                 command="help",
                 description="Отримати основні правила використання",
             ),
+            BotCommand(command="menu", description="Отримати головне меню"),
             BotCommand(
                 command="weather", description="Отримати прогноз погоди"
             ),
+            BotCommand(command="moon", description="Отримати фазу місяця"),
             BotCommand(
                 command="profile", description="Отримати профіль користувача"
             ),
@@ -30,7 +32,9 @@ async def set_default_commands_for_(bot: Bot) -> None:
                 command="start", description="Start working with the bot"
             ),
             BotCommand(command="help", description="Get basic usage rules"),
+            BotCommand(command="menu", description="Get main menu"),
             BotCommand(command="weather", description="Get weather forecast"),
+            BotCommand(command="moon", description="Get moon phase"),
             BotCommand(command="profile", description="Get user profile"),
             BotCommand(
                 command="mailing",
@@ -46,9 +50,11 @@ async def set_default_commands_for_(bot: Bot) -> None:
                 command="help",
                 description="Получить основные правила использования",
             ),
+            BotCommand(command="menu", description="Получить главное меню"),
             BotCommand(
                 command="weather", description="Получить прогноз погоды"
             ),
+            BotCommand(command="moon", description="Получить фазу луны"),
             BotCommand(
                 command="profile", description="Получить профиль пользователя"
             ),

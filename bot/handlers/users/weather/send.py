@@ -1,4 +1,5 @@
 import asyncio
+from pprint import pformat
 from types import ModuleType
 
 from aiogram.utils.i18n import gettext as _
@@ -57,7 +58,7 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
         await send_message_about_error(
             message,
             str(error),
-            error_place=f" {str(error.__class__)[8:-2]} during parsing",
+            error_place=f" {str(error.__class__)[8:-2]} during parsing {pformat(data)}",
         )
 
 
@@ -65,10 +66,12 @@ async def _send_weather_forecast_for_one_day(
     message: Message, weather_provider_module: ModuleType
 ):
     """Sends weather forecast for one day."""
-    await message.answer(
-        weather_provider_module.get_information_about_one_day(),
-        parse_mode="HTML",
+    send_function = (
+        weather_provider_module.get_information_for_now
+        if weather_provider_module.INFO.about_now
+        else weather_provider_module.get_information_about_one_day
     )
+    await message.answer(send_function(), parse_mode="HTML")
 
 
 async def _send_weather_forecast_for_many_days(

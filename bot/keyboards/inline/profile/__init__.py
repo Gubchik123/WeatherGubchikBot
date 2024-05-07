@@ -22,6 +22,12 @@ def get_profile_inline_keyboard() -> InlineKeyboardMarkup:
             ],
             [
                 InlineKeyboardButton(
+                    text=_("Manage search history"),
+                    callback_data="btn_search_history",
+                )
+            ],
+            [
+                InlineKeyboardButton(
                     text=_("Mailing"), callback_data="btn_mailing"
                 )
             ],
