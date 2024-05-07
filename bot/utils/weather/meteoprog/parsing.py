@@ -48,7 +48,6 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
     )
     # Description
     desc = block.find("h3").text.strip()
-    joke = _("<b>OR</b> look at the window")
     # Details
     weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
     details = block.find("table", class_="today__atmosphere").find_all("td")
@@ -57,7 +56,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
         f"<b>{block.find('h2').text.strip()}</b>\n\n"
         f"{temp}C {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
-        f"{desc}\n{joke} 😅\n\n"
+        f"{desc}\n\n"
         f"{weather_detail_titles.wind}: {details[1].text.strip()} 🌬\n"
         f"{weather_detail_titles.humidity}: {details[-2].text.strip()} 💦\n"
         f"{weather_detail_titles.rain}: {details[0].text.strip()} 💧"
