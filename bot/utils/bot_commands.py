@@ -1,21 +1,57 @@
 from aiogram import Bot
-from aiogram.types import BotCommand, BotCommandScopeDefault
+from aiogram.types import (
+    BotCommand,
+    BotCommandScopeAllPrivateChats,
+    BotCommandScopeAllGroupChats,
+)
 
 
 async def set_default_commands_for_(bot: Bot) -> None:
     """Sets default bot commands for en, ua and ru languages."""
+    await _set_private_chats_commands_for_(bot)
+    await _set_group_chats_commands_for_(bot)
+
+
+START_COMMAND = {
+    "uk": BotCommand(command="start", description="Початок роботи з ботом"),
+    "en": BotCommand(
+        command="start", description="Start working with the bot"
+    ),
+    "ru": BotCommand(command="start", description="Начало работы с ботом"),
+}
+
+HELP_COMMAND = {
+    "uk": BotCommand(
+        command="help", description="Отримати основні правила використання"
+    ),
+    "en": BotCommand(command="help", description="Get basic usage rules"),
+    "ru": BotCommand(
+        command="help", description="Получить основные правила использования"
+    ),
+}
+
+MOON_COMMAND = {
+    "uk": BotCommand(command="moon", description="Отримати фазу місяця"),
+    "en": BotCommand(command="moon", description="Get moon phase"),
+    "ru": BotCommand(command="moon", description="Получить фазу луны"),
+}
+
+WEATHER_COMMAND = {
+    "uk": BotCommand(command="weather", description="Отримати прогноз погоди"),
+    "en": BotCommand(command="weather", description="Get weather forecast"),
+    "ru": BotCommand(command="weather", description="Получить прогноз погоды"),
+}
+
+
+async def _set_private_chats_commands_for_(bot: Bot):
+    """Sets default bot commands for private chats."""
     bot_commands = {
         "uk": [
             BotCommand(command="start", description="Початок роботи з ботом"),
-            BotCommand(
-                command="help",
-                description="Отримати основні правила використання",
-            ),
+            HELP_COMMAND["uk"],
             BotCommand(command="menu", description="Отримати головне меню"),
-            BotCommand(
-                command="weather", description="Отримати прогноз погоди"
-            ),
-            BotCommand(command="moon", description="Отримати фазу місяця"),
+            WEATHER_COMMAND["uk"],
+            MOON_COMMAND["uk"],
             BotCommand(
                 command="profile", description="Отримати профіль користувача"
             ),
@@ -31,10 +67,10 @@ async def set_default_commands_for_(bot: Bot) -> None:
             BotCommand(
                 command="start", description="Start working with the bot"
             ),
-            BotCommand(command="help", description="Get basic usage rules"),
+            HELP_COMMAND["en"],
             BotCommand(command="menu", description="Get main menu"),
-            BotCommand(command="weather", description="Get weather forecast"),
-            BotCommand(command="moon", description="Get moon phase"),
+            WEATHER_COMMAND["en"],
+            MOON_COMMAND["en"],
             BotCommand(command="profile", description="Get user profile"),
             BotCommand(
                 command="mailing",
@@ -46,15 +82,10 @@ async def set_default_commands_for_(bot: Bot) -> None:
         ],
         "ru": [
             BotCommand(command="start", description="Начало работы с ботом"),
-            BotCommand(
-                command="help",
-                description="Получить основные правила использования",
-            ),
+            HELP_COMMAND["ru"],
             BotCommand(command="menu", description="Получить главное меню"),
-            BotCommand(
-                command="weather", description="Получить прогноз погоды"
-            ),
-            BotCommand(command="moon", description="Получить фазу луны"),
+            WEATHER_COMMAND["ru"],
+            MOON_COMMAND["ru"],
             BotCommand(
                 command="profile", description="Получить профиль пользователя"
             ),
@@ -67,10 +98,24 @@ async def set_default_commands_for_(bot: Bot) -> None:
             ),
         ],
     }
-
     for language_code, commands in bot_commands.items():
         await bot.set_my_commands(
             commands=commands,
-            scope=BotCommandScopeDefault(),
+            scope=BotCommandScopeAllPrivateChats(),
+            language_code=language_code,
+        )
+
+
+async def _set_group_chats_commands_for_(bot: Bot):
+    """Sets default bot commands for group chats."""
+    bot_commands = {
+        "uk": [HELP_COMMAND["uk"], MOON_COMMAND["uk"], WEATHER_COMMAND["uk"]],
+        "en": [HELP_COMMAND["en"], MOON_COMMAND["en"], WEATHER_COMMAND["en"]],
+        "ru": [HELP_COMMAND["ru"], MOON_COMMAND["ru"], WEATHER_COMMAND["ru"]],
+    }
+    for language_code, commands in bot_commands.items():
+        await bot.set_my_commands(
+            commands=commands,
+            scope=BotCommandScopeAllGroupChats(),
             language_code=language_code,
         )
