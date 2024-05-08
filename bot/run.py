@@ -1,8 +1,7 @@
 from typing import Union
 
+from aiogram import Dispatcher, F
 from aiogram.utils.i18n import I18n
-from aiogram import Bot, Dispatcher, F
-from aiogram.client.default import DefaultBotProperties
 from aiogram.types import ErrorEvent, Message, CallbackQuery
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -17,7 +16,6 @@ from middlewares import (
     CallbackQueryTimeoutMiddleware,
 )
 from data.config import (
-    BOT_TOKEN,
     I18N_DOMAIN,
     LOCALES_DIR,
     DEFAULT_LOCALE,
@@ -25,13 +23,10 @@ from data.config import (
     SCHEDULER_JOBS_DATABASE_URL,
 )
 
+from bot import bot
 from handlers import handlers_router
 
 
-bot = Bot(
-    token=BOT_TOKEN,
-    default=DefaultBotProperties(parse_mode="HTML"),
-)
 dispatcher = Dispatcher()
 
 scheduler = AsyncIOScheduler(
