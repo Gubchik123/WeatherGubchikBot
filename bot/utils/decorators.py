@@ -36,7 +36,7 @@ def before_handler_clear_state(handler: Callable) -> None:
     async def wrapper(
         event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
     ) -> None:
-        current_state = await state.get_state()
+        current_state = await state.get_state() if state else None
 
         if current_state is not None:
             logging.info(f"Cancelling state {current_state}")
