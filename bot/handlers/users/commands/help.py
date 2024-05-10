@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.utils.i18n import gettext as _
 
+from bot import bot
 from utils.decorators import before_handler_clear_state
 
 
@@ -38,19 +39,20 @@ async def handle_help_command(message: Message, *args):
             )
         )
     else:
+        bot_me = await bot.get_me()
         await message.answer(
             _(
-                "Bot commands:\n"
-                "/help - Get basic usage rules\n"
-                "/moon - Get moon phase\n"
-                "/weather - Get weather forecast\n\n"
+                "{bot_username} commands:\n"
+                "/help@{bot_username} - Get basic usage rules\n"
+                "/moon@{bot_username} - Get moon phase\n"
+                "/weather@{bot_username} - Get weather forecast\n\n"
                 "Enjoy using!!!\n\n"
-                "Bot author contacts:\n"
+                "{bot_username} author contacts:\n"
                 "CV site: https://hubariev.com\n"
                 "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
                 "Instagram: https://www.instagram.com/notwhale.1746\n\n"
                 "Other projects of the author are available on:\n"
                 "Project board: https://portfolio.hubariev.com\n"
                 "GitHub: https://github.com/Gubchik123\n"
-            )
+            ).format(bot_username=bot_me.username)
         )
