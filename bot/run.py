@@ -79,11 +79,11 @@ def _register_routers() -> None:
 
 
 def _register_middlewares() -> None:
-    dispatcher.message.outer_middleware(LanguageMiddleware(i18n))
+    LanguageMiddleware(i18n).setup(dispatcher)
+    # Message middleware
     dispatcher.message.middleware(SchedulerMiddleware(scheduler))
-
+    # CallbackQuery middlewares
     dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
-    dispatcher.callback_query.middleware(LanguageMiddleware(i18n))
     dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
 
 
