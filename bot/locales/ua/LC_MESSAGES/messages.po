@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-07 17:35+0200\n"
+"POT-Creation-Date: 2024-05-10 17:59+0200\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: handlers/users/menu.py:22
+#: handlers/users/menu.py:25
 msgid ""
 "You are in the main menu.\n"
 "Select further actions with the buttons below."
@@ -25,7 +25,7 @@ msgstr ""
 "Ви у головному меню.\n"
 "Виберіть подальші дії за допомогою кнопок нижче."
 
-#: handlers/users/other.py:15
+#: handlers/users/other.py:17
 msgid ""
 "I don't understand you :(\n"
 "I advise you to use the buttons or commands for the intended result."
@@ -33,11 +33,11 @@ msgstr ""
 "Я Вас не розумію :(\n"
 "Раджу використати кнопки або команди для задуманого результату."
 
-#: handlers/users/commands/goodbye.py:14
+#: handlers/users/commands/goodbye.py:15
 msgid "end communication"
 msgstr "завершити спілкування"
 
-#: handlers/users/commands/goodbye.py:22
+#: handlers/users/commands/goodbye.py:23
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
@@ -45,14 +45,15 @@ msgstr ""
 "До побачення, {name}, повертайтесь ще!\n"
 "Наступного разу просто введіть або натисніть /start"
 
-#: handlers/users/commands/help.py:17
+#: handlers/users/commands/help.py:28
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
 "/menu - Get main menu\n"
-"/weather - Get weather forecast\n"
 "/moon - Get moon phase\n"
+"/weather ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period]) - Get weather forecast\n"
 "/profile - Get user profile\n"
 "/mailing - Get mailing menu / Sign up for the newsletter\n"
 "/goodbye - Pause working with the bot\n"
@@ -78,8 +79,9 @@ msgstr ""
 "/start - Початок роботи з ботом\n"
 "/help - Отримати основні правила використання\n"
 "/menu - Отримати головне меню\n"
-"/weather - Отримати прогноз погоди\n"
 "/moon - Отримати фазу місяця\n"
+"/weather ([код мови: {languages}] [сайт погоди: {providers}] [місто] "
+"[період]) - Отримати прогноз погоди\n"
 "/profile - Отримати профіль користувача\n"
 "/mailing - Отримати меню розсилки / Підписатися на розсилку\n"
 "/goodbye - Призупинити роботу з ботом\n"
@@ -92,7 +94,43 @@ msgstr ""
 "Приємного використання!!!\n"
 "\n"
 "Контакти автора бота:\n"
+"Сайт резюме: https://hubariev.com\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"Інші проекти автора доступні на:\n"
+"Дошка проектів: https://portfolio.hubariev.com\n"
+"GitHub: https://github.com/Gubchik123\n"
+
+#: handlers/users/commands/help.py:61
+msgid ""
+"{bot_username} commands:\n"
+"/help@{bot_username} - Get basic usage rules\n"
+"/moon@{bot_username} - Get moon phase\n"
+"/weather@{bot_username} [language code: {languages}] [weather provider: "
+"{providers}] [city] [period] - Get weather forecast\n"
+"\n"
+"Enjoy using!!!\n"
+"\n"
+"{bot_username} author contacts:\n"
 "CV site: https://hubariev.com\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"Other projects of the author are available on:\n"
+"Project board: https://portfolio.hubariev.com\n"
+"GitHub: https://github.com/Gubchik123\n"
+msgstr ""
+"Команди {bot_username}:\n"
+"/help@{bot_username} - Отримати основні правила використання\n"
+"/moon@{bot_username} - Отримати фазу місяця\n"
+"/weather@{bot_username} [код мови: {languages}] [сайт погоди: {providers}] "
+"[місто] [період] - Отримати прогноз погоди\n"
+"\n"
+"Приємного використання!!!\n"
+"\n"
+"Контакти автора {bot_username}:\n"
+"Сайт резюме: https://hubariev.com\n"
 "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
 "Instagram: https://www.instagram.com/notwhale.1746\n"
 "\n"
@@ -136,7 +174,7 @@ msgstr "Прибувающий Місяць"
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: handlers/users/commands/start.py:61
+#: handlers/users/commands/start.py:62
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
@@ -146,15 +184,15 @@ msgstr ""
 "Я той, хто допоможе Вам дізнатися інформацію про погоду в містах по "
 "всьому світу."
 
-#: handlers/users/mailing/menu.py:16
+#: handlers/users/mailing/menu.py:18
 msgid "mailing"
 msgstr "розсилка"
 
-#: handlers/users/mailing/menu.py:28
+#: handlers/users/mailing/menu.py:29
 msgid "Do you really want to subscribe to the daily weather forecast mailing?"
 msgstr "Ви дійсно хочете підписатися на щоденну розсилку прогнозу погоди?"
 
-#: handlers/users/mailing/menu.py:44
+#: handlers/users/mailing/menu.py:45
 msgid ""
 "<b>Mailing</b>\n"
 "\n"
@@ -172,11 +210,11 @@ msgstr ""
 "Період прогнозу: {time}\n"
 "Місто / населений пункт: {city}"
 
-#: handlers/users/mailing/menu.py:52
+#: handlers/users/mailing/menu.py:53
 msgid "silent"
 msgstr "беззвучний"
 
-#: handlers/users/mailing/menu.py:52
+#: handlers/users/mailing/menu.py:53
 msgid "alert"
 msgstr "зі звуком"
 
@@ -196,7 +234,7 @@ msgstr "Ви впевнені, що хочете відписатися від �
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Ви успішно відписалися від розсилки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:82
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:83
 msgid "Searching..."
 msgstr "Пошук..."
 
@@ -225,11 +263,11 @@ msgstr "Час розсилки успішно оновлено!"
 msgid "Language successfully changed to {locale}!"
 msgstr "Мову успішно змінено на {locale}!"
 
-#: handlers/users/profile/menu.py:14
+#: handlers/users/profile/menu.py:16
 msgid "profile"
 msgstr "профіль"
 
-#: handlers/users/profile/menu.py:24
+#: handlers/users/profile/menu.py:25
 msgid ""
 "<b>Profile</b>\n"
 "\n"
@@ -295,17 +333,41 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr "Сайт погоди успішно змінено на {weather_provider}!"
 
-#: handlers/users/weather/city.py:26
+#: handlers/users/weather/city.py:27
 msgid "weather forecast"
 msgstr "прогноз погоди"
 
-#: handlers/users/weather/city.py:54
+#: handlers/users/weather/city.py:55
 msgid "Enter the name of the city / locality"
 msgstr "Введіть назву міста / населеного пункту"
 
 #: handlers/users/weather/city_title.py:22
 msgid "Choose the city / locality you had in mind:"
 msgstr "Виберіть місто / населений пункт, яке ви мали на увазі:"
+
+#: handlers/users/weather/from_command.py:78
+msgid ""
+"❌ Invalid number of arguments. Expected 4 arguments: [language code: "
+"{languages}] [weather provider: {providers}] [city] [period]"
+msgstr ""
+"❌ Невірна кількість аргументів. Очікувалось 4 аргументи: [код мови: "
+"{languages}] [сайт погоди: {providers}] [місто] [період]"
+
+#: handlers/users/weather/from_command.py:86
+msgid "❌ Unknown language code. Expected one of: {languages}"
+msgstr "❌ Невідомий код мови. Очікувався один з: {languages}"
+
+#: handlers/users/weather/from_command.py:89
+msgid "❌ Unknown weather provider. Expected one of: {providers}"
+msgstr "❌ Невідомий сайт погоди. Очікувався один з: {providers}"
+
+#: handlers/users/weather/from_command.py:92
+msgid "❌ Exact city not found. Fuzzy search is not allowed."
+msgstr "❌ Точне місто не знайдено. Розмитий пошук не дозволено."
+
+#: handlers/users/weather/from_command.py:93
+msgid "❌ Invalid period."
+msgstr "❌ Невірний період."
 
 #: handlers/users/weather/period.py:29
 msgid "Select the forecast period"
@@ -319,7 +381,7 @@ msgstr "Опрацювання..."
 msgid "Do you want to mute the mailing?"
 msgstr "Ви хочете вимкнути звук розсилки?"
 
-#: handlers/users/weather/send.py:101
+#: handlers/users/weather/send.py:111
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"

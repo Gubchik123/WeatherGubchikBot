@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-07 17:35+0200\n"
+"POT-Creation-Date: 2024-05-10 17:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,36 +16,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
-#: handlers/users/menu.py:22
+#: handlers/users/menu.py:25
 msgid ""
 "You are in the main menu.\n"
 "Select further actions with the buttons below."
 msgstr ""
 
-#: handlers/users/other.py:15
+#: handlers/users/other.py:17
 msgid ""
 "I don't understand you :(\n"
 "I advise you to use the buttons or commands for the intended result."
 msgstr ""
 
-#: handlers/users/commands/goodbye.py:14
+#: handlers/users/commands/goodbye.py:15
 msgid "end communication"
 msgstr ""
 
-#: handlers/users/commands/goodbye.py:22
+#: handlers/users/commands/goodbye.py:23
 msgid ""
 "Bye, {name}, come bake again!\n"
 "Next time just type or press /start"
 msgstr ""
 
-#: handlers/users/commands/help.py:17
+#: handlers/users/commands/help.py:28
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
 "/menu - Get main menu\n"
-"/weather - Get weather forecast\n"
 "/moon - Get moon phase\n"
+"/weather ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period]) - Get weather forecast\n"
 "/profile - Get user profile\n"
 "/mailing - Get mailing menu / Sign up for the newsletter\n"
 "/goodbye - Pause working with the bot\n"
@@ -60,6 +60,26 @@ msgid ""
 "Enjoy using!!!\n"
 "\n"
 "Bot author contacts:\n"
+"CV site: https://hubariev.com\n"
+"LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
+"Instagram: https://www.instagram.com/notwhale.1746\n"
+"\n"
+"Other projects of the author are available on:\n"
+"Project board: https://portfolio.hubariev.com\n"
+"GitHub: https://github.com/Gubchik123\n"
+msgstr ""
+
+#: handlers/users/commands/help.py:61
+msgid ""
+"{bot_username} commands:\n"
+"/help@{bot_username} - Get basic usage rules\n"
+"/moon@{bot_username} - Get moon phase\n"
+"/weather@{bot_username} [language code: {languages}] [weather provider: "
+"{providers}] [city] [period] - Get weather forecast\n"
+"\n"
+"Enjoy using!!!\n"
+"\n"
+"{bot_username} author contacts:\n"
 "CV site: https://hubariev.com\n"
 "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
 "Instagram: https://www.instagram.com/notwhale.1746\n"
@@ -105,22 +125,22 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: handlers/users/commands/start.py:61
+#: handlers/users/commands/start.py:62
 msgid ""
 "Hello, {name}!\n"
 "I am the one who will help you find out information about the weather in "
 "cities around the world."
 msgstr ""
 
-#: handlers/users/mailing/menu.py:16
+#: handlers/users/mailing/menu.py:18
 msgid "mailing"
 msgstr ""
 
-#: handlers/users/mailing/menu.py:28
+#: handlers/users/mailing/menu.py:29
 msgid "Do you really want to subscribe to the daily weather forecast mailing?"
 msgstr ""
 
-#: handlers/users/mailing/menu.py:44
+#: handlers/users/mailing/menu.py:45
 msgid ""
 "<b>Mailing</b>\n"
 "\n"
@@ -131,11 +151,11 @@ msgid ""
 "City / locality: {city}"
 msgstr ""
 
-#: handlers/users/mailing/menu.py:52
+#: handlers/users/mailing/menu.py:53
 msgid "silent"
 msgstr ""
 
-#: handlers/users/mailing/menu.py:52
+#: handlers/users/mailing/menu.py:53
 msgid "alert"
 msgstr ""
 
@@ -155,7 +175,7 @@ msgstr ""
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:82
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:83
 msgid "Searching..."
 msgstr ""
 
@@ -184,11 +204,11 @@ msgstr ""
 msgid "Language successfully changed to {locale}!"
 msgstr ""
 
-#: handlers/users/profile/menu.py:14
+#: handlers/users/profile/menu.py:16
 msgid "profile"
 msgstr ""
 
-#: handlers/users/profile/menu.py:24
+#: handlers/users/profile/menu.py:25
 msgid ""
 "<b>Profile</b>\n"
 "\n"
@@ -241,16 +261,38 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr ""
 
-#: handlers/users/weather/city.py:26
+#: handlers/users/weather/city.py:27
 msgid "weather forecast"
 msgstr ""
 
-#: handlers/users/weather/city.py:54
+#: handlers/users/weather/city.py:55
 msgid "Enter the name of the city / locality"
 msgstr ""
 
 #: handlers/users/weather/city_title.py:22
 msgid "Choose the city / locality you had in mind:"
+msgstr ""
+
+#: handlers/users/weather/from_command.py:78
+msgid ""
+"❌ Invalid number of arguments. Expected 4 arguments: [language code: "
+"{languages}] [weather provider: {providers}] [city] [period]"
+msgstr ""
+
+#: handlers/users/weather/from_command.py:86
+msgid "❌ Unknown language code. Expected one of: {languages}"
+msgstr ""
+
+#: handlers/users/weather/from_command.py:89
+msgid "❌ Unknown weather provider. Expected one of: {providers}"
+msgstr ""
+
+#: handlers/users/weather/from_command.py:92
+msgid "❌ Exact city not found. Fuzzy search is not allowed."
+msgstr ""
+
+#: handlers/users/weather/from_command.py:93
+msgid "❌ Invalid period."
 msgstr ""
 
 #: handlers/users/weather/period.py:29
@@ -265,7 +307,7 @@ msgstr ""
 msgid "Do you want to mute the mailing?"
 msgstr ""
 
-#: handlers/users/weather/send.py:101
+#: handlers/users/weather/send.py:111
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"
