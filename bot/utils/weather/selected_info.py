@@ -59,3 +59,17 @@ class BaseSelectedInfo:
     def about_many_days(self) -> bool:
         """Getter for condition about many days"""
         return self.about_week or self.about_fortnight
+
+    @classmethod
+    def get_time_by_(cls, time_title: str) -> str:
+        """Returns special time string by the given time title."""
+        if time_title in ("зараз", "сейчас", "now"):
+            return cls.now
+        elif time_title in ("сьогодні", "сегодня", "today"):
+            return cls.today
+        elif time_title in ("завтра", "tomorrow"):
+            return cls.tomorrow
+        elif time_title in ("тиждень", "неделя", "week"):
+            return cls.week
+        elif time_title in ("два тижні", "две недели", "fortnight"):
+            return cls.fortnight

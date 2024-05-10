@@ -36,6 +36,22 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
     )
     weather_provider_module.INFO.set(**data)
 
+    await send_weather_forecast_with_(message, weather_provider_module)
+    await handle_menu(message)
+
+    if message.chat.id not in ADMINS:
+        asyncio.create_task(
+            send_to_admins(
+                f"ℹ️ {user.full_name} (<code>{user.chat_id}</code>) "
+                f"got weather in {data['city_title']} ({data['time_title']})."
+            )
+        )
+
+
+async def send_weather_forecast_with_(
+    message: Message, weather_provider_module: ModuleType
+):
+    """Sends weather forecast to user with weather provider module."""
     try:
         send_function = (
             _send_weather_forecast_for_one_day
@@ -43,22 +59,16 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
             else _send_weather_forecast_for_many_days
         )
         await send_function(message, weather_provider_module)
-        await handle_menu(message)
-
-        if message.chat.id not in ADMINS:
-            asyncio.create_task(
-                send_to_admins(
-                    f"ℹ️ {user.full_name} (<code>{user.chat_id}</code>) "
-                    f"got weather in {data['city_title']} ({data['time_title']})."
-                )
-            )
     except WeatherProviderServerError as error:
         await _send_weather_provider_server_error(message, error)
     except Exception as error:
         await send_message_about_error(
             message,
             str(error),
-            error_place=f" {str(error.__class__)[8:-2]} during parsing {pformat(data)}",
+            error_place=(
+                f" {str(error.__class__)[8:-2]} during parsing"
+                f" {pformat(weather_provider_module.INFO.__dict__)}"
+            ),
         )
 
 
