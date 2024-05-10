@@ -50,8 +50,8 @@ async def _set_private_chats_commands_for_(bot: Bot):
             BotCommand(command="start", description="Початок роботи з ботом"),
             HELP_COMMAND["uk"],
             BotCommand(command="menu", description="Отримати головне меню"),
-            WEATHER_COMMAND["uk"],
             MOON_COMMAND["uk"],
+            WEATHER_COMMAND["uk"],
             BotCommand(
                 command="profile", description="Отримати профіль користувача"
             ),
@@ -69,8 +69,8 @@ async def _set_private_chats_commands_for_(bot: Bot):
             ),
             HELP_COMMAND["en"],
             BotCommand(command="menu", description="Get main menu"),
-            WEATHER_COMMAND["en"],
             MOON_COMMAND["en"],
+            WEATHER_COMMAND["en"],
             BotCommand(command="profile", description="Get user profile"),
             BotCommand(
                 command="mailing",
@@ -84,8 +84,8 @@ async def _set_private_chats_commands_for_(bot: Bot):
             BotCommand(command="start", description="Начало работы с ботом"),
             HELP_COMMAND["ru"],
             BotCommand(command="menu", description="Получить главное меню"),
-            WEATHER_COMMAND["ru"],
             MOON_COMMAND["ru"],
+            WEATHER_COMMAND["ru"],
             BotCommand(
                 command="profile", description="Получить профиль пользователя"
             ),
