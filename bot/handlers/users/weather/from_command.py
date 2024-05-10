@@ -1,6 +1,6 @@
 import asyncio
-from typing import Union
 from types import ModuleType
+from typing import Union, Optional
 
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
@@ -28,15 +28,20 @@ async def handle_weather_command_with_arguments(message: Message):
                 )
             )
         return
-    await message.answer(_get_error_message_by_(result))
+    await message.answer(get_error_message_by_(result))
 
 
-async def is_command_arguments_valid_(command: str) -> Union[ModuleType, str]:
+async def is_command_arguments_valid_(
+    command: str, check_length: Optional[bool] = True
+) -> Union[ModuleType, str]:
     """Checks if the /weather command arguments is valid
     and returns the error message key if it's not valid."""
-    args = command.strip().split(" ")[1:]
-    if len(args) != 4:
-        return "length"
+    if check_length:
+        args = command.strip().split(" ")[1:]
+        if len(args) != 4:
+            return "length"
+    else:
+        args = command.strip().split(" ")
     language, weather_provider, city, period = args
     # Check language
     if language not in LANGUAGES:
@@ -72,7 +77,7 @@ async def is_command_arguments_valid_(command: str) -> Union[ModuleType, str]:
     return weather_provider_module
 
 
-def _get_error_message_by_(error: str) -> str:
+def get_error_message_by_(error: str) -> str:
     """Returns error message by the given error message key."""
     return {
         "length": _(
