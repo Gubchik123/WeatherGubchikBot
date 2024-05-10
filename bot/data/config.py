@@ -28,3 +28,9 @@ WEATHER_PROVIDERS = [
     for dir in os.walk(BASE_DIR / "utils" / "weather")
     if not os.path.basename(dir[0]).endswith("__")
 ][1:]
+
+LANGUAGES = ["en"] + [
+    os.path.basename(dir[0])
+    for dir in os.walk(LOCALES_DIR)
+    if len(os.path.basename(dir[0])) == 2
+]
