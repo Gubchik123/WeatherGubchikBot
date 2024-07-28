@@ -5,6 +5,11 @@ from typing import Union
 from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, CallbackQuery
 
+from utils.db.crud.user import get_user_by_
+from keyboards.inline.profile.weather_provider import (
+    get_weather_provider_inline_keyboard,
+)
+
 from .admins import send_to_admins
 
 
@@ -66,3 +71,31 @@ def get_user_error_message() -> str:
             "and will fix the problem as soon as possible.\n\n"
             "Please, try again or restart the bot with the /start command."
         )
+
+
+async def send_weather_provider_server_error(
+    message: Message, error: Exception
+):
+    """Sends weather provider server error."""
+    user = get_user_by_(message.chat.id)
+    reply_markup = (
+        get_weather_provider_inline_keyboard(
+            except_weather_provider=user.weather_provider
+        )
+        if user
+        else None
+    )
+    await message.answer(
+        _(
+            "Unfortunately, the weather provider server is not available now. "
+            "The error is not connected with the bot.\n\n"
+            "Please, try again later <b>OR</b> choose another weather provider:"
+        ),
+        reply_markup=reply_markup,
+    )
+    await send_message_about_error(
+        message,
+        str(error),
+        error_place=f" {str(error.__class__)[8:-2]}",
+        message_to_user=False,
+    )

@@ -1,5 +1,3 @@
-import logging
-
 from aiogram import Bot
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.client.default import DefaultBotProperties
@@ -8,12 +6,14 @@ from data.config import BOT_TOKEN
 
 from .admins import send_to_admins
 from .weather import get_weather_provider_module_by_
+from .weather.request import WeatherProviderServerError
 from .db.crud.mailing import get_mailing_by_
 from .db.crud.user import get_user_by_, delete_user_with_
 from .error import (
     get_admin_error_message,
     get_traceback_file_path,
     get_user_error_message,
+    send_weather_provider_server_error,
 )
 
 
@@ -28,10 +28,10 @@ async def send_mailing(user_chat_id: int):
     )
     mailing = get_mailing_by_(user.chat_id)
 
-    message = await temp_bot.send_message(
-        user_chat_id, "📨", disable_notification=mailing.mute
-    )
     try:
+        message = await temp_bot.send_message(
+            user_chat_id, "📨", disable_notification=mailing.mute
+        )
         await temp_bot.send_message(
             user_chat_id,
             weather_provider_module.get_information_about_weather_by_(
@@ -46,6 +46,8 @@ async def send_mailing(user_chat_id: int):
         )
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)
+    except WeatherProviderServerError as error:
+        await send_weather_provider_server_error(message, error)
     except Exception as error:
         admin_error_message = get_admin_error_message(
             message,
