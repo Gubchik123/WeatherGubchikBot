@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-10 17:59+0200\n"
+"POT-Creation-Date: 2024-08-10 21:50+0300\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -46,6 +46,7 @@ msgstr ""
 "Наступного разу просто введіть або натисніть /start"
 
 #: handlers/users/commands/help.py:28
+#, fuzzy
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
@@ -72,7 +73,7 @@ msgid ""
 "Instagram: https://www.instagram.com/notwhale.1746\n"
 "\n"
 "Other projects of the author are available on:\n"
-"Project board: https://portfolio.hubariev.com\n"
+"Portfolio: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 msgstr ""
 "Команди бота:\n"
@@ -99,7 +100,7 @@ msgstr ""
 "Instagram: https://www.instagram.com/notwhale.1746\n"
 "\n"
 "Інші проекти автора доступні на:\n"
-"Дошка проектів: https://portfolio.hubariev.com\n"
+"Портфоліо: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 
 #: handlers/users/commands/help.py:61
@@ -124,8 +125,8 @@ msgstr ""
 "Команди {bot_username}:\n"
 "/help@{bot_username} - Отримати основні правила використання\n"
 "/moon@{bot_username} - Отримати фазу місяця\n"
-"/weather@{bot_username} [код мови: {languages}] [сайт погоди: {providers}] "
-"[місто] [період] - Отримати прогноз погоди\n"
+"/weather@{bot_username} [код мови: {languages}] [сайт погоди: "
+"{providers}] [місто] [період] - Отримати прогноз погоди\n"
 "\n"
 "Приємного використання!!!\n"
 "\n"
@@ -345,7 +346,7 @@ msgstr "Введіть назву міста / населеного пункту
 msgid "Choose the city / locality you had in mind:"
 msgstr "Виберіть місто / населений пункт, яке ви мали на увазі:"
 
-#: handlers/users/weather/from_command.py:78
+#: handlers/users/weather/from_command.py:83
 msgid ""
 "❌ Invalid number of arguments. Expected 4 arguments: [language code: "
 "{languages}] [weather provider: {providers}] [city] [period]"
@@ -353,19 +354,19 @@ msgstr ""
 "❌ Невірна кількість аргументів. Очікувалось 4 аргументи: [код мови: "
 "{languages}] [сайт погоди: {providers}] [місто] [період]"
 
-#: handlers/users/weather/from_command.py:86
+#: handlers/users/weather/from_command.py:91
 msgid "❌ Unknown language code. Expected one of: {languages}"
 msgstr "❌ Невідомий код мови. Очікувався один з: {languages}"
 
-#: handlers/users/weather/from_command.py:89
+#: handlers/users/weather/from_command.py:94
 msgid "❌ Unknown weather provider. Expected one of: {providers}"
 msgstr "❌ Невідомий сайт погоди. Очікувався один з: {providers}"
 
-#: handlers/users/weather/from_command.py:92
+#: handlers/users/weather/from_command.py:97
 msgid "❌ Exact city not found. Fuzzy search is not allowed."
 msgstr "❌ Точне місто не знайдено. Розмитий пошук не дозволено."
 
-#: handlers/users/weather/from_command.py:93
+#: handlers/users/weather/from_command.py:98
 msgid "❌ Invalid period."
 msgstr "❌ Невірний період."
 
@@ -380,17 +381,6 @@ msgstr "Опрацювання..."
 #: handlers/users/weather/period.py:73
 msgid "Do you want to mute the mailing?"
 msgstr "Ви хочете вимкнути звук розсилки?"
-
-#: handlers/users/weather/send.py:111
-msgid ""
-"Unfortunately, the weather provider server is not available now. The "
-"error is not connected with the bot.\n"
-"\n"
-"Please, try again later <b>OR</b> choose another weather provider:"
-msgstr ""
-"На жаль, сервер погоди зараз недоступний. Помилка не пов'язана з ботом.\n"
-"\n"
-"Будь ласка, спробуйте пізніше <b>АБО</b> оберіть інший сайт погоди:"
 
 #: keyboards/default/menu.py:11
 msgid "Weather forecast"
@@ -488,7 +478,7 @@ msgstr "🔙 Меню"
 msgid "🔙 Profile"
 msgstr "🔙 Профіль"
 
-#: utils/error.py:55
+#: utils/error.py:60
 msgid ""
 "An error occurred! 😥\n"
 "\n"
@@ -503,6 +493,17 @@ msgstr ""
 "якнайшвидше.\n"
 "\n"
 "Будь ласка, спробуйте ще раз або перезапустіть бота командою /start."
+
+#: utils/error.py:89
+msgid ""
+"Unfortunately, the weather provider server is not available now. The "
+"error is not connected with the bot.\n"
+"\n"
+"Please, try again later <b>OR</b> choose another weather provider:"
+msgstr ""
+"На жаль, сервер погоди зараз недоступний. Помилка не пов'язана з ботом.\n"
+"\n"
+"Будь ласка, спробуйте пізніше <b>АБО</b> оберіть інший сайт погоди:"
 
 #: utils/weather/graph.py:15
 msgid "Day"

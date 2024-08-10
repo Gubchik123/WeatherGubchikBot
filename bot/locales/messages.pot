@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-10 17:59+0200\n"
+"POT-Creation-Date: 2024-08-10 21:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,7 +66,7 @@ msgid ""
 "Instagram: https://www.instagram.com/notwhale.1746\n"
 "\n"
 "Other projects of the author are available on:\n"
-"Project board: https://portfolio.hubariev.com\n"
+"Portfolio: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 msgstr ""
 
@@ -273,25 +274,25 @@ msgstr ""
 msgid "Choose the city / locality you had in mind:"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:78
+#: handlers/users/weather/from_command.py:83
 msgid ""
 "❌ Invalid number of arguments. Expected 4 arguments: [language code: "
 "{languages}] [weather provider: {providers}] [city] [period]"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:86
+#: handlers/users/weather/from_command.py:91
 msgid "❌ Unknown language code. Expected one of: {languages}"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:89
+#: handlers/users/weather/from_command.py:94
 msgid "❌ Unknown weather provider. Expected one of: {providers}"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:92
+#: handlers/users/weather/from_command.py:97
 msgid "❌ Exact city not found. Fuzzy search is not allowed."
 msgstr ""
 
-#: handlers/users/weather/from_command.py:93
+#: handlers/users/weather/from_command.py:98
 msgid "❌ Invalid period."
 msgstr ""
 
@@ -305,14 +306,6 @@ msgstr ""
 
 #: handlers/users/weather/period.py:73
 msgid "Do you want to mute the mailing?"
-msgstr ""
-
-#: handlers/users/weather/send.py:111
-msgid ""
-"Unfortunately, the weather provider server is not available now. The "
-"error is not connected with the bot.\n"
-"\n"
-"Please, try again later <b>OR</b> choose another weather provider:"
 msgstr ""
 
 #: keyboards/default/menu.py:11
@@ -411,7 +404,7 @@ msgstr ""
 msgid "🔙 Profile"
 msgstr ""
 
-#: utils/error.py:55
+#: utils/error.py:60
 msgid ""
 "An error occurred! 😥\n"
 "\n"
@@ -419,6 +412,14 @@ msgid ""
 " as soon as possible.\n"
 "\n"
 "Please, try again or restart the bot with the /start command."
+msgstr ""
+
+#: utils/error.py:89
+msgid ""
+"Unfortunately, the weather provider server is not available now. The "
+"error is not connected with the bot.\n"
+"\n"
+"Please, try again later <b>OR</b> choose another weather provider:"
 msgstr ""
 
 #: utils/weather/graph.py:15

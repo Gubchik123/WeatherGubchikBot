@@ -45,7 +45,7 @@ async def _send_private_help_message(message: Message):
             "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
             "Instagram: https://www.instagram.com/notwhale.1746\n\n"
             "Other projects of the author are available on:\n"
-            "Project board: https://portfolio.hubariev.com\n"
+            "Portfolio: https://portfolio.hubariev.com\n"
             "GitHub: https://github.com/Gubchik123\n"
         ).format(
             languages=", ".join(LANGUAGES),
