@@ -42,14 +42,20 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
 
     local_date = block.find("div", class_="now-localdate").text.strip()
     # Temperature
-    temp = block.find("div", class_="now-weather").text.strip() + "°C"
-    feels_like = block.find("div", class_="now-feel").text.strip() + "°C"
+    temp = block.find("div", class_="now-weather").find().get("value") + "°C"
+    feels_like = (
+        block.find("div", class_="now-feel").text.strip()
+        + " "
+        + block.find("div", class_="now-feel").find().get("value")
+        + "°C"
+    )
     # Description
     desc = block.find("div", class_="now-desc").text.strip()
     # Details
     weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
     details = [
         item.find("div", class_="item-value").text.strip()
+        or item.find("div", class_="item-value").find().get("value")
         for item in block.find_all("div", class_="now-info-item")
     ]
     return (
@@ -138,7 +144,7 @@ def _get_weather_info_by_(
                 temperature_rows[row_index], time
             )
         else:
-            temp = temperature_rows[row_index].find("span").text
+            temp = temperature_rows[row_index].find().get("value")
         description = description_rows[row_index].get("data-tooltip")
         if not description:
             description = (
@@ -146,7 +152,7 @@ def _get_weather_info_by_(
                 .find("div", class_="weather-icon")
                 .get("data-text")
             )
-        wind = wind_rows[row_index].find("span").text.strip()
+        wind = wind_rows[row_index].find_all()[-1].get("value")
         humidity = humidity_rows[row_index].text.strip()
         precipitation = int(
             float(
@@ -197,8 +203,8 @@ def _get_pretty_day_string_from_(day_block: BeautifulSoup) -> str:
 
 def _get_pretty_temp_string_from_(temp_row: BeautifulSoup, time: str) -> str:
     """Returns pretty string with temperature."""
-    max_temp = temp_row.find("div", class_="maxt").find("span").text.strip()
-    min_temp = temp_row.find("div", class_="mint").find("span").text.strip()
+    max_temp = temp_row.find("div", class_="maxt").find().get("value")
+    min_temp = temp_row.find("div", class_="mint").find().get("value")
 
     MAX_TEMPS[time] = int(max_temp)
     MIN_TEMPS[time] = int(min_temp)
