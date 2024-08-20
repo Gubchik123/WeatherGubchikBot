@@ -46,7 +46,6 @@ msgstr ""
 "Наступного разу просто введіть або натисніть /start"
 
 #: handlers/users/commands/help.py:28
-#, fuzzy
 msgid ""
 "Bot commands:\n"
 "/start - Start working with the bot\n"
