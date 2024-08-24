@@ -39,9 +39,9 @@ async def _send_weather_forecast(
     if weather_provider_module.INFO.about_now:
         get_function = weather_provider_module.get_information_for_now
     elif weather_provider_module.INFO.about_one_day:
-        get_function = weather_provider_module.get_information_for_one_day
+        get_function = weather_provider_module.get_information_about_one_day
     else:
-        get_function = weather_provider_module.get_information_for_many_days
+        get_function = weather_provider_module.get_information_about_many_days
 
     weather_forecast = get_function()
 
