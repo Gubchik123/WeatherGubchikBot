@@ -5,7 +5,7 @@ from aiogram.utils.i18n import gettext as _
 
 from bot import bot
 from utils.decorators import before_handler_clear_state
-from data.config import WEATHER_PROVIDERS, LANGUAGES
+from data.config import WEATHER_PROVIDERS, LANGUAGES, MAILING_TIMES
 
 
 router = Router()
@@ -13,7 +13,7 @@ router = Router()
 
 @router.message(Command("help"))
 @before_handler_clear_state
-async def handle_help_command(message: Message, *args):
+async def handle_help_command(message: Message, **kwargs):
     """Handles the /help command."""
     (
         await _send_private_help_message(message)
@@ -35,11 +35,16 @@ async def _send_private_help_message(message: Message):
             "[weather provider: {providers}] [city] [period]) "
             "- Get weather forecast\n"
             "/profile - Get user profile\n"
-            "/mailing - Get mailing menu / Sign up for the newsletter\n"
+            "/mailing ([language code: {languages}] "
+            "[weather provider: {providers}] [city] [period] [time: {times}] "
+            "[mute: True (t,1) / False (f,0)]) "
+            "- Get mailing menu / Sign up for or update the newsletter\n"
             "/goodbye - Pause working with the bot\n\n"
             "Sign up for the newsletter (/mailing) to receive daily weather information in the city of your choice (you can turn it off at any time)\n\n"
             "I advise you to use the buttons or commands for the intended result\n\n"
             "Enjoy using!!!\n\n"
+            "You can suggest an idea or report a bug by following the link: "
+            "https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n\n"
             "Bot author contacts:\n"
             "CV site: https://hubariev.com\n"
             "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
@@ -50,6 +55,7 @@ async def _send_private_help_message(message: Message):
         ).format(
             languages=", ".join(LANGUAGES),
             providers=", ".join(WEATHER_PROVIDERS),
+            times=", ".join(map(str, MAILING_TIMES)),
         )
     )
 
@@ -65,7 +71,14 @@ async def _send_group_help_message(message: Message):
             "/weather@{bot_username} [language code: {languages}] "
             "[weather provider: {providers}] [city] [period] "
             "- Get weather forecast\n\n"
+            "/mailing ([language code: {languages}] "
+            "[weather provider: {providers}] [city] [period] [time: {times}] "
+            "[mute: True (t,1) / False (f,0)]) "
+            "- Sign up for or update the newsletter\n"
+            "/unsubscribe_mailing - Unsubscribe from the newsletter\n\n"
             "Enjoy using!!!\n\n"
+            "You can suggest an idea or report a bug by following the link: "
+            "https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n\n"
             "{bot_username} author contacts:\n"
             "CV site: https://hubariev.com\n"
             "LinkedIn: https://www.linkedin.com/in/nikita-hubariev\n"
@@ -77,5 +90,6 @@ async def _send_group_help_message(message: Message):
             bot_username=bot_me.username,
             languages=", ".join(LANGUAGES),
             providers=", ".join(WEATHER_PROVIDERS),
+            times=", ".join(map(str, MAILING_TIMES)),
         )
     )
