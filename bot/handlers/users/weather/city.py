@@ -27,7 +27,10 @@ router = Router()
 @router.message(IsPrivateChatType(), F.text.lower() == __("weather forecast"))
 @before_handler_clear_state
 async def handle_weather(
-    event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
+    event: Union[Message, CallbackQuery],
+    state: FSMContext,
+    i18n: I18n,
+    **kwargs
 ):
     """Starts the weather forecast search state."""
     await ask_about_city(event, i18n)

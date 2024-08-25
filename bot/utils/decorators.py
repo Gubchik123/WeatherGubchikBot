@@ -34,7 +34,10 @@ def command_argument_required(convert: Optional[type] = str) -> Callable:
 
 def before_handler_clear_state(handler: Callable) -> None:
     async def wrapper(
-        event: Union[Message, CallbackQuery], state: FSMContext, i18n: I18n
+        event: Union[Message, CallbackQuery],
+        state: FSMContext,
+        i18n: I18n,
+        scheduler: AsyncIOScheduler,
     ) -> None:
         current_state = await state.get_state() if state else None
 
@@ -42,6 +45,6 @@ def before_handler_clear_state(handler: Callable) -> None:
             logging.info(f"Cancelling state {current_state}")
             await state.clear()
 
-        await handler(event, state, i18n)
+        await handler(event, state=state, i18n=i18n, scheduler=scheduler)
 
     return wrapper

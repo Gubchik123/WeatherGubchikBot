@@ -27,7 +27,7 @@ router = Router()
 @router.callback_query(F.data == "btn_subscribe_mailing")
 @before_handler_clear_state
 async def handle_subscribe_mailing(
-    callback_query: CallbackQuery, state: FSMContext, i18n: I18n
+    callback_query: CallbackQuery, state: FSMContext, i18n: I18n, **kwargs
 ):
     """Starts the mailing subscription state."""
     await ask_about_city(callback_query, i18n)

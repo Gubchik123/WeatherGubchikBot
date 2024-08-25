@@ -21,7 +21,7 @@ router = Router()
 
 @router.message(IsPrivateChatType(), CommandStart())
 @before_handler_clear_state
-async def handle_start_command(message: Message, *args):
+async def handle_start_command(message: Message, **kwargs):
     """Handles the /start command.
     Creates a new user in the database if it does not exist."""
     try:

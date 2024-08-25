@@ -22,7 +22,7 @@ router = Router()
 @router.callback_query(F.data == "btn_mailing_city")
 @before_handler_clear_state
 async def handle_mailing_city(
-    callback_query: CallbackQuery, state: FSMContext, i18n: I18n
+    callback_query: CallbackQuery, state: FSMContext, i18n: I18n, **kwargs
 ):
     """Starts the mailing city state."""
     await ask_about_city(callback_query, i18n)

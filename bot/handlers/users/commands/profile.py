@@ -13,6 +13,6 @@ router = Router()
 
 @router.message(IsPrivateChatType(), Command("profile"))
 @before_handler_clear_state
-async def handle_profile_command(message: Message, *args):
+async def handle_profile_command(message: Message, **kwargs):
     """Handles the /profile command."""
     await handle_profile(message)

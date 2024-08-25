@@ -13,6 +13,6 @@ router = Router()
 
 @router.message(IsPrivateChatType(), Command("menu"))
 @before_handler_clear_state
-async def handle_menu_command(message: Message, *args) -> None:
+async def handle_menu_command(message: Message, **kwargs) -> None:
     """Handles the /menu command."""
     await handle_menu(message)

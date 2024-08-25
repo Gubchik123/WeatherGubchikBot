@@ -16,7 +16,7 @@ router = Router()
 @router.message(Command("weather"))
 @before_handler_clear_state
 async def handle_weather_command(
-    message: Message, state: FSMContext, i18n: I18n
+    message: Message, state: FSMContext, i18n: I18n, **kwargs
 ):
     """Handles the /weather command."""
     (

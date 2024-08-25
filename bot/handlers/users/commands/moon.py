@@ -16,7 +16,7 @@ router = Router()
 
 @router.message(Command("moon"))
 @before_handler_clear_state
-async def handle_moon_command(message: Message, *args):
+async def handle_moon_command(message: Message, **kwargs):
     """Handles the /moon command."""
     url = "https://www.moongiant.com/phase/today/"
     moon = (

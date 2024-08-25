@@ -14,7 +14,7 @@ router = Router()
 @router.message(IsPrivateChatType(), Command("goodbye"))
 @router.message(IsPrivateChatType(), F.text.lower() == __("end communication"))
 @before_handler_clear_state
-async def handle_goodbye_command(message: Message, *args):
+async def handle_goodbye_command(message: Message, **kwargs):
     """Handles the /goodbye command."""
     await message.answer_sticker(
         "CAACAgIAAxkBAAICBGLIifDJ3jPz291sEcRKE5EO4j99AALsAwAC0lqIAZ0zny94Yp4oKQQ"
