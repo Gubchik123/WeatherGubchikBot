@@ -34,3 +34,5 @@ LANGUAGES = ["en"] + [
     for dir in os.walk(LOCALES_DIR)
     if len(os.path.basename(dir[0])) == 2
 ]
+
+MAILING_TIMES = [6, 9, 12, 15, 18, 21]
