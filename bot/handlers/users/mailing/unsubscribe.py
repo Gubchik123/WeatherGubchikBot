@@ -1,9 +1,11 @@
 import asyncio
 
 from aiogram import Router, F
-from aiogram.types import CallbackQuery
 from aiogram.utils.i18n import gettext as _
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from aiogram.types import CallbackQuery, User as TelegramUser
+from sqlalchemy.orm.exc import UnmappedInstanceError
+from apscheduler.jobstores.base import JobLookupError
 
 from utils.admins import ADMINS, send_to_admins
 from utils.db.crud.mailing import delete_mailing_for_
@@ -32,15 +34,21 @@ async def handle_unsubscribe(
     callback_query: CallbackQuery, scheduler: AsyncIOScheduler
 ):
     """Handles the user unsubscription from the mailing."""
-    user = callback_query.from_user
-
-    remove_mailing_for_(user.id, scheduler)
-
+    unsubscribe_mailing_for_(
+        user=callback_query.from_user, scheduler=scheduler
+    )
     await callback_query.answer(
         _("You have successfully unsubscribed from the mailing!")
     )
     await handle_menu(callback_query)
 
+
+def unsubscribe_mailing_for_(user: TelegramUser, scheduler: AsyncIOScheduler):
+    """Unsubscribes the given user from the mailing."""
+    try:
+        remove_mailing_for_(user.id, scheduler)
+    except (UnmappedInstanceError, JobLookupError):
+        return
     if user.id not in ADMINS:
         asyncio.create_task(
             send_to_admins(
