@@ -82,6 +82,7 @@ def _register_middlewares() -> None:
     LanguageMiddleware(i18n).setup(dispatcher)
     # Message middleware
     dispatcher.message.middleware(SchedulerMiddleware(scheduler))
+    dispatcher.channel_post.middleware(SchedulerMiddleware(scheduler))
     # CallbackQuery middlewares
     dispatcher.callback_query.middleware(CallbackQueryTimeoutMiddleware())
     dispatcher.callback_query.middleware(SchedulerMiddleware(scheduler))
