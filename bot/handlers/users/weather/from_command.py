@@ -1,6 +1,6 @@
 import asyncio
 from types import ModuleType
-from typing import Union, Optional
+from typing import Union, Optional, Dict
 
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
@@ -14,7 +14,7 @@ from .send import send_weather_forecast_with_
 
 async def handle_weather_command_with_arguments(message: Message):
     """Handles the /weather command with arguments."""
-    result = await is_command_arguments_valid_(message.text.strip())
+    result = await is_weather_command_arguments_valid_(message.text.strip())
 
     if isinstance(result, ModuleType):
         await send_weather_forecast_with_(message, result)
@@ -28,10 +28,10 @@ async def handle_weather_command_with_arguments(message: Message):
                 )
             )
         return
-    await message.answer(get_error_message_by_(result))
+    await message.answer(_get_weather_error_message_by_(result))
 
 
-async def is_command_arguments_valid_(
+async def is_weather_command_arguments_valid_(
     command: str, check_length: Optional[bool] = True
 ) -> Union[ModuleType, str]:
     """Checks if the /weather command arguments is valid
@@ -77,8 +77,13 @@ async def is_command_arguments_valid_(
     return weather_provider_module
 
 
-def get_error_message_by_(error: str) -> str:
-    """Returns error message by the given error message key."""
+def _get_weather_error_message_by_(error: str) -> str:
+    """Returns weather error message by the given error message key."""
+    return get_weather_error_messages().get(error)
+
+
+def get_weather_error_messages() -> Dict[str, str]:
+    """Returns all error messages for the /weather command arguments."""
     return {
         "length": _(
             "❌ Invalid number of arguments. Expected 4 arguments: "
@@ -96,4 +101,4 @@ def get_error_message_by_(error: str) -> str:
         ).format(providers=", ".join(WEATHER_PROVIDERS)),
         "city": _("❌ Exact city not found. Fuzzy search is not allowed."),
         "period": _("❌ Invalid period."),
-    }.get(error)
+    }
