@@ -34,8 +34,7 @@ async def handle_unsubscribe(
     """Handles the user unsubscription from the mailing."""
     user = callback_query.from_user
 
-    delete_mailing_for_(user.id)
-    scheduler.remove_job(f"mailing-{user.id}")
+    remove_mailing_for_(user.id, scheduler)
 
     await callback_query.answer(
         _("You have successfully unsubscribed from the mailing!")
@@ -49,3 +48,9 @@ async def handle_unsubscribe(
                 "unsubscribe from mailing."
             )
         )
+
+
+def remove_mailing_for_(user_id: int, scheduler: AsyncIOScheduler):
+    """Removes the mailing for the user."""
+    delete_mailing_for_(user_id)
+    scheduler.remove_job(f"mailing-{user_id}")
