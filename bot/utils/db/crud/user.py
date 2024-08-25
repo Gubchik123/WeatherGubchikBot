@@ -1,8 +1,12 @@
-from typing import Dict, Union, List
+from datetime import datetime
+from typing import Dict, Union, List, Optional
 
 from sqlalchemy import update
+from pytz import timezone as tz
 from sqlalchemy.orm import Session
 from aiogram.types import User as TelegramUser
+
+from data.config import DEFAULT_TIMEZONE
 
 from ..models import User
 from ..db import LocalSession, add_commit_and_refresh
@@ -16,13 +20,15 @@ def _get_user_by_(session: Session, user_chat_id: int) -> Union[User, None]:
     return session.query(User).filter(User.chat_id == user_chat_id).first()
 
 
-def create_user_by_(telegram_user: TelegramUser) -> None:
+def create_user_by_(telegram_user: TelegramUser, **fields) -> User:
     """Creates user in database by the given telegram user."""
-    add_commit_and_refresh(
+    return add_commit_and_refresh(
         User(
             chat_id=telegram_user.id,
             username=telegram_user.username,
             full_name=telegram_user.full_name,
+            **fields,
+            created=datetime.now(tz(DEFAULT_TIMEZONE)),
         )
     )
 
