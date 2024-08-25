@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-10 21:50+0300\n"
+"POT-Creation-Date: 2024-08-25 17:37+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -57,7 +57,9 @@ msgid ""
 "/weather ([language code: {languages}] [weather provider: {providers}] "
 "[city] [period]) - Get weather forecast\n"
 "/profile - Get user profile\n"
-"/mailing - Get mailing menu / Sign up for the newsletter\n"
+"/mailing ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period] [time: {times}] [mute: True (t,1) / False (f,0)]) - Get "
+"mailing menu / Sign up for or update the newsletter\n"
 "/goodbye - Pause working with the bot\n"
 "\n"
 "Sign up for the newsletter (/mailing) to receive daily weather "
@@ -67,6 +69,9 @@ msgid ""
 "I advise you to use the buttons or commands for the intended result\n"
 "\n"
 "Enjoy using!!!\n"
+"\n"
+"You can suggest an idea or report a bug by following the link: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "Bot author contacts:\n"
 "CV site: https://hubariev.com\n"
@@ -85,7 +90,9 @@ msgstr ""
 "/weather ([код языка: {languages}] [сайт погоды: {providers}] [город] "
 "[период]) - Получить прогноз погоды\n"
 "/profile - Получить профиль пользователя\n"
-"/mailing - Получить меню рассылки / Подписаться на рассылку\n"
+"/mailing ([код языка: {languages}] [сайт погоды: {providers}] [город] "
+"[период] [время: {times}] [mute: True (t,1) / False (f,0)]) - Получить "
+"меню рассылки / Подписаться на рассылку или обновить ее\n"
 "/goodbye - Приостановить работу с ботом\n"
 "\n"
 "Оформите рассылку, чтобы каждый день узнавать информацию о погоде в "
@@ -94,6 +101,9 @@ msgstr ""
 "Советую использовать кнопки для задуманного результата\n"
 "\n"
 "Приятного использования!!!\n"
+"\n"
+"Вы можете предложить идею или сообщить об ошибке, перейдя по ссылке: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "Контакты автора бота:\n"
 "Сайт резюме: https://hubariev.com\n"
@@ -104,7 +114,7 @@ msgstr ""
 "Портфолио: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/help.py:61
+#: handlers/users/commands/help.py:67
 msgid ""
 "{bot_username} commands:\n"
 "/help@{bot_username} - Get basic usage rules\n"
@@ -112,7 +122,15 @@ msgid ""
 "/weather@{bot_username} [language code: {languages}] [weather provider: "
 "{providers}] [city] [period] - Get weather forecast\n"
 "\n"
+"/mailing ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period] [time: {times}] [mute: True (t,1) / False (f,0)]) - Sign "
+"up for or update the newsletter\n"
+"/unsubscribe_mailing - Unsubscribe from the newsletter\n"
+"\n"
 "Enjoy using!!!\n"
+"\n"
+"You can suggest an idea or report a bug by following the link: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "{bot_username} author contacts:\n"
 "CV site: https://hubariev.com\n"
@@ -128,8 +146,15 @@ msgstr ""
 "/moon@{bot_username} - Получить фазу луны\n"
 "/weather@{bot_username} [код языка: {languages}] [сайт погоды: "
 "{providers}] [город] [период] - Получить прогноз погоды\n"
+"/mailing ([код языка: {languages}] [сайт погоды: {providers}] [город] "
+"[период] [время: {times}] [mute: True (t,1) / False (f,0)]) - Подписаться "
+"на рассылку или обновить ее\n"
+"/unsubscribe_mailing - Отписаться от рассылки\n"
 "\n"
 "Приятного использования!!!\n"
+"\n"
+"Вы можете предложить идею или сообщить об ошибке, перейдя по ссылке: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "Контакты автора {bot_username}:\n"
 "Сайт резюме: https://hubariev.com\n"
@@ -186,6 +211,24 @@ msgstr ""
 "Я тот, кто поможет тебе узнать информацию о погоде в городах по всему "
 "миру."
 
+#: handlers/users/mailing/from_command.py:164
+msgid ""
+"❌ Invalid number of arguments. Expected 6 arguments: [language code: "
+"{languages}] [weather provider: {providers}] [city] [period] [time: "
+"{times}] [mute: True (t,1) / False (f,0)]) "
+msgstr ""
+"❌ Неверное количество аргументов. Ожидалось 6 аргументов: [код языка: "
+"{languages}] [сайт погоды: {providers}] [город] [период] [время: {times}] "
+"[mute: True (t,1) / False (f,0)]) "
+
+#: handlers/users/mailing/from_command.py:173
+msgid "❌ Unknown time. Expected one of: {times}"
+msgstr "❌ Неизвестное время. Ожидалось одно из: {times}"
+
+#: handlers/users/mailing/from_command.py:176
+msgid "❌ Invalid mute mode. Expected: True (t,1) or False (f,0)"
+msgstr "❌ Неверный режим звука. Ожидалось: True (t,1) или False (f,0)"
+
 #: handlers/users/mailing/menu.py:18
 msgid "mailing"
 msgstr "рассылка"
@@ -230,7 +273,7 @@ msgstr "В какое время Вы хотите получать рассыл
 msgid "You have successfully completed the mailing setup!"
 msgstr "Вы успешно завершили настройку рассылки!"
 
-#: handlers/users/mailing/unsubscribe.py:22
+#: handlers/users/mailing/unsubscribe.py:24
 msgid "Are you sure you want to unsubscribe from the mailing?"
 msgstr "Вы уверены, что хотите отписаться от рассылки?"
 
@@ -238,7 +281,7 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:83
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:86
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -341,7 +384,7 @@ msgstr "Сайт погоды успешно изменен на {weather_provid
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:55
+#: handlers/users/weather/city.py:58
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
@@ -349,7 +392,7 @@ msgstr "Введите название города / населенного п
 msgid "Choose the city / locality you had in mind:"
 msgstr "Выберите город / населенный пункт, который Вы имели в виду:"
 
-#: handlers/users/weather/from_command.py:83
+#: handlers/users/weather/from_command.py:88
 msgid ""
 "❌ Invalid number of arguments. Expected 4 arguments: [language code: "
 "{languages}] [weather provider: {providers}] [city] [period]"
@@ -357,19 +400,19 @@ msgstr ""
 "❌ Неверное количество аргументов. Ожидалось 4 аргумента: [код языка: "
 "{languages}] [сайт погоды: {providers}] [город] [период]"
 
-#: handlers/users/weather/from_command.py:91
+#: handlers/users/weather/from_command.py:96
 msgid "❌ Unknown language code. Expected one of: {languages}"
 msgstr "❌ Неизвестный код языка. Ожидался один из: {languages}"
 
-#: handlers/users/weather/from_command.py:94
+#: handlers/users/weather/from_command.py:99
 msgid "❌ Unknown weather provider. Expected one of: {providers}"
 msgstr "❌ Неизвестный сайт погоды. Ожидался один из: {providers}"
 
-#: handlers/users/weather/from_command.py:97
+#: handlers/users/weather/from_command.py:102
 msgid "❌ Exact city not found. Fuzzy search is not allowed."
 msgstr "❌ Точный город не найден. Расплывчатый поиск не разрешен."
 
-#: handlers/users/weather/from_command.py:98
+#: handlers/users/weather/from_command.py:103
 msgid "❌ Invalid period."
 msgstr "❌ Неверный период."
 

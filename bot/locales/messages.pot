@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-10 21:50+0300\n"
+"POT-Creation-Date: 2024-08-25 17:37+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,9 @@ msgid ""
 "/weather ([language code: {languages}] [weather provider: {providers}] "
 "[city] [period]) - Get weather forecast\n"
 "/profile - Get user profile\n"
-"/mailing - Get mailing menu / Sign up for the newsletter\n"
+"/mailing ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period] [time: {times}] [mute: True (t,1) / False (f,0)]) - Get "
+"mailing menu / Sign up for or update the newsletter\n"
 "/goodbye - Pause working with the bot\n"
 "\n"
 "Sign up for the newsletter (/mailing) to receive daily weather "
@@ -58,6 +60,9 @@ msgid ""
 "I advise you to use the buttons or commands for the intended result\n"
 "\n"
 "Enjoy using!!!\n"
+"\n"
+"You can suggest an idea or report a bug by following the link: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "Bot author contacts:\n"
 "CV site: https://hubariev.com\n"
@@ -69,7 +74,7 @@ msgid ""
 "GitHub: https://github.com/Gubchik123\n"
 msgstr ""
 
-#: handlers/users/commands/help.py:61
+#: handlers/users/commands/help.py:67
 msgid ""
 "{bot_username} commands:\n"
 "/help@{bot_username} - Get basic usage rules\n"
@@ -77,7 +82,15 @@ msgid ""
 "/weather@{bot_username} [language code: {languages}] [weather provider: "
 "{providers}] [city] [period] - Get weather forecast\n"
 "\n"
+"/mailing ([language code: {languages}] [weather provider: {providers}] "
+"[city] [period] [time: {times}] [mute: True (t,1) / False (f,0)]) - Sign "
+"up for or update the newsletter\n"
+"/unsubscribe_mailing - Unsubscribe from the newsletter\n"
+"\n"
 "Enjoy using!!!\n"
+"\n"
+"You can suggest an idea or report a bug by following the link: "
+"https://github.com/Gubchik123/WeatherGubchikBot/issues/new\n"
 "\n"
 "{bot_username} author contacts:\n"
 "CV site: https://hubariev.com\n"
@@ -132,6 +145,21 @@ msgid ""
 "cities around the world."
 msgstr ""
 
+#: handlers/users/mailing/from_command.py:164
+msgid ""
+"❌ Invalid number of arguments. Expected 6 arguments: [language code: "
+"{languages}] [weather provider: {providers}] [city] [period] [time: "
+"{times}] [mute: True (t,1) / False (f,0)]) "
+msgstr ""
+
+#: handlers/users/mailing/from_command.py:173
+msgid "❌ Unknown time. Expected one of: {times}"
+msgstr ""
+
+#: handlers/users/mailing/from_command.py:176
+msgid "❌ Invalid mute mode. Expected: True (t,1) or False (f,0)"
+msgstr ""
+
 #: handlers/users/mailing/menu.py:18
 msgid "mailing"
 msgstr ""
@@ -167,7 +195,7 @@ msgstr ""
 msgid "You have successfully completed the mailing setup!"
 msgstr ""
 
-#: handlers/users/mailing/unsubscribe.py:22
+#: handlers/users/mailing/unsubscribe.py:24
 msgid "Are you sure you want to unsubscribe from the mailing?"
 msgstr ""
 
@@ -175,7 +203,7 @@ msgstr ""
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:83
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:86
 msgid "Searching..."
 msgstr ""
 
@@ -265,7 +293,7 @@ msgstr ""
 msgid "weather forecast"
 msgstr ""
 
-#: handlers/users/weather/city.py:55
+#: handlers/users/weather/city.py:58
 msgid "Enter the name of the city / locality"
 msgstr ""
 
@@ -273,25 +301,25 @@ msgstr ""
 msgid "Choose the city / locality you had in mind:"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:83
+#: handlers/users/weather/from_command.py:88
 msgid ""
 "❌ Invalid number of arguments. Expected 4 arguments: [language code: "
 "{languages}] [weather provider: {providers}] [city] [period]"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:91
+#: handlers/users/weather/from_command.py:96
 msgid "❌ Unknown language code. Expected one of: {languages}"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:94
+#: handlers/users/weather/from_command.py:99
 msgid "❌ Unknown weather provider. Expected one of: {providers}"
 msgstr ""
 
-#: handlers/users/weather/from_command.py:97
+#: handlers/users/weather/from_command.py:102
 msgid "❌ Exact city not found. Fuzzy search is not allowed."
 msgstr ""
 
-#: handlers/users/weather/from_command.py:98
+#: handlers/users/weather/from_command.py:103
 msgid "❌ Invalid period."
 msgstr ""
 
