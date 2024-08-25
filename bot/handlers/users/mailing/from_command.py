@@ -1,13 +1,14 @@
 import asyncio
 from types import ModuleType
 from datetime import datetime
-from typing import Union, Optional, NamedTuple
+from typing import Union, Optional
 
 from pytz import timezone as tz
 from aiogram.types import Message
 from aiogram.utils.i18n import gettext as _
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
+from utils.mock_user import MockUser
 from utils.admins import send_to_admins
 from utils.scheduler import send_mailing
 from utils.weather import get_weather_provider_module_by_
@@ -106,14 +107,6 @@ def _subscribe_or_update_mailing_(
         _remove_user_and_mailing_with_(message.chat.id, data, scheduler)
     user = _get_user_by_(message, data)
     _subscribe_mailing(user.chat_id, data, scheduler)
-
-
-class MockUser(NamedTuple):
-    """Represents a mock user for creating a user in the database."""
-
-    id: int
-    username: str
-    full_name: str
 
 
 def _get_user_by_(message: Message, data: dict) -> User:
