@@ -27,6 +27,7 @@ def create_user_by_(telegram_user: TelegramUser, **fields) -> User:
             chat_id=telegram_user.id,
             username=telegram_user.username,
             full_name=telegram_user.full_name,
+            weather_provider=fields.pop("weather_provider", "meteoprog"),
             **fields,
             created=datetime.now(tz(DEFAULT_TIMEZONE)),
         )
