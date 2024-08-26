@@ -9,6 +9,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from bot import bot
 from utils.mock_user import MockUser
 from utils.db.crud.user import get_user_by_
+from filters.is_private_chat_type import IsPrivateChatType
 
 from .users.commands.help import handle_help_command
 from .users.commands.moon import handle_moon_command
@@ -22,6 +23,10 @@ channels_router = Router()
 
 @channels_router.channel_post(
     F.text.regexp(r"^/(help|moon|weather|mailing|unsubscribe_mailing)@")
+)
+@channels_router.message(
+    ~IsPrivateChatType(),
+    F.text.regexp(r"^/(help|moon|weather|mailing|unsubscribe_mailing)@"),
 )
 async def handle_channels_command(
     message: Message, scheduler: AsyncIOScheduler
