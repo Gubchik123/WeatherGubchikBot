@@ -66,6 +66,20 @@ def get_all_users_count() -> int:
     return count
 
 
+def get_all_channels() -> List[User]:
+    """Returns all channels."""
+    with LocalSession() as session:
+        channels = session.query(User).where(User.chat_id < 0).all()
+    return channels
+
+
+def get_all_channels_count() -> int:
+    """Returns the count of all channels."""
+    with LocalSession() as session:
+        count = session.query(User).where(User.chat_id < 0).count()
+    return count
+
+
 def get_all_mailing_users() -> List[User]:
     """Returns all mailing users."""
     with LocalSession() as session:
