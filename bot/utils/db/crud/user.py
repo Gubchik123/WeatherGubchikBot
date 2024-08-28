@@ -52,45 +52,17 @@ def get_user_locale_by_(user_chat_id: int) -> Union[str, None]:
     return user.locale if user else None
 
 
-def get_all_users() -> List[User]:
+def get_users(condition: Optional[bool] = User.chat_id > 0) -> List[User]:
     """Returns all users."""
     with LocalSession() as session:
-        users = session.query(User).all()
+        users = session.query(User).filter(condition).all()
     return users
 
 
-def get_all_users_count() -> int:
+def get_users_count(condition: Optional[bool] = User.chat_id > 0) -> int:
     """Returns the count of all users."""
     with LocalSession() as session:
-        count = session.query(User).count()
-    return count
-
-
-def get_all_channels() -> List[User]:
-    """Returns all channels."""
-    with LocalSession() as session:
-        channels = session.query(User).where(User.chat_id < 0).all()
-    return channels
-
-
-def get_all_channels_count() -> int:
-    """Returns the count of all channels."""
-    with LocalSession() as session:
-        count = session.query(User).where(User.chat_id < 0).count()
-    return count
-
-
-def get_all_mailing_users() -> List[User]:
-    """Returns all mailing users."""
-    with LocalSession() as session:
-        users = session.query(User).filter(User.mailing).all()
-    return users
-
-
-def get_all_mailing_users_count() -> int:
-    """Returns the count of all mailing users."""
-    with LocalSession() as session:
-        count = session.query(User).filter(User.mailing).count()
+        count = session.query(User).filter(condition).count()
     return count
 
 

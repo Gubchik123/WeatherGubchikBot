@@ -7,13 +7,7 @@ from aiogram.filters import Command
 from utils.decorators import command_argument_required
 from filters.is_admin import IsAdmin
 from utils.db.models import User
-from utils.db.crud.user import (
-    get_user_by_,
-    get_all_users,
-    get_all_users_count,
-    get_all_mailing_users,
-    get_all_mailing_users_count,
-)
+from utils.db.crud.user import get_user_by_, get_users, get_users_count
 
 
 router = Router()
@@ -22,7 +16,7 @@ router = Router()
 @router.message(IsAdmin(), Command("users_count"))
 async def handle_all_users_count_command(message: Message) -> None:
     """Handles the /all_users_count command."""
-    await message.answer(f"👥 {get_all_users_count()}")
+    await message.answer(f"👥 {get_users_count()}")
 
 
 async def _send_list_of_users(message: Message, users: List[User]) -> None:
@@ -39,19 +33,19 @@ async def _send_list_of_users(message: Message, users: List[User]) -> None:
 @router.message(IsAdmin(), Command("users"))
 async def handle_all_users_command(message: Message) -> None:
     """Handles the /all_users command."""
-    await _send_list_of_users(message, get_all_users())
+    await _send_list_of_users(message, get_users())
 
 
 @router.message(IsAdmin(), Command("mailing_users_count"))
 async def handle_all_mailing_users_count_command(message: Message) -> None:
     """Handles the /all_mailing_users_count command."""
-    await message.answer(f"👥 {get_all_mailing_users_count()}")
+    await message.answer(f"👥 {get_users_count(condition=User.mailing)}")
 
 
 @router.message(IsAdmin(), Command("mailing_users"))
 async def handle_all_mailing_users_command(message: Message) -> None:
     """Handles the /all_mailing_users command."""
-    await _send_list_of_users(message, get_all_mailing_users())
+    await _send_list_of_users(message, get_users(condition=User.mailing))
 
 
 @router.message(IsAdmin(), Command("user"))
