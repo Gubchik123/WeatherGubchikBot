@@ -14,8 +14,8 @@ router = Router()
 
 
 @router.message(IsAdmin(), Command("users_count"))
-async def handle_all_users_count_command(message: Message) -> None:
-    """Handles the /all_users_count command."""
+async def handle_users_count_command(message: Message) -> None:
+    """Handles the /users_count command."""
     await message.answer(f"👥 {get_users_count()}")
 
 
@@ -31,21 +31,37 @@ async def _send_list_of_users(message: Message, users: List[User]) -> None:
 
 
 @router.message(IsAdmin(), Command("users"))
-async def handle_all_users_command(message: Message) -> None:
-    """Handles the /all_users command."""
+async def handle_users_command(message: Message) -> None:
+    """Handles the /users command."""
     await _send_list_of_users(message, get_users())
 
 
 @router.message(IsAdmin(), Command("mailing_users_count"))
-async def handle_all_mailing_users_count_command(message: Message) -> None:
-    """Handles the /all_mailing_users_count command."""
+async def handle_mailing_users_count_command(message: Message) -> None:
+    """Handles the /mailing_users_count command."""
     await message.answer(f"👥 {get_users_count(condition=User.mailing)}")
 
 
 @router.message(IsAdmin(), Command("mailing_users"))
-async def handle_all_mailing_users_command(message: Message) -> None:
-    """Handles the /all_mailing_users command."""
+async def handle_mailing_users_command(message: Message) -> None:
+    """Handles the /mailing_users command."""
     await _send_list_of_users(message, get_users(condition=User.mailing))
+
+
+@router.message(IsAdmin(), Command("all_count"))
+async def handle_all_count_command(message: Message) -> None:
+    """Handles the /all_count command."""
+    await message.answer(
+        f"👥 {get_users_count(condition=User.full_name != '')}"
+    )
+
+
+@router.message(IsAdmin(), Command("all"))
+async def handle_all_command(message: Message) -> None:
+    """Handles the /all command."""
+    await _send_list_of_users(
+        message, get_users(condition=User.full_name != "")
+    )
 
 
 @router.message(IsAdmin(), Command("user"))
