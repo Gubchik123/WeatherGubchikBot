@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-08-25 17:37+0300\n"
+"POT-Creation-Date: 2024-08-28 14:52+0300\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -51,7 +51,7 @@ msgid ""
 "/start - Start working with the bot\n"
 "/help - Get basic usage rules\n"
 "/menu - Get main menu\n"
-"/moon - Get moon phase\n"
+"/moon ([date: DD.MM.YYYY]) - Get moon phase\n"
 "/weather ([language code: {languages}] [weather provider: {providers}] "
 "[city] [period]) - Get weather forecast\n"
 "/profile - Get user profile\n"
@@ -84,13 +84,13 @@ msgstr ""
 "/start - Початок роботи з ботом\n"
 "/help - Отримати основні правила використання\n"
 "/menu - Отримати головне меню\n"
-"/moon - Отримати фазу місяця\n"
+"/moon ([дата: ДД.ММ.РРРР]) - Отримати фазу місяця\n"
 "/weather ([код мови: {languages}] [сайт погоди: {providers}] [місто] "
 "[період]) - Отримати прогноз погоди\n"
 "/profile - Отримати профіль користувача\n"
 "/mailing ([код мови: {languages}] [сайт погоди: {providers}] [місто] "
-"[період] [час: {times}] [беззвучний: True (t,1) / False (f,0)]) - Отримати "
-"меню розсилки / Підписатися або оновити розсилку\n"
+"[період] [час: {times}] [беззвучний: True (t,1) / False (f,0)]) - "
+"Отримати меню розсилки / Підписатися або оновити розсилку\n"
 "/goodbye - Призупинити роботу з ботом\n"
 "\n"
 "Оформіть розсилку, щоб кожного дня дізнаватися інформацію про погоду в "
@@ -116,7 +116,7 @@ msgstr ""
 msgid ""
 "{bot_username} commands:\n"
 "/help@{bot_username} - Get basic usage rules\n"
-"/moon@{bot_username} - Get moon phase\n"
+"/moon@{bot_username} ([date: DD.MM.YYYY]) - Get moon phase\n"
 "/weather@{bot_username} [language code: {languages}] [weather provider: "
 "{providers}] [city] [period] - Get weather forecast\n"
 "\n"
@@ -141,12 +141,12 @@ msgid ""
 msgstr ""
 "Команди {bot_username}:\n"
 "/help@{bot_username} - Отримати основні правила використання\n"
-"/moon@{bot_username} - Отримати фазу місяця\n"
+"/moon@{bot_username} ([дата: ДД.ММ.РРРР]) - Отримати фазу місяця\n"
 "/weather@{bot_username} [код мови: {languages}] [сайт погоди: "
 "{providers}] [місто] [період] - Отримати прогноз погоди\n"
 "/mailing ([код мови: {languages}] [сайт погоди: {providers}] [місто] "
-"[період] [час: {times}] [беззвучний: True (t,1) / False (f,0)]) - Підписатися "
-"або оновити розсилку\n"
+"[період] [час: {times}] [беззвучний: True (t,1) / False (f,0)]) - "
+"Підписатися або оновити розсилку\n"
 "/unsubscribe_mailing - Відписатися від розсилки\n"
 "\n"
 "Приємного використання!!!\n"
@@ -163,39 +163,43 @@ msgstr ""
 "Дошка проектів: https://portfolio.hubariev.com\n"
 "GitHub: https://github.com/Gubchik123\n"
 
-#: handlers/users/commands/moon.py:38
+#: handlers/users/commands/moon.py:28
+msgid "❌Invalid date format. Expected: DD.MM.YYYY"
+msgstr "❌Невірний формат дати. Очікувався: ДД.ММ.РРРР"
+
+#: handlers/users/commands/moon.py:56
 msgid "Full Moon"
 msgstr "Повний місяць"
 
-#: handlers/users/commands/moon.py:39
+#: handlers/users/commands/moon.py:57
 msgid "Waning Gibbous"
 msgstr "Спадаючий Місяць"
 
-#: handlers/users/commands/moon.py:40
+#: handlers/users/commands/moon.py:58 handlers/users/commands/moon.py:59
 msgid "Third Quarter"
 msgstr "Остання чверть"
 
-#: handlers/users/commands/moon.py:41
+#: handlers/users/commands/moon.py:60
 msgid "Waning Crescent"
 msgstr "Старий Місяць"
 
-#: handlers/users/commands/moon.py:42
+#: handlers/users/commands/moon.py:61
 msgid "New Moon"
 msgstr "Новий Місяць"
 
-#: handlers/users/commands/moon.py:43
+#: handlers/users/commands/moon.py:62
 msgid "Waxing Crescent"
 msgstr "Молодий Місяць"
 
-#: handlers/users/commands/moon.py:44
+#: handlers/users/commands/moon.py:63
 msgid "First Quarter"
 msgstr "Перша чверть"
 
-#: handlers/users/commands/moon.py:45
+#: handlers/users/commands/moon.py:64
 msgid "Waxing Gibbous"
 msgstr "Прибувающий Місяць"
 
-#: handlers/users/commands/moon.py:46
+#: handlers/users/commands/moon.py:65
 msgid "Unknown"
 msgstr "Невідомо"
 
@@ -520,7 +524,7 @@ msgstr "🔙 Меню"
 msgid "🔙 Profile"
 msgstr "🔙 Профіль"
 
-#: utils/error.py:60
+#: utils/error.py:61
 msgid ""
 "An error occurred! 😥\n"
 "\n"
@@ -536,7 +540,7 @@ msgstr ""
 "\n"
 "Будь ласка, спробуйте ще раз або перезапустіть бота командою /start."
 
-#: utils/error.py:89
+#: utils/error.py:90
 msgid ""
 "Unfortunately, the weather provider server is not available now. The "
 "error is not connected with the bot.\n"
