@@ -30,7 +30,7 @@ async def _send_private_help_message(message: Message):
             "/start - Start working with the bot\n"
             "/help - Get basic usage rules\n"
             "/menu - Get main menu\n"
-            "/moon - Get moon phase\n"
+            "/moon ([date: DD.MM.YYYY]) - Get moon phase\n"
             "/weather ([language code: {languages}] "
             "[weather provider: {providers}] [city] [period]) "
             "- Get weather forecast\n"
@@ -67,7 +67,7 @@ async def _send_group_help_message(message: Message):
         _(
             "{bot_username} commands:\n"
             "/help@{bot_username} - Get basic usage rules\n"
-            "/moon@{bot_username} - Get moon phase\n"
+            "/moon@{bot_username} ([date: DD.MM.YYYY]) - Get moon phase\n"
             "/weather@{bot_username} [language code: {languages}] "
             "[weather provider: {providers}] [city] [period] "
             "- Get weather forecast\n\n"
