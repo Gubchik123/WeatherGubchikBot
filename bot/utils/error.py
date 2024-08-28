@@ -41,7 +41,8 @@ def get_admin_error_message(
     )
     return (
         f"❗️ <b>Exception{error_place}</b> "
-        f"with user <code>{user.id}</code> (@{user.username})\n\n"
+        f"with user <code>{getattr(user, 'id')}</code> "
+        f"(@{getattr(user, 'username')})\n\n"
         f"{error.capitalize()}\n\nafter {reason}"
     )
 
