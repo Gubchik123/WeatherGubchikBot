@@ -57,7 +57,7 @@ async def _set_private_chats_commands_for_(bot: Bot):
             ),
             BotCommand(
                 command="mailing",
-                description="Отримати меню розсилки / Підписатися на розсилку",
+                description="Отримати меню розсилки / Підписатися або оновити розсилку",
             ),
             BotCommand(
                 command="goodbye", description="Призупинити роботу з ботом"
@@ -74,7 +74,7 @@ async def _set_private_chats_commands_for_(bot: Bot):
             BotCommand(command="profile", description="Get user profile"),
             BotCommand(
                 command="mailing",
-                description="Get mailing menu / Sign up for the newsletter",
+                description="Get mailing menu / Sign up for or update the newsletter",
             ),
             BotCommand(
                 command="goodbye", description="Pause working with the bot"
@@ -91,7 +91,7 @@ async def _set_private_chats_commands_for_(bot: Bot):
             ),
             BotCommand(
                 command="mailing",
-                description="Получить меню рассылки / Подписаться на рассылку",
+                description="Получить меню рассылки / Подписаться на рассылку или обновить ее",
             ),
             BotCommand(
                 command="goodbye", description="Приостановить работу с ботом"
@@ -109,9 +109,45 @@ async def _set_private_chats_commands_for_(bot: Bot):
 async def _set_group_chats_commands_for_(bot: Bot):
     """Sets default bot commands for group chats."""
     bot_commands = {
-        "uk": [HELP_COMMAND["uk"], MOON_COMMAND["uk"], WEATHER_COMMAND["uk"]],
-        "en": [HELP_COMMAND["en"], MOON_COMMAND["en"], WEATHER_COMMAND["en"]],
-        "ru": [HELP_COMMAND["ru"], MOON_COMMAND["ru"], WEATHER_COMMAND["ru"]],
+        "uk": [
+            HELP_COMMAND["uk"],
+            MOON_COMMAND["uk"],
+            WEATHER_COMMAND["uk"],
+            BotCommand(
+                command="mailing",
+                description="Підписатися або оновити розсилку",
+            ),
+            BotCommand(
+                command="unsubscribe_mailing ",
+                description="Відписатися від розсилки",
+            ),
+        ],
+        "en": [
+            HELP_COMMAND["en"],
+            MOON_COMMAND["en"],
+            WEATHER_COMMAND["en"],
+            BotCommand(
+                command="mailing",
+                description="Sign up for or update the newsletter",
+            ),
+            BotCommand(
+                command="unsubscribe_mailing ",
+                description="Unsubscribe from the newsletter",
+            ),
+        ],
+        "ru": [
+            HELP_COMMAND["ru"],
+            MOON_COMMAND["ru"],
+            WEATHER_COMMAND["ru"],
+            BotCommand(
+                command="mailing",
+                description="Подписаться на рассылку или обновить ее",
+            ),
+            BotCommand(
+                command="unsubscribe_mailing ",
+                description="Отписаться от рассылки",
+            ),
+        ],
     }
     for language_code, commands in bot_commands.items():
         await bot.set_my_commands(
