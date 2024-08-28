@@ -32,6 +32,8 @@ async def send_mailing(user_chat_id: int):
         message = await temp_bot.send_message(
             user_chat_id, "📨", disable_notification=mailing.mute
         )
+        bot_me = await temp_bot.get_me()
+        suffix = f"@{bot_me.username}" if user_chat_id < 0 else ""
         await temp_bot.send_message(
             user_chat_id,
             weather_provider_module.get_information_about_weather_by_(
@@ -42,7 +44,8 @@ async def send_mailing(user_chat_id: int):
                     "type": mailing.weather_provider_info.type,
                     "lang_code": user.locale,
                 }
-            ),
+            )
+            + suffix,
         )
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)

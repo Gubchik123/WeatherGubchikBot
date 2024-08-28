@@ -5,6 +5,7 @@ from types import ModuleType
 from aiogram.utils.i18n import gettext as _
 from aiogram.types import Message, FSInputFile
 
+from bot import bot
 from handlers.users.menu import handle_menu
 from utils.admins import ADMINS, send_to_admins
 from utils.db.crud.user import get_user_by_
@@ -76,20 +77,24 @@ async def _send_weather_forecast_for_one_day(
     message: Message, weather_provider_module: ModuleType
 ):
     """Sends weather forecast for one day."""
+    bot_me = await bot.get_me()
     send_function = (
         weather_provider_module.get_information_for_now
         if weather_provider_module.INFO.about_now
         else weather_provider_module.get_information_about_one_day
     )
-    await message.answer(send_function(), parse_mode="HTML")
+    suffix = f"@{bot_me.username}" if message.chat.type == "channel" else ""
+    await message.answer(send_function() + suffix, parse_mode="HTML")
 
 
 async def _send_weather_forecast_for_many_days(
     message: Message, weather_provider_module: ModuleType
 ):
     """Sends weather forecast for many days."""
+    bot_me = await bot.get_me()
+    suffix = f"@{bot_me.username}" if message.chat.type == "channel" else ""
     await message.answer(
-        weather_provider_module.get_information_about_many_days(),
+        weather_provider_module.get_information_about_many_days() + suffix,
         parse_mode="HTML",
     )
     await message.answer_photo(
