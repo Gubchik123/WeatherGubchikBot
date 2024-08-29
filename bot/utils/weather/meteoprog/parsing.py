@@ -7,7 +7,6 @@ from .selected_info import SelectedInfo
 
 from ..request import get_soup_by_
 from ..emoji import get_weather_emoji_by_
-from ..detail import WeatherDetailTitle, get_weather_detail_titles_by_
 
 
 INFO = SelectedInfo()
@@ -49,18 +48,42 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
     # Description
     desc = block.find("h3").text.strip()
     # Details
-    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
-    details = block.find("table", class_="today__atmosphere").find_all("td")
+    details = block.find("table", class_="today__atmosphere").find_all("tr")
 
-    return (
+    text = (
         f"<b>{block.find('h2').text.strip()}</b>\n\n"
         f"{temp}C {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
         f"{desc}\n\n"
-        f"{weather_detail_titles.wind}: {details[1].text.strip()} 🌬\n"
-        f"{weather_detail_titles.humidity}: {details[-2].text.strip()} 💦\n"
-        f"{weather_detail_titles.rain}: {details[0].text.strip()} 💧"
     )
+    for detail in details:
+        td = detail.find("td")
+        icon = _get_weather_detail_icon_by_(td.find("span").get("class")[0])
+        text += (
+            f"<i>{detail.find('th').text.strip()}:</i> "
+            f"{td.text.strip()} {icon}\n"
+        )
+    return text
+
+
+def _get_weather_detail_icon_by_(icon_css_class: str) -> str:
+    return {
+        "icon-rain-drops": "💦",
+        "icon-waves": "🌂",
+        "icon-rainfall": "🌂",
+        "icon-wind": "🌬️",
+        "icon-wind-left": "⬅️🌬️",
+        "icon-wind-bottom-left": "↙️🌬️",
+        "icon-wind-right": "➡️🌬️",
+        "icon-wind-bottom-right": "↘️🌬️",
+        "icon-wind-top-left": "↖️🌬️",
+        "icon-wind-top-right": "↗️🌬️",
+        "icon-wind-bottom": "⬇️🌬️",
+        "icon-wind-top": "⬆️🌬️",
+        "icon-dropp": "💧",
+        "icon-meater": "🌡️",
+        "icon-uv": "📉",
+    }.get(icon_css_class, "")
 
 
 def get_information_about_one_day() -> str:
@@ -148,7 +171,6 @@ def get_weather_info_about_day_from_(
         text += f"{'🌅🌆🕐'[index]} {astro_li_text}\n"
     text += "\n"
 
-    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
     day_emojis = ("🌃", "🌇", "🏙️", "🌆")
 
     for index, time_of_day in enumerate(
@@ -169,29 +191,25 @@ def get_weather_info_about_day_from_(
             f"{day_emojis[index]} <b>{title}: {temperature} ({feels_like})</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
             f"{description.capitalize()}\n\n"
-            f"{get_weather_details_by_(time_of_day, weather_detail_titles)}\n"
+            f"{get_weather_details_by_(time_of_day)}\n"
             f"{'_'*35}\n\n"
         )
     return text
 
 
-def get_weather_details_by_(
-    time_of_day: BeautifulSoup,
-    weather_detail_title: WeatherDetailTitle,
-    day: Optional[int] = 0,
-) -> str:
+def get_weather_details_by_(time_of_day: BeautifulSoup) -> str:
     """For getting weather details on the given time of day"""
     weather_info = time_of_day.find_all("li", class_="weather-info")
-    is_full_info = day < 9
-    decrement = 0 if is_full_info else 1
-
-    weather_details = f"""{weather_detail_title.wind}: {weather_info[2 - decrement].find("span").text.strip()} 🌬
-    {weather_detail_title.humidity}: {weather_info[3 - decrement].find("span").text.strip()} 💦""".replace(
-        "    ", ""
-    )
-    if is_full_info:
-        weather_details += f"\n{weather_detail_title.rain}: {weather_info[0].find('span').text.strip()} 💧"
-    return weather_details
+    weather_details = ""
+    for info in weather_info:
+        icon = _get_weather_detail_icon_by_(
+            info.find("div", class_="icon").get("class")[-1]
+        )
+        span = info.find("span")
+        weather_details += (
+            f"<i>{span.get('title')}:</i> {span.text.strip()} {icon}\n"
+        )
+    return weather_details.strip()
 
 
 def get_many_days_title(soup: BeautifulSoup) -> str:
@@ -248,7 +266,6 @@ def get_weather_info_about_many_days_from_(
     gallery = slider.find("div", class_="swiper-gallery").find_all(
         "div", class_="swiper-slide"
     )
-    weather_detail_title = get_weather_detail_titles_by_(INFO.lang_code)
     text = ""
 
     for day in range(7 if INFO.about_week else 14):
@@ -263,9 +280,7 @@ def get_weather_info_about_many_days_from_(
                 .strip()
             )
             weather_details = get_weather_details_by_(
-                gallery[day].find_all("ul", class_="times-of-day__item")[2],
-                weather_detail_title,
-                day,
+                gallery[day].find_all("ul", class_="times-of-day__item")[2]
             )
             text += (
                 f"<b>{title}</b> {get_weather_emoji_by_(description, INFO.lang_code)}\n"

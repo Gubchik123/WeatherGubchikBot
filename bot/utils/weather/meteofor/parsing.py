@@ -1,11 +1,10 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 from bs4 import BeautifulSoup
 from aiogram.utils.i18n import gettext as _
 
 from ..request import get_soup_by_
 from ..emoji import get_weather_emoji_by_
-from ..detail import get_weather_detail_titles_by_
 
 from .selected_info import SelectedInfo
 
@@ -52,21 +51,21 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
     # Description
     desc = block.find("div", class_="now-desc").text.strip()
     # Details
-    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
-    details = [
-        item.find("div", class_="item-value").text.strip()
-        or item.find("div", class_="item-value").find().get("value")
-        for item in block.find_all("div", class_="now-info-item")
-    ]
-    return (
+    text = (
         f"<b>{soup.find('h1').text.strip()} - {local_date}</b>\n\n"
         f"{temp} {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
         f"{desc}\n\n"
-        f"{weather_detail_titles.wind}: {details[0]} {_get_wind_symbol()} 🌬\n"
-        f"{weather_detail_titles.humidity}: {details[2]} % 💦\n"
-        # f"{weather_detail_titles.rain}: {rain} 💧"
     )
+    for item in block.find_all("div", class_="now-info-item"):
+        title = item.find("div", class_="item-title").text.strip()
+        value = item.find(
+            "div", class_="item-value"
+        ).text.strip() or item.find("div", class_="item-value").find().get(
+            "value"
+        )
+        text += f"<i>{title}:</i> {value}\n"
+    return text
 
 
 def get_information_about_one_day() -> str:
@@ -98,8 +97,8 @@ def get_information_about_many_days() -> str:
     MIN_TEMPS.clear()
 
     soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
-    date_rows = _get_rows_from_div_with_class_(
-        "widget-row-date", _get_widget_body_from_(soup), tag="a"
+    date_title, date_rows = _get_rows_from_div_with_class_(
+        "widget-row-date", _get_widget_body_from_(soup)
     )
     return _get_weather_info_by_(soup, enumerate(date_rows))
 
@@ -119,38 +118,50 @@ def _get_weather_info_by_(
             f"ℹ️ {soup.find('div', class_='astro-bottom').text.strip()}\n\n"
         )
     wind_symbol = _get_wind_symbol()
-    weather_detail_titles = get_weather_detail_titles_by_(INFO.lang_code)
 
     widget_body = _get_widget_body_from_(soup)
 
-    description_rows = _get_rows_from_div_with_class_(
+    description_title, description_rows = _get_rows_from_div_with_class_(
         "widget-row-icon", widget_body
     )
-    precipitation_rows = _get_rows_from_div_with_class_(
+    wind_title, wind_rows = _get_rows_from_div_with_class_(
+        "widget-row-wind", widget_body
+    )
+    precipitation_title, precipitation_rows = _get_rows_from_div_with_class_(
         "widget-row-precipitation-bars", widget_body
     )
-    wind_rows = _get_rows_from_div_with_class_("widget-row-wind", widget_body)
-    humidity_rows = _get_rows_from_div_with_class_(
+    pressure_title, pressure_rows = _get_rows_from_div_with_class_(
+        "widget-row-chart-pressure", widget_body, "value"
+    )
+    humidity_title, humidity_rows = _get_rows_from_div_with_class_(
         "widget-row-humidity", widget_body
     )
-    temperature_rows = widget_body.find(
-        "div", class_="widget-row-chart-temperature-air"
-    ).find_all("div", class_="value")
-    feels_like_rows = widget_body.find(
-        "div", class_="widget-row-chart-temperature-heat-index"
-    ).find_all("div", class_="value")
-
+    uv_index_title, uv_index_rows = _get_rows_from_div_with_class_(
+        "widget-row-radiation", widget_body
+    )
+    temperature_title, temperature_rows = _get_rows_from_div_with_class_(
+        "widget-row-chart-temperature-air", widget_body, "value"
+    )
+    feels_like_title, feels_like_rows = _get_rows_from_div_with_class_(
+        "widget-row-chart-temperature-heat-index", widget_body, "value"
+    )
     for row_index, time in times:
         if INFO.about_many_days:
             time = _get_pretty_day_string_from_(time)
             temp = _get_pretty_temp_string_from_(
                 temperature_rows[row_index], time
             )
+            pressure_max, pressure_min = _parse_maxt_mint_values_from_(
+                pressure_rows[row_index]
+            )
             feels_like = ""
         else:
             temp = temperature_rows[row_index].find().get("value")
             feels_like = (
                 f"({feels_like_rows[row_index].find().get('value')}°C)"
+            )
+            pressure_max = pressure_min = (
+                pressure_rows[row_index].find().get("value")
             )
         description = description_rows[row_index].get("data-tooltip")
         if not description:
@@ -161,22 +172,21 @@ def _get_weather_info_by_(
             )
         wind = wind_rows[row_index].find_all()[-1].get("value")
         humidity = humidity_rows[row_index].text.strip()
-        precipitation = int(
-            float(
-                precipitation_rows[row_index]
-                .find("div", class_="item-unit")
-                .text.strip()
-                .replace(",", ".")
-            )
-            * 10
+        uv_index = uv_index_rows[row_index].text.strip()
+        precipitation = (
+            precipitation_rows[row_index]
+            .find("div", class_="item-unit")
+            .text.strip()
         )
         text += (
             f"<b>{time}: {temp}°C {feels_like}</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
             f"{description}\n\n"
-            f"{weather_detail_titles.wind}: {wind} {wind_symbol} 🌬\n"
-            f"{weather_detail_titles.humidity}: {humidity} % 💦\n"
-            f"{weather_detail_titles.rain}: {precipitation} % 💧\n"
+            f"<i>{wind_title}:</i> {wind} {wind_symbol} 🌬\n"
+            f"<i>{precipitation_title}:</i> {precipitation} mm 💧\n"
+            f"<i>{pressure_title}:</i> {pressure_max} 🌡\n"
+            f"<i>{humidity_title}:</i> {humidity} % 💦\n"
+            f"<i>{uv_index_title}:</i> {uv_index} 📉\n"
             f"{'_'*35}\n\n"
         )
     return text
@@ -193,10 +203,14 @@ def _get_widget_body_from_(soup: BeautifulSoup) -> BeautifulSoup:
 
 
 def _get_rows_from_div_with_class_(
-    class_: str, block: BeautifulSoup, tag: str = "div"
-) -> List[BeautifulSoup]:
+    class_: str, block: BeautifulSoup, item_class: Optional[str] = "row-item"
+) -> Tuple[str, List[BeautifulSoup]]:
     """Returns rows by block class selector."""
-    return block.find("div", class_=class_).find_all(tag, class_="row-item")
+    title = None
+    detail_block = block.find("div", class_=class_)
+    if p := detail_block.find("p", class_="widget-row-caption"):
+        title = p.text.strip().split(",")[0]
+    return (title, detail_block.find_all(class_=item_class))
 
 
 def _get_pretty_day_string_from_(day_block: BeautifulSoup) -> str:
@@ -210,8 +224,7 @@ def _get_pretty_day_string_from_(day_block: BeautifulSoup) -> str:
 
 def _get_pretty_temp_string_from_(temp_row: BeautifulSoup, time: str) -> str:
     """Returns pretty string with temperature."""
-    max_temp = temp_row.find("div", class_="maxt").find().get("value")
-    min_temp = temp_row.find("div", class_="mint").find().get("value")
+    max_temp, min_temp = _parse_maxt_mint_values_from_(temp_row)
 
     MAX_TEMPS[time] = int(max_temp)
     MIN_TEMPS[time] = int(min_temp)
@@ -221,3 +234,10 @@ def _get_pretty_temp_string_from_(temp_row: BeautifulSoup, time: str) -> str:
         if MAX_TEMPS[time] == MIN_TEMPS[time]
         else f"{min_temp}°C ... {max_temp}"
     )
+
+
+def _parse_maxt_mint_values_from_(row: BeautifulSoup) -> str:
+    """Returns pretty string with max and min temperature."""
+    max_temp = int(row.find("div", class_="maxt").find().get("value"))
+    min_temp = int(row.find("div", class_="mint").find().get("value"))
+    return max_temp, min_temp
