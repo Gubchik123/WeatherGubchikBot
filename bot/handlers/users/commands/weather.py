@@ -25,5 +25,5 @@ async def handle_weather_command(
             message.chat.type != "private"
             or len(message.text.strip().split(" ")[1:]) == 4
         )
-        else await handle_weather(message, state, i18n)
+        else await handle_weather(message, state, i18n, **kwargs)
     )
