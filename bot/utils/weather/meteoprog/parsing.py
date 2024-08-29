@@ -162,9 +162,11 @@ def get_weather_info_about_day_from_(
             .strip()
         )
         temperature = time_of_day.find("li", class_="temperature").text.strip()
-
+        feels_like = (
+            time_of_day.find("li", "feels_like").text.strip().split("\n\n")[-1]
+        )
         text += (
-            f"{day_emojis[index]} <b>{title}: {temperature}</b> "
+            f"{day_emojis[index]} <b>{title}: {temperature} ({feels_like})</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
             f"{description.capitalize()}\n\n"
             f"{get_weather_details_by_(time_of_day, weather_detail_titles)}\n"

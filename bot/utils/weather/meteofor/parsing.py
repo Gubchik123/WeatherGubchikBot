@@ -134,7 +134,10 @@ def _get_weather_info_by_(
         "widget-row-humidity", widget_body
     )
     temperature_rows = widget_body.find(
-        "div", class_="widget-row-chart"
+        "div", class_="widget-row-chart-temperature-air"
+    ).find_all("div", class_="value")
+    feels_like_rows = widget_body.find(
+        "div", class_="widget-row-chart-temperature-heat-index"
     ).find_all("div", class_="value")
 
     for row_index, time in times:
@@ -143,8 +146,12 @@ def _get_weather_info_by_(
             temp = _get_pretty_temp_string_from_(
                 temperature_rows[row_index], time
             )
+            feels_like = ""
         else:
             temp = temperature_rows[row_index].find().get("value")
+            feels_like = (
+                f"({feels_like_rows[row_index].find().get('value')}°C)"
+            )
         description = description_rows[row_index].get("data-tooltip")
         if not description:
             description = (
@@ -164,7 +171,7 @@ def _get_weather_info_by_(
             * 10
         )
         text += (
-            f"<b>{time}: {temp}°C</b> "
+            f"<b>{time}: {temp}°C {feels_like}</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
             f"{description}\n\n"
             f"{weather_detail_titles.wind}: {wind} {wind_symbol} 🌬\n"
