@@ -55,7 +55,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
         f"<b>{soup.find('h1').text.strip()} - {local_date}</b>\n\n"
         f"{temp} {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
-        f"{desc}\n\n"
+        f"{desc}\n<blockquote expandable>"
     )
     for item in block.find_all("div", class_="now-info-item"):
         title = item.find("div", class_="item-title").text.strip()
@@ -65,7 +65,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
             "value"
         )
         text += f"<i>{title}:</i> {value}\n"
-    return text
+    return f"{text}</blockquote>"
 
 
 def get_information_about_one_day() -> str:
@@ -181,13 +181,12 @@ def _get_weather_info_by_(
         text += (
             f"<b>{time}: {temp}°C {feels_like}</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
-            f"{description}\n\n"
+            f"{description}\n<blockquote expandable>"
             f"<i>{wind_title}:</i> {wind} {wind_symbol} 🌬\n"
             f"<i>{precipitation_title}:</i> {precipitation} mm 💧\n"
             f"<i>{pressure_title}:</i> {pressure_max} 🌡\n"
             f"<i>{humidity_title}:</i> {humidity} % 💦\n"
-            f"<i>{uv_index_title}:</i> {uv_index} 📉\n"
-            f"{'_'*35}\n\n"
+            f"<i>{uv_index_title}:</i> {uv_index} 📉\n</blockquote>\n"
         )
     return text
 

@@ -54,7 +54,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
         f"<b>{block.find('h2').text.strip()}</b>\n\n"
         f"{temp}C {get_weather_emoji_by_(desc, INFO.lang_code)}\n"
         f"{feels_like}\n\n"
-        f"{desc}\n\n"
+        f"{desc}\n<blockquote expandable>"
     )
     for detail in details:
         td = detail.find("td")
@@ -63,7 +63,7 @@ def _get_weather_info_for_now_from_(soup: BeautifulSoup) -> str:
             f"<i>{detail.find('th').text.strip()}:</i> "
             f"{td.text.strip()} {icon}\n"
         )
-    return text
+    return f"{text}</blockquote>"
 
 
 def _get_weather_detail_icon_by_(icon_css_class: str) -> str:
@@ -190,9 +190,8 @@ def get_weather_info_about_day_from_(
         text += (
             f"{day_emojis[index]} <b>{title}: {temperature} ({feels_like})</b> "
             f"{get_weather_emoji_by_(description, INFO.lang_code)}\n"
-            f"{description.capitalize()}\n\n"
+            f"{description.capitalize()}\n"
             f"{get_weather_details_by_(time_of_day)}\n"
-            f"{'_'*35}\n\n"
         )
     return text
 
@@ -209,7 +208,7 @@ def get_weather_details_by_(time_of_day: BeautifulSoup) -> str:
         weather_details += (
             f"<i>{span.get('title')}:</i> {span.text.strip()} {icon}\n"
         )
-    return weather_details.strip()
+    return f"<blockquote expandable>{weather_details}</blockquote>"
 
 
 def get_many_days_title(soup: BeautifulSoup) -> str:
@@ -284,9 +283,8 @@ def get_weather_info_about_many_days_from_(
             )
             text += (
                 f"<b>{title}</b> {get_weather_emoji_by_(description, INFO.lang_code)}\n"
-                f"{description}\n\n"
+                f"{description}\n"
                 f"{weather_details}\n"
-                f"{'_'*35}\n\n"
             )
         except (AttributeError, IndexError):
             break
