@@ -27,6 +27,8 @@ class SelectedInfo(BaseSelectedInfo):
     @property
     def generated_url(self) -> str:
         """Getter for generated url"""
+        if self.type == "meteograms":  # (hourly forecast)
+            return f"https://www.meteoprog.com/{self.lang_code}/meteograms/{self.city}/"
         if self.about_big_city:
             return f"https://www.meteoprog.com/{self.lang_code}/{self.type}/{self.city}/{self.time}"
         return (

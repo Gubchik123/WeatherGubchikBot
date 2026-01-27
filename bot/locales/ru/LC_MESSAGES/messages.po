@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-27 16:27+0200\n"
+"POT-Creation-Date: 2026-01-27 18:05+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -310,6 +310,20 @@ msgstr "Период рассылки успешно обновлен!"
 msgid "The mailing time has been successfully updated!"
 msgstr "Время рассылки успешно обновлено!"
 
+#: handlers/users/profile/hourly.py:22
+msgid ""
+"Hourly forecast enabled! You'll now see hourly weather for today and "
+"tomorrow."
+msgstr ""
+"Включен почасовой прогноз! Теперь вы будете видеть почасовую погоду на "
+"сегодня и завтра."
+
+#: handlers/users/profile/hourly.py:26
+msgid "Hourly forecast disabled! You'll now see regular daily forecasts."
+msgstr ""
+"Отключен почасовой прогноз! Теперь вы будете видеть обычные ежедневные "
+"прогнозы."
+
 #: handlers/users/profile/language.py:31
 msgid "Language successfully changed to {locale}!"
 msgstr "Язык успешно изменен на {locale}!"
@@ -324,6 +338,7 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
+"Hourly forecast: <i>{hourly}</i>\n"
 "\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
@@ -331,8 +346,17 @@ msgstr ""
 "\n"
 "Язык: <i>{locale}</i>\n"
 "Часовой пояс: <i>{timezone}</i>\n"
+"Почасовой прогноз: <i>{hourly}</i>\n"
 "\n"
 "День, когда Вы присоединились: <i>{created}</i>"
+
+#: handlers/users/profile/menu.py:36
+msgid "enabled"
+msgstr "включен"
+
+#: handlers/users/profile/menu.py:36
+msgid "disabled"
+msgstr "отключен"
 
 #: handlers/users/profile/search_history.py:29
 msgid "You have no search history yet."
@@ -438,7 +462,7 @@ msgstr "Прогноз погоды"
 msgid "Profile"
 msgstr "Профиль"
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:31
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:37
 msgid "Mailing"
 msgstr "Рассылка"
 
@@ -510,15 +534,19 @@ msgstr "Изменить язык"
 msgid "Change timezone"
 msgstr "Изменить часовой пояс"
 
-#: keyboards/inline/profile/__init__.py:25
+#: keyboards/inline/profile/__init__.py:19
+msgid "Toggle hourly forecast"
+msgstr "Переключить почасовой прогноз"
+
+#: keyboards/inline/profile/__init__.py:31
 msgid "Manage search history"
 msgstr "Управление историей поиска"
 
-#: keyboards/inline/profile/__init__.py:36
+#: keyboards/inline/profile/__init__.py:42
 msgid "🔙 Menu"
 msgstr "🔙 Меню"
 
-#: keyboards/inline/profile/__init__.py:46
+#: keyboards/inline/profile/__init__.py:52
 msgid "🔙 Profile"
 msgstr "🔙 Профиль"
 

@@ -43,6 +43,7 @@ async def send_mailing(user_chat_id: int):
                     "time": mailing.weather_provider_info.time,
                     "type": mailing.weather_provider_info.type,
                     "lang_code": user.locale,
+                    "hourly": user.hourly,
                 }
             )
             + suffix,

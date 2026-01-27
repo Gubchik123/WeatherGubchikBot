@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-27 16:27+0200\n"
+"POT-Creation-Date: 2026-01-27 18:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,6 +232,16 @@ msgstr ""
 msgid "The mailing time has been successfully updated!"
 msgstr ""
 
+#: handlers/users/profile/hourly.py:22
+msgid ""
+"Hourly forecast enabled! You'll now see hourly weather for today and "
+"tomorrow."
+msgstr ""
+
+#: handlers/users/profile/hourly.py:26
+msgid "Hourly forecast disabled! You'll now see regular daily forecasts."
+msgstr ""
+
 #: handlers/users/profile/language.py:31
 msgid "Language successfully changed to {locale}!"
 msgstr ""
@@ -247,8 +256,17 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
+"Hourly forecast: <i>{hourly}</i>\n"
 "\n"
 "Date you joined: <i>{created}</i>"
+msgstr ""
+
+#: handlers/users/profile/menu.py:36
+msgid "enabled"
+msgstr ""
+
+#: handlers/users/profile/menu.py:36
+msgid "disabled"
 msgstr ""
 
 #: handlers/users/profile/search_history.py:29
@@ -347,7 +365,7 @@ msgstr ""
 msgid "Profile"
 msgstr ""
 
-#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:31
+#: keyboards/default/menu.py:12 keyboards/inline/profile/__init__.py:37
 msgid "Mailing"
 msgstr ""
 
@@ -419,15 +437,19 @@ msgstr ""
 msgid "Change timezone"
 msgstr ""
 
-#: keyboards/inline/profile/__init__.py:25
+#: keyboards/inline/profile/__init__.py:19
+msgid "Toggle hourly forecast"
+msgstr ""
+
+#: keyboards/inline/profile/__init__.py:31
 msgid "Manage search history"
 msgstr ""
 
-#: keyboards/inline/profile/__init__.py:36
+#: keyboards/inline/profile/__init__.py:42
 msgid "🔙 Menu"
 msgstr ""
 
-#: keyboards/inline/profile/__init__.py:46
+#: keyboards/inline/profile/__init__.py:52
 msgid "🔙 Profile"
 msgstr ""
 

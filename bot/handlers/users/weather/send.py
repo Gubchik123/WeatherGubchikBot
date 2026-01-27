@@ -32,12 +32,11 @@ async def send_weather_forecast_by_(message: Message, data: dict):
 async def _send_weather_forecast_by_(message: Message, data: dict):
     """Sends weather forecast to user."""
     user = get_user_by_(message.chat.id)
+    data["hourly"] = user.hourly
     weather_provider_module = get_weather_provider_module_by_(
         user.weather_provider
     )
-    weather_provider_module.INFO.set(**data)
-
-    await send_weather_forecast_with_(message, weather_provider_module)
+    await send_weather_forecast_with_(message, weather_provider_module, data)
     await handle_menu(message)
 
     if message.chat.id not in ADMINS:
@@ -50,16 +49,28 @@ async def _send_weather_forecast_by_(message: Message, data: dict):
 
 
 async def send_weather_forecast_with_(
-    message: Message, weather_provider_module: ModuleType
+    message: Message, weather_provider_module: ModuleType, data: dict
 ):
     """Sends weather forecast to user with weather provider module."""
     try:
-        send_function = (
-            _send_weather_forecast_for_one_day
-            if weather_provider_module.INFO.about_one_day
-            else _send_weather_forecast_for_many_days
+        bot_me = await bot.get_me()
+        suffix = (
+            f"@{bot_me.username}" if message.chat.type == "channel" else ""
         )
-        await send_function(message, weather_provider_module)
+        weather_text = (
+            weather_provider_module.get_information_about_weather_by_(data)
+        )
+        await message.answer(weather_text + suffix, parse_mode="HTML")
+        # Send temperature graph for multi-day forecasts
+        if weather_provider_module.INFO.about_many_days:
+            await message.answer_photo(
+                FSInputFile(
+                    get_generated_temp_graph_image_path(
+                        weather_provider_module.MAX_TEMPS,
+                        weather_provider_module.MIN_TEMPS,
+                    )
+                )
+            )
     except WeatherProviderServerError as error:
         await send_weather_provider_server_error(message, error)
     except Exception as error:
@@ -71,37 +82,3 @@ async def send_weather_forecast_with_(
                 f" {pformat(weather_provider_module.INFO.__dict__)}"
             ),
         )
-
-
-async def _send_weather_forecast_for_one_day(
-    message: Message, weather_provider_module: ModuleType
-):
-    """Sends weather forecast for one day."""
-    bot_me = await bot.get_me()
-    send_function = (
-        weather_provider_module.get_information_for_now
-        if weather_provider_module.INFO.about_now
-        else weather_provider_module.get_information_about_one_day
-    )
-    suffix = f"@{bot_me.username}" if message.chat.type == "channel" else ""
-    await message.answer(send_function() + suffix, parse_mode="HTML")
-
-
-async def _send_weather_forecast_for_many_days(
-    message: Message, weather_provider_module: ModuleType
-):
-    """Sends weather forecast for many days."""
-    bot_me = await bot.get_me()
-    suffix = f"@{bot_me.username}" if message.chat.type == "channel" else ""
-    await message.answer(
-        weather_provider_module.get_information_about_many_days() + suffix,
-        parse_mode="HTML",
-    )
-    await message.answer_photo(
-        FSInputFile(
-            get_generated_temp_graph_image_path(
-                weather_provider_module.MAX_TEMPS,
-                weather_provider_module.MIN_TEMPS,
-            )
-        )
-    )

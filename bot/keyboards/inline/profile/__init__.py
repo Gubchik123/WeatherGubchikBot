@@ -14,6 +14,12 @@ def get_profile_inline_keyboard() -> InlineKeyboardMarkup:
                     text=_("Change timezone"), callback_data="btn_timezone"
                 ),
             ],
+            [
+                InlineKeyboardButton(
+                    text=_("Toggle hourly forecast"),
+                    callback_data="btn_toggle_hourly",
+                )
+            ],
             # [
             #     InlineKeyboardButton(
             #         text=_("Change weather provider"),

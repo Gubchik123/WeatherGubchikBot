@@ -19,11 +19,92 @@ def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
 
+    if data.get("hourly", False) and (INFO.about_today or INFO.about_tomorrow):
+        return get_information_for_hourly()
     if INFO.about_now:
         return get_information_for_now()
-    elif INFO.about_one_day:
+    if INFO.about_one_day:
         return get_information_about_one_day()
     return get_information_about_many_days()
+
+
+def get_information_for_hourly() -> str:
+    """For getting hourly weather forecast for today or tomorrow."""
+    INFO.type = "meteograms"
+
+    soup = get_soup_by_(INFO.generated_url, INFO.lang_code)
+
+    return (
+        f"<b>{get_hourly_title(soup)}</b>\n\n"
+        f"{_get_hourly_weather_info_from_(soup)}"
+    )
+
+
+def get_hourly_title(soup: BeautifulSoup) -> str:
+    """For getting title for hourly forecast."""
+    h1: str = soup.find("h1").text.strip()
+    base_title = (
+        h1.replace(", meteograms", "")
+        .replace(" та метеограми", "")
+        .replace(" и метеограммы", "")
+    )
+    # Determine which section to parse (Today or Tomorrow)
+    section_index = 0 if INFO.about_today else 1
+    day_sections = soup.find_all("h4")
+
+    if len(day_sections) > section_index:
+        day_title = day_sections[section_index].text.strip()
+        return f"{base_title} - {day_title}"
+    return base_title
+
+
+def _get_hourly_weather_info_from_(soup: BeautifulSoup) -> str:
+    """Parse hourly weather data from meteograms page."""
+    day_sections = soup.find_all("h4")
+    current_element = day_sections[0 if INFO.about_today else 1].find_next(
+        "table"
+    )
+    header_texts = [th.text.strip() for th in current_element.find_all("th")]
+    # Parse table rows
+    rows = current_element.find_all("tr")[1:]  # Skip header row
+    text = ""
+
+    for row in rows:
+        cols = row.find_all("td")
+        if len(cols) < 7:
+            continue
+        # Get temperature emoji from icon
+        temp_icon_div = cols[1].find("div", class_="icon")
+        temp_emoji = ""
+        description = ""
+        if temp_icon_div and temp_icon_div.get("title"):
+            description: str = temp_icon_div.get("title").strip()
+            temp_emoji = get_weather_emoji_by_(description, INFO.lang_code)
+            description = f"{description.capitalize()}\n"
+        # Get wind icon from class
+        wind_icon_div = cols[6].find("div", class_="icon")
+        wind_icon = "🌬️"
+        wind_description = ""
+        if wind_icon_div:
+            wind_description = wind_icon_div.get("title", "").strip()
+            wind_description = (
+                f", {wind_description}" if wind_description else ""
+            )
+            wind_classes = wind_icon_div.get("class", [])
+            if len(wind_classes) > 1:
+                wind_icon = _get_weather_detail_icon_by_(wind_classes[1])
+
+        text += (
+            f"<b>{cols[0].text.strip()}</b> {temp_emoji} {cols[1].text.strip()}\n"
+            f"{description}"
+            f"<blockquote expandable>"
+            f"<i>{header_texts[2]}:</i> {cols[2].text.strip()} ({cols[3].text.strip()}) 💧 "
+            f"<i>{header_texts[4]}:</i> {cols[4].text.strip()} 🌡️ "
+            f"<i>{header_texts[5]}:</i> {cols[5].text.strip()} 💦 "
+            f"<i>{header_texts[6]}{wind_description}:</i> {cols[6].text.strip()} {wind_icon} "
+            f"</blockquote>\n\n"
+        )
+    return text
 
 
 def get_information_for_now() -> str:
