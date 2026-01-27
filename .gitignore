@@ -13,5 +13,6 @@ venv/
 
 tests.py
 
+babel.md
 traceback.txt
 weather_temperature_graph.png
