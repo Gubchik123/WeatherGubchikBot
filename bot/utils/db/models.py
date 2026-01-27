@@ -27,9 +27,7 @@ class User(Base):
     # Settings fields
     locale = Column(String(2), nullable=False, default=DEFAULT_LOCALE)
     timezone = Column(String(32), nullable=False, default=DEFAULT_TIMEZONE)
-    weather_provider = Column(
-        String(12), nullable=False, default=WEATHER_PROVIDERS[0]
-    )
+    weather_provider = Column(String(12), nullable=False, default="meteoprog")
     created = Column(DateTime, default=datetime.now(tz(DEFAULT_TIMEZONE)))
     # One-to-many relationship with SearchLog
     search_logs = relationship(

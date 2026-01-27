@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-16 20:13+0300\n"
+"POT-Creation-Date: 2026-01-27 16:27+0200\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -320,7 +320,6 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
-"Weather provider: <i>{weather_provider}</i>\n"
 "\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
@@ -328,7 +327,6 @@ msgstr ""
 "\n"
 "Мова: <i>{locale}</i>\n"
 "Часовий пояс: <i>{timezone}</i>\n"
-"Сайт погоди: <i>{weather_provider}</i>\n"
 "\n"
 "Дата приєднання: <i>{created}</i>"
 
@@ -508,10 +506,6 @@ msgstr "Змінити мову"
 msgid "Change timezone"
 msgstr "Змінити часовий пояс"
 
-#: keyboards/inline/profile/__init__.py:19
-msgid "Change weather provider"
-msgstr "Змінити сайт погоди"
-
 #: keyboards/inline/profile/__init__.py:25
 msgid "Manage search history"
 msgstr "Керування історією пошуку"
@@ -574,4 +568,7 @@ msgstr "Вночі"
 
 #~ msgid "<b>OR</b> look at the window"
 #~ msgstr "<b>АБО</b> подивіться у вікно"
+
+#~ msgid "Change weather provider"
+#~ msgstr "Змінити сайт погоди"
 

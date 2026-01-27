@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2024 ORGANIZATION
+# Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-16 20:13+0300\n"
+"POT-Creation-Date: 2026-01-27 16:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -247,7 +247,6 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
-"Weather provider: <i>{weather_provider}</i>\n"
 "\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
@@ -418,10 +417,6 @@ msgstr ""
 
 #: keyboards/inline/profile/__init__.py:14
 msgid "Change timezone"
-msgstr ""
-
-#: keyboards/inline/profile/__init__.py:19
-msgid "Change weather provider"
 msgstr ""
 
 #: keyboards/inline/profile/__init__.py:25

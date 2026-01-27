@@ -14,12 +14,12 @@ def get_profile_inline_keyboard() -> InlineKeyboardMarkup:
                     text=_("Change timezone"), callback_data="btn_timezone"
                 ),
             ],
-            [
-                InlineKeyboardButton(
-                    text=_("Change weather provider"),
-                    callback_data="btn_weather_provider",
-                )
-            ],
+            # [
+            #     InlineKeyboardButton(
+            #         text=_("Change weather provider"),
+            #         callback_data="btn_weather_provider",
+            #     )
+            # ],
             [
                 InlineKeyboardButton(
                     text=_("Manage search history"),

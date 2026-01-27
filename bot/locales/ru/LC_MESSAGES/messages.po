@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-16 20:13+0300\n"
+"POT-Creation-Date: 2026-01-27 16:27+0200\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -324,7 +324,6 @@ msgid ""
 "\n"
 "Language: <i>{locale}</i>\n"
 "Timezone: <i>{timezone}</i>\n"
-"Weather provider: <i>{weather_provider}</i>\n"
 "\n"
 "Date you joined: <i>{created}</i>"
 msgstr ""
@@ -332,7 +331,6 @@ msgstr ""
 "\n"
 "Язык: <i>{locale}</i>\n"
 "Часовой пояс: <i>{timezone}</i>\n"
-"Сайт погоды: <i>{weather_provider}</i>\n"
 "\n"
 "День, когда Вы присоединились: <i>{created}</i>"
 
@@ -512,10 +510,6 @@ msgstr "Изменить язык"
 msgid "Change timezone"
 msgstr "Изменить часовой пояс"
 
-#: keyboards/inline/profile/__init__.py:19
-msgid "Change weather provider"
-msgstr "Изменить сайт погоды"
-
 #: keyboards/inline/profile/__init__.py:25
 msgid "Manage search history"
 msgstr "Управление историей поиска"
@@ -579,4 +573,7 @@ msgstr "Ночью"
 
 #~ msgid "<b>OR</b> look at the window"
 #~ msgstr "<b>ИЛИ</b> посмотрите в окно"
+
+#~ msgid "Change weather provider"
+#~ msgstr "Изменить сайт погоды"
 
