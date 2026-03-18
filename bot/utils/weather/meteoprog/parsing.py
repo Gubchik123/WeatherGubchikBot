@@ -190,7 +190,7 @@ def get_information_about_many_days() -> str:
 
 def get_one_day_title(soup: BeautifulSoup) -> str:
     """For getting title from the given soup"""
-    h1 = " ".join(soup.find("h1").text.strip().split()[:-1])
+    h1 = " ".join(soup.find("h1").text.strip().split())
 
     swiper_slide = soup.find("div", class_="swiper-wrapper").find_all(
         "div", class_="swiper-slide"
@@ -312,26 +312,9 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
         detail = ""
 
     time_title = (
-        INFO.time_title.split(" ")[-1]
-        if INFO.about_big_city
-        else INFO.time_title
+        "" if INFO.about_big_city and INFO.about_fortnight else INFO.time_title
     )
-    return (
-        {
-            "ua": " ".join(title.split()[:-1])
-            + f" {time_title.lower()} {detail}",
-            "ru": " ".join(title.split()[:-1])
-            + f" {time_title.lower()} {detail}",
-            "en": (
-                f"{time_title.capitalize()} " + " ".join(title.split()[1:])
-                if INFO.about_big_city
-                else " ".join(title.split()[:-1])
-                + f" {time_title.lower()} {detail}"
-            ),
-        }
-        .get(INFO.lang_code)
-        .strip()
-    )
+    return f"{title} {time_title.lower()} {detail}".strip()
 
 
 def get_weather_info_about_many_days_from_(
