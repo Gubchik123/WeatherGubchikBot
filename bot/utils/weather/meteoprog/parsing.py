@@ -174,6 +174,7 @@ def get_information_about_one_day() -> str:
     return (
         f"<b>{get_one_day_title(soup)}</b>\n\n"
         f"{get_weather_info_about_day_from_(active_swiper_slide)}"
+        f"{get_info_about_day_in_history(soup) if INFO.about_today else ''}"
     )
 
 
@@ -295,6 +296,20 @@ def get_weather_details_by_(time_of_day: BeautifulSoup) -> str:
             f"<i>{span.get('title')}:</i> {span.text.strip()} {icon}\n"
         )
     return f"<blockquote expandable>{weather_details}</blockquote>"
+
+
+def get_info_about_day_in_history(soup: BeautifulSoup) -> str:
+    """For getting weather info about the day in history from the given soup."""
+    day_in_history_section = soup.find("section", class_="day-in-history")
+    if day_in_history_section is None:
+        return ""
+    text = "<blockquote expandable>"
+    text += day_in_history_section.find("h3").text.strip()
+    text += f" ({day_in_history_section.find('div', class_='day-in-history__date').text.strip()})"
+    for p in day_in_history_section.find_all("p"):
+        text += f"\n\n{p.text.strip()}"
+    text += "</blockquote>"
+    return text
 
 
 def get_many_days_title(soup: BeautifulSoup) -> str:
