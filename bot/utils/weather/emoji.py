@@ -1,5 +1,21 @@
 import re
 
+from aiogram.utils.i18n import gettext as _
+
+
+def get_moon_emoji_by_(description: str) -> str:
+    """Returns moon emoji by the given description."""
+    return {
+        _("Full Moon").lower(): "🌕",
+        _("Waning Gibbous").lower(): "🌖",
+        _("Third Quarter").lower(): "🌗",
+        _("Waning Crescent").lower(): "🌘",
+        _("New Moon").lower(): "🌑",
+        _("Waxing Crescent").lower(): "🌒",
+        _("First Quarter").lower(): "🌓",
+        _("Waxing Gibbous").lower(): "🌔",
+    }.get(description.lower(), "")
+
 
 def get_weather_emoji_by_(description: str, lang_code: str) -> str:
     """Returns weather by the given description and language code."""

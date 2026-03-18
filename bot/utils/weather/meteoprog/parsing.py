@@ -6,7 +6,7 @@ from aiogram.utils.i18n import gettext as _
 from .selected_info import SelectedInfo
 
 from ..request import get_soup_by_
-from ..emoji import get_weather_emoji_by_
+from ..emoji import get_weather_emoji_by_, get_moon_emoji_by_
 
 
 INFO = SelectedInfo()
@@ -247,9 +247,14 @@ def get_weather_info_about_day_from_(
         .find("ul")
         .find_all("li")
     )
-    for index, astro_li in enumerate(all_astro_li[:3]):
+    for index, astro_li in enumerate(all_astro_li):
         astro_li_text = astro_li.text.strip().replace("\n", " — ")
-        text += f"{'🌅🌆🕐'[index]} {astro_li_text}\n"
+        text += f"{'🌅🌆🕐🌚'[index]} {astro_li_text} "
+        text += (
+            "\n"
+            if index != 3
+            else get_moon_emoji_by_(astro_li_text.split(" — ")[-1]) + "\n"
+        )
     text += "\n"
 
     day_emojis = ("🌃", "🌇", "🏙️", "🌆")
