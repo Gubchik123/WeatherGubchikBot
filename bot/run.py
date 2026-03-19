@@ -1,7 +1,6 @@
 from typing import Union
 
 from aiogram import Dispatcher, F
-from aiogram.utils.i18n import I18n
 from aiogram.types import ErrorEvent, Message, CallbackQuery
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -16,14 +15,11 @@ from middlewares import (
     CallbackQueryTimeoutMiddleware,
 )
 from data.config import (
-    I18N_DOMAIN,
-    LOCALES_DIR,
-    DEFAULT_LOCALE,
     DEFAULT_TIMEZONE,
     SCHEDULER_JOBS_DATABASE_URL,
 )
 
-from bot import bot
+from bot import bot, i18n
 from handlers import handlers_router
 
 
@@ -40,10 +36,6 @@ scheduler = AsyncIOScheduler(
     },
     job_defaults={"misfire_grace_time": 15 * 60},  # 15 minutes
     timezone=DEFAULT_TIMEZONE,
-)
-
-i18n = I18n(
-    path=LOCALES_DIR, default_locale=DEFAULT_LOCALE, domain=I18N_DOMAIN
 )
 
 
