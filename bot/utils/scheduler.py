@@ -2,6 +2,7 @@ from aiogram import Bot
 from aiogram.exceptions import TelegramForbiddenError
 from aiogram.client.default import DefaultBotProperties
 
+from bot import i18n
 from data.config import BOT_TOKEN
 
 from .admins import send_to_admins
@@ -34,19 +35,22 @@ async def send_mailing(user_chat_id: int):
         )
         bot_me = await temp_bot.get_me()
         suffix = f"@{bot_me.username}" if user_chat_id < 0 else ""
+        with i18n.context(), i18n.use_locale(user.locale):
+            weather_text = (
+                weather_provider_module.get_information_about_weather_by_(
+                    data={
+                        "time_title": mailing.time_title,
+                        "city": mailing.weather_provider_info.city,
+                        "time": mailing.weather_provider_info.time,
+                        "type": mailing.weather_provider_info.type,
+                        "lang_code": user.locale,
+                        "hourly": user.hourly,
+                    }
+                )
+            )
         await temp_bot.send_message(
             user_chat_id,
-            weather_provider_module.get_information_about_weather_by_(
-                data={
-                    "time_title": mailing.time_title,
-                    "city": mailing.weather_provider_info.city,
-                    "time": mailing.weather_provider_info.time,
-                    "type": mailing.weather_provider_info.type,
-                    "lang_code": user.locale,
-                    "hourly": user.hourly,
-                }
-            )
-            + suffix,
+            weather_text + suffix,
         )
     except TelegramForbiddenError:
         delete_user_with_(user_chat_id)
