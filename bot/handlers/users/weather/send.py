@@ -32,7 +32,6 @@ async def send_weather_forecast_by_(message: Message, data: dict):
 async def _send_weather_forecast_by_(message: Message, data: dict):
     """Sends weather forecast to user."""
     user = get_user_by_(message.chat.id)
-    data["hourly"] = user.hourly
     weather_provider_module = get_weather_provider_module_by_(
         user.weather_provider
     )

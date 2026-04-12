@@ -100,7 +100,11 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     )
     if is_match_100:
         await state.update_data(
-            {"city": result, "city_title": city.capitalize()}
+            {
+                "city": result,
+                "city_title": city.capitalize(),
+                "hourly": user.hourly,
+            }
         )
         await ask_about_period(message, state)
     else:

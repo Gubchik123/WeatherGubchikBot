@@ -43,5 +43,11 @@ async def check_city_callback_query(
     result, _ = await weather_provider_module.get_searched_data_with_(
         city, i18n.current_locale
     )
-    await state.update_data({"city": result, "city_title": city.capitalize()})
+    await state.update_data(
+        {
+            "city": result,
+            "city_title": city.capitalize(),
+            "hourly": user.hourly,
+        }
+    )
     await ask_about_period(event, state)

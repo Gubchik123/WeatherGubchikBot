@@ -19,7 +19,11 @@ def get_information_about_weather_by_(data: dict) -> str:
     """For getting result weather message about weather"""
     INFO.set(**data)
 
-    if data.get("hourly", False) and (INFO.about_today or INFO.about_tomorrow):
+    if (
+        data.get("hourly", False)
+        and (INFO.about_today or INFO.about_tomorrow)
+        and not INFO.about_many_days
+    ):
         return get_information_for_hourly()
     if INFO.about_now:
         return get_information_for_now()
