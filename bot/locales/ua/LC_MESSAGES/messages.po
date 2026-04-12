@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-27 18:05+0200\n"
+"POT-Creation-Date: 2026-04-12 20:28+0300\n"
 "PO-Revision-Date: 2024-03-22 15:48+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ua\n"
@@ -167,35 +167,36 @@ msgstr ""
 msgid "❌Invalid date format. Expected: DD.MM.YYYY"
 msgstr "❌Невірний формат дати. Очікувався: ДД.ММ.РРРР"
 
-#: handlers/users/commands/moon.py:56
+#: handlers/users/commands/moon.py:56 utils/weather/emoji.py:9
 msgid "Full Moon"
 msgstr "Повний місяць"
 
-#: handlers/users/commands/moon.py:57
+#: handlers/users/commands/moon.py:57 utils/weather/emoji.py:10
 msgid "Waning Gibbous"
 msgstr "Спадаючий Місяць"
 
 #: handlers/users/commands/moon.py:58 handlers/users/commands/moon.py:59
+#: utils/weather/emoji.py:11
 msgid "Third Quarter"
 msgstr "Остання чверть"
 
-#: handlers/users/commands/moon.py:60
+#: handlers/users/commands/moon.py:60 utils/weather/emoji.py:12
 msgid "Waning Crescent"
 msgstr "Старий Місяць"
 
-#: handlers/users/commands/moon.py:61
+#: handlers/users/commands/moon.py:61 utils/weather/emoji.py:13
 msgid "New Moon"
 msgstr "Новий Місяць"
 
-#: handlers/users/commands/moon.py:62
+#: handlers/users/commands/moon.py:62 utils/weather/emoji.py:14
 msgid "Waxing Crescent"
 msgstr "Молодий Місяць"
 
-#: handlers/users/commands/moon.py:63
+#: handlers/users/commands/moon.py:63 utils/weather/emoji.py:15
 msgid "First Quarter"
 msgstr "Перша чверть"
 
-#: handlers/users/commands/moon.py:64
+#: handlers/users/commands/moon.py:64 utils/weather/emoji.py:16
 msgid "Waxing Gibbous"
 msgstr "Прибувающий Місяць"
 
@@ -281,7 +282,7 @@ msgstr "Ви впевнені, що хочете відписатися від �
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Ви успішно відписалися від розсилки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:86
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:90
 msgid "Searching..."
 msgstr "Пошук..."
 
@@ -316,7 +317,9 @@ msgstr ""
 
 #: handlers/users/profile/hourly.py:26
 msgid "Hourly forecast disabled! You'll now see regular daily forecasts."
-msgstr "Вимкнено почасовий прогноз! Тепер ви будете бачити звичайні щоденні прогнози."
+msgstr ""
+"Вимкнено почасовий прогноз! Тепер ви будете бачити звичайні щоденні "
+"прогнози."
 
 #: handlers/users/profile/language.py:31
 msgid "Language successfully changed to {locale}!"
@@ -404,7 +407,11 @@ msgstr "Сайт погоди успішно змінено на {weather_provid
 msgid "weather forecast"
 msgstr "прогноз погоди"
 
-#: handlers/users/weather/city.py:58
+#: handlers/users/weather/city.py:59
+msgid "Select or enter the name of the city / locality"
+msgstr "Виберіть або введіть назву міста / населеного пункту"
+
+#: handlers/users/weather/city.py:61
 msgid "Enter the name of the city / locality"
 msgstr "Введіть назву міста / населеного пункту"
 
@@ -436,15 +443,35 @@ msgstr "❌ Точне місто не знайдено. Розмитий пош
 msgid "❌ Invalid period."
 msgstr "❌ Невірний період."
 
-#: handlers/users/weather/period.py:29
+#: handlers/users/weather/period.py:32
+msgid "Select the forecast period or enter a day number"
+msgstr "Виберіть період прогнозу або введіть номер дня"
+
+#: handlers/users/weather/period.py:34
 msgid "Select the forecast period"
 msgstr "Виберіть період прогнозу"
 
-#: handlers/users/weather/period.py:41
+#: handlers/users/weather/period.py:49 handlers/users/weather/period.py:95
 msgid "Processing..."
 msgstr "Опрацювання..."
 
-#: handlers/users/weather/period.py:73
+#: handlers/users/weather/period.py:80
+msgid "Please enter a number from 0 to 13"
+msgstr "Будь ласка, введіть число від 0 до 13"
+
+#: handlers/users/weather/period.py:87
+msgid ""
+"Please enter a number from 0 to 3.\n"
+"\n"
+"Hourly forecast is limited to 0–3 days. Disable it in your profile to "
+"enter up to 13"
+msgstr ""
+"Будь ласка, введіть число від 0 до 3.\n"
+"\n"
+"Почасовий прогноз обмежений 0–3 днями. Вимкніть його у своєму профілі, щоб "
+"ввести до 13"
+
+#: handlers/users/weather/period.py:122
 msgid "Do you want to mute the mailing?"
 msgstr "Ви хочете вимкнути звук розсилки?"
 

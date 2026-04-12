@@ -48,22 +48,30 @@ def get_hourly_title(soup: BeautifulSoup) -> str:
         .replace(" та метеограми", "")
         .replace(" и метеограммы", "")
     )
-    # Determine which section to parse (Today or Tomorrow)
-    section_index = 0 if INFO.about_today else 1
-    day_sections = soup.find_all("h4")
+    # Determine which section to parse
+    section_index = (
+        INFO.day_index
+        if INFO.day_index is not None
+        else (0 if INFO.about_today else 1)
+    )
+    title_sections = soup.find_all("div", class_="title")
 
-    if len(day_sections) > section_index:
-        day_title = day_sections[section_index].text.strip()
-        return f"{base_title} - {day_title}"
+    if len(title_sections) > section_index:
+        day_title = title_sections[section_index].find("h4").text.strip()
+        day = title_sections[section_index].find("span").text.strip()
+        return f"{base_title} | {day_title} ({day})"
     return base_title
 
 
 def _get_hourly_weather_info_from_(soup: BeautifulSoup) -> str:
     """Parse hourly weather data from meteograms page."""
     day_sections = soup.find_all("h4")
-    current_element = day_sections[0 if INFO.about_today else 1].find_next(
-        "table"
+    index = (
+        INFO.day_index
+        if INFO.day_index is not None
+        else (0 if INFO.about_today else 1)
     )
+    current_element = day_sections[index].find_next("table")
     header_texts = [th.text.strip() for th in current_element.find_all("th")]
     # Parse table rows
     rows = current_element.find_all("tr")[1:]  # Skip header row
@@ -193,10 +201,15 @@ def get_one_day_title(soup: BeautifulSoup) -> str:
     """For getting title from the given soup"""
     h1 = " ".join(soup.find("h1").text.strip().split())
 
+    index = (
+        INFO.day_index
+        if INFO.day_index is not None
+        else (0 if INFO.about_today else 1)
+    )
     swiper_slide = soup.find("div", class_="swiper-wrapper").find_all(
         "div", class_="swiper-slide"
-    )[0 if INFO.about_today else 1]
-    return f"{h1} {get_subtitle_from(swiper_slide).lower()}"
+    )[index]
+    return f"{h1} | {get_subtitle_from(swiper_slide).capitalize()}"
 
 
 def get_subtitle_from(
@@ -233,9 +246,14 @@ def get_subtitle_from(
 
 def get_active_swiper_slide_from(soup: BeautifulSoup) -> BeautifulSoup:
     """For getting swiper gallery from the given soup"""
+    index = (
+        INFO.day_index
+        if INFO.day_index is not None
+        else (0 if INFO.about_today else 1)
+    )
     return soup.find("div", class_="swiper-gallery").find_all(
         "div", class_="swiper-slide"
-    )[0 if INFO.about_today else 1]
+    )[index]
 
 
 def get_weather_info_about_day_from_(
@@ -334,7 +352,7 @@ def get_many_days_title(soup: BeautifulSoup) -> str:
     time_title = (
         "" if INFO.about_big_city and INFO.about_fortnight else INFO.time_title
     )
-    return f"{title} {time_title.lower()} {detail}".strip()
+    return f"{title} | {time_title.capitalize()} {detail}".strip()
 
 
 def get_weather_info_about_many_days_from_(

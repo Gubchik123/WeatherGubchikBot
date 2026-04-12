@@ -23,6 +23,7 @@ class SelectedInfo(BaseSelectedInfo):
         self.time = ""
         self.time_title = ""
         self.type = "weather"
+        self.day_index = None
 
     @property
     def generated_url(self) -> str:

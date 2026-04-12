@@ -7,8 +7,10 @@ from aiogram.utils.i18n import I18n, gettext as _
 
 from utils.db.crud.user import get_user_by_
 from states.utils import get_state_class_by_
+from states.weather_search import WeatherSearch
 from keyboards.inline.weather import get_period_inline_keyboard
 from keyboards.inline.maker import make_yes_or_no_inline_keyboard
+from filters.is_private_chat_type import IsPrivateChatType
 
 from .send import send_weather_forecast_by_
 
@@ -25,8 +27,14 @@ async def ask_about_period(
         event.answer if isinstance(event, Message) else event.message.edit_text
     )
     user = get_user_by_(event.from_user.id)
+    current_state = await state.get_state()
+    text = (
+        _("Select the forecast period or enter a day number")
+        if current_state and current_state.startswith("WeatherSearch")
+        else _("Select the forecast period")
+    )
     await answer_method(
-        _("Select the forecast period"),
+        text,
         reply_markup=get_period_inline_keyboard(user.weather_provider),
     )
     state_class = await get_state_class_by_(state)
@@ -59,6 +67,47 @@ async def check_period(
         await callback_query.message.delete()
     else:  # MailingSubscription:period
         await ask_about_mailing_mute_mode(callback_query, state)
+
+
+@router.message(IsPrivateChatType(), WeatherSearch.period, F.text)
+async def check_period_message(
+    message: Message, state: FSMContext, i18n: I18n
+):
+    """Accepts a day index typed by the user."""
+    data = await state.get_data()
+
+    if not message.text.isdigit() or not (0 <= int(message.text) <= 13):
+        await message.answer(_("Please enter a number from 0 to 13"))
+        return
+
+    day_index = int(message.text)
+
+    if data.get("hourly", False) and day_index > 3:
+        await message.answer(
+            _(
+                "Please enter a number from 0 to 3.\n\n"
+                "Hourly forecast is limited to 0–3 days. "
+                "Disable it in your profile to enter up to 13"
+            )
+        )
+        return
+
+    processing_message = await message.answer(_("Processing..."))
+
+    await state.update_data(
+        {
+            "day_index": int(message.text),
+            "time": "tomorrow",
+            "time_title": message.text,
+            "lang_code": i18n.current_locale,
+            "type": "weather",
+        }
+    )
+    data = await state.get_data()
+    await send_weather_forecast_by_(message, data)
+
+    await state.clear()
+    await processing_message.delete()
 
 
 # ! Can't put it into the users/mailing/subscribe.py file because of the circular import

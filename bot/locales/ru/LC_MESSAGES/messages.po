@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-27 18:05+0200\n"
+"POT-Creation-Date: 2026-04-12 20:28+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -169,35 +169,36 @@ msgstr ""
 msgid "❌Invalid date format. Expected: DD.MM.YYYY"
 msgstr "❌Неверный формат даты. Ожидался: ДД.ММ.ГГГГ"
 
-#: handlers/users/commands/moon.py:56
+#: handlers/users/commands/moon.py:56 utils/weather/emoji.py:9
 msgid "Full Moon"
 msgstr "Полнолуние"
 
-#: handlers/users/commands/moon.py:57
+#: handlers/users/commands/moon.py:57 utils/weather/emoji.py:10
 msgid "Waning Gibbous"
 msgstr "Убывающая Луна"
 
 #: handlers/users/commands/moon.py:58 handlers/users/commands/moon.py:59
+#: utils/weather/emoji.py:11
 msgid "Third Quarter"
 msgstr "Последняя четверть"
 
-#: handlers/users/commands/moon.py:60
+#: handlers/users/commands/moon.py:60 utils/weather/emoji.py:12
 msgid "Waning Crescent"
 msgstr "Убывающий серп"
 
-#: handlers/users/commands/moon.py:61
+#: handlers/users/commands/moon.py:61 utils/weather/emoji.py:13
 msgid "New Moon"
 msgstr "Новолуние"
 
-#: handlers/users/commands/moon.py:62
+#: handlers/users/commands/moon.py:62 utils/weather/emoji.py:14
 msgid "Waxing Crescent"
 msgstr "Растущий серп"
 
-#: handlers/users/commands/moon.py:63
+#: handlers/users/commands/moon.py:63 utils/weather/emoji.py:15
 msgid "First Quarter"
 msgstr "Первая четверть"
 
-#: handlers/users/commands/moon.py:64
+#: handlers/users/commands/moon.py:64 utils/weather/emoji.py:16
 msgid "Waxing Gibbous"
 msgstr "Растущая луна"
 
@@ -285,7 +286,7 @@ msgstr "Вы уверены, что хотите отписаться от ра�
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr "Вы успешно отписались от рассылки!"
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:86
+#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:90
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -410,7 +411,11 @@ msgstr "Сайт погоды успешно изменен на {weather_provid
 msgid "weather forecast"
 msgstr "прогноз погоды"
 
-#: handlers/users/weather/city.py:58
+#: handlers/users/weather/city.py:59
+msgid "Select or enter the name of the city / locality"
+msgstr "Выберите или введите название города / населенного пункта"
+
+#: handlers/users/weather/city.py:61
 msgid "Enter the name of the city / locality"
 msgstr "Введите название города / населенного пункта"
 
@@ -442,15 +447,35 @@ msgstr "❌ Точный город не найден. Расплывчатый 
 msgid "❌ Invalid period."
 msgstr "❌ Неверный период."
 
-#: handlers/users/weather/period.py:29
-msgid "Select the forecast period"
-msgstr "Выберите город / населенный пункт"
+#: handlers/users/weather/period.py:32
+msgid "Select the forecast period or enter a day number"
+msgstr "Выберите период прогноза или введите номер дня"
 
-#: handlers/users/weather/period.py:41
+#: handlers/users/weather/period.py:34
+msgid "Select the forecast period"
+msgstr "Выберите период прогноза"
+
+#: handlers/users/weather/period.py:49 handlers/users/weather/period.py:95
 msgid "Processing..."
 msgstr "Обработка..."
 
-#: handlers/users/weather/period.py:73
+#: handlers/users/weather/period.py:80
+msgid "Please enter a number from 0 to 13"
+msgstr "Пожалуйста, введите число от 0 до 13"
+
+#: handlers/users/weather/period.py:87
+msgid ""
+"Please enter a number from 0 to 3.\n"
+"\n"
+"Hourly forecast is limited to 0–3 days. Disable it in your profile to "
+"enter up to 13"
+msgstr ""
+"Пожалуйста, введите число от 0 до 3.\n"
+"\n"
+"Почасовой прогноз ограничен 0–3 днями. Отключите его в своем профиле, чтобы "
+"ввести до 13"
+
+#: handlers/users/weather/period.py:122
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
 

@@ -55,7 +55,11 @@ async def ask_about_city(event: Union[Message, CallbackQuery], i18n: I18n):
         else get_cities_with_expand_inline_keyboard
     )
     await answer_method(
-        _("Enter the name of the city / locality"),
+        (
+            _("Select or enter the name of the city / locality")
+            if all_user_search_logs
+            else _("Enter the name of the city / locality")
+        ),
         reply_markup=keyboard_method(  # TODO: Add mailing city
             all_user_search_logs[:4]
         ),
@@ -75,7 +79,7 @@ async def update_keyboard_with_all_user_search_cities(
     )
 
 
-@router.message(IsPrivateChatType(), F.text)
+@router.message(IsPrivateChatType(), WeatherSearch.city, F.text)
 async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
     """Requests search city and checks it."""
     current_state = await state.get_state()
