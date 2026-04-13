@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-12 20:28+0300\n"
+"POT-Creation-Date: 2026-04-13 12:02+0300\n"
 "PO-Revision-Date: 2024-03-22 15:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -448,22 +448,24 @@ msgid "❌ Invalid period."
 msgstr "❌ Неверный период."
 
 #: handlers/users/weather/period.py:32
-msgid "Select the forecast period or enter a day number"
-msgstr "Выберите период прогноза или введите номер дня"
+msgid ""
+"Select the forecast period or enter in how many days (2 — day after tomorrow, and so on)"
+msgstr ""
+"Выберите период прогноза или введите, через сколько дней (2 — послезавтра, и так далее)"
 
-#: handlers/users/weather/period.py:34
+#: handlers/users/weather/period.py:36
 msgid "Select the forecast period"
 msgstr "Выберите период прогноза"
 
-#: handlers/users/weather/period.py:49 handlers/users/weather/period.py:95
+#: handlers/users/weather/period.py:51 handlers/users/weather/period.py:97
 msgid "Processing..."
 msgstr "Обработка..."
 
-#: handlers/users/weather/period.py:80
+#: handlers/users/weather/period.py:82
 msgid "Please enter a number from 0 to 13"
 msgstr "Пожалуйста, введите число от 0 до 13"
 
-#: handlers/users/weather/period.py:87
+#: handlers/users/weather/period.py:89
 msgid ""
 "Please enter a number from 0 to 3.\n"
 "\n"
@@ -472,10 +474,10 @@ msgid ""
 msgstr ""
 "Пожалуйста, введите число от 0 до 3.\n"
 "\n"
-"Почасовой прогноз ограничен 0–3 днями. Отключите его в своем профиле, чтобы "
-"ввести до 13"
+"Почасовой прогноз ограничен 0–3 днями. Отключите его в своем профиле, "
+"чтобы ввести до 13"
 
-#: handlers/users/weather/period.py:122
+#: handlers/users/weather/period.py:124
 msgid "Do you want to mute the mailing?"
 msgstr "Вы хотите включить режим без звука?"
 
@@ -629,4 +631,7 @@ msgstr "Ночью"
 
 #~ msgid "Change weather provider"
 #~ msgstr "Изменить сайт погоды"
+
+#~ msgid "Select the forecast period or enter a day number"
+#~ msgstr "Выберите период прогноза или введите номер дня"
 

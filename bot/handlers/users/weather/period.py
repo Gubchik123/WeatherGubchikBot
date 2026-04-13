@@ -29,7 +29,9 @@ async def ask_about_period(
     user = get_user_by_(event.from_user.id)
     current_state = await state.get_state()
     text = (
-        _("Select the forecast period or enter a day number")
+        _(
+            "Select the forecast period or enter in how many days (2 — day after tomorrow, and so on)"
+        )
         if current_state and current_state.startswith("WeatherSearch")
         else _("Select the forecast period")
     )
