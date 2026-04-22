@@ -85,20 +85,13 @@ async def check_period_message(
     day_index = int(message.text)
 
     if data.get("hourly", False) and day_index > 3:
-        await message.answer(
-            _(
-                "Please enter a number from 0 to 3.\n\n"
-                "Hourly forecast is limited to 0–3 days. "
-                "Disable it in your profile to enter up to 13"
-            )
-        )
-        return
+        data["hourly"] = False
 
     processing_message = await message.answer(_("Processing..."))
 
     await state.update_data(
         {
-            "day_index": int(message.text),
+            "day_index": day_index,
             "time": "tomorrow",
             "time_title": message.text,
             "lang_code": i18n.current_locale,
