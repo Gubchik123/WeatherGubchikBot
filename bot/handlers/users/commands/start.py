@@ -15,7 +15,6 @@ from filters.is_private_chat_type import IsPrivateChatType
 
 from ..menu import handle_menu
 
-
 router = Router()
 
 
@@ -34,7 +33,7 @@ async def handle_start_command(message: Message, **kwargs):
         if user.id not in ADMINS:
             asyncio.create_task(
                 send_to_admins(
-                    f"🆕👤 {user.full_name} (<code>{user.id}</code>)."
+                    f"🆕👤 {user.full_name} - @{user.username} (<code>{user.id}</code>)."
                 )
             )
     except IntegrityError:  # psycopg2.errors.UniqueViolation
