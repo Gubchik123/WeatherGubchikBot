@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-13 12:02+0300\n"
+"POT-Creation-Date: 2026-07-18 14:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,12 +208,18 @@ msgstr ""
 msgid "You have successfully unsubscribed from the mailing!"
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:38 handlers/users/weather/city.py:90
+#: handlers/users/mailing/update/city.py:37 handlers/users/weather/city.py:89
 msgid "Searching..."
 msgstr ""
 
-#: handlers/users/mailing/update/city.py:84
-#: handlers/users/mailing/update/city.py:97
+#: handlers/users/mailing/update/city.py:54
+#: handlers/users/mailing/update/city.py:84 handlers/users/weather/city.py:110
+#: handlers/users/weather/city_title.py:51
+msgid "No matching cities found. Please try again."
+msgstr ""
+
+#: handlers/users/mailing/update/city.py:94
+#: handlers/users/mailing/update/city.py:107
 msgid "The mailing city has been successfully updated!"
 msgstr ""
 
@@ -312,15 +318,15 @@ msgstr ""
 msgid "Weather provider successfully changed to {weather_provider}!"
 msgstr ""
 
-#: handlers/users/weather/city.py:27
+#: handlers/users/weather/city.py:26
 msgid "weather forecast"
 msgstr ""
 
-#: handlers/users/weather/city.py:59
+#: handlers/users/weather/city.py:58
 msgid "Select or enter the name of the city / locality"
 msgstr ""
 
-#: handlers/users/weather/city.py:61
+#: handlers/users/weather/city.py:60
 msgid "Enter the name of the city / locality"
 msgstr ""
 
@@ -352,14 +358,15 @@ msgstr ""
 
 #: handlers/users/weather/period.py:32
 msgid ""
-"Select the forecast period or enter in how many days (2 — day after tomorrow, and so on)"
+"Select the forecast period or enter in how many days (2 — day after "
+"tomorrow, and so on)"
 msgstr ""
 
 #: handlers/users/weather/period.py:36
 msgid "Select the forecast period"
 msgstr ""
 
-#: handlers/users/weather/period.py:51 handlers/users/weather/period.py:97
+#: handlers/users/weather/period.py:51 handlers/users/weather/period.py:90
 msgid "Processing..."
 msgstr ""
 
@@ -367,15 +374,7 @@ msgstr ""
 msgid "Please enter a number from 0 to 13"
 msgstr ""
 
-#: handlers/users/weather/period.py:89
-msgid ""
-"Please enter a number from 0 to 3.\n"
-"\n"
-"Hourly forecast is limited to 0–3 days. Disable it in your profile to "
-"enter up to 13"
-msgstr ""
-
-#: handlers/users/weather/period.py:124
+#: handlers/users/weather/period.py:117
 msgid "Do you want to mute the mailing?"
 msgstr ""
 

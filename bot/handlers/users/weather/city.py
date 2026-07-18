@@ -20,7 +20,6 @@ from .city_title import ask_about_city_title
 from .period import ask_about_period
 from ..other import handle_all_other_messages
 
-
 router = Router()
 
 
@@ -107,6 +106,9 @@ async def check_city_message(message: Message, i18n: I18n, state: FSMContext):
             }
         )
         await ask_about_period(message, state)
+    elif not result:
+        await message.answer(_("No matching cities found. Please try again."))
+        await ask_about_city(message, i18n)
     else:
         await state.set_data({"search_cities": result})
         await ask_about_city_title(message, state)

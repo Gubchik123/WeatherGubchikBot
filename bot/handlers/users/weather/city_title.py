@@ -4,13 +4,13 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.utils.i18n import I18n, gettext as _
 
 from states.utils import get_state_class_by_
+from states.weather_search import WeatherSearch
 from utils.services import get_city_from_
 from utils.db.crud.user import get_user_by_
 from utils.weather import get_weather_provider_module_by_
 from keyboards.inline.weather import get_cities_with_retry_inline_keyboard
 
 from .period import ask_about_period
-
 
 router = Router()
 
@@ -40,9 +40,19 @@ async def check_city_callback_query(
     weather_provider_module = get_weather_provider_module_by_(
         user.weather_provider
     )
-    result, _ = await weather_provider_module.get_searched_data_with_(
-        city, i18n.current_locale
+    result, is_match_100 = (
+        await weather_provider_module.get_searched_data_with_(
+            city, i18n.current_locale
+        )
     )
+    if not result:
+        from .city import ask_about_city
+
+        await event.answer(_("No matching cities found. Please try again."))
+        await ask_about_city(event, i18n)
+        await state.set_state(WeatherSearch.city)
+        return
+
     await state.update_data(
         {
             "city": result,

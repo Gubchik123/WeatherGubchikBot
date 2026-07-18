@@ -15,7 +15,6 @@ from handlers.users.weather.city_title import ask_about_city_title
 
 from ..menu import handle_mailing_menu
 
-
 router = Router()
 
 
@@ -51,6 +50,9 @@ async def handle_update_mailing_city(
         await _handle_update_mailing_city(
             message, city=result, city_title=city.capitalize()
         )
+    elif not result:
+        await message.answer(_("No matching cities found. Please try again."))
+        await ask_about_city(message, i18n)
     else:
         await state.set_data({"search_cities": result})
         await ask_about_city_title(message, state)
@@ -77,6 +79,14 @@ async def handle_update_mailing_city_title(
             city, i18n.current_locale
         )
     )
+    if not result:
+        await callback_query.answer(
+            _("No matching cities found. Please try again."),
+            show_alert=False,
+        )
+        await ask_about_city(callback_query, i18n)
+        await state.set_state(MailingSetup.city)
+        return
     update_mailing_city(
         callback_query.from_user.id, city=result, city_title=city.capitalize()
     )
