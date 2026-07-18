@@ -28,8 +28,6 @@ async def send_to_admins(*messages: str, temp_bot: Optional[Bot] = None):
         )
     for admin_chat_id in ADMINS:
         for message in messages:
-            if "message is not modified" in message:
-                continue
             if message.endswith(".txt"):
                 await temp_bot.send_document(
                     admin_chat_id, document=FSInputFile(message)

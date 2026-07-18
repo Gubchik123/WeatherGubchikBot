@@ -57,6 +57,8 @@ async def send_mailing(user_chat_id: int):
     except WeatherProviderServerError as error:
         await send_weather_provider_server_error(message, error)
     except Exception as error:
+        if "message is not modified" in str(error).lower():
+            return
         admin_error_message = get_admin_error_message(
             message,
             str(error),

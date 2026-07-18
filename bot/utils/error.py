@@ -20,6 +20,8 @@ async def send_message_about_error(
     message_to_user: bool = True,
 ) -> None:
     """Sends the given error message to the admins (and user) and logs it."""
+    if "message is not modified" in error.lower():
+        return
     logging.error(f"{error.capitalize()}{error_place}")
     await send_to_admins(
         get_admin_error_message(event, error, error_place),
